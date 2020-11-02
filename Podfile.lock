@@ -1,0 +1,68 @@
+PODS:
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
+  - AliPlayerSDK_iOS (4.7.5):
+    - AliPlayerSDK_iOS/AliPlayerSDK (= 4.7.5)
+  - AliPlayerSDK_iOS/AliPlayerSDK (4.7.5)
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
+  - hpple (0.2.0)
+  - Masonry (1.1.0)
+  - MJRefresh (3.1.14.1)
+  - MMLayout (0.1.0)
+  - SDWebImage (3.8.3):
+    - SDWebImage/Core (= 3.8.3)
+  - SDWebImage/Core (3.8.3)
+  - WebViewJavascriptBridge (5.1.2)
+
+DEPENDENCIES:
+  - AFNetworking (~> 4.0.1)
+  - AliPlayerSDK_iOS (= 4.7.5)
+  - FMDB (~> 2.6.2)
+  - hpple (~> 0.2.0)
+  - Masonry (= 1.1.0)
+  - MJRefresh (= 3.1.14.1)
+  - MMLayout (= 0.1.0)
+  - SDWebImage (~> 3.8.3)
+  - WebViewJavascriptBridge (~> 5.1.2)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - AliPlayerSDK_iOS
+    - FMDB
+    - hpple
+    - Masonry
+    - MJRefresh
+    - MMLayout
+    - SDWebImage
+    - WebViewJavascriptBridge
+
+SPEC CHECKSUMS:
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  AliPlayerSDK_iOS: 0c290a7f2fd22693c22270262234a587211593d6
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJRefresh: 238e6a37e2dba12160ee3b79f6d2a2b26abcab42
+  MMLayout: 7caa6fe2ebfd018ec49ab3ac2409b454c3687995
+  SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
+  WebViewJavascriptBridge: f99dac16105500a570a12b0b03e6bc46501eeb00
+
+PODFILE CHECKSUM: f1e59fe7b8bdc4f8261048ad96b7e09da8dfdc2b
+
+COCOAPODS: 1.6.1

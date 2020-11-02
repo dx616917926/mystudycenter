@@ -1,0 +1,253 @@
+/*基础元素定义*/
+body {
+	font-size:16px;
+	line-height:2;
+	margin:0;
+	padding:0;
+	font-family: "Microsoft Yahei", "微软雅黑", Helvetica, Arial, sans-serif, "宋体";
+	color:#666;
+	background-color:#fff;
+}
+p{
+	margin: 0 0 10px;
+}
+
+a{
+	color: #26ce61;
+	text-decoration: none;
+}
+h1,h2,h3{
+	margin:0 0 10px 0;
+	text-rendering: optimizelegibility;
+	color: #333;
+	font-weight: normal;
+}
+h1{
+	font-size:36px;
+}
+
+h2{
+	font-size: 28px;
+}
+
+h3{
+	font-size: 24px;
+}
+img{
+	width: auto\9;
+	height: auto;
+	max-width: 100%;
+	vertical-align: middle;
+	border: 0;
+	-ms-interpolation-mode: bicubic;
+}
+ul{
+	padding: 0;
+	margin: 0 0 10px 0;
+}
+li{
+	list-style: none;
+}
+textarea{
+	font-size: 1em;
+	font-weight: normal;
+	line-height: 20px;
+	padding: 4px 6px;
+	margin-bottom: 10px;
+	margin-left: 0;
+	font-family: "Microsoft Yahei", "微软雅黑", Helvetica, Arial, sans-serif,"宋体";
+	background-color: #ffffff;
+	border: 1px solid #c7c7c7;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+	transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+textarea:focus {
+	border-color: rgba(188, 214, 25, 0.8);
+	outline: 0;
+}
+/*界面元素定义*/
+.ui-overflow {
+	position: fixed;
+	z-index: 10;
+	text-align: center;
+	padding-top: 100px;
+	width: 100%;
+	height: 500px;
+	top: 0;
+	left: 0;
+	display: none;
+	background-color: #fff;
+}
+
+.ui-paper-wrapper {
+	text-align:left;
+	padding: 20px;
+}
+.ui-paper-wrapper .ui-paper-title{
+	border-bottom: 2px solid #26ce61;
+}
+.ui-paper-wrapper .ui-question-group {
+	margin: 20px 0;
+}
+.ui-paper-wrapper .ui-question-group .ui-question-group-title{
+	margin-bottom:10px;
+	clear:left;
+}
+.ui-paper-wrapper .ui-question-group .ui-question-group-title .ui-question-group-serial-no{
+	margin-right: 10px;
+}
+.ui-paper-wrapper .ui-question {
+	border: 1px solid #fff;
+	margin-bottom:10px;
+}
+.ui-paper-wrapper .ui-question.undone {
+	background-color: #ffffcc;
+	border: 1px dashed #ffcc00;
+} /*未填题目检查后的样式*/
+.ui-paper-wrapper .ui-question.ui-question-sub {
+	padding-left: 32px;
+}
+.ui-paper-wrapper .ui-question .ui-question-title {
+	overflow:hidden;
+}
+.ui-paper-wrapper .ui-question .ui-question-title .ui-question-serial-no{
+	display: inline-block;
+	width: 35px;
+	float: left;
+}
+.ui-paper-wrapper .ui-question .ui-question-title .ui-question-content-wrapper{
+	margin-left: 35px;
+	margin-right: 50px;
+}
+.ui-paper-wrapper .ui-question .ui-question-title .ui-question-action-bar{
+	float: right;
+	width: 50px;
+	text-align: right;
+}
+.ui-paper-wrapper .ui-question .ui-question-title .ui-question-action-bar .ui-question-score{
+	color: #999;
+	font-size: 12px;
+	padding-right: 16px;
+	line-height: 16px;
+	background: url('images/icons_point.png') no-repeat right -2px;
+    background-size:4px 4px;
+}
+.ui-paper-wrapper .ui-question .ui-question-options {
+	margin-bottom: 0;
+	overflow:hidden;
+}
+.ui-paper-wrapper .ui-question .ui-question-options li {
+	overflow: hidden;
+	width: 97%;
+	padding-left:15px;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+.ui-paper-wrapper .ui-question .ui-question-options li .ui-question-options-order{
+	display: inline-block;
+	width:32px;
+	float: left;
+	text-indent: -100px;
+	overflow: hidden;
+	cursor: pointer;
+}
+.ui-paper-wrapper .ui-question-1 .ui-question-options li .ui-question-options-order{
+	background: url('images/btn_radio_off.png') no-repeat 8px center;
+    background-size:24px 24px;
+}
+
+.ui-paper-wrapper .ui-question-1 .ui-question-options li.ui-option-selected .ui-question-options-order
+	{
+	background: url('images/btn_radio_on_green.png') no-repeat 8px center;
+    background-size:24px 24px;
+}
+
+.ui-paper-wrapper .ui-question-2 .ui-question-options li .ui-question-options-order
+	{
+	background: url('images/btn_check_off.png') no-repeat 8px center;
+    background-size:24px 24px;
+}
+
+.ui-paper-wrapper .ui-question-2 .ui-question-options li.ui-option-selected .ui-question-options-order
+	{
+	background: url('images/btn_check_on_green.png') no-repeat 8px center;
+    background-size:24px 24px;
+}
+
+.ui-paper-wrapper .ui-question .ui-question-options li.ui-correct-answer
+	{
+	background: url('images/icons_right.png') no-repeat left 4px;
+    background-size:24px 24px;
+}
+
+.ui-paper-wrapper .ui-question .ui-question-hint {
+	border: 1px solid #e1e1e1;
+	background-color: #f1f1f1;
+	padding: 10px;
+	clear: left;
+	margin: 5px 0;
+}
+.ui-paper-wrapper .ui-question-sub+.ui-question-hint {
+	border: 0;
+	background: none;
+	padding: 0;
+	margin-top: 20px;
+}
+
+.ui-paper-wrapper .ui-question .ui-question-answer {
+	font-size: 16px;
+	margin: 10px 0 20px 0;
+	line-height: 2;
+}
+
+.ui-paper-wrapper .ui-question .ui-question-answer p {
+	font-size: 14px;
+	line-height: 1.5;
+}
+.ui-paper-wrapper .ui-question .ui-question-textarea {
+	width:100%;
+	padding:10px;
+	box-sizing:border-box;
+	height: 150px;
+}
+.ui-paper-wrapper .ui-question .ui-action-draw{
+	width:50%;
+	height:44px;
+	border:1px solid #26ce61;
+	background-color:#1db352;
+	color:#fff;
+	outline:0;
+	font-size:16px;
+}
+.ui-question .ui-audio-link{
+	padding-left:16px;
+	background:url('images/audio_link.png') no-repeat left center;
+    background-size:16px 16px;
+}
+
+/*答题反馈信息*/
+.ui-paper-wrapper .ui-question-title .ui-question-answer-error,.ui-paper-wrapper .ui-question-title .ui-question-answer-right{
+	display: block;
+	padding-left: 27px;
+	clear: both;
+	margin-bottom: 10px;
+}
+
+.ui-paper-wrapper .ui-question-title .ui-question-answer-error {
+	color: #ff8800;
+	background: url('images/icons_wrong.png') no-repeat left center;
+    background-size:24px 24px;
+}
+
+.ui-paper-wrapper .ui-question-title .ui-question-answer-right {
+	color: #26ce61;
+	background: url('images/icons_right.png') no-repeat left center;
+    background-size:24px 24px;
+}
+.ui-paper-wrapper .ui-question.ui-result .ui-question-options li {
+	padding-left: 23px;
+}

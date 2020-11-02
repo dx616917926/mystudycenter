@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HXPainterViewController">
+            <connections>
+                <outlet property="clearButton" destination="Zf4-LR-cyW" id="pNd-Bw-eSP"/>
+                <outlet property="colorButton" destination="xhh-Eh-dur" id="Hec-pC-Ncj"/>
+                <outlet property="completeButton" destination="4X8-jZ-tOU" id="T61-FW-1kk"/>
+                <outlet property="goBackButton" destination="Srb-XN-l3d" id="lgq-Jx-nCJ"/>
+                <outlet property="handButton" destination="Z3N-aG-DZw" id="ufv-NK-Ah1"/>
+                <outlet property="myBackgroundView" destination="SM3-B4-0A4" id="gxY-ti-6dJ"/>
+                <outlet property="myScrollView" destination="Lhx-rm-GIM" id="nbx-kM-gJa"/>
+                <outlet property="myTopBgView" destination="FBh-Do-kbX" id="B9w-Dv-e1j"/>
+                <outlet property="penButton" destination="pu8-Fl-j57" id="tJD-FY-OkA"/>
+                <outlet property="redoButton" destination="bu7-qp-hGa" id="Uyj-2u-eGE"/>
+                <outlet property="selectImageButton" destination="uP1-T8-wpy" id="1Ds-Li-C80"/>
+                <outlet property="toolBarTopLayoutConstraint" destination="GSt-Wx-aiU" id="5sb-Ps-9Bb"/>
+                <outlet property="undoButton" destination="amK-ER-PgO" id="YSG-kI-vtD"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SM3-B4-0A4">
+                    <rect key="frame" x="0.0" y="100" width="375" height="567"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lhx-rm-GIM">
+                    <rect key="frame" x="0.0" y="100" width="375" height="567"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FBh-Do-kbX">
+                    <rect key="frame" x="0.0" y="20" width="375" height="80"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uP1-T8-wpy">
+                            <rect key="frame" x="56" y="7" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="36" id="RAq-8P-zvp"/>
+                                <constraint firstAttribute="height" constant="36" id="UgS-Cz-qvR"/>
+                            </constraints>
+                            <state key="normal" image="painter_image.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="selectImageButtonAction:" destination="-1" eventType="touchUpInside" id="rFw-8U-oqD"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="amK-ER-PgO">
+                            <rect key="frame" x="183" y="7" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="36" id="2ay-Ns-HG0"/>
+                                <constraint firstAttribute="height" constant="36" id="bFA-gD-19O"/>
+                            </constraints>
+                            <state key="normal" image="painter_undo.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="undoButtonAction:" destination="-1" eventType="touchUpInside" id="XD9-qP-K8r"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bu7-qp-hGa">
+                            <rect key="frame" x="231" y="7" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="36" id="2fw-He-SwJ"/>
+                                <constraint firstAttribute="width" constant="36" id="SB5-LP-7rm"/>
+                            </constraints>
+                            <state key="normal" image="painter_redo.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="redoButtonAction:" destination="-1" eventType="touchUpInside" id="4se-Ye-yO9"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zf4-LR-cyW">
+                            <rect key="frame" x="279" y="7" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="36" id="h2P-cg-nvN"/>
+                                <constraint firstAttribute="width" constant="36" id="kWm-bc-SaE"/>
+                            </constraints>
+                            <state key="normal" image="painter_delete.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="clearButtonAction:" destination="-1" eventType="touchUpInside" id="Oxq-T0-dq5"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Srb-XN-l3d">
+                            <rect key="frame" x="8" y="7" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="36" id="1jI-XY-RU1"/>
+                                <constraint firstAttribute="width" constant="36" id="jgQ-fL-P5P"/>
+                            </constraints>
+                            <state key="normal" image="painter_back.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="goBackButtonAction:" destination="-1" eventType="touchUpInside" id="kUD-E4-wQY"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4X8-jZ-tOU">
+                            <rect key="frame" x="327" y="7" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="36" id="8qu-Lz-Hbk"/>
+                                <constraint firstAttribute="height" constant="36" id="p97-8K-4iE"/>
+                            </constraints>
+                            <state key="normal" image="painter_complete.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="completeButtonAction:" destination="-1" eventType="touchUpInside" id="Nlo-BL-XCk"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhh-Eh-dur">
+                            <rect key="frame" x="169.5" y="44" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="36" id="8Tc-qZ-Q2C"/>
+                                <constraint firstAttribute="height" constant="36" id="hHI-8G-AmO"/>
+                            </constraints>
+                            <state key="normal" image="painter_color.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="colorButtonAction:" destination="-1" eventType="touchUpInside" id="y6Q-uS-o0J"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z3N-aG-DZw">
+                            <rect key="frame" x="217.5" y="44" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="36" id="K2l-M9-Spb"/>
+                                <constraint firstAttribute="height" constant="36" id="LjG-xw-RsC"/>
+                            </constraints>
+                            <state key="normal" image="painter_hand.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="handButtonAction:" destination="-1" eventType="touchUpInside" id="58T-yn-jIr"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pu8-Fl-j57">
+                            <rect key="frame" x="121.5" y="44" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="36" id="05v-9D-yLT"/>
+                                <constraint firstAttribute="width" constant="36" id="nXk-SU-adR"/>
+                            </constraints>
+                            <state key="normal" image="painter_pen.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="penButtonAction:" destination="-1" eventType="touchUpInside" id="z2G-g3-Qse"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="Srb-XN-l3d" firstAttribute="leading" secondItem="FBh-Do-kbX" secondAttribute="leading" constant="8" id="0Er-Fk-OIs"/>
+                        <constraint firstItem="Srb-XN-l3d" firstAttribute="leading" secondItem="FBh-Do-kbX" secondAttribute="leading" constant="8" id="0VA-mO-zoX"/>
+                        <constraint firstAttribute="centerY" secondItem="bu7-qp-hGa" secondAttribute="centerY" id="3FJ-g5-bcv"/>
+                        <constraint firstItem="bu7-qp-hGa" firstAttribute="bottom" secondItem="Zf4-LR-cyW" secondAttribute="bottom" id="4ux-3y-Qoy"/>
+                        <constraint firstAttribute="centerY" secondItem="Srb-XN-l3d" secondAttribute="centerY" id="5Gb-aR-ozc"/>
+                        <constraint firstItem="Z3N-aG-DZw" firstAttribute="leading" secondItem="xhh-Eh-dur" secondAttribute="trailing" constant="12" id="60r-hd-UHE"/>
+                        <constraint firstAttribute="trailing" secondItem="4X8-jZ-tOU" secondAttribute="trailing" constant="12" id="67y-er-UAM"/>
+                        <constraint firstAttribute="centerY" secondItem="Zf4-LR-cyW" secondAttribute="centerY" id="6wf-ab-cOF"/>
+                        <constraint firstAttribute="centerY" secondItem="uP1-T8-wpy" secondAttribute="centerY" id="7jt-rd-Njj"/>
+                        <constraint firstAttribute="trailing" secondItem="4X8-jZ-tOU" secondAttribute="trailing" constant="12" id="8nR-Kv-WIy"/>
+                        <constraint firstAttribute="centerY" secondItem="Zf4-LR-cyW" secondAttribute="centerY" id="9dB-1i-3Lq"/>
+                        <constraint firstAttribute="centerX" secondItem="xhh-Eh-dur" secondAttribute="centerX" id="9y9-D4-QXq"/>
+                        <constraint firstItem="Srb-XN-l3d" firstAttribute="leading" secondItem="FBh-Do-kbX" secondAttribute="leading" constant="12" id="AlS-BS-abI"/>
+                        <constraint firstAttribute="centerY" secondItem="bu7-qp-hGa" secondAttribute="centerY" id="BVQ-fN-m7h"/>
+                        <constraint firstAttribute="centerY" secondItem="xhh-Eh-dur" secondAttribute="centerY" id="Bvg-2x-Vjf"/>
+                        <constraint firstItem="4X8-jZ-tOU" firstAttribute="leading" secondItem="Zf4-LR-cyW" secondAttribute="trailing" constant="12" id="CIg-Hs-zqr"/>
+                        <constraint firstItem="Z3N-aG-DZw" firstAttribute="leading" secondItem="xhh-Eh-dur" secondAttribute="trailing" constant="12" id="Dqm-NM-zJZ"/>
+                        <constraint firstItem="amK-ER-PgO" firstAttribute="leading" secondItem="Z3N-aG-DZw" secondAttribute="trailing" constant="12" id="FrW-gx-mUT"/>
+                        <constraint firstItem="Z3N-aG-DZw" firstAttribute="leading" secondItem="xhh-Eh-dur" secondAttribute="trailing" constant="12" id="I3J-ob-DCa"/>
+                        <constraint firstAttribute="centerY" secondItem="amK-ER-PgO" secondAttribute="centerY" id="JyH-2e-eyh"/>
+                        <constraint firstItem="bu7-qp-hGa" firstAttribute="bottom" secondItem="amK-ER-PgO" secondAttribute="bottom" id="KGz-mO-9UE"/>
+                        <constraint firstItem="bu7-qp-hGa" firstAttribute="bottom" secondItem="Srb-XN-l3d" secondAttribute="bottom" id="OMu-e8-Nfs"/>
+                        <constraint firstItem="xhh-Eh-dur" firstAttribute="leading" secondItem="pu8-Fl-j57" secondAttribute="trailing" constant="12" id="QtN-Hb-K54"/>
+                        <constraint firstItem="uP1-T8-wpy" firstAttribute="leading" secondItem="Srb-XN-l3d" secondAttribute="trailing" constant="12" id="Sfc-he-pdV"/>
+                        <constraint firstAttribute="height" constant="49" id="VHE-0h-Y1H"/>
+                        <constraint firstItem="bu7-qp-hGa" firstAttribute="leading" secondItem="amK-ER-PgO" secondAttribute="trailing" constant="12" id="WCo-Dv-USt"/>
+                        <constraint firstAttribute="centerX" secondItem="xhh-Eh-dur" secondAttribute="centerX" id="Xcf-G9-7mP"/>
+                        <constraint firstAttribute="centerY" secondItem="uP1-T8-wpy" secondAttribute="centerY" id="a7W-cL-UeX"/>
+                        <constraint firstItem="uP1-T8-wpy" firstAttribute="leading" secondItem="Srb-XN-l3d" secondAttribute="trailing" constant="12" id="a8P-K5-WtR"/>
+                        <constraint firstAttribute="height" constant="49" id="aBr-DJ-VtE"/>
+                        <constraint firstAttribute="centerY" secondItem="xhh-Eh-dur" secondAttribute="centerY" id="aNn-wB-zuF"/>
+                        <constraint firstAttribute="height" constant="80" id="bne-4j-I92"/>
+                        <constraint firstItem="xhh-Eh-dur" firstAttribute="leading" secondItem="pu8-Fl-j57" secondAttribute="trailing" constant="12" id="crw-Pc-5lI"/>
+                        <constraint firstAttribute="bottom" secondItem="xhh-Eh-dur" secondAttribute="bottom" id="ded-EF-Ysl"/>
+                        <constraint firstAttribute="trailing" secondItem="4X8-jZ-tOU" secondAttribute="trailing" constant="12" id="djN-c0-n3V"/>
+                        <constraint firstAttribute="centerY" secondItem="Z3N-aG-DZw" secondAttribute="centerY" id="feW-Ng-W7U"/>
+                        <constraint firstAttribute="centerY" secondItem="4X8-jZ-tOU" secondAttribute="centerY" id="iWZ-Hg-B9i"/>
+                        <constraint firstItem="Srb-XN-l3d" firstAttribute="top" secondItem="FBh-Do-kbX" secondAttribute="top" constant="7" id="ju2-vx-0wN"/>
+                        <constraint firstItem="Zf4-LR-cyW" firstAttribute="leading" secondItem="bu7-qp-hGa" secondAttribute="trailing" constant="12" id="kKS-gz-udD"/>
+                        <constraint firstAttribute="centerY" secondItem="Srb-XN-l3d" secondAttribute="centerY" id="kkW-EY-j3V"/>
+                        <constraint firstAttribute="centerY" secondItem="pu8-Fl-j57" secondAttribute="centerY" id="lR0-tx-Ne6"/>
+                        <constraint firstAttribute="centerY" secondItem="Z3N-aG-DZw" secondAttribute="centerY" id="lqO-D3-9cU"/>
+                        <constraint firstItem="Zf4-LR-cyW" firstAttribute="leading" secondItem="bu7-qp-hGa" secondAttribute="trailing" constant="12" id="oFU-3X-PRc"/>
+                        <constraint firstItem="uP1-T8-wpy" firstAttribute="leading" secondItem="Srb-XN-l3d" secondAttribute="trailing" constant="12" id="oMn-rE-vuP"/>
+                        <constraint firstItem="bu7-qp-hGa" firstAttribute="leading" secondItem="amK-ER-PgO" secondAttribute="trailing" constant="12" id="oSF-cO-3lj"/>
+                        <constraint firstAttribute="centerY" secondItem="amK-ER-PgO" secondAttribute="centerY" id="qEl-HM-ChO"/>
+                        <constraint firstItem="pu8-Fl-j57" firstAttribute="bottom" secondItem="xhh-Eh-dur" secondAttribute="bottom" id="qX8-p2-dgS"/>
+                        <constraint firstAttribute="centerY" secondItem="pu8-Fl-j57" secondAttribute="centerY" id="qiw-MJ-ZUd"/>
+                        <constraint firstItem="4X8-jZ-tOU" firstAttribute="leading" secondItem="Zf4-LR-cyW" secondAttribute="trailing" constant="12" id="sCk-c8-uRF"/>
+                        <constraint firstItem="pu8-Fl-j57" firstAttribute="bottom" secondItem="Z3N-aG-DZw" secondAttribute="bottom" id="tW7-IQ-xES"/>
+                        <constraint firstAttribute="centerY" secondItem="4X8-jZ-tOU" secondAttribute="centerY" id="tgz-Jn-5fW"/>
+                        <constraint firstItem="xhh-Eh-dur" firstAttribute="leading" secondItem="pu8-Fl-j57" secondAttribute="trailing" constant="12" id="u0F-81-Acy"/>
+                        <constraint firstItem="Srb-XN-l3d" firstAttribute="top" secondItem="FBh-Do-kbX" secondAttribute="top" constant="7" id="vcV-i4-dE3"/>
+                        <constraint firstItem="bu7-qp-hGa" firstAttribute="leading" secondItem="amK-ER-PgO" secondAttribute="trailing" constant="12" id="wm8-gE-VIr"/>
+                        <constraint firstItem="Zf4-LR-cyW" firstAttribute="leading" secondItem="bu7-qp-hGa" secondAttribute="trailing" constant="12" id="xY7-8L-X9q"/>
+                        <constraint firstItem="bu7-qp-hGa" firstAttribute="bottom" secondItem="4X8-jZ-tOU" secondAttribute="bottom" id="z5n-jD-SBl"/>
+                        <constraint firstItem="4X8-jZ-tOU" firstAttribute="leading" secondItem="Zf4-LR-cyW" secondAttribute="trailing" constant="12" id="zR9-wf-nqf"/>
+                        <constraint firstItem="bu7-qp-hGa" firstAttribute="bottom" secondItem="uP1-T8-wpy" secondAttribute="bottom" id="zWA-kC-jcf"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="VHE-0h-Y1H"/>
+                            <exclude reference="aBr-DJ-VtE"/>
+                            <exclude reference="bne-4j-I92"/>
+                            <exclude reference="67y-er-UAM"/>
+                            <exclude reference="8nR-Kv-WIy"/>
+                            <exclude reference="CIg-Hs-zqr"/>
+                            <exclude reference="djN-c0-n3V"/>
+                            <exclude reference="iWZ-Hg-B9i"/>
+                            <exclude reference="sCk-c8-uRF"/>
+                            <exclude reference="tgz-Jn-5fW"/>
+                            <exclude reference="zR9-wf-nqf"/>
+                            <exclude reference="0Er-Fk-OIs"/>
+                            <exclude reference="0VA-mO-zoX"/>
+                            <exclude reference="5Gb-aR-ozc"/>
+                            <exclude reference="AlS-BS-abI"/>
+                            <exclude reference="ju2-vx-0wN"/>
+                            <exclude reference="kkW-EY-j3V"/>
+                            <exclude reference="vcV-i4-dE3"/>
+                            <exclude reference="60r-hd-UHE"/>
+                            <exclude reference="Dqm-NM-zJZ"/>
+                            <exclude reference="I3J-ob-DCa"/>
+                            <exclude reference="feW-Ng-W7U"/>
+                            <exclude reference="lqO-D3-9cU"/>
+                            <exclude reference="6wf-ab-cOF"/>
+                            <exclude reference="9dB-1i-3Lq"/>
+                            <exclude reference="kKS-gz-udD"/>
+                            <exclude reference="oFU-3X-PRc"/>
+                            <exclude reference="xY7-8L-X9q"/>
+                            <exclude reference="FrW-gx-mUT"/>
+                            <exclude reference="JyH-2e-eyh"/>
+                            <exclude reference="qEl-HM-ChO"/>
+                            <exclude reference="3FJ-g5-bcv"/>
+                            <exclude reference="4ux-3y-Qoy"/>
+                            <exclude reference="BVQ-fN-m7h"/>
+                            <exclude reference="KGz-mO-9UE"/>
+                            <exclude reference="OMu-e8-Nfs"/>
+                            <exclude reference="WCo-Dv-USt"/>
+                            <exclude reference="oSF-cO-3lj"/>
+                            <exclude reference="wm8-gE-VIr"/>
+                            <exclude reference="z5n-jD-SBl"/>
+                            <exclude reference="zWA-kC-jcf"/>
+                            <exclude reference="lR0-tx-Ne6"/>
+                            <exclude reference="qX8-p2-dgS"/>
+                            <exclude reference="qiw-MJ-ZUd"/>
+                            <exclude reference="tW7-IQ-xES"/>
+                            <exclude reference="7jt-rd-Njj"/>
+                            <exclude reference="Sfc-he-pdV"/>
+                            <exclude reference="a7W-cL-UeX"/>
+                            <exclude reference="a8P-K5-WtR"/>
+                            <exclude reference="oMn-rE-vuP"/>
+                            <exclude reference="9y9-D4-QXq"/>
+                            <exclude reference="Bvg-2x-Vjf"/>
+                            <exclude reference="QtN-Hb-K54"/>
+                            <exclude reference="Xcf-G9-7mP"/>
+                            <exclude reference="aNn-wB-zuF"/>
+                            <exclude reference="crw-Pc-5lI"/>
+                            <exclude reference="ded-EF-Ysl"/>
+                            <exclude reference="u0F-81-Acy"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=compact">
+                        <mask key="constraints">
+                            <include reference="aBr-DJ-VtE"/>
+                            <include reference="djN-c0-n3V"/>
+                            <include reference="iWZ-Hg-B9i"/>
+                            <include reference="zR9-wf-nqf"/>
+                            <include reference="AlS-BS-abI"/>
+                            <include reference="ju2-vx-0wN"/>
+                            <include reference="kkW-EY-j3V"/>
+                            <include reference="I3J-ob-DCa"/>
+                            <include reference="lqO-D3-9cU"/>
+                            <include reference="6wf-ab-cOF"/>
+                            <include reference="xY7-8L-X9q"/>
+                            <include reference="FrW-gx-mUT"/>
+                            <include reference="qEl-HM-ChO"/>
+                            <include reference="3FJ-g5-bcv"/>
+                            <include reference="wm8-gE-VIr"/>
+                            <include reference="qiw-MJ-ZUd"/>
+                            <include reference="7jt-rd-Njj"/>
+                            <include reference="a8P-K5-WtR"/>
+                            <include reference="QtN-Hb-K54"/>
+                            <include reference="aNn-wB-zuF"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="bne-4j-I92"/>
+                            <include reference="8nR-Kv-WIy"/>
+                            <include reference="sCk-c8-uRF"/>
+                            <include reference="0Er-Fk-OIs"/>
+                            <include reference="vcV-i4-dE3"/>
+                            <include reference="60r-hd-UHE"/>
+                            <include reference="kKS-gz-udD"/>
+                            <include reference="4ux-3y-Qoy"/>
+                            <include reference="KGz-mO-9UE"/>
+                            <include reference="OMu-e8-Nfs"/>
+                            <include reference="oSF-cO-3lj"/>
+                            <include reference="z5n-jD-SBl"/>
+                            <include reference="zWA-kC-jcf"/>
+                            <include reference="qX8-p2-dgS"/>
+                            <include reference="tW7-IQ-xES"/>
+                            <include reference="oMn-rE-vuP"/>
+                            <include reference="9y9-D4-QXq"/>
+                            <include reference="crw-Pc-5lI"/>
+                            <include reference="ded-EF-Ysl"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=regular">
+                        <mask key="constraints">
+                            <include reference="VHE-0h-Y1H"/>
+                            <include reference="67y-er-UAM"/>
+                            <include reference="CIg-Hs-zqr"/>
+                            <include reference="tgz-Jn-5fW"/>
+                            <include reference="0VA-mO-zoX"/>
+                            <include reference="5Gb-aR-ozc"/>
+                            <include reference="Dqm-NM-zJZ"/>
+                            <include reference="feW-Ng-W7U"/>
+                            <include reference="9dB-1i-3Lq"/>
+                            <include reference="oFU-3X-PRc"/>
+                            <include reference="JyH-2e-eyh"/>
+                            <include reference="BVQ-fN-m7h"/>
+                            <include reference="WCo-Dv-USt"/>
+                            <include reference="lR0-tx-Ne6"/>
+                            <include reference="Sfc-he-pdV"/>
+                            <include reference="a7W-cL-UeX"/>
+                            <include reference="Bvg-2x-Vjf"/>
+                            <include reference="Xcf-G9-7mP"/>
+                            <include reference="u0F-81-Acy"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="68" id="1oH-Yb-YdF"/>
+                <constraint firstAttribute="bottom" secondItem="Lhx-rm-GIM" secondAttribute="bottom" id="3TX-hL-cWa"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="leading" secondItem="SM3-B4-0A4" secondAttribute="leading" id="8hP-sQ-Vbr"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="E7H-r3-1Jt"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="leading" secondItem="SM3-B4-0A4" secondAttribute="leading" id="EUV-y1-Vhy"/>
+                <constraint firstItem="FBh-Do-kbX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="GSt-Wx-aiU"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="top" secondItem="SM3-B4-0A4" secondAttribute="top" id="Gro-MA-y7s"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="top" secondItem="SM3-B4-0A4" secondAttribute="top" id="HSX-hm-aRO"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="width" secondItem="SM3-B4-0A4" secondAttribute="width" id="HdG-L2-VcR"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="leading" secondItem="SM3-B4-0A4" secondAttribute="leading" id="RfE-Nx-cvB"/>
+                <constraint firstAttribute="trailing" secondItem="Lhx-rm-GIM" secondAttribute="trailing" id="WIK-Br-Mdf"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="68" id="fjI-xe-HYv"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="100" id="hLI-9w-ml6"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="top" secondItem="SM3-B4-0A4" secondAttribute="top" id="leO-Zr-HpY"/>
+                <constraint firstItem="FBh-Do-kbX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qHG-Ue-V6b"/>
+                <constraint firstAttribute="trailing" secondItem="FBh-Do-kbX" secondAttribute="trailing" id="w65-3I-1eT"/>
+                <constraint firstItem="Lhx-rm-GIM" firstAttribute="height" secondItem="SM3-B4-0A4" secondAttribute="height" id="wrc-rf-Izk"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="1oH-Yb-YdF"/>
+                    <exclude reference="8hP-sQ-Vbr"/>
+                    <exclude reference="EUV-y1-Vhy"/>
+                    <exclude reference="Gro-MA-y7s"/>
+                    <exclude reference="HSX-hm-aRO"/>
+                    <exclude reference="RfE-Nx-cvB"/>
+                    <exclude reference="fjI-xe-HYv"/>
+                    <exclude reference="hLI-9w-ml6"/>
+                    <exclude reference="leO-Zr-HpY"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=compact">
+                <mask key="constraints">
+                    <include reference="EUV-y1-Vhy"/>
+                    <include reference="HSX-hm-aRO"/>
+                    <include reference="fjI-xe-HYv"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="constraints">
+                    <include reference="Gro-MA-y7s"/>
+                    <include reference="RfE-Nx-cvB"/>
+                    <include reference="hLI-9w-ml6"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=regular">
+                <mask key="constraints">
+                    <include reference="1oH-Yb-YdF"/>
+                    <include reference="8hP-sQ-Vbr"/>
+                    <include reference="leO-Zr-HpY"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="423" y="567"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="painter_back.png" width="35" height="35"/>
+        <image name="painter_color.png" width="35" height="35"/>
+        <image name="painter_complete.png" width="35" height="35"/>
+        <image name="painter_delete.png" width="35" height="35"/>
+        <image name="painter_hand.png" width="35" height="35"/>
+        <image name="painter_image.png" width="35" height="35"/>
+        <image name="painter_pen.png" width="35" height="35"/>
+        <image name="painter_redo.png" width="35" height="35"/>
+        <image name="painter_undo.png" width="35" height="35"/>
+    </resources>
+</document>

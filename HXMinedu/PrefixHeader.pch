@@ -1,0 +1,35 @@
+//
+//  PrefixHeader.pch
+//  HXMinedu
+//
+//  Created by Mac on 2020/10/30.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+#import "HXDefines.h"
+#import "SetUp.h"
+
+#import "HXNavigation.h"
+#import "HXThemeSettingManager.h"
+#import "FrameAccessor.h"
+#import "EXTScope.h"
+
+#import "HXDictionary.h"
+#import "Rotation.h"
+#import "UIView+loading.h"
+
+#import <Masonry/Masonry.h>
+
+#import "HXBaseURLSessionManager.h"
+#import "HXPublicParamTool.h"
+#import "UIImage+Extension.h"
+
+#endif /* PrefixHeader_pch */
