@@ -121,29 +121,6 @@
     }];
 }
 
-/**
-请求登录方式
-*/
-+ (void)requestLoginTypeWithPartnerId:(NSString *)partnerId
-                             success : (void (^)(NSDictionary* dictionary))success
-                             failure : (void (^)(NSError *error))failure
-{
-    HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
-        
-    NSMutableDictionary * parameters = [client commonParameters];
-    
-    [parameters addEntriesFromDictionary:@{@"partnerId":partnerId}];
-    
-    [client GET:HXGET_LOGIN_TYPE parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
-
-        success(dictionary);
-
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        failure(error);
-    }];
-}
-
 /// 公共请求参数
 - (NSMutableDictionary *)commonParameters{
     

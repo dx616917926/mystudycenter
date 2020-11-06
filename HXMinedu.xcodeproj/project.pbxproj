@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0405818E2551041A0022A300 /* HXIntroViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0405818D2551041A0022A300 /* HXIntroViewManager.m */; };
+		040581B62551564B0022A300 /* HXResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040581B52551564A0022A300 /* HXResetViewController.m */; };
+		040581BC255156AF0022A300 /* HXResetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 040581BA255156AF0022A300 /* HXResetTableViewCell.m */; };
+		040581BD255156AF0022A300 /* HXResetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040581BB255156AF0022A300 /* HXResetTableViewCell.xib */; };
+		04060A40255548FF00133FB3 /* CustomIOSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */; };
+		040B03B02554EA2800E977E2 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03AF2554EA2800E977E2 /* HXSettingViewController.m */; };
+		040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */; };
 		0449A314254BFE92001A28D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A313254BFE92001A28D5 /* AppDelegate.m */; };
 		0449A31A254BFE92001A28D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A319254BFE92001A28D5 /* ViewController.m */; };
 		0449A31D254BFE92001A28D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0449A31B254BFE92001A28D5 /* Main.storyboard */; };
@@ -193,13 +200,25 @@
 		04D793C3254FA5D200BCB358 /* statics.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04D793BB254FA5D100BCB358 /* statics.bundle */; };
 		04D793C4254FA5D200BCB358 /* HXCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793BF254FA5D200BCB358 /* HXCompleteViewController.m */; };
 		04D793D0254FFA7100BCB358 /* HXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793CF254FFA7100BCB358 /* HXLoginViewController.m */; };
-		04D793D5254FFB5200BCB358 /* HXNewFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793D4254FFB5200BCB358 /* HXNewFeatureViewController.m */; };
 		04D793D9254FFDFD00BCB358 /* HXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */; };
 		04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */; };
 		5402E7E5284CAF80DC24B23E /* Pods_HXMinedu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A568469A6B6F55B5712E3B2 /* Pods_HXMinedu.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0405818C2551041A0022A300 /* HXIntroViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXIntroViewManager.h; sourceTree = "<group>"; };
+		0405818D2551041A0022A300 /* HXIntroViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXIntroViewManager.m; sourceTree = "<group>"; };
+		040581B42551564A0022A300 /* HXResetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXResetViewController.h; sourceTree = "<group>"; };
+		040581B52551564A0022A300 /* HXResetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXResetViewController.m; sourceTree = "<group>"; };
+		040581B9255156AF0022A300 /* HXResetTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXResetTableViewCell.h; sourceTree = "<group>"; };
+		040581BA255156AF0022A300 /* HXResetTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXResetTableViewCell.m; sourceTree = "<group>"; };
+		040581BB255156AF0022A300 /* HXResetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXResetTableViewCell.xib; sourceTree = "<group>"; };
+		04060A3E255548FF00133FB3 /* CustomIOSAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOSAlertView.h; sourceTree = "<group>"; };
+		04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOSAlertView.m; sourceTree = "<group>"; };
+		040B03AE2554EA2800E977E2 /* HXSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSettingViewController.h; sourceTree = "<group>"; };
+		040B03AF2554EA2800E977E2 /* HXSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
+		040B03B425552C7400E977E2 /* HXCheckUpdateTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCheckUpdateTool.h; sourceTree = "<group>"; };
+		040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCheckUpdateTool.m; sourceTree = "<group>"; };
 		0449A30F254BFE92001A28D5 /* HXMinedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HXMinedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0449A312254BFE92001A28D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0449A313254BFE92001A28D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -545,8 +564,6 @@
 		04D793BF254FA5D200BCB358 /* HXCompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCompleteViewController.m; sourceTree = "<group>"; };
 		04D793CE254FFA7100BCB358 /* HXLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLoginViewController.h; sourceTree = "<group>"; };
 		04D793CF254FFA7100BCB358 /* HXLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLoginViewController.m; sourceTree = "<group>"; };
-		04D793D3254FFB5200BCB358 /* HXNewFeatureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXNewFeatureViewController.h; sourceTree = "<group>"; };
-		04D793D4254FFB5200BCB358 /* HXNewFeatureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXNewFeatureViewController.m; sourceTree = "<group>"; };
 		04D793D7254FFDFD00BCB358 /* HXHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewController.h; sourceTree = "<group>"; };
 		04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewController.m; sourceTree = "<group>"; };
 		04D793DB254FFE1F00BCB358 /* HXLiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveViewController.h; sourceTree = "<group>"; };
@@ -571,6 +588,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040581A2255147070022A300 /* 修改密码 */ = {
+			isa = PBXGroup;
+			children = (
+				040581B82551564F0022A300 /* cell */,
+				040581B42551564A0022A300 /* HXResetViewController.h */,
+				040581B52551564A0022A300 /* HXResetViewController.m */,
+			);
+			name = "修改密码";
+			sourceTree = "<group>";
+		};
+		040581B82551564F0022A300 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				040581B9255156AF0022A300 /* HXResetTableViewCell.h */,
+				040581BA255156AF0022A300 /* HXResetTableViewCell.m */,
+				040581BB255156AF0022A300 /* HXResetTableViewCell.xib */,
+			);
+			name = cell;
+			sourceTree = "<group>";
+		};
+		04060A3D255548FF00133FB3 /* CustomIOSAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				04060A3E255548FF00133FB3 /* CustomIOSAlertView.h */,
+				04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */,
+			);
+			path = CustomIOSAlertView;
+			sourceTree = "<group>";
+		};
+		040B03A82554E93500E977E2 /* 设置 */ = {
+			isa = PBXGroup;
+			children = (
+				040B03AE2554EA2800E977E2 /* HXSettingViewController.h */,
+				040B03AF2554EA2800E977E2 /* HXSettingViewController.m */,
+			);
+			name = "设置";
+			sourceTree = "<group>";
+		};
+		040B03B325552C5F00E977E2 /* HXCheckUpdateTool */ = {
+			isa = PBXGroup;
+			children = (
+				040B03B425552C7400E977E2 /* HXCheckUpdateTool.h */,
+				040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */,
+			);
+			path = HXCheckUpdateTool;
+			sourceTree = "<group>";
+		};
 		0449A306254BFE92001A28D5 = {
 			isa = PBXGroup;
 			children = (
@@ -629,23 +693,23 @@
 		0449A345254C1174001A28D5 /* HXNavigation */ = {
 			isa = PBXGroup;
 			children = (
-				0449A346254C1174001A28D5 /* UIImage+Tint.h */,
-				0449A347254C1174001A28D5 /* HXNavigationBar.h */,
-				0449A348254C1174001A28D5 /* HXBarButtonItem.m */,
-				0449A349254C1174001A28D5 /* UIControl+BlocksKit.h */,
-				0449A34A254C1174001A28D5 /* HXNavigationController.h */,
-				0449A34B254C1174001A28D5 /* HXNavigationPopAnimation.m */,
-				0449A34C254C1174001A28D5 /* UIViewController+HXNavigation.m */,
-				0449A34D254C1174001A28D5 /* HXNavigationPushAnimation.m */,
-				0449A34E254C1174001A28D5 /* HXNavigation.h */,
-				0449A34F254C1174001A28D5 /* HXNavigationBar.m */,
-				0449A350254C1174001A28D5 /* UIImage+Tint.m */,
-				0449A351254C1174001A28D5 /* HXNavigationPopAnimation.h */,
-				0449A352254C1174001A28D5 /* HXNavigationController.m */,
-				0449A353254C1174001A28D5 /* UIControl+BlocksKit.m */,
 				0449A354254C1174001A28D5 /* HXBarButtonItem.h */,
+				0449A348254C1174001A28D5 /* HXBarButtonItem.m */,
+				0449A34E254C1174001A28D5 /* HXNavigation.h */,
+				0449A347254C1174001A28D5 /* HXNavigationBar.h */,
+				0449A34F254C1174001A28D5 /* HXNavigationBar.m */,
+				0449A34A254C1174001A28D5 /* HXNavigationController.h */,
+				0449A352254C1174001A28D5 /* HXNavigationController.m */,
+				0449A351254C1174001A28D5 /* HXNavigationPopAnimation.h */,
+				0449A34B254C1174001A28D5 /* HXNavigationPopAnimation.m */,
 				0449A355254C1174001A28D5 /* HXNavigationPushAnimation.h */,
+				0449A34D254C1174001A28D5 /* HXNavigationPushAnimation.m */,
+				0449A349254C1174001A28D5 /* UIControl+BlocksKit.h */,
+				0449A353254C1174001A28D5 /* UIControl+BlocksKit.m */,
+				0449A346254C1174001A28D5 /* UIImage+Tint.h */,
+				0449A350254C1174001A28D5 /* UIImage+Tint.m */,
 				0449A356254C1174001A28D5 /* UIViewController+HXNavigation.h */,
+				0449A34C254C1174001A28D5 /* UIViewController+HXNavigation.m */,
 			);
 			path = HXNavigation;
 			sourceTree = "<group>";
@@ -664,6 +728,8 @@
 		0449A368254C11B3001A28D5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				04060A3D255548FF00133FB3 /* CustomIOSAlertView */,
+				040B03B325552C5F00E977E2 /* HXCheckUpdateTool */,
 				04D79393254FA07600BCB358 /* UMeng_v7.1.3 */,
 				0449A3C1254C11F4001A28D5 /* Category */,
 				0449A369254C11F4001A28D5 /* DOUAudio */,
@@ -810,19 +876,19 @@
 		0449A3C1254C11F4001A28D5 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				0449A3C2254C11F4001A28D5 /* NSString+Base64.m */,
+				0449A3CC254C11F4001A28D5 /* HXDictionary.h */,
 				0449A3C3254C11F4001A28D5 /* HXDictionary.m */,
-				0449A3C4254C11F4001A28D5 /* NSString+md5.h */,
-				0449A3C5254C11F4001A28D5 /* UIImage+Extension.m */,
-				0449A3C6254C11F4001A28D5 /* Rotation.h */,
-				0449A3C7254C11F4001A28D5 /* NSString+size.h */,
+				0449A3CD254C11F4001A28D5 /* HXFileManager.h */,
 				0449A3C8254C11F4001A28D5 /* HXFileManager.m */,
 				0449A3C9254C11F4001A28D5 /* NSString+Base64.h */,
-				0449A3CA254C11F4001A28D5 /* UIImage+Extension.h */,
+				0449A3C2254C11F4001A28D5 /* NSString+Base64.m */,
+				0449A3C4254C11F4001A28D5 /* NSString+md5.h */,
 				0449A3CB254C11F4001A28D5 /* NSString+md5.m */,
-				0449A3CC254C11F4001A28D5 /* HXDictionary.h */,
-				0449A3CD254C11F4001A28D5 /* HXFileManager.h */,
+				0449A3C7254C11F4001A28D5 /* NSString+size.h */,
 				0449A3CE254C11F4001A28D5 /* NSString+size.m */,
+				0449A3C6254C11F4001A28D5 /* Rotation.h */,
+				0449A3CA254C11F4001A28D5 /* UIImage+Extension.h */,
+				0449A3C5254C11F4001A28D5 /* UIImage+Extension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1285,6 +1351,8 @@
 			children = (
 				04D793D7254FFDFD00BCB358 /* HXHomeViewController.h */,
 				04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */,
+				040B03A82554E93500E977E2 /* 设置 */,
+				040581A2255147070022A300 /* 修改密码 */,
 			);
 			name = "我的";
 			sourceTree = "<group>";
@@ -1412,8 +1480,8 @@
 		04D793D2254FFB0700BCB358 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
-				04D793D3254FFB5200BCB358 /* HXNewFeatureViewController.h */,
-				04D793D4254FFB5200BCB358 /* HXNewFeatureViewController.m */,
+				0405818C2551041A0022A300 /* HXIntroViewManager.h */,
+				0405818D2551041A0022A300 /* HXIntroViewManager.m */,
 			);
 			name = "引导页";
 			sourceTree = "<group>";
@@ -1516,6 +1584,7 @@
 				0449A516254C11F6001A28D5 /* painter_color@2x.png in Resources */,
 				04D793A0254FA07700BCB358 /* UMCommonLog.bundle in Resources */,
 				0449A51B254C11F6001A28D5 /* painter_hand@2x.png in Resources */,
+				040581BD255156AF0022A300 /* HXResetTableViewCell.xib in Resources */,
 				0449A4DD254C11F6001A28D5 /* menu_icon_highlighted.png in Resources */,
 				0449A4D9254C11F6001A28D5 /* menu_icon.png in Resources */,
 				0449A510254C11F6001A28D5 /* painter_bg@2x.png in Resources */,
@@ -1658,6 +1727,7 @@
 				0449A4B9254C11F6001A28D5 /* DOUAudioAnalyzer.m in Sources */,
 				0449A4F4254C11F6001A28D5 /* SuperPlayerControlView.m in Sources */,
 				0449A55A254C1299001A28D5 /* HXMyCourseViewController.m in Sources */,
+				040B03B02554EA2800E977E2 /* HXSettingViewController.m in Sources */,
 				0449A527254C11F6001A28D5 /* NSImage+ANImageBitmapRep.m in Sources */,
 				0449A54D254C11F6001A28D5 /* UIImage+QRCode.m in Sources */,
 				0449A526254C11F6001A28D5 /* UIImage+ANImageBitmapRep.m in Sources */,
@@ -1678,11 +1748,13 @@
 				0449A544254C11F6001A28D5 /* Track.m in Sources */,
 				0449A4F6254C11F6001A28D5 /* SuperPlayerViewConfig.m in Sources */,
 				0449A4D5254C11F6001A28D5 /* QCScrollView.m in Sources */,
+				040581BC255156AF0022A300 /* HXResetTableViewCell.m in Sources */,
 				0449A53A254C11F6001A28D5 /* ACEDrawingView.m in Sources */,
 				0449A4E2254C11F6001A28D5 /* HXFileManager.m in Sources */,
 				0449A563254C13AB001A28D5 /* HXBaseViewController.m in Sources */,
 				0449A4F1254C11F6001A28D5 /* NetWatcher.m in Sources */,
 				0449A553254C11F6001A28D5 /* HXCircularProgressView.m in Sources */,
+				040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */,
 				0449A536254C11F6001A28D5 /* TestColorViewController.m in Sources */,
 				0449A539254C11F6001A28D5 /* ACEDrawingTools.m in Sources */,
 				0449A4D3254C11F6001A28D5 /* HXVerificationCodeView.m in Sources */,
@@ -1699,6 +1771,7 @@
 				0449A4E6254C11F6001A28D5 /* TXCatalogKnowledgePoint.m in Sources */,
 				0449A4B8254C11F6001A28D5 /* DOUAudioStreamer+Options.m in Sources */,
 				0449A4C4254C11F6001A28D5 /* DOUAudioPlaybackItem.m in Sources */,
+				040581B62551564B0022A300 /* HXResetViewController.m in Sources */,
 				0449A365254C119B001A28D5 /* HXSelectThemeViewController.m in Sources */,
 				0449A532254C11F6001A28D5 /* RSColorPickerState.m in Sources */,
 				0449A548254C11F6001A28D5 /* HXPublicParamTool.m in Sources */,
@@ -1728,6 +1801,7 @@
 				0449A4F2254C11F6001A28D5 /* AVCVideo.m in Sources */,
 				0449A540254C11F6001A28D5 /* UIView+loading.m in Sources */,
 				0449A4E7254C11F6001A28D5 /* TXQuestionOption.m in Sources */,
+				0405818E2551041A0022A300 /* HXIntroViewManager.m in Sources */,
 				0449A4C2254C11F6001A28D5 /* DOUAudioDecoder.m in Sources */,
 				0449A4E1254C11F6001A28D5 /* UIImage+Extension.m in Sources */,
 				0449A4FD254C11F6001A28D5 /* DownloadManager.m in Sources */,
@@ -1750,7 +1824,7 @@
 				0449A4CC254C11F6001A28D5 /* NSObject+MJCoding.m in Sources */,
 				0449A4BB254C11F6001A28D5 /* DOUAudioAnalyzer+Default.m in Sources */,
 				0449A4D1254C11F6001A28D5 /* MJPropertyKey.m in Sources */,
-				04D793D5254FFB5200BCB358 /* HXNewFeatureViewController.m in Sources */,
+				04060A40255548FF00133FB3 /* CustomIOSAlertView.m in Sources */,
 				0449A4D4254C11F6001A28D5 /* QCSlideSwitchView.m in Sources */,
 				0449A500254C11F6001A28D5 /* TXLectureViewController.m in Sources */,
 				0449A4CD254C11F6001A28D5 /* MJExtensionConst.m in Sources */,

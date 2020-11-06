@@ -9,36 +9,6 @@
 #ifndef ClassBook_Rotation_h
 #define ClassBook_Rotation_h
 
-// UIViewController
-@implementation UIViewController (Rotation_IOS6)
-
-// IOS5默认支持竖屏
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-// IOS6、7默认不开启旋转，如果subclass需要支持屏幕旋转，重写这个方法return YES即可
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
-// IOS6、7默认支持竖屏
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationPortrait;
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
-}
-
-@end
-
 // UINavigationController
 @implementation UINavigationController (Rotation_IOS6)
 

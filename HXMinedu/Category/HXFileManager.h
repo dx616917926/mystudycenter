@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^HXFileManagerCalculateSizeBlock)(NSUInteger fileCount, NSUInteger totalSize);
+
 @interface HXFileManager : NSObject
 
 /**
@@ -36,5 +38,10 @@
  *  @return BOOL
  */
 + (BOOL)isFileExsitInDocuments:(NSString *)aPath;
+
+/**
+  计算缓存目录的大小
+ */
++ (void)calculateSizeWithCompletionBlock:(HXFileManagerCalculateSizeBlock)completionBlock;
 
 @end

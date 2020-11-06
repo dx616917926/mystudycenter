@@ -92,7 +92,7 @@ static NSString *const kNavigationBarHidden   = @"NavigationBarHidden";
         self.articleHighlightBgColor = [UIColor colorWithRed:0.102 green:0.608 blue:0.984 alpha:1.000];
         
         self.navigationBarTintColor = [UIColor whiteColor];
-        self.navigationBarColor = [UIColor colorWithRed:0.216 green:0.467 blue:1.000 alpha:1.000];
+        self.navigationBarColor = [UIColor colorWithRed:0.294 green:0.643 blue:0.996 alpha:1.000];
         self.navigationBarLineColor = [UIColor colorWithRed:0.216 green:0.467 blue:1.000 alpha:1.000];
         self.navigationBarBadgeBackgroundColor = [UIColor colorWithRed:0.902 green:0.200 blue:0.216 alpha:1.000];
         self.navigationBarBadgeTextColor =[UIColor whiteColor];

@@ -29,9 +29,26 @@
     return self;
 }
 
+- (void)dealloc {
+    
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return kStatusBarStyle;
+}
+
+- (BOOL)shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
 }
 
 /*

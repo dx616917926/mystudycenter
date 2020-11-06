@@ -24,6 +24,8 @@
     self.view.backgroundColor = kControllerViewBackgroundColor;
     
     self.rootArray = [[NSMutableArray alloc] init];
+    
+    self.tabBar.tintColor = [UIColor blackColor];
 }
 
 - (void)viewWillLayoutSubviews
@@ -43,18 +45,21 @@
     HXNavigationController *myCourseNav = [[HXNavigationController alloc] initWithRootViewController:myCourse];
     myCourseNav.tabBarItem.title = @"课程";
     myCourseNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_1"];
+    myCourseNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_1"];
 
     //直播
     HXLiveViewController *live = [HXLiveViewController new];
     HXNavigationController *liveNav = [[HXNavigationController alloc] initWithRootViewController:live];
     liveNav.tabBarItem.title = @"直播";
     liveNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_2"];
+    liveNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_2"];
 
     //我的账号
     HXHomeViewController *home = [HXHomeViewController new];
     HXNavigationController *homeNav = [[HXNavigationController alloc] initWithRootViewController:home];
     homeNav.tabBarItem.title = @"我的";
     homeNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_3"];
+    homeNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_3"];
 
     [self.rootArray addObjectsFromArray:@[myCourseNav,liveNav,homeNav]];
     [self setViewControllers:self.rootArray];

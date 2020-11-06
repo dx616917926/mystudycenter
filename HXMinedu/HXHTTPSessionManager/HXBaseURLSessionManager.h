@@ -11,7 +11,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-#define HXGET_LOGIN_TYPE  @"/api/v1/getLoginType"        //获取合作机构的登陆方式
 #define HXGET_LOGIN       @"/api/v1/login"               //登录
 #define HXGET_FINDPASS    @"/api/v1/findPass"            //找回密码得到邮箱地址
 #define HXGET_SENDEMAIL   @"/api/v1/sendEmail"           //发送邮件
@@ -43,13 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
               withDictionary : (nullable NSDictionary *) nsDic
                      success : (void (^)(NSDictionary* dictionary))success
                      failure : (void (^)(NSError *error))failure;
-
-/**
-请求登录方式
-*/
-+ (void)requestLoginTypeWithPartnerId:(NSString *)partnerId
-                             success : (void (^)(NSDictionary* dictionary))success
-                             failure : (void (^)(NSError *error))failure;
 
 @end
 

@@ -8,6 +8,8 @@
 #ifndef HXDefines_h
 #define HXDefines_h
 
+#define SHOWLOGIN @"HXShowLoginVC"
+
 //判断是否是刘海屏
 #define IS_iPhoneX \
 ({BOOL isPhoneX = NO;\

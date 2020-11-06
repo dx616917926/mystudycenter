@@ -8,8 +8,10 @@
 #import "AppDelegate.h"
 #import <UMCommon/UMCommon.h>
 #import <UMCommonLog/UMCommonLogHeaders.h>
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import "HXLoginViewController.h"
-#import "HXNewFeatureViewController.h"
+#import "HXIntroViewManager.h"
+#import "HXCheckUpdateTool.h"
 
 @interface AppDelegate ()
 
@@ -25,6 +27,8 @@
     
     [self setUMengTrack];
     
+    //检查更新
+    [self checkAppUpdate];
     
     return YES;
 }
@@ -48,6 +52,12 @@
 #endif
 }
 
+/// 检查更新
+- (void)checkAppUpdate {
+    
+    [[HXCheckUpdateTool sharedInstance] checkUpdate];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -59,7 +69,7 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
     //关闭网络监控
-//    [[AFNetworkReachabilityManager sharedManager] stopMonitoring];
+    [[AFNetworkReachabilityManager sharedManager] stopMonitoring];
 }
 
 
@@ -77,8 +87,8 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     //开启网络监控
-//    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-//
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+
 //    isFirstLaunch = NO;
 }
 
@@ -90,34 +100,23 @@
 #pragma mark – private function
 
 /**
- * 通过比较上次使用的版本进行判断，是否是第一次使用这个版本
- * 如果是第一次使用则开启轮播图，如果不是正常进入root controller
+ * 判断是否登录、是否需要显示引导页
  */
 - (void)firstEnterHandle {
-    //如何知道是否是第一次使用这个版本？可以通过比较上次使用的版本进行判断
-    NSString *versionKey = @"CFBundleShortVersionString";
-    //从沙盒中取出上次存储的软件版本号（取出用户上次的使用记录）
-    NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
-    NSString *lastVersion = [defaults objectForKey:versionKey];
-    //获得当前打开软件的版本号
-    NSString *currentVersion = kCurrentVersion;
 
-    if ([currentVersion isEqualToString:lastVersion]) {
-        if ([HXPublicParamTool sharedInstance].isLogin) {
-            [self.window setRootViewController:self.tabBarController];
-        }else{
-            HXLoginViewController * loginVC = [[HXLoginViewController alloc]init];
-            loginVC.sc_navigationBarHidden = YES;
-            HXNavigationController *navVC = [[HXNavigationController alloc] initWithRootViewController:loginVC];
-            [self.window setRootViewController:navVC];
-        }
-    }else{//当前版本号 != 上次使用的版本号：显示新版本的特性
-        self.window.rootViewController = [[HXNewFeatureViewController alloc]init];
-        //存储这个使用的软件版本
-        [defaults setObject:currentVersion forKey:versionKey];
-        //立刻写入
-        [defaults synchronize];
+    if ([HXPublicParamTool sharedInstance].isLogin) {
+        [self.window setRootViewController:self.tabBarController];
+    }else{
+        HXLoginViewController * loginVC = [[HXLoginViewController alloc]init];
+        loginVC.sc_navigationBarHidden = YES;
+        HXNavigationController *navVC = [[HXNavigationController alloc] initWithRootViewController:loginVC];
+        [self.window setRootViewController:navVC];
     }
+    
+    [self.window makeKeyAndVisible];
+    
+    //是否需要显示引导页
+    [[HXIntroViewManager sharedInstance] checkAndShowIntroViewInView:self.window];
 }
 
 - (HXTabBarController *)tabBarController {
@@ -125,9 +124,7 @@
     if (!_tabBarController) {
         _tabBarController = [[HXTabBarController alloc] init];
     }
-    
     return _tabBarController;
-    
 }
 
 @end

@@ -38,4 +38,38 @@
     return [manager fileExistsAtPath:path];
 }
 
++ (void)calculateSizeWithCompletionBlock:(HXFileManagerCalculateSizeBlock)completionBlock {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    
+    NSURL *diskCacheURL = [NSURL fileURLWithPath:[paths firstObject] isDirectory:YES];
+    
+    dispatch_queue_t ioQueue = dispatch_queue_create("com.edu.HXFileManager", DISPATCH_QUEUE_SERIAL);
+    
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    
+    dispatch_async(ioQueue, ^{
+        NSUInteger fileCount = 0;
+        NSUInteger totalSize = 0;
+        
+        NSDirectoryEnumerator *fileEnumerator = [fileManager enumeratorAtURL:diskCacheURL
+                                                  includingPropertiesForKeys:@[NSFileSize]
+                                                                     options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                errorHandler:NULL];
+        
+        for (NSURL *fileURL in fileEnumerator) {
+            NSNumber *fileSize;
+            [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:NULL];
+            totalSize += [fileSize unsignedIntegerValue];
+            fileCount += 1;
+        }
+        
+        if (completionBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(fileCount, totalSize);
+            });
+        }
+    });
+}
+
 @end
