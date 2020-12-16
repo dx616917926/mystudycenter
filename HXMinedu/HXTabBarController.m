@@ -9,6 +9,7 @@
 #import "HXMyCourseViewController.h"
 #import "HXLiveViewController.h"
 #import "HXHomeViewController.h"
+#import "HXLoginViewController.h"
 
 @interface HXTabBarController ()
 
@@ -23,9 +24,26 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = kControllerViewBackgroundColor;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLogin) name:SHOWLOGIN object:nil];
+
     self.rootArray = [[NSMutableArray alloc] init];
-    
     self.tabBar.tintColor = [UIColor blackColor];
+}
+
+- (void)showLogin{
+    //删除用户名密码
+    [[HXPublicParamTool sharedInstance] logOut];
+    
+    //删除cookies
+    [[HXBaseURLSessionManager sharedClient] clearCookies];
+    
+    //登录页面
+    HXLoginViewController *loginVC = [[HXLoginViewController alloc]init];
+    loginVC.sc_navigationBarHidden = YES;
+    HXNavigationController *navVC = [[HXNavigationController alloc] initWithRootViewController:loginVC];
+    [self presentViewController:navVC animated:YES completion:^{
+        
+    }];
 }
 
 - (void)viewWillLayoutSubviews

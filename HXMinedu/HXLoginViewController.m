@@ -79,6 +79,7 @@
     login_icon = [[UIImageView alloc] init];
     login_icon.contentMode = UIViewContentModeScaleAspectFit;
     login_icon.image = [UIImage imageNamed:@"login_logo"];
+    login_icon.userInteractionEnabled = YES;
     [mainView addSubview:login_icon];
     
     [login_icon mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -243,22 +244,6 @@
         make.height.mas_equalTo(@50);
     }];
     
-    UILabel *copyrightLabel = ({
-        UILabel *label = [[UILabel alloc]init];
-        label.textColor = [UIColor grayColor];
-        label.font = [UIFont systemFontOfSize:15];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = @"高等学历继续教育教学教务平台";
-        label.userInteractionEnabled = YES;
-        [self.view addSubview:label];
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottomMargin).offset(IS_iPhoneX?0:-20);
-            make.centerX.equalTo(self.view);
-            make.height.mas_equalTo(17);
-        }];
-        label;
-    });
-    
     //版本号Label
     _versionLabel = [[UILabel alloc] init];
     _versionLabel.font = [UIFont systemFontOfSize:15];
@@ -267,7 +252,7 @@
     [self.view addSubview:_versionLabel];
     
     [_versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(copyrightLabel.mas_top);
+        make.bottom.equalTo(self.view.mas_bottomMargin).offset(IS_iPhoneX?0:-20);
         make.centerX.equalTo(self.view);
         make.height.mas_equalTo(28);
     }];
@@ -275,7 +260,7 @@
     //双击显示版本号
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppVersion)];
     doubleTap.numberOfTapsRequired = 2;
-    [copyrightLabel addGestureRecognizer:doubleTap];
+    [login_icon addGestureRecognizer:doubleTap];
 
 //    //测试账号
 //    _passWordTextField.text = @"4685454(F)";
@@ -308,24 +293,8 @@
     
     [self.view showLoadingWithMessage:@"登录中…"];
     
-    NSDictionary * parameters = @{@"username": _userNameTextField.text,@"password":_passWordTextField.text};
-    
     __weak __typeof(self)weakSelf = self;
-    [HXBaseURLSessionManager getDataWithNSString:HXGET_LOGIN withDictionary:parameters success:^(NSDictionary *dictionary) {
-        
-        if (![[NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]] isEqualToString:@"1"]) {
-            
-            NSString * errorMessage = [dictionary stringValueForKey:@"message" WithHolder:nil];
-            
-            if (!errorMessage) {
-                errorMessage = @"登录失败，请重试！";
-            }
-            [weakSelf.view showErrorWithMessage:errorMessage];
-            return;
-        }
-        
-        NSDictionary *dic = [dictionary objectForKey:@"data"];
-        NSString *token = [dic stringValueForKey:@"token"];
+    [HXBaseURLSessionManager doLoginWithUserName:_userNameTextField.text andPassword:_passWordTextField.text success:^(NSString * _Nonnull personId) {
         //
         [HXPublicParamTool sharedInstance].isLogin = YES;
 
@@ -338,18 +307,9 @@
             [[[UIApplication sharedApplication].delegate window] setRootViewController:[(AppDelegate*)[UIApplication sharedApplication].delegate tabBarController]];
         }];
         
-    } failure:^(NSError *error) {
-        NSLog(@"error:%@",error.localizedDescription);
-        
-        if (error.code == NSURLErrorBadServerResponse) {
-            [weakSelf.view showErrorWithMessage:@"服务器出错，请稍后再试！"];
-        }else
-        {
-            [weakSelf.view showErrorWithMessage:@"请检查网络！"];
-        }
-        
-        [[[UIApplication sharedApplication].delegate window] setRootViewController:[(AppDelegate*)[UIApplication sharedApplication].delegate tabBarController]];
-
+    } failure:^(NSString * _Nonnull messsage) {
+        //
+        [weakSelf.view showErrorWithMessage:messsage];
     }];
 }
 

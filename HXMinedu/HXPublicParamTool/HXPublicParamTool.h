@@ -17,6 +17,13 @@
 //是否是运行过
 @property(nonatomic,assign) BOOL isLaunch;
 
+//personId
+@property (nonatomic, copy) NSString *personId;
+//token
+@property (nonatomic, copy) NSString *accessToken;
+
+
+
 /******** 机构信息 **********/
 // 合作机构Id
 @property (nonatomic, copy) NSString *partnerId;
@@ -33,8 +40,7 @@
 /******** 登录返回信息 **********/
 //currentYear
 @property (nonatomic, copy) NSString *currentYear;
-//userId
-@property (nonatomic, copy) NSString *userId;
+
 //accountantNoDate
 @property (nonatomic, copy) NSString *accountantNoDate;
 //skillGrade
@@ -45,8 +51,7 @@
 @property (nonatomic, copy) NSString *mobilePhone;
 //email
 @property (nonatomic, copy) NSString *email;
-//token
-@property (nonatomic, copy) NSString *accessToken;
+
 //用户名
 @property (nonatomic, copy) NSString *username;
 //头像

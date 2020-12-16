@@ -7,8 +7,6 @@
 //
 
 #import "HXBaseURLSessionManager.h"
-#import "NSString+md5.h"
-#import <UTDID/UTDevice.h>
 
 @implementation HXBaseURLSessionManager
 
@@ -32,6 +30,67 @@
     }
 }
 
++ (void)doLoginWithUserName:(NSString *)userName
+                andPassword:(NSString *)pwd
+                   success : (void (^)(NSString *personId))success
+                   failure : (void (^)(NSString *message))failure
+{
+    HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
+    
+    NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
+    [parameters setObject:userName forKey:@"UserName"];
+    [parameters setObject:pwd forKey:@"Password"];
+    
+    [client GET:HXGET_TOKEN parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+        if(dictionary)
+        {
+            BOOL Success = [dictionary boolValueForKey:@"Success"];
+            if (Success) {
+                NSString *token = [dictionary stringValueForKey:@"Token"];
+                
+                [HXPublicParamTool sharedInstance].accessToken = token;
+
+                NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
+                [parameters setObject:userName forKey:@"username"];
+                [parameters setObject:pwd forKey:@"password"];
+                
+                [client POST:HXPOST_LOGIN parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+                    
+                    BOOL Success = [dictionary boolValueForKey:@"Success"];
+                    
+                    if (Success) {
+                        
+                        NSDictionary *data = [dictionary dictionaryForKey:@"Data"];
+                        
+                        NSString *personId = [data stringValueForKey:@"personId"];
+                        
+                        [HXPublicParamTool sharedInstance].personId = personId;
+                        
+                        success(personId);
+                        
+                    }else
+                    {
+                        failure([dictionary stringValueForKey:@"Message"]);
+                    }
+
+                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                    NSLog(@"获取personId失败！");
+                    failure(error.localizedDescription);
+                }];
+                
+            }else
+            {
+                failure([dictionary stringValueForKey:@"Message"]);
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"获取token失败！");
+        
+        failure(error.localizedDescription);
+    }];
+}
+
 + (void)getDataWithNSString : (NSString *)actionUrlStr
              withDictionary : (NSDictionary *) nsDic
                     success : (void (^)(NSDictionary* dictionary))success
@@ -44,7 +103,9 @@
     
     [parameters addEntriesFromDictionary:nsDic];
     
-    [client GET:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+    NSString *token = [HXPublicParamTool sharedInstance].accessToken;
+    
+    [client GET:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         if(dictionary)
         {
             if ([dictionary  isKindOfClass:[NSNull class]] && [[dictionary objectForKey:@"statusCode"] isEqualToString:@"401"]) {
@@ -83,7 +144,9 @@
     
     [parameters addEntriesFromDictionary:nsDic];
     
-    [client POST:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+    NSString *token = [HXPublicParamTool sharedInstance].accessToken;
+    
+    [client POST:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
         if (response.statusCode == 401) {
 //            [[KQPublicParamTool sharedInstance] exitAction:KQPublicParamToolExitActionTypeExpired];
@@ -126,17 +189,10 @@
     
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     
-    NSString *UDID = [UTDevice utdid];
-    if (UDID) {
-        parameters[@"uniqueId"] = UDID;
-    }
-    
-    NSTimeInterval time = [[NSDate date] timeIntervalSince1970]*1000;
-    NSString *timestamp= [NSString stringWithFormat:@"%.f",time];
-    parameters[@"timestamp"] = timestamp;
+    NSString *personId = [HXPublicParamTool sharedInstance].personId;
+    [parameters setObject:personId forKey:@"personId"];
     
     return parameters;
 }
-
 
 @end

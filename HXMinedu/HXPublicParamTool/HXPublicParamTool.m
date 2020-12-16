@@ -17,7 +17,7 @@
 
 @implementation HXPublicParamTool
 
-@synthesize currentYear = _currentYear, userId = _userId,username = _username,mobilePhone = _mobilePhone,email = _email,isLaunch = _isLaunch,accountantNoDate = _accountantNoDate, skillGrade = _skillGrade, partnerId = _partnerId,homeUrl = _homeUrl,logoUrl = _logoUrl,partnerName = _partnerName,code = _code,userCode = _userCode;
+@synthesize currentYear = _currentYear, personId = _personId,username = _username,mobilePhone = _mobilePhone,email = _email,isLaunch = _isLaunch,accountantNoDate = _accountantNoDate, skillGrade = _skillGrade, partnerId = _partnerId,homeUrl = _homeUrl,logoUrl = _logoUrl,partnerName = _partnerName,code = _code,userCode = _userCode;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
@@ -109,15 +109,15 @@
     [self.userDefault setObject:code forKey:@"code"];
 }
 
-- (NSString *)userId{
-    if (!_userId) {
-        _userId = [self.userDefault objectForKey:@"userId"];
+- (NSString *)personId{
+    if (!_personId) {
+        _personId = [self.userDefault objectForKey:@"personId"];
     }
-    return _userId;
+    return _personId;
 }
-- (void)setUserId:(NSString *)userId{
-    _userId = userId;
-    [self.userDefault setObject:userId forKey:@"userId"];
+- (void)setPersonId:(NSString *)personId{
+    _personId = personId;
+    [self.userDefault setObject:personId forKey:@"personId"];
 }
 
 - (NSString *)userCode{
@@ -146,7 +146,7 @@
     
     //清除内存中数据
     self.accessToken = nil;
-    self.userId = nil;
+    self.personId = nil;
     self.accountantNoDate = nil;
     self.skillGrade = nil;
     self.avatarImageUrl = nil;

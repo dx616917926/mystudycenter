@@ -10,8 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define HXGET_TOKEN       @"/api/ApiLogin/Login"         //获取token
 
-#define HXGET_LOGIN       @"/api/v1/login"               //登录
+#define HXPOST_LOGIN       @"/MD/LoginInfo/Login"         //登录
 #define HXGET_FINDPASS    @"/api/v1/findPass"            //找回密码得到邮箱地址
 #define HXGET_SENDEMAIL   @"/api/v1/sendEmail"           //发送邮件
 #define HXGET_LISTYEAR    @"/api/v1/listYear"            //学习中心首页
@@ -25,23 +26,31 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)sharedClient;
 
--(void)clearCookies;
+- (void)clearCookies;
+
+/**
+ 登录请求
+ */
++ (void)doLoginWithUserName:(NSString *)userName
+                andPassword:(NSString *)pwd
+                    success:(void (^)(NSString *personId))success
+                    failure:(void (^)(NSString *messsage))failure;
 
 /**
  普通GET请求
  */
-+ (void)getDataWithNSString : (NSString *)actionUrlStr
-             withDictionary : (nullable NSDictionary *) nsDic
-                    success : (void (^)(NSDictionary* dictionary))success
-                    failure : (void (^)(NSError *error))failure;
++ (void)getDataWithNSString:(NSString *)actionUrlStr
+             withDictionary:(nullable NSDictionary *) nsDic
+                    success:(void (^)(NSDictionary* dictionary))success
+                    failure:(void (^)(NSError *error))failure;
 
 /**
  普通POST请求
  */
-+ (void)postDataWithNSString : (NSString *)actionUrlStr
-              withDictionary : (nullable NSDictionary *) nsDic
-                     success : (void (^)(NSDictionary* dictionary))success
-                     failure : (void (^)(NSError *error))failure;
++ (void)postDataWithNSString:(NSString *)actionUrlStr
+              withDictionary:(nullable NSDictionary *) nsDic
+                     success:(void (^)(NSDictionary* dictionary))success
+                     failure:(void (^)(NSError *error))failure;
 
 @end
 

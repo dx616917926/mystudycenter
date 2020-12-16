@@ -185,6 +185,9 @@
 		0449A553254C11F6001A28D5 /* HXCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A4B5254C11F6001A28D5 /* HXCircularProgressView.m */; };
 		0449A55A254C1299001A28D5 /* HXMyCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A559254C1299001A28D5 /* HXMyCourseViewController.m */; };
 		0449A563254C13AB001A28D5 /* HXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A562254C13AB001A28D5 /* HXBaseViewController.m */; };
+		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
+		0485164D2589D7F70071F7C8 /* IntroViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */; };
+		048516532589E16B0071F7C8 /* HXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 048516522589E16B0071F7C8 /* HXPageControl.m */; };
 		04D7938F254F9DF200BCB358 /* HXBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D7938E254F9DF200BCB358 /* HXBaseTableViewCell.m */; };
 		04D7939F254FA07700BCB358 /* UMCommonLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D79396254FA07700BCB358 /* UMCommonLog.framework */; };
 		04D793A0254FA07700BCB358 /* UMCommonLog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04D79397254FA07700BCB358 /* UMCommonLog.bundle */; };
@@ -539,6 +542,11 @@
 		0449A559254C1299001A28D5 /* HXMyCourseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXMyCourseViewController.m; sourceTree = "<group>"; };
 		0449A561254C13AB001A28D5 /* HXBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXBaseViewController.h; sourceTree = "<group>"; };
 		0449A562254C13AB001A28D5 /* HXBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXBaseViewController.m; sourceTree = "<group>"; };
+		047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewCell.h; sourceTree = "<group>"; };
+		047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewCell.m; sourceTree = "<group>"; };
+		0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IntroViewAssets.xcassets; sourceTree = "<group>"; };
+		048516512589E16B0071F7C8 /* HXPageControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPageControl.h; sourceTree = "<group>"; };
+		048516522589E16B0071F7C8 /* HXPageControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPageControl.m; sourceTree = "<group>"; };
 		04D7938D254F9DF200BCB358 /* HXBaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXBaseTableViewCell.h; sourceTree = "<group>"; };
 		04D7938E254F9DF200BCB358 /* HXBaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXBaseTableViewCell.m; sourceTree = "<group>"; };
 		04D79396254FA07700BCB358 /* UMCommonLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommonLog.framework; sourceTree = "<group>"; };
@@ -728,6 +736,7 @@
 		0449A368254C11B3001A28D5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				048516502589E1430071F7C8 /* HXPageControl */,
 				04060A3D255548FF00133FB3 /* CustomIOSAlertView */,
 				040B03B325552C5F00E977E2 /* HXCheckUpdateTool */,
 				04D79393254FA07600BCB358 /* UMeng_v7.1.3 */,
@@ -1094,9 +1103,9 @@
 			isa = PBXGroup;
 			children = (
 				0449A426254C11F5001A28D5 /* HXDBManager.h */,
-				0449A427254C11F5001A28D5 /* HXDBManager+ExamResult.m */,
 				0449A428254C11F5001A28D5 /* HXDBManager.m */,
 				0449A429254C11F5001A28D5 /* HXDBManager+ExamResult.h */,
+				0449A427254C11F5001A28D5 /* HXDBManager+ExamResult.m */,
 			);
 			path = HXDBHelper;
 			sourceTree = "<group>";
@@ -1349,6 +1358,7 @@
 		0449A55F254C12A8001A28D5 /* 我的 */ = {
 			isa = PBXGroup;
 			children = (
+				047E12B52559238F0000F8C8 /* cell */,
 				04D793D7254FFDFD00BCB358 /* HXHomeViewController.h */,
 				04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */,
 				040B03A82554E93500E977E2 /* 设置 */,
@@ -1366,6 +1376,24 @@
 				04D7938E254F9DF200BCB358 /* HXBaseTableViewCell.m */,
 			);
 			path = HXBaseView;
+			sourceTree = "<group>";
+		};
+		047E12B52559238F0000F8C8 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */,
+				047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */,
+			);
+			name = cell;
+			sourceTree = "<group>";
+		};
+		048516502589E1430071F7C8 /* HXPageControl */ = {
+			isa = PBXGroup;
+			children = (
+				048516512589E16B0071F7C8 /* HXPageControl.h */,
+				048516522589E16B0071F7C8 /* HXPageControl.m */,
+			);
+			path = HXPageControl;
 			sourceTree = "<group>";
 		};
 		04D79393254FA07600BCB358 /* UMeng_v7.1.3 */ = {
@@ -1480,6 +1508,7 @@
 		04D793D2254FFB0700BCB358 /* 引导页 */ = {
 			isa = PBXGroup;
 			children = (
+				0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */,
 				0405818C2551041A0022A300 /* HXIntroViewManager.h */,
 				0405818D2551041A0022A300 /* HXIntroViewManager.m */,
 			);
@@ -1583,6 +1612,7 @@
 				0449A51F254C11F6001A28D5 /* painter_clear.png in Resources */,
 				0449A516254C11F6001A28D5 /* painter_color@2x.png in Resources */,
 				04D793A0254FA07700BCB358 /* UMCommonLog.bundle in Resources */,
+				0485164D2589D7F70071F7C8 /* IntroViewAssets.xcassets in Resources */,
 				0449A51B254C11F6001A28D5 /* painter_hand@2x.png in Resources */,
 				040581BD255156AF0022A300 /* HXResetTableViewCell.xib in Resources */,
 				0449A4DD254C11F6001A28D5 /* menu_icon_highlighted.png in Resources */,
@@ -1764,6 +1794,7 @@
 				0449A4B7254C11F6001A28D5 /* DOUAudioFileProvider.m in Sources */,
 				0449A4D8254C11F6001A28D5 /* XHViewState.m in Sources */,
 				0449A508254C11F6001A28D5 /* HXDBManager+ExamResult.m in Sources */,
+				048516532589E16B0071F7C8 /* HXPageControl.m in Sources */,
 				0449A4EE254C11F6001A28D5 /* UIView+Fade.m in Sources */,
 				0449A4F7254C11F6001A28D5 /* PlayerSlider.m in Sources */,
 				0449A4F5254C11F6001A28D5 /* SuperPlayerView.m in Sources */,
@@ -1774,6 +1805,7 @@
 				040581B62551564B0022A300 /* HXResetViewController.m in Sources */,
 				0449A365254C119B001A28D5 /* HXSelectThemeViewController.m in Sources */,
 				0449A532254C11F6001A28D5 /* RSColorPickerState.m in Sources */,
+				047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */,
 				0449A548254C11F6001A28D5 /* HXPublicParamTool.m in Sources */,
 				0449A4E5254C11F6001A28D5 /* TXMedia.m in Sources */,
 				04D793B3254FA5C400BCB358 /* HXQuestionGroup.m in Sources */,

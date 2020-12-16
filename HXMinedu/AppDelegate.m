@@ -28,7 +28,7 @@
     [self setUMengTrack];
     
     //检查更新
-    [self checkAppUpdate];
+//    [self checkAppUpdate];
     
     return YES;
 }

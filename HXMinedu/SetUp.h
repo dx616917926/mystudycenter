@@ -15,7 +15,7 @@
 #define Default_Theme HXThemeBlue  //蓝色
 
 //默认域名
-#define BaseUrl @""
+#define BaseUrl @"https://testop.edu-cj.com"
 
 //更新地址
 #define APP_URL @"https://www.wlxue.com/cnapp/apps_update/ios/ccy.json"
