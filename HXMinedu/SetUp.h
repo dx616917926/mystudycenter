@@ -20,4 +20,7 @@
 //更新地址
 #define APP_URL @"https://www.wlxue.com/cnapp/apps_update/ios/ccy.json"
 
+//用户隐私政策网址
+#define APP_PrivacyPolicy_URL @"https://www.edu-edu.com/privacy/"
+
 #endif /* SetUp_h */

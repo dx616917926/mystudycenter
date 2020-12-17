@@ -185,6 +185,8 @@
 		0449A553254C11F6001A28D5 /* HXCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A4B5254C11F6001A28D5 /* HXCircularProgressView.m */; };
 		0449A55A254C1299001A28D5 /* HXMyCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A559254C1299001A28D5 /* HXMyCourseViewController.m */; };
 		0449A563254C13AB001A28D5 /* HXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A562254C13AB001A28D5 /* HXBaseViewController.m */; };
+		0459C712258B02C7000555D4 /* HXLoginContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0459C711258B02C7000555D4 /* HXLoginContentView.m */; };
+		0459C716258B02E2000555D4 /* HXLoginContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0459C715258B02E2000555D4 /* HXLoginContentView.xib */; };
 		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
 		0485164D2589D7F70071F7C8 /* IntroViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */; };
 		048516532589E16B0071F7C8 /* HXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 048516522589E16B0071F7C8 /* HXPageControl.m */; };
@@ -542,6 +544,9 @@
 		0449A559254C1299001A28D5 /* HXMyCourseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXMyCourseViewController.m; sourceTree = "<group>"; };
 		0449A561254C13AB001A28D5 /* HXBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXBaseViewController.h; sourceTree = "<group>"; };
 		0449A562254C13AB001A28D5 /* HXBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXBaseViewController.m; sourceTree = "<group>"; };
+		0459C710258B02C7000555D4 /* HXLoginContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLoginContentView.h; sourceTree = "<group>"; };
+		0459C711258B02C7000555D4 /* HXLoginContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLoginContentView.m; sourceTree = "<group>"; };
+		0459C715258B02E2000555D4 /* HXLoginContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXLoginContentView.xib; sourceTree = "<group>"; };
 		047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewCell.h; sourceTree = "<group>"; };
 		047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewCell.m; sourceTree = "<group>"; };
 		0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IntroViewAssets.xcassets; sourceTree = "<group>"; };
@@ -1378,6 +1383,16 @@
 			path = HXBaseView;
 			sourceTree = "<group>";
 		};
+		0459C714258B02CF000555D4 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				0459C710258B02C7000555D4 /* HXLoginContentView.h */,
+				0459C711258B02C7000555D4 /* HXLoginContentView.m */,
+				0459C715258B02E2000555D4 /* HXLoginContentView.xib */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
 		047E12B52559238F0000F8C8 /* cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1498,6 +1513,7 @@
 		04D793CD254FFA5C00BCB358 /* 登录 */ = {
 			isa = PBXGroup;
 			children = (
+				0459C714258B02CF000555D4 /* view */,
 				04D793D2254FFB0700BCB358 /* 引导页 */,
 				04D793CE254FFA7100BCB358 /* HXLoginViewController.h */,
 				04D793CF254FFA7100BCB358 /* HXLoginViewController.m */,
@@ -1592,6 +1608,7 @@
 			files = (
 				0449A519254C11F6001A28D5 /* 样式-画笔.png in Resources */,
 				0449A50D254C11F6001A28D5 /* painter_delete@2x.png in Resources */,
+				0459C716258B02E2000555D4 /* HXLoginContentView.xib in Resources */,
 				0449A4DC254C11F6001A28D5 /* save_icon_highlighted@2x.png in Resources */,
 				0449A51E254C11F6001A28D5 /* increment.png in Resources */,
 				0449A4DB254C11F6001A28D5 /* save_icon@2x.png in Resources */,
@@ -1722,6 +1739,7 @@
 				0449A4EC254C11F6001A28D5 /* SPWeiboControlView.m in Sources */,
 				0449A35C254C1174001A28D5 /* UIImage+Tint.m in Sources */,
 				0449A4D7254C11F6001A28D5 /* XHZoomingImageView.m in Sources */,
+				0459C712258B02C7000555D4 /* HXLoginContentView.m in Sources */,
 				0449A525254C11F6001A28D5 /* RSColorPickerView.m in Sources */,
 				0449A53F254C11F6001A28D5 /* HXProgressHUD.m in Sources */,
 				0449A535254C11F6001A28D5 /* RSBrightnessSlider.m in Sources */,
