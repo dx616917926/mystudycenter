@@ -12,7 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define HXGET_TOKEN       @"/api/ApiLogin/Login"         //获取token
 
-#define HXPOST_LOGIN       @"/MD/LoginInfo/Login"         //登录
+#define HXPOST_LOGIN       @"/MD/LoginInfo/Login"        //登录
+#define HXPOST_LIVELIST    @"/MD/Live/getLiveList"       //直播地址
+
+
 #define HXGET_FINDPASS    @"/api/v1/findPass"            //找回密码得到邮箱地址
 #define HXGET_SENDEMAIL   @"/api/v1/sendEmail"           //发送邮件
 #define HXGET_LISTYEAR    @"/api/v1/listYear"            //学习中心首页

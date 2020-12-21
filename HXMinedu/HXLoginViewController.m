@@ -71,7 +71,7 @@
         //
         make.top.equalTo(login_icon.mas_bottom).offset(45);
         make.centerX.equalTo(mainView);
-        make.height.equalTo(@260);
+        make.height.equalTo(@266);
         make.leading.mas_equalTo(20);
         make.trailing.mas_equalTo(-20);
     }];
@@ -94,9 +94,11 @@
     doubleTap.numberOfTapsRequired = 2;
     [login_icon addGestureRecognizer:doubleTap];
 
-//    //测试账号
-//    _passWordTextField.text = @"4685454(F)";
-//    _userNameTextField.text = @"4685454(F)";
+#ifdef DEBUG
+    //测试账号
+    loginView.passWordTextField.text = @"11101010011";
+    loginView.userNameTextField.text = @"11101010011";
+#endif
 }
 
 - (void)showAppVersion {

@@ -17,7 +17,7 @@
 
 @implementation HXPublicParamTool
 
-@synthesize currentYear = _currentYear, personId = _personId,username = _username,mobilePhone = _mobilePhone,email = _email,isLaunch = _isLaunch,accountantNoDate = _accountantNoDate, skillGrade = _skillGrade, partnerId = _partnerId,homeUrl = _homeUrl,logoUrl = _logoUrl,partnerName = _partnerName,code = _code,userCode = _userCode;
+@synthesize currentYear = _currentYear, personId = _personId, accessToken = _accessToken,username = _username,mobilePhone = _mobilePhone,email = _email,isLaunch = _isLaunch,accountantNoDate = _accountantNoDate, skillGrade = _skillGrade, partnerId = _partnerId,homeUrl = _homeUrl,logoUrl = _logoUrl,partnerName = _partnerName,code = _code,userCode = _userCode;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
@@ -63,6 +63,17 @@
 - (void)setPartnerId:(NSString *)partnerId{
     _partnerId = partnerId;
     [self.userDefault setObject:partnerId forKey:@"partnerId"];
+}
+
+- (NSString *)accessToken{
+    if (!_accessToken) {
+        _accessToken = [self.userDefault objectForKey:@"accessToken"];
+    }
+    return _accessToken;
+}
+- (void)setAccessToken:(NSString *)accessToken{
+    _accessToken = accessToken;
+    [self.userDefault setObject:accessToken forKey:@"accessToken"];
 }
 
 - (NSString *)homeUrl{

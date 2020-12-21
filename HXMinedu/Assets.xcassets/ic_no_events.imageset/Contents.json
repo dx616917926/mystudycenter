@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "直播中@2x.png",
+      "filename" : "ic_no_events.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "直播中@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

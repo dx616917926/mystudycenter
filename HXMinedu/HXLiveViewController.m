@@ -7,9 +7,12 @@
 
 #import "HXLiveViewController.h"
 #import "MJRefresh.h"
+#import "HXLiveModel.h"
+#import "HXLiveDetailViewController.h"
 
 @interface HXLiveViewController ()
 
+@property(nonatomic, strong) NSArray *liveListArray;
 @property(nonatomic, strong) UIScrollView *mScrollView;
 @property(nonatomic, strong) UIView *contentView;
 
@@ -28,17 +31,7 @@
 
 - (void)loadNewData {
     
-    [self createContentView];
-    
-    [self createNoneContentView];
-    
-    [self createNetworkErrorView];
-    
-    __weak __typeof(self)weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //结束刷新状态
-        [weakSelf.mScrollView.mj_header endRefreshing];
-    });
+    [self requestLiveList];
 }
 
 - (void)createScrollView {
@@ -69,21 +62,21 @@
         [self.contentView removeFromSuperview];
     }
     
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth)];
+    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth+30)];
     self.contentView.backgroundColor = [UIColor clearColor];
     
-    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((self.contentView.width-280)/2, self.contentView.height - 330, 280, 255)];
+    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((self.contentView.width-300)/2, self.contentView.height - 360, 300, 300)];
     [iconView setImage:[UIImage imageNamed:@"live_icon"]];
     [self.contentView addSubview:iconView];
     
     UIButton *liveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    liveButton.frame = CGRectMake((self.contentView.width-160)/2, self.contentView.height - 50, 160, 50);
+    liveButton.frame = CGRectMake((self.contentView.width-160)/2, self.contentView.height - 50, 160, 40);
     [liveButton setTitle:@"进入直播" forState:UIControlStateNormal];
     [liveButton.titleLabel setFont:[UIFont systemFontOfSize:19]];
     [liveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [liveButton addTarget:self action:@selector(liveBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     liveButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
-    liveButton.layer.cornerRadius = 25;
+    liveButton.layer.cornerRadius = 20;
     liveButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
     liveButton.layer.shadowOffset = CGSizeMake(0,0);
     liveButton.layer.shadowOpacity = 1;
@@ -102,11 +95,11 @@
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth)];
     self.contentView.backgroundColor = [UIColor clearColor];
     
-    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((self.contentView.width-190)/2, self.contentView.height - 290, 190, 140)];
+    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((self.contentView.width-190)/2, self.contentView.height - 290, 190, 190)];
     [iconView setImage:[UIImage imageNamed:@"network_error_icon"]];
     [self.contentView addSubview:iconView];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((self.contentView.width-230)/2, iconView.bottom, 230, 54)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((self.contentView.width-230)/2, iconView.bottom, 230, 30)];
     label.text = @"网络不给力，请点击重新加载~";
     label.font = [UIFont systemFontOfSize:15];
     label.textAlignment = NSTextAlignmentCenter;
@@ -114,13 +107,13 @@
     [self.contentView addSubview:label];
     
     UIButton *liveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    liveButton.frame = CGRectMake((self.contentView.width-160)/2, self.contentView.height - 50, 160, 50);
+    liveButton.frame = CGRectMake((self.contentView.width-160)/2, self.contentView.height - 50, 160, 40);
     [liveButton setTitle:@"重新加载" forState:UIControlStateNormal];
     [liveButton.titleLabel setFont:[UIFont systemFontOfSize:19]];
     [liveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [liveButton addTarget:self action:@selector(loadNewData) forControlEvents:UIControlEventTouchUpInside];
     liveButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
-    liveButton.layer.cornerRadius = 25;
+    liveButton.layer.cornerRadius = 20;
     liveButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
     liveButton.layer.shadowOffset = CGSizeMake(0,0);
     liveButton.layer.shadowOpacity = 1;
@@ -136,11 +129,11 @@
         [self.contentView removeFromSuperview];
     }
     
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth)];
+    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth+30)];
     self.contentView.backgroundColor = [UIColor clearColor];
     
-    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((self.contentView.width-280)/2, self.contentView.height - 330, 280, 255)];
-    [iconView setImage:[UIImage imageNamed:@"live_icon"]];
+    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((self.contentView.width-300)/2, self.contentView.height - 360, 300, 300)];
+    [iconView setImage:[UIImage imageNamed:@"live_no_icon"]];
     [self.contentView addSubview:iconView];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((self.contentView.width-160)/2, self.contentView.height - 50, 160, 50)];
@@ -153,11 +146,49 @@
     [self.mScrollView addSubview:self.contentView];
 }
 
+- (void)requestLiveList {
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_LIVELIST withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        //
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            
+            self.liveListArray = [HXLiveModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (self.liveListArray.count > 0) {
+                [self createContentView];
+            }else
+            {
+                [self createNoneContentView];
+            }
+            
+        }else
+        {
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
+            
+            [self createNetworkErrorView];
+        }
+        //结束刷新状态
+        [self.mScrollView.mj_header endRefreshing];
+        
+    } failure:^(NSError * _Nonnull error) {
+        
+        [self createNetworkErrorView];
+        
+        //结束刷新状态
+        [self.mScrollView.mj_header endRefreshing];
+    }];
+}
+
 /// 进入直播
 /// @param button 按钮
 - (void)liveBtnClicked:(UIButton *)button {
-    
-    NSLog(@"进入直播");
+
+    if (self.liveListArray.count>0) {
+        HXLiveDetailViewController *detailVC = [[HXLiveDetailViewController alloc] init];
+        detailVC.liveModel = self.liveListArray.firstObject;
+        detailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
 }
 
 /*

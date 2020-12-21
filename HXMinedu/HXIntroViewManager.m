@@ -43,7 +43,7 @@ NSString * const HXIntroViewDismissNotification = @"HXIntroViewDismissNotificati
     NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
     //当前版本号 != 上次使用的版本号
-    if ([currentVersion isEqualToString:lastVersion]) {
+    if (![currentVersion isEqualToString:lastVersion]) {
         
         [self showIntroViewInView:view];
         

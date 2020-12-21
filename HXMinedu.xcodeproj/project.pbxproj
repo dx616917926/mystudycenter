@@ -15,7 +15,6 @@
 		040B03B02554EA2800E977E2 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03AF2554EA2800E977E2 /* HXSettingViewController.m */; };
 		040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */; };
 		0449A314254BFE92001A28D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A313254BFE92001A28D5 /* AppDelegate.m */; };
-		0449A31A254BFE92001A28D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A319254BFE92001A28D5 /* ViewController.m */; };
 		0449A31D254BFE92001A28D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0449A31B254BFE92001A28D5 /* Main.storyboard */; };
 		0449A31F254BFE95001A28D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0449A31E254BFE95001A28D5 /* Assets.xcassets */; };
 		0449A322254BFE95001A28D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0449A320254BFE95001A28D5 /* LaunchScreen.storyboard */; };
@@ -187,9 +186,13 @@
 		0449A563254C13AB001A28D5 /* HXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A562254C13AB001A28D5 /* HXBaseViewController.m */; };
 		0459C712258B02C7000555D4 /* HXLoginContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0459C711258B02C7000555D4 /* HXLoginContentView.m */; };
 		0459C716258B02E2000555D4 /* HXLoginContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0459C715258B02E2000555D4 /* HXLoginContentView.xib */; };
+		0459C72D258B51E1000555D4 /* launch_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72B258B51E1000555D4 /* launch_logo@3x.png */; };
+		0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72C258B51E1000555D4 /* launch_logo@2x.png */; };
 		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
 		0485164D2589D7F70071F7C8 /* IntroViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */; };
 		048516532589E16B0071F7C8 /* HXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 048516522589E16B0071F7C8 /* HXPageControl.m */; };
+		04CB3C0F25906A500042A682 /* HXLiveDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CB3C0E25906A500042A682 /* HXLiveDetailViewController.m */; };
+		04CB3C1425906A960042A682 /* HXLiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CB3C1325906A960042A682 /* HXLiveModel.m */; };
 		04D7938F254F9DF200BCB358 /* HXBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D7938E254F9DF200BCB358 /* HXBaseTableViewCell.m */; };
 		04D7939F254FA07700BCB358 /* UMCommonLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D79396254FA07700BCB358 /* UMCommonLog.framework */; };
 		04D793A0254FA07700BCB358 /* UMCommonLog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04D79397254FA07700BCB358 /* UMCommonLog.bundle */; };
@@ -227,8 +230,6 @@
 		0449A30F254BFE92001A28D5 /* HXMinedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HXMinedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0449A312254BFE92001A28D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0449A313254BFE92001A28D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		0449A318254BFE92001A28D5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0449A319254BFE92001A28D5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0449A31C254BFE92001A28D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0449A31E254BFE95001A28D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0449A321254BFE95001A28D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -547,11 +548,17 @@
 		0459C710258B02C7000555D4 /* HXLoginContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLoginContentView.h; sourceTree = "<group>"; };
 		0459C711258B02C7000555D4 /* HXLoginContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLoginContentView.m; sourceTree = "<group>"; };
 		0459C715258B02E2000555D4 /* HXLoginContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXLoginContentView.xib; sourceTree = "<group>"; };
+		0459C72B258B51E1000555D4 /* launch_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@3x.png"; sourceTree = "<group>"; };
+		0459C72C258B51E1000555D4 /* launch_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@2x.png"; sourceTree = "<group>"; };
 		047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewCell.h; sourceTree = "<group>"; };
 		047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewCell.m; sourceTree = "<group>"; };
 		0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IntroViewAssets.xcassets; sourceTree = "<group>"; };
 		048516512589E16B0071F7C8 /* HXPageControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPageControl.h; sourceTree = "<group>"; };
 		048516522589E16B0071F7C8 /* HXPageControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPageControl.m; sourceTree = "<group>"; };
+		04CB3C0D25906A500042A682 /* HXLiveDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveDetailViewController.h; sourceTree = "<group>"; };
+		04CB3C0E25906A500042A682 /* HXLiveDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveDetailViewController.m; sourceTree = "<group>"; };
+		04CB3C1225906A960042A682 /* HXLiveModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveModel.h; sourceTree = "<group>"; };
+		04CB3C1325906A960042A682 /* HXLiveModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveModel.m; sourceTree = "<group>"; };
 		04D7938D254F9DF200BCB358 /* HXBaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXBaseTableViewCell.h; sourceTree = "<group>"; };
 		04D7938E254F9DF200BCB358 /* HXBaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXBaseTableViewCell.m; sourceTree = "<group>"; };
 		04D79396254FA07700BCB358 /* UMCommonLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommonLog.framework; sourceTree = "<group>"; };
@@ -669,10 +676,9 @@
 		0449A311254BFE92001A28D5 /* HXMinedu */ = {
 			isa = PBXGroup;
 			children = (
+				04CB3C1125906A890042A682 /* Models */,
 				0449A312254BFE92001A28D5 /* AppDelegate.h */,
 				0449A313254BFE92001A28D5 /* AppDelegate.m */,
-				0449A318254BFE92001A28D5 /* ViewController.h */,
-				0449A319254BFE92001A28D5 /* ViewController.m */,
 				0449A32F254C0D47001A28D5 /* HXTabBarController.h */,
 				0449A330254C0D47001A28D5 /* HXTabBarController.m */,
 				04D793CD254FFA5C00BCB358 /* 登录 */,
@@ -723,6 +729,8 @@
 				0449A350254C1174001A28D5 /* UIImage+Tint.m */,
 				0449A356254C1174001A28D5 /* UIViewController+HXNavigation.h */,
 				0449A34C254C1174001A28D5 /* UIViewController+HXNavigation.m */,
+				0459C72C258B51E1000555D4 /* launch_logo@2x.png */,
+				0459C72B258B51E1000555D4 /* launch_logo@3x.png */,
 			);
 			path = HXNavigation;
 			sourceTree = "<group>";
@@ -1356,6 +1364,8 @@
 			children = (
 				04D793DB254FFE1F00BCB358 /* HXLiveViewController.h */,
 				04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */,
+				04CB3C0D25906A500042A682 /* HXLiveDetailViewController.h */,
+				04CB3C0E25906A500042A682 /* HXLiveDetailViewController.m */,
 			);
 			name = "直播";
 			sourceTree = "<group>";
@@ -1409,6 +1419,15 @@
 				048516522589E16B0071F7C8 /* HXPageControl.m */,
 			);
 			path = HXPageControl;
+			sourceTree = "<group>";
+		};
+		04CB3C1125906A890042A682 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04CB3C1225906A960042A682 /* HXLiveModel.h */,
+				04CB3C1325906A960042A682 /* HXLiveModel.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		04D79393254FA07600BCB358 /* UMeng_v7.1.3 */ = {
@@ -1482,15 +1501,15 @@
 			isa = PBXGroup;
 			children = (
 				04D793A9254FA5B300BCB358 /* model */,
-				04D793BE254FA5D200BCB358 /* HXStartExamViewController.h */,
-				04D793B9254FA5D100BCB358 /* HXStartExamViewController.m */,
+				04D793BB254FA5D100BCB358 /* statics.bundle */,
 				04D793B8254FA5D100BCB358 /* HXCompleteViewController.h */,
 				04D793BF254FA5D200BCB358 /* HXCompleteViewController.m */,
-				04D793BB254FA5D100BCB358 /* statics.bundle */,
 				04D793BD254FA5D200BCB358 /* HXExamSessionManager.h */,
 				04D793BA254FA5D100BCB358 /* HXExamSessionManager.m */,
 				04D793BC254FA5D100BCB358 /* HXQuestionBtn.h */,
 				04D793B7254FA5D100BCB358 /* HXQuestionBtn.m */,
+				04D793BE254FA5D200BCB358 /* HXStartExamViewController.h */,
+				04D793B9254FA5D100BCB358 /* HXStartExamViewController.m */,
 			);
 			path = exam;
 			sourceTree = "<group>";
@@ -1634,6 +1653,7 @@
 				040581BD255156AF0022A300 /* HXResetTableViewCell.xib in Resources */,
 				0449A4DD254C11F6001A28D5 /* menu_icon_highlighted.png in Resources */,
 				0449A4D9254C11F6001A28D5 /* menu_icon.png in Resources */,
+				0459C72D258B51E1000555D4 /* launch_logo@3x.png in Resources */,
 				0449A510254C11F6001A28D5 /* painter_bg@2x.png in Resources */,
 				0449A512254C11F6001A28D5 /* 样式-橡皮擦.png in Resources */,
 				0449A506254C11F6001A28D5 /* TXExamPopView.xcassets in Resources */,
@@ -1647,6 +1667,7 @@
 				0449A53E254C11F6001A28D5 /* HXPenPickerController.xib in Resources */,
 				0449A31D254BFE92001A28D5 /* Main.storyboard in Resources */,
 				0449A51D254C11F6001A28D5 /* painter_text@2x.png in Resources */,
+				0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */,
 				0449A50C254C11F6001A28D5 /* painter_line@2x.png in Resources */,
 				0449A547254C11F6001A28D5 /* but_audio_play.png in Resources */,
 				0449A549254C11F6001A28D5 /* light_green@2x.png in Resources */,
@@ -1743,11 +1764,11 @@
 				0449A525254C11F6001A28D5 /* RSColorPickerView.m in Sources */,
 				0449A53F254C11F6001A28D5 /* HXProgressHUD.m in Sources */,
 				0449A535254C11F6001A28D5 /* RSBrightnessSlider.m in Sources */,
-				0449A31A254BFE92001A28D5 /* ViewController.m in Sources */,
 				0449A4EA254C11F6001A28D5 /* TXQuestion.m in Sources */,
 				0449A543254C11F6001A28D5 /* ScrollViewFrameAccessor.m in Sources */,
 				04D793D0254FFA7100BCB358 /* HXLoginViewController.m in Sources */,
 				0449A4F8254C11F6001A28D5 /* MoreContentView.m in Sources */,
+				04CB3C1425906A960042A682 /* HXLiveModel.m in Sources */,
 				0449A545254C11F6001A28D5 /* HXAudioManager.m in Sources */,
 				0449A4FB254C11F6001A28D5 /* SuperPlayerGuideView.m in Sources */,
 				04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */,
@@ -1828,6 +1849,7 @@
 				0449A4E5254C11F6001A28D5 /* TXMedia.m in Sources */,
 				04D793B3254FA5C400BCB358 /* HXQuestionGroup.m in Sources */,
 				0449A314254BFE92001A28D5 /* AppDelegate.m in Sources */,
+				04CB3C0F25906A500042A682 /* HXLiveDetailViewController.m in Sources */,
 				0449A4C3254C11F6001A28D5 /* DOUSimpleHTTPRequest.m in Sources */,
 				0449A4C6254C11F6001A28D5 /* DOUAudioSpatialAnalyzer.m in Sources */,
 				0449A537254C11F6001A28D5 /* RSSelectionLayer.m in Sources */,

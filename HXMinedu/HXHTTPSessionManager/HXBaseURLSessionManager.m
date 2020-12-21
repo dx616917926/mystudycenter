@@ -16,6 +16,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:[NSURL URLWithString:BaseUrl]];
+        _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.requestSerializer.timeoutInterval = 10;
     });
     
@@ -38,8 +39,8 @@
     HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
     
     NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:userName forKey:@"UserName"];
-    [parameters setObject:pwd forKey:@"Password"];
+    [parameters setObject:@"B6C3D2229DE6783942D23BF452BF3BD5" forKey:@"UserName"];
+    [parameters setObject:@"85B171E597F59B2C" forKey:@"Password"];
     
     [client GET:HXGET_TOKEN parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         if(dictionary)
@@ -60,7 +61,7 @@
                     
                     if (Success) {
                         
-                        NSDictionary *data = [dictionary dictionaryForKey:@"Data"];
+                        NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
                         
                         NSString *personId = [data stringValueForKey:@"personId"];
                         
@@ -108,15 +109,7 @@
     [client GET:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         if(dictionary)
         {
-            if ([dictionary  isKindOfClass:[NSNull class]] && [[dictionary objectForKey:@"statusCode"] isEqualToString:@"401"]) {
-                failure(nil);
-                NSLog(@"登录信息已经过期 请重新登录");
-//                [[KQPublicParamTool sharedInstance] exitAction:KQPublicParamToolExitActionTypeExpired];
-                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！"];
-            }else
-            {
-                success(dictionary);
-            }
+            success(dictionary);
         }else
         {
             failure(nil);
@@ -124,9 +117,10 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
         if (response.statusCode == 401) {
-//            [[KQPublicParamTool sharedInstance] exitAction:KQPublicParamToolExitActionTypeExpired];
-            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！"];
             failure(nil);
+            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+            }];
         }else{
             failure(error);
         }
@@ -140,48 +134,84 @@
 {
     HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
     
-    NSMutableDictionary * parameters = [client commonParameters];
-    
-    [parameters addEntriesFromDictionary:nsDic];
-    
-    NSString *token = [HXPublicParamTool sharedInstance].accessToken;
-    
-    [client POST:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
-        NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
-        if (response.statusCode == 401) {
-//            [[KQPublicParamTool sharedInstance] exitAction:KQPublicParamToolExitActionTypeExpired];
-            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！"];
-        }else{
+    if ([client ifTokenExp]) {
+        
+        NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
+        [parameters setObject:@"B6C3D2229DE6783942D23BF452BF3BD5" forKey:@"UserName"];
+        [parameters setObject:@"85B171E597F59B2C" forKey:@"Password"];
+        
+        [client GET:HXGET_TOKEN parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
             if(dictionary)
             {
-                if ([dictionary[@"success"] isEqualToString:@"False"] && [dictionary[@"message"] isEqualToString:@"账号处理离线状态"]) {
-                    failure(nil);
-                    NSLog(@"登录信息已经过期 请重新登录");
-//                    [[KQPublicParamTool sharedInstance] exitAction:KQPublicParamToolExitActionTypeExpired];
-                    [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！"];
+                BOOL Success = [dictionary boolValueForKey:@"Success"];
+                if (Success) {
+                    NSString *token = [dictionary stringValueForKey:@"Token"];
+                    
+                    [HXPublicParamTool sharedInstance].accessToken = token;
+                    
+                    NSMutableDictionary * parameters = [client commonParameters];
+                    
+                    [parameters addEntriesFromDictionary:nsDic];
+                                        
+                    [client POST:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+                        if(dictionary)
+                        {
+                            success(dictionary);
+                        }else
+                        {
+                            failure(nil);
+                        }
+                    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                        NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
+                        if (response.statusCode == 401) {
+                            failure(nil);
+                            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
+                                [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                            }];
+                        }else{
+                            failure(error);
+                        }
+                    }];
+                    
                 }else
                 {
-                    success(dictionary);
+                    failure(nil);
                 }
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"获取token失败！");
+            
+            failure(error);
+        }];
+    }else
+    {
+        NSMutableDictionary * parameters = [client commonParameters];
+        
+        [parameters addEntriesFromDictionary:nsDic];
+        
+        NSString *token = [HXPublicParamTool sharedInstance].accessToken;
+        
+        [client POST:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+            if(dictionary)
+            {
+                success(dictionary);
             }else
             {
-                success(nil);
+                failure(nil);
             }
-        }
-
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
-        if (response.statusCode == 401) {
-            failure(nil);
-            
-//            [[KQPublicParamTool sharedInstance] exitAction:KQPublicParamToolExitActionTypeExpired];
-
-            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！"];
-        }else{
-            failure(error);
-
-        }
-    }];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
+            if (response.statusCode == 401) {
+                failure(nil);
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                }];
+            }else{
+                failure(error);
+            }
+        }];
+    }
 }
 
 /// 公共请求参数
@@ -193,6 +223,31 @@
     [parameters setObject:personId forKey:@"personId"];
     
     return parameters;
+}
+
+- (BOOL)ifTokenExp {
+    
+    static NSTimeInterval tokenExpDate = 0;
+    
+    if (tokenExpDate==0) {
+        NSString *token = [HXPublicParamTool sharedInstance].accessToken;
+        if (!token) {
+            return YES;
+        }
+        NSArray *segments = [token componentsSeparatedByString:@"."];
+        NSString *base64String = [segments objectAtIndex:1];
+        
+        NSData *decodeData = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:decodeData options:0 error:nil];
+        tokenExpDate = [[jsonDict objectForKey:@"exp"] doubleValue];
+    }
+    
+    if ((tokenExpDate - [[NSDate date] timeIntervalSince1970]) > 10) {
+        return NO;
+    }
+    
+    tokenExpDate = 0;
+    return YES;
 }
 
 @end
