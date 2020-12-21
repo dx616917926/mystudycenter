@@ -5,19 +5,19 @@
       "scale" : "1x"
     },
     {
+      "filename" : "视频点亮@2x.png",
       "idiom" : "universal",
-      "filename" : "tabbarSelect_2@2x.png",
       "scale" : "2x"
     },
     {
+      "filename" : "视频点亮@3x.png",
       "idiom" : "universal",
-      "filename" : "tabbarSelect_2@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   },
   "properties" : {
     "template-rendering-intent" : "original"
