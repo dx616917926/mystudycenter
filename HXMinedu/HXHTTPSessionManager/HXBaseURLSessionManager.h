@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define HXPOST_LOGIN       @"/MD/LoginInfo/Login"        //登录
 #define HXPOST_LIVELIST    @"/MD/Live/getLiveList"       //直播地址
+#define HXPOST_COURSELIST  @"/MD/StuCourse/getCourseList"//课程列表
+#define HXPOST_MAJORLIST   @"/MD/StuInfo/geMajorList"    //获取学生专业
 
 
 #define HXGET_FINDPASS    @"/api/v1/findPass"            //找回密码得到邮箱地址

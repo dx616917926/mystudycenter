@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="140" id="KGk-i7-Jjw" customClass="HXCourseListTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="agw-d2-9dx">
+                        <rect key="frame" x="10" y="10" width="300" height="120"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1z2-Af-yDU">
+                                <rect key="frame" x="10" y="10" width="130" height="100"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="130" id="cd2-0Y-gTT"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="中国近代史纲要中国 近代史纲要" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ef-9o-a7a">
+                                <rect key="frame" x="152" y="12" width="140" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="44" id="AbR-kC-eI0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aS1-15-1vl">
+                                <rect key="frame" x="152" y="82" width="94" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="Bwh-iL-rvp"/>
+                                    <constraint firstAttribute="width" constant="94" id="wzv-BI-fNi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="进入课程"/>
+                                <connections>
+                                    <action selector="startStudyButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ifV-lA-F51"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="2ef-9o-a7a" secondAttribute="trailing" constant="8" id="11Z-wG-ZIL"/>
+                            <constraint firstItem="1z2-Af-yDU" firstAttribute="top" secondItem="agw-d2-9dx" secondAttribute="top" constant="10" id="BkF-MK-NkS"/>
+                            <constraint firstItem="2ef-9o-a7a" firstAttribute="top" secondItem="agw-d2-9dx" secondAttribute="top" constant="12" id="KyJ-gt-jbi"/>
+                            <constraint firstItem="2ef-9o-a7a" firstAttribute="leading" secondItem="1z2-Af-yDU" secondAttribute="trailing" constant="12" id="Qfa-zQ-wLz"/>
+                            <constraint firstAttribute="bottom" secondItem="1z2-Af-yDU" secondAttribute="bottom" constant="10" id="YXX-1x-QQT"/>
+                            <constraint firstItem="1z2-Af-yDU" firstAttribute="leading" secondItem="agw-d2-9dx" secondAttribute="leading" constant="10" id="cOt-QS-iU3"/>
+                            <constraint firstAttribute="bottom" secondItem="aS1-15-1vl" secondAttribute="bottom" constant="10" id="j76-26-emD"/>
+                            <constraint firstItem="aS1-15-1vl" firstAttribute="leading" secondItem="2ef-9o-a7a" secondAttribute="leading" id="pYk-JH-BjJ"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="agw-d2-9dx" secondAttribute="bottom" constant="10" id="6fp-uh-uUd"/>
+                    <constraint firstItem="agw-d2-9dx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="aEE-gf-5BM"/>
+                    <constraint firstItem="agw-d2-9dx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="cPX-h0-qRW"/>
+                    <constraint firstAttribute="trailing" secondItem="agw-d2-9dx" secondAttribute="trailing" constant="10" id="vJ8-mR-5Jl"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="mBackgroundView" destination="agw-d2-9dx" id="vCg-R3-Fle"/>
+                <outlet property="mImageView" destination="1z2-Af-yDU" id="9OT-5a-vfE"/>
+                <outlet property="mTitleLabel" destination="2ef-9o-a7a" id="MNB-M8-meS"/>
+                <outlet property="startStudyButton" destination="aS1-15-1vl" id="LYr-yv-VuB"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="156.69642857142856"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

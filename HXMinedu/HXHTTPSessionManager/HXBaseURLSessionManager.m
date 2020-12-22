@@ -39,55 +39,30 @@
     HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
     
     NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:@"B6C3D2229DE6783942D23BF452BF3BD5" forKey:@"UserName"];
-    [parameters setObject:@"85B171E597F59B2C" forKey:@"Password"];
+    [parameters setObject:userName forKey:@"username"];
+    [parameters setObject:pwd forKey:@"password"];
     
-    [client GET:HXGET_TOKEN parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
-        if(dictionary)
+    [client POST:HXPOST_LOGIN parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        
+        if (Success) {
+            
+            NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
+            
+            NSString *personId = [data stringValueForKey:@"personId"];
+            
+            [HXPublicParamTool sharedInstance].personId = personId;
+            
+            success(personId);
+            
+        }else
         {
-            BOOL Success = [dictionary boolValueForKey:@"Success"];
-            if (Success) {
-                NSString *token = [dictionary stringValueForKey:@"Token"];
-                
-                [HXPublicParamTool sharedInstance].accessToken = token;
-
-                NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
-                [parameters setObject:userName forKey:@"username"];
-                [parameters setObject:pwd forKey:@"password"];
-                
-                [client POST:HXPOST_LOGIN parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
-                    
-                    BOOL Success = [dictionary boolValueForKey:@"Success"];
-                    
-                    if (Success) {
-                        
-                        NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
-                        
-                        NSString *personId = [data stringValueForKey:@"personId"];
-                        
-                        [HXPublicParamTool sharedInstance].personId = personId;
-                        
-                        success(personId);
-                        
-                    }else
-                    {
-                        failure([dictionary stringValueForKey:@"Message"]);
-                    }
-
-                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    NSLog(@"获取personId失败！");
-                    failure(error.localizedDescription);
-                }];
-                
-            }else
-            {
-                failure([dictionary stringValueForKey:@"Message"]);
-            }
+            failure([dictionary stringValueForKey:@"Message"]);
         }
+
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"获取token失败！");
-        
+        NSLog(@"获取personId失败！");
         failure(error.localizedDescription);
     }];
 }
@@ -104,9 +79,7 @@
     
     [parameters addEntriesFromDictionary:nsDic];
     
-    NSString *token = [HXPublicParamTool sharedInstance].accessToken;
-    
-    [client GET:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+    [client GET:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         if(dictionary)
         {
             success(dictionary);
@@ -134,84 +107,29 @@
 {
     HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
     
-    if ([client ifTokenExp]) {
-        
-        NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
-        [parameters setObject:@"B6C3D2229DE6783942D23BF452BF3BD5" forKey:@"UserName"];
-        [parameters setObject:@"85B171E597F59B2C" forKey:@"Password"];
-        
-        [client GET:HXGET_TOKEN parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
-            if(dictionary)
-            {
-                BOOL Success = [dictionary boolValueForKey:@"Success"];
-                if (Success) {
-                    NSString *token = [dictionary stringValueForKey:@"Token"];
-                    
-                    [HXPublicParamTool sharedInstance].accessToken = token;
-                    
-                    NSMutableDictionary * parameters = [client commonParameters];
-                    
-                    [parameters addEntriesFromDictionary:nsDic];
-                                        
-                    [client POST:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
-                        if(dictionary)
-                        {
-                            success(dictionary);
-                        }else
-                        {
-                            failure(nil);
-                        }
-                    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                        NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
-                        if (response.statusCode == 401) {
-                            failure(nil);
-                            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
-                                [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
-                            }];
-                        }else{
-                            failure(error);
-                        }
-                    }];
-                    
-                }else
-                {
-                    failure(nil);
-                }
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            NSLog(@"获取token失败！");
-            
+    NSMutableDictionary * parameters = [client commonParameters];
+    
+    [parameters addEntriesFromDictionary:nsDic];
+    
+    [client POST:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+        if(dictionary)
+        {
+            success(dictionary);
+        }else
+        {
+            failure(nil);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
+        if (response.statusCode == 401) {
+            failure(nil);
+            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+            }];
+        }else{
             failure(error);
-        }];
-    }else
-    {
-        NSMutableDictionary * parameters = [client commonParameters];
-        
-        [parameters addEntriesFromDictionary:nsDic];
-        
-        NSString *token = [HXPublicParamTool sharedInstance].accessToken;
-        
-        [client POST:actionUrlStr parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
-            if(dictionary)
-            {
-                success(dictionary);
-            }else
-            {
-                failure(nil);
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
-            if (response.statusCode == 401) {
-                failure(nil);
-                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
-                }];
-            }else{
-                failure(error);
-            }
-        }];
-    }
+        }
+    }];
 }
 
 /// 公共请求参数
@@ -223,31 +141,6 @@
     [parameters setObject:personId forKey:@"personId"];
     
     return parameters;
-}
-
-- (BOOL)ifTokenExp {
-    
-    static NSTimeInterval tokenExpDate = 0;
-    
-    if (tokenExpDate==0) {
-        NSString *token = [HXPublicParamTool sharedInstance].accessToken;
-        if (!token) {
-            return YES;
-        }
-        NSArray *segments = [token componentsSeparatedByString:@"."];
-        NSString *base64String = [segments objectAtIndex:1];
-        
-        NSData *decodeData = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:decodeData options:0 error:nil];
-        tokenExpDate = [[jsonDict objectForKey:@"exp"] doubleValue];
-    }
-    
-    if ((tokenExpDate - [[NSDate date] timeIntervalSince1970]) > 10) {
-        return NO;
-    }
-    
-    tokenExpDate = 0;
-    return YES;
 }
 
 @end

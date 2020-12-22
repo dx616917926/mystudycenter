@@ -81,6 +81,8 @@
 
     [self.rootArray addObjectsFromArray:@[myCourseNav,liveNav,homeNav]];
     [self setViewControllers:self.rootArray];
+    
+    [self.tabBar setTintColor:kNavigationBarColor];
 }
 /*
 #pragma mark - Navigation
