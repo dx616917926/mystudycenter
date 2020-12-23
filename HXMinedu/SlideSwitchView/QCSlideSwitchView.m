@@ -23,18 +23,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
 
 - (void)initValues
 {
-    //创建顶部可滑动的tab
-    _topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, kHeightOfTopScrollView)];
-    _topScrollView.delegate = self;
-    _topScrollView.scrollsToTop = NO;
-    _topScrollView.backgroundColor = [UIColor clearColor];
-    _topScrollView.pagingEnabled = NO;
-    _topScrollView.showsHorizontalScrollIndicator = NO;
-    _topScrollView.showsVerticalScrollIndicator = NO;
-    _topScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self addSubview:_topScrollView];
-    _userSelectedChannelID = 100;
-    
     //创建主滚动视图
     _rootScrollView = [[QCScrollView alloc] initWithFrame:CGRectMake(0, kHeightOfTopScrollView, self.bounds.size.width, self.bounds.size.height - kHeightOfTopScrollView)];
     _rootScrollView.delegate = self;
@@ -48,6 +36,18 @@ static const NSUInteger kTagOfRightSideButton = 999;
     _userContentOffsetX = 0;
     [_rootScrollView.panGestureRecognizer addTarget:self action:@selector(scrollHandlePan:)];
     [self addSubview:_rootScrollView];
+    
+    //创建顶部可滑动的tab
+    _topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, kHeightOfTopScrollView)];
+    _topScrollView.delegate = self;
+    _topScrollView.scrollsToTop = NO;
+    _topScrollView.backgroundColor = [UIColor clearColor];
+    _topScrollView.pagingEnabled = NO;
+    _topScrollView.showsHorizontalScrollIndicator = NO;
+    _topScrollView.showsVerticalScrollIndicator = NO;
+    _topScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self addSubview:_topScrollView];
+    _userSelectedChannelID = 100;
     
     _viewArray = [[NSMutableArray alloc] init];
     

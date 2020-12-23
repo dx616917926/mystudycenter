@@ -64,7 +64,7 @@
         self.mTableView.dataSource = self;
         self.mTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.mTableView.cellLayoutMarginsFollowReadableWidth = NO;
-        self.mTableView.backgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.96 alpha:1.00];
+        self.mTableView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1.00];
         if (@available(iOS 11.0, *)) {
             self.mTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
@@ -275,6 +275,7 @@
 - (void)didClickStudyButtonInCell:(HXCourseListTableViewCell *)cell
 {
     HXClassDetailViewController *detailVC = [[HXClassDetailViewController alloc] init];
+    detailVC.courseModel = cell.model;
     detailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
