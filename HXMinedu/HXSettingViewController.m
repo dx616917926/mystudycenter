@@ -184,10 +184,13 @@
 {
     UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定退出此账号？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        //注销登录
-        [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
-        [self.tabBarController setSelectedIndex:0];  //默认选中在线学习模块
-        [self.navigationController popViewControllerAnimated:NO];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //注销登录
+            [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+            [self.tabBarController setSelectedIndex:0];  //默认选中在线学习模块
+            [self.navigationController popViewControllerAnimated:NO];
+        });
     }];
     UIAlertAction *confirmAction2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
     }];

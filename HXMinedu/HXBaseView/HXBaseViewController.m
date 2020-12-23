@@ -29,6 +29,10 @@
     return self;
 }
 
+- (BOOL)isLogin{
+    return [HXPublicParamTool sharedInstance].isLogin;
+}
+
 - (void)dealloc {
     
 }

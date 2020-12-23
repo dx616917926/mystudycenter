@@ -6,6 +6,7 @@
 //
 
 #import "HXCourseListTableViewCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation HXCourseListTableViewCell
 
@@ -44,6 +45,7 @@
     
     self.mTitleLabel.text = model.courseName;
     
+    [self.mImageView sd_setImageWithURL:[NSURL URLWithString:[model.imageURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]] placeholderImage:[UIImage imageNamed:@"course_default"]];
 }
 
 - (IBAction)startStudyButtonAction:(id)sender {

@@ -86,7 +86,79 @@
     }
 }
 
+-(void)setRequestFiledView
+{
+    if (self.courseListArray.count == 0) {
+        //设置空白界面
+        UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 400)];
+        
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((blankBg.width-190)/2, blankBg.height - 290, 190, 190)];
+        [iconView setImage:[UIImage imageNamed:@"network_error_icon"]];
+        [blankBg addSubview:iconView];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((blankBg.width-230)/2, iconView.bottom, 230, 30)];
+        label.text = @"网络不给力，请点击重新加载~";
+        label.font = [UIFont systemFontOfSize:15];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor colorWithRed:0.662 green:0.662 blue:0.662 alpha:1.0];
+        [blankBg addSubview:label];
+        
+        UIButton *retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        retryButton.frame = CGRectMake((blankBg.width-160)/2, blankBg.height - 50, 160, 40);
+        [retryButton setTitle:@"重新加载" forState:UIControlStateNormal];
+        [retryButton.titleLabel setFont:[UIFont systemFontOfSize:19]];
+        [retryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [retryButton addTarget:self.mTableView.mj_header action:@selector(beginRefreshing) forControlEvents:UIControlEventTouchUpInside];
+        retryButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
+        retryButton.layer.cornerRadius = 20;
+        retryButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
+        retryButton.layer.shadowOffset = CGSizeMake(0,0);
+        retryButton.layer.shadowOpacity = 1;
+        retryButton.layer.shadowRadius = 4;
+        [blankBg addSubview:retryButton];
+        
+        [self.mTableView setTableHeaderView:blankBg];
+    }else
+    {
+        UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
+        view.backgroundColor = [UIColor clearColor];
+        self.mTableView.tableHeaderView = view;
+    }
+}
+
+-(void)setTableHeaderView
+{
+    if (self.courseListArray.count == 0) {
+        //设置空白界面
+        UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 400)];
+        UIImageView *logoImg = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-300)/2, 30, 320, 300)];
+        logoImg.image = [UIImage imageNamed:@"course_no"];
+        [blankBg addSubview:logoImg];
+        UILabel *warnMsg = [[UILabel alloc]initWithFrame:CGRectMake(30, logoImg.bottom, kScreenWidth-60, 80)];
+        warnMsg.numberOfLines = 2;
+        warnMsg.text = @"暂无课程~";
+        warnMsg.textColor = [UIColor colorWithWhite:0.5 alpha:1.000];
+        warnMsg.font = [UIFont systemFontOfSize:16];
+        warnMsg.textAlignment = NSTextAlignmentCenter;
+        [blankBg addSubview:warnMsg];
+        [self.mTableView setTableHeaderView:blankBg];
+    }else
+    {
+        UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
+        view.backgroundColor = [UIColor clearColor];
+        self.mTableView.tableHeaderView = view;
+    }
+}
+
 - (void)loadNewData {
+    
+    if (!self.isLogin) {
+        
+        [self.view showErrorWithMessage:@"请先登录！"];
+        //结束刷新状态
+        [self.mTableView.mj_header endRefreshing];
+        return;
+    }
     
     [self requestMajorList];
     [self requestCourseList];
@@ -106,17 +178,15 @@
         {
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
-        //结束刷新状态
-        [self.mTableView.mj_header endRefreshing];
         
     } failure:^(NSError * _Nonnull error) {
         
+        [self.majorMenuView reloadData];
         
         //结束刷新状态
         [self.mTableView.mj_header endRefreshing];
     }];
 }
-
 
 - (void)requestCourseList {
     
@@ -127,9 +197,13 @@
             
             self.courseListArray = [HXCourseModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             
+            [self setTableHeaderView];
+            
             [self.mTableView reloadData];
         }else
         {
+            [self setRequestFiledView];
+            
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
         //结束刷新状态
@@ -137,12 +211,11 @@
         
     } failure:^(NSError * _Nonnull error) {
         
-        
+        [self setRequestFiledView];
         //结束刷新状态
         [self.mTableView.mj_header endRefreshing];
     }];
 }
-
 
 #pragma mark - 表视图代理
 
@@ -158,7 +231,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 140;
+    return 135;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

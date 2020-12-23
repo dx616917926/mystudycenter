@@ -111,7 +111,7 @@
     [liveButton setTitle:@"重新加载" forState:UIControlStateNormal];
     [liveButton.titleLabel setFont:[UIFont systemFontOfSize:19]];
     [liveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [liveButton addTarget:self action:@selector(loadNewData) forControlEvents:UIControlEventTouchUpInside];
+    [liveButton addTarget:self.mScrollView.mj_header action:@selector(beginRefreshing) forControlEvents:UIControlEventTouchUpInside];
     liveButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
     liveButton.layer.cornerRadius = 20;
     liveButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
@@ -160,7 +160,6 @@
             {
                 [self createNoneContentView];
             }
-            
         }else
         {
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
