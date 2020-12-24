@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXPOST_COURSELIST  @"/MD/StuCourse/getCourseList"//课程列表
 #define HXPOST_MAJORLIST   @"/MD/StuInfo/geMajorList"    //获取学生专业
 
+#define HXPOST_CWSLIST     @""
+
 
 #define HXGET_FINDPASS    @"/api/v1/findPass"            //找回密码得到邮箱地址
 #define HXGET_SENDEMAIL   @"/api/v1/sendEmail"           //发送邮件

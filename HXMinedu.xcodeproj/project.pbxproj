@@ -14,6 +14,8 @@
 		04060A40255548FF00133FB3 /* CustomIOSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */; };
 		040B03B02554EA2800E977E2 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03AF2554EA2800E977E2 /* HXSettingViewController.m */; };
 		040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */; };
+		04492FCE25943BFE00BA722A /* HXCoursewareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04492FCC25943BFE00BA722A /* HXCoursewareCell.m */; };
+		04492FCF25943BFE00BA722A /* HXCoursewareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04492FCD25943BFE00BA722A /* HXCoursewareCell.xib */; };
 		0449A314254BFE92001A28D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A313254BFE92001A28D5 /* AppDelegate.m */; };
 		0449A31D254BFE92001A28D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0449A31B254BFE92001A28D5 /* Main.storyboard */; };
 		0449A31F254BFE95001A28D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0449A31E254BFE95001A28D5 /* Assets.xcassets */; };
@@ -236,6 +238,9 @@
 		040B03AF2554EA2800E977E2 /* HXSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
 		040B03B425552C7400E977E2 /* HXCheckUpdateTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCheckUpdateTool.h; sourceTree = "<group>"; };
 		040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCheckUpdateTool.m; sourceTree = "<group>"; };
+		04492FCB25943BFE00BA722A /* HXCoursewareCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCoursewareCell.h; sourceTree = "<group>"; };
+		04492FCC25943BFE00BA722A /* HXCoursewareCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCoursewareCell.m; sourceTree = "<group>"; };
+		04492FCD25943BFE00BA722A /* HXCoursewareCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXCoursewareCell.xib; sourceTree = "<group>"; };
 		0449A30F254BFE92001A28D5 /* HXMinedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HXMinedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0449A312254BFE92001A28D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0449A313254BFE92001A28D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -679,6 +684,16 @@
 				040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */,
 			);
 			path = HXCheckUpdateTool;
+			sourceTree = "<group>";
+		};
+		04492FCA25943BC800BA722A /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				04492FCB25943BFE00BA722A /* HXCoursewareCell.h */,
+				04492FCC25943BFE00BA722A /* HXCoursewareCell.m */,
+				04492FCD25943BFE00BA722A /* HXCoursewareCell.xib */,
+			);
+			name = cell;
 			sourceTree = "<group>";
 		};
 		0449A306254BFE92001A28D5 = {
@@ -1454,6 +1469,7 @@
 		04936D4725931DBE0000ED74 /* 看课 */ = {
 			isa = PBXGroup;
 			children = (
+				04492FCA25943BC800BA722A /* cell */,
 				04936D48259324710000ED74 /* HXCwsModuleViewController.h */,
 				04936D49259324710000ED74 /* HXCwsModuleViewController.m */,
 			);
@@ -1753,6 +1769,7 @@
 				0449A51D254C11F6001A28D5 /* painter_text@2x.png in Resources */,
 				0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */,
 				0449A50C254C11F6001A28D5 /* painter_line@2x.png in Resources */,
+				04492FCF25943BFE00BA722A /* HXCoursewareCell.xib in Resources */,
 				0449A547254C11F6001A28D5 /* but_audio_play.png in Resources */,
 				0449A549254C11F6001A28D5 /* light_green@2x.png in Resources */,
 				04D793C3254FA5D200BCB358 /* statics.bundle in Resources */,
@@ -1988,6 +2005,7 @@
 				0449A4BB254C11F6001A28D5 /* DOUAudioAnalyzer+Default.m in Sources */,
 				0449A4D1254C11F6001A28D5 /* MJPropertyKey.m in Sources */,
 				04060A40255548FF00133FB3 /* CustomIOSAlertView.m in Sources */,
+				04492FCE25943BFE00BA722A /* HXCoursewareCell.m in Sources */,
 				0449A4D4254C11F6001A28D5 /* QCSlideSwitchView.m in Sources */,
 				04CE28922591A5EC00FFF7CB /* HXClassDetailViewController.m in Sources */,
 				0449A500254C11F6001A28D5 /* TXLectureViewController.m in Sources */,
