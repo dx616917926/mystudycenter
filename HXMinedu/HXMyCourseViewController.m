@@ -64,7 +64,7 @@
         self.mTableView.dataSource = self;
         self.mTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.mTableView.cellLayoutMarginsFollowReadableWidth = NO;
-        self.mTableView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1.00];
+        self.mTableView.backgroundColor = kTableViewBackgroundColor;
         if (@available(iOS 11.0, *)) {
             self.mTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }

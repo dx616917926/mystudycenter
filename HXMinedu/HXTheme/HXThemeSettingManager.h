@@ -46,6 +46,7 @@
 #define kControllerViewBackgroundColor kThemeSetting.controllerViewBackgroundColor  //普通Controller的view背景色
 #define kImageViewAlpahForCurrentTheme kThemeSetting.imageViewAlphaForCurrentTheme  //普通imageView的透明度
 #define kProductGroupBorderColor       kThemeSetting.productGroupBorderColor        //首页产品分组的竖线颜色
+#define kTableViewBackgroundColor      kThemeSetting.tableViewBackgroundColor       //table背景色
 
 static NSString * const kThemeDidChangeNotification = @"ThemeDidChangeNotification";
 
@@ -101,8 +102,8 @@ typedef NS_ENUM(NSInteger, HXTheme) {
 @property (nonatomic, copy) UIColor *textLableColor;
 @property (nonatomic, copy) UIColor *controllerViewBackgroundColor;
 @property (nonatomic, copy) UIColor *cellHighlightedColor;
-
 @property (nonatomic, copy) UIColor *productGroupBorderColor;
+@property (nonatomic, copy) UIColor *tableViewBackgroundColor;
 
 //alpha
 @property (nonatomic, assign) CGFloat imageViewAlphaForCurrentTheme;

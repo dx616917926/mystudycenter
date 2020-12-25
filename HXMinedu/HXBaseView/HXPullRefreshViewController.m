@@ -43,7 +43,7 @@
 - (void)configureTableView {
     
     self.tableView                 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kTabBarHeight+1)];
-    self.tableView.backgroundColor = kControllerViewBackgroundColor;
+    self.tableView.backgroundColor = kTableViewBackgroundColor;
     self.tableView.separatorStyle  = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.delegate        = self;
     self.tableView.dataSource      = self;

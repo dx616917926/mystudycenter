@@ -107,6 +107,7 @@ static NSString *const kNavigationBarHidden   = @"NavigationBarHidden";
         self.controllerViewBackgroundColor = [UIColor whiteColor];
         self.cellHighlightedColor = [UIColor colorWithRed:0.102 green:0.608 blue:0.984 alpha:0.3];
         self.productGroupBorderColor = [UIColor colorWithRed:0.000 green:0.478 blue:1.000 alpha:1.000];
+        self.tableViewBackgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.00];
         
         self.statusBarStyle = UIStatusBarStyleLightContent;
     
@@ -130,6 +131,7 @@ static NSString *const kNavigationBarHidden   = @"NavigationBarHidden";
         self.controllerViewBackgroundColor = [UIColor whiteColor];
         self.cellHighlightedColor = [UIColor colorWithRed:0.200 green:0.200 blue:0.200 alpha:1.000];
         self.productGroupBorderColor = [UIColor colorWithWhite:0.000 alpha:0.980];
+        self.tableViewBackgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.00];
         
         self.statusBarStyle = UIStatusBarStyleLightContent;
 
@@ -153,6 +155,7 @@ static NSString *const kNavigationBarHidden   = @"NavigationBarHidden";
         self.controllerViewBackgroundColor = [UIColor whiteColor];
         self.cellHighlightedColor = [UIColor colorWithRed:0.902 green:0.200 blue:0.216 alpha:0.2];
         self.productGroupBorderColor = [UIColor colorWithRed:0.902 green:0.200 blue:0.216 alpha:1.000];
+        self.tableViewBackgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.00];
         
         self.statusBarStyle = UIStatusBarStyleLightContent;
         
@@ -176,6 +179,7 @@ static NSString *const kNavigationBarHidden   = @"NavigationBarHidden";
         self.controllerViewBackgroundColor = [UIColor whiteColor];
         self.cellHighlightedColor = [UIColor colorWithRed:0.859 green:0.859 blue:0.859 alpha:0.600];
         self.productGroupBorderColor = [UIColor colorWithWhite:1.00 alpha:0.980];
+        self.tableViewBackgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.00];
         
         self.statusBarStyle = UIStatusBarStyleDefault;
         
@@ -199,6 +203,7 @@ static NSString *const kNavigationBarHidden   = @"NavigationBarHidden";
         self.controllerViewBackgroundColor = [UIColor whiteColor];
         self.cellHighlightedColor = [UIColor colorWithRed:0.239 green:0.686 blue:0.365 alpha:0.2];
         self.productGroupBorderColor =[UIColor colorWithRed:0.239 green:0.686 blue:0.365 alpha:1.000];
+        self.tableViewBackgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.00];
         
         self.statusBarStyle = UIStatusBarStyleLightContent;
     }

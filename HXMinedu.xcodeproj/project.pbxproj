@@ -190,6 +190,8 @@
 		0459C716258B02E2000555D4 /* HXLoginContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0459C715258B02E2000555D4 /* HXLoginContentView.xib */; };
 		0459C72D258B51E1000555D4 /* launch_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72B258B51E1000555D4 /* launch_logo@3x.png */; };
 		0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72C258B51E1000555D4 /* launch_logo@2x.png */; };
+		046CD599259477AF0097B18D /* HXExamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 046CD597259477AF0097B18D /* HXExamCell.m */; };
+		046CD59A259477AF0097B18D /* HXExamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 046CD598259477AF0097B18D /* HXExamCell.xib */; };
 		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
 		0485164D2589D7F70071F7C8 /* IntroViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */; };
 		048516532589E16B0071F7C8 /* HXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 048516522589E16B0071F7C8 /* HXPageControl.m */; };
@@ -564,6 +566,9 @@
 		0459C715258B02E2000555D4 /* HXLoginContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXLoginContentView.xib; sourceTree = "<group>"; };
 		0459C72B258B51E1000555D4 /* launch_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@3x.png"; sourceTree = "<group>"; };
 		0459C72C258B51E1000555D4 /* launch_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@2x.png"; sourceTree = "<group>"; };
+		046CD596259477AF0097B18D /* HXExamCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamCell.h; sourceTree = "<group>"; };
+		046CD597259477AF0097B18D /* HXExamCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamCell.m; sourceTree = "<group>"; };
+		046CD598259477AF0097B18D /* HXExamCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXExamCell.xib; sourceTree = "<group>"; };
 		047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewCell.h; sourceTree = "<group>"; };
 		047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewCell.m; sourceTree = "<group>"; };
 		0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IntroViewAssets.xcassets; sourceTree = "<group>"; };
@@ -1067,12 +1072,12 @@
 		0449A407254C11F5001A28D5 /* TXMoviePlayerController */ = {
 			isa = PBXGroup;
 			children = (
-				0449A408254C11F5001A28D5 /* TXDownload */,
-				0449A411254C11F5001A28D5 /* TXMoviePlayerController.h */,
-				0449A412254C11F5001A28D5 /* TXMoviePlayer.xcassets */,
-				0449A413254C11F5001A28D5 /* TXLecture */,
-				0449A416254C11F5001A28D5 /* TXMoviePlayerController.m */,
 				0449A417254C11F5001A28D5 /* TXCatalogList */,
+				0449A408254C11F5001A28D5 /* TXDownload */,
+				0449A413254C11F5001A28D5 /* TXLecture */,
+				0449A412254C11F5001A28D5 /* TXMoviePlayer.xcassets */,
+				0449A411254C11F5001A28D5 /* TXMoviePlayerController.h */,
+				0449A416254C11F5001A28D5 /* TXMoviePlayerController.m */,
 			);
 			path = TXMoviePlayerController;
 			sourceTree = "<group>";
@@ -1448,6 +1453,16 @@
 			name = view;
 			sourceTree = "<group>";
 		};
+		046CD58E259477450097B18D /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				046CD596259477AF0097B18D /* HXExamCell.h */,
+				046CD597259477AF0097B18D /* HXExamCell.m */,
+				046CD598259477AF0097B18D /* HXExamCell.xib */,
+			);
+			name = cell;
+			sourceTree = "<group>";
+		};
 		047E12B52559238F0000F8C8 /* cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1479,6 +1494,7 @@
 		04936D4D259324820000ED74 /* 考试 */ = {
 			isa = PBXGroup;
 			children = (
+				046CD58E259477450097B18D /* cell */,
 				04936D4E259325EC0000ED74 /* HXExamModuleViewController.h */,
 				04936D4F259325EC0000ED74 /* HXExamModuleViewController.m */,
 			);
@@ -1747,6 +1763,7 @@
 				0449A522254C11F6001A28D5 /* painter_pen@2x.png in Resources */,
 				0449A51F254C11F6001A28D5 /* painter_clear.png in Resources */,
 				0449A516254C11F6001A28D5 /* painter_color@2x.png in Resources */,
+				046CD59A259477AF0097B18D /* HXExamCell.xib in Resources */,
 				04D793A0254FA07700BCB358 /* UMCommonLog.bundle in Resources */,
 				0485164D2589D7F70071F7C8 /* IntroViewAssets.xcassets in Resources */,
 				0449A51B254C11F6001A28D5 /* painter_hand@2x.png in Resources */,
@@ -2001,6 +2018,7 @@
 				0449A4EB254C11F6001A28D5 /* TXCatalog.m in Sources */,
 				0449A52A254C11F6001A28D5 /* BitmapCropManipulator.m in Sources */,
 				0449A4FA254C11F6001A28D5 /* MMMaterialDesignSpinner.m in Sources */,
+				046CD599259477AF0097B18D /* HXExamCell.m in Sources */,
 				0449A4CC254C11F6001A28D5 /* NSObject+MJCoding.m in Sources */,
 				0449A4BB254C11F6001A28D5 /* DOUAudioAnalyzer+Default.m in Sources */,
 				0449A4D1254C11F6001A28D5 /* MJPropertyKey.m in Sources */,

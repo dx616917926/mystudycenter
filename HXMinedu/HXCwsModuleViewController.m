@@ -7,7 +7,6 @@
 
 #import "HXCwsModuleViewController.h"
 #import "HXCoursewareCell.h"
-#import "HXCourseModel.h"
 
 @interface HXCwsModuleViewController ()
 {
@@ -47,7 +46,6 @@
     self.tableView.contentInsetTop = 0;
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-kNavigationBarHeight-44);
     self.tableView.scrollsToTop = NO;
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1.00];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HXCoursewareCell" bundle:nil] forCellReuseIdentifier:@"HXCoursewareCell"];
@@ -61,14 +59,13 @@
 {
     if (_coursewares.count == 0) {
         //设置空白界面
-        UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kNavigationBarHeight-44)];
-        blankBg.backgroundColor  = [UIColor whiteColor];
-        UIImageView *logoImg = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-120)/2, 100, 120, 100)];
-        logoImg.image = [UIImage imageNamed:@"ic_no_events"];
+        UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 400)];
+        UIImageView *logoImg = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-300)/2, 30, 320, 300)];
+        logoImg.image = [UIImage imageNamed:@"course_no"];
         [blankBg addSubview:logoImg];
         UILabel *warnMsg = [[UILabel alloc]initWithFrame:CGRectMake(30, logoImg.bottom, kScreenWidth-60, 80)];
         warnMsg.numberOfLines = 2;
-        warnMsg.text = @"暂无课件！";
+        warnMsg.text = @"暂无视频~";
         warnMsg.textColor = [UIColor colorWithWhite:0.5 alpha:1.000];
         warnMsg.font = [UIFont systemFontOfSize:16];
         warnMsg.textAlignment = NSTextAlignmentCenter;
@@ -84,18 +81,33 @@
 {
     if (_coursewares.count == 0) {
         //设置空白界面
-        UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kNavigationBarHeight-44)];
-        blankBg.backgroundColor  = [UIColor whiteColor];
-        UIImageView *logoImg = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-120)/2, 100, 120, 100)];
-        logoImg.image = [UIImage imageNamed:@"ic_no_events"];
-        [blankBg addSubview:logoImg];
-        UILabel *warnMsg = [[UILabel alloc]initWithFrame:CGRectMake(30, logoImg.bottom, kScreenWidth-60, 80)];
-        warnMsg.numberOfLines = 2;
-        warnMsg.text = @"下拉可以刷新哦~";
-        warnMsg.textColor = [UIColor colorWithWhite:0.5 alpha:1.000];
-        warnMsg.font = [UIFont systemFontOfSize:16];
-        warnMsg.textAlignment = NSTextAlignmentCenter;
-        [blankBg addSubview:warnMsg];
+        UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 400)];
+        
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((blankBg.width-190)/2, blankBg.height - 290, 190, 190)];
+        [iconView setImage:[UIImage imageNamed:@"network_error_icon"]];
+        [blankBg addSubview:iconView];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((blankBg.width-230)/2, iconView.bottom, 230, 30)];
+        label.text = @"网络不给力，请点击重新加载~";
+        label.font = [UIFont systemFontOfSize:15];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor colorWithRed:0.662 green:0.662 blue:0.662 alpha:1.0];
+        [blankBg addSubview:label];
+        
+        UIButton *retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        retryButton.frame = CGRectMake((blankBg.width-160)/2, blankBg.height - 50, 160, 40);
+        [retryButton setTitle:@"重新加载" forState:UIControlStateNormal];
+        [retryButton.titleLabel setFont:[UIFont systemFontOfSize:19]];
+        [retryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [retryButton addTarget:self.tableView.mj_header action:@selector(beginRefreshing) forControlEvents:UIControlEventTouchUpInside];
+        retryButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
+        retryButton.layer.cornerRadius = 20;
+        retryButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
+        retryButton.layer.shadowOffset = CGSizeMake(0,0);
+        retryButton.layer.shadowOpacity = 1;
+        retryButton.layer.shadowRadius = 4;
+        [blankBg addSubview:retryButton];
+        
         [self.tableView setTableHeaderView:blankBg];
     }else
     {
@@ -122,7 +134,7 @@
             [self.coursewares removeAllObjects];
                         
             //设置空白页
-//            [self setTableHeaderView];
+            [self setTableHeaderView];
             
             [self.tableView reloadData];
             
@@ -177,7 +189,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;//self.coursewares.count;
+    return self.coursewares.count;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
