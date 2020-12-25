@@ -34,7 +34,9 @@
 
 - (IBAction)startExamButtonPressed:(id)sender {
     
-    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickStartExamButtonInCell:)]) {
+        [self.delegate didClickStartExamButtonInCell:self];
+    }
 }
 
 

@@ -49,8 +49,16 @@ static NSString *const kNavigationBarHidden   = @"NavigationBarHidden";
             _navigationBarAutoHidden = YES;
         }
         
-        _navigationBarHeight = IS_iPhoneX?(IsIOS14?92:88):64;   //iPhone X高88(iOS 14高92)，其它的高64
-        _statusBarHeight = IS_iPhoneX?(IsIOS14?48:44):20;       //iPhone X高44(iOS 14高48)，其它的高20
+        //改为读取系统statusBarFrame获取高度
+        _statusBarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+        if (_statusBarHeight == 0) {
+            _statusBarHeight = IS_iPhoneX?(IsIOS14?48:44):20;       //iPhone X高44(iOS 14高48)，其它的高20
+        }
+        _navigationBarHeight = _statusBarHeight+44;   //iPhone X高88(iOS 14高92)，其它的高64
+        
+        NSLog(@"statusBarHeight = %f",_statusBarHeight);
+        NSLog(@"navigationBarHeight = %f",_navigationBarHeight);
+        
         _tabBarHeight = IS_iPhoneX?83:49;                       //iPhone X高83，其它的高49
         _screenBottomMargin = IS_iPhoneX?34:0;                  //iPhone X底部边距34，其它的0
         

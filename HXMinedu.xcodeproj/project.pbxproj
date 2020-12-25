@@ -198,6 +198,8 @@
 		04936D4A259324710000ED74 /* HXCwsModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D49259324710000ED74 /* HXCwsModuleViewController.m */; };
 		04936D50259325EC0000ED74 /* HXExamModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D4F259325EC0000ED74 /* HXExamModuleViewController.m */; };
 		04936D552593268E0000ED74 /* HXPullRefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D542593268E0000ED74 /* HXPullRefreshViewController.m */; };
+		04C3A2E825959A27008F32A4 /* HXExamDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2E725959A27008F32A4 /* HXExamDetailViewController.m */; };
+		04C3A2ED2595B433008F32A4 /* HXExamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2EC2595B433008F32A4 /* HXExamModel.m */; };
 		04CB3C0F25906A500042A682 /* HXLiveDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CB3C0E25906A500042A682 /* HXLiveDetailViewController.m */; };
 		04CB3C1425906A960042A682 /* HXLiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CB3C1325906A960042A682 /* HXLiveModel.m */; };
 		04CE28922591A5EC00FFF7CB /* HXClassDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CE28912591A5EC00FFF7CB /* HXClassDetailViewController.m */; };
@@ -580,6 +582,10 @@
 		04936D4F259325EC0000ED74 /* HXExamModuleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamModuleViewController.m; sourceTree = "<group>"; };
 		04936D532593268E0000ED74 /* HXPullRefreshViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPullRefreshViewController.h; sourceTree = "<group>"; };
 		04936D542593268E0000ED74 /* HXPullRefreshViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPullRefreshViewController.m; sourceTree = "<group>"; };
+		04C3A2E625959A27008F32A4 /* HXExamDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamDetailViewController.h; sourceTree = "<group>"; };
+		04C3A2E725959A27008F32A4 /* HXExamDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamDetailViewController.m; sourceTree = "<group>"; };
+		04C3A2EB2595B433008F32A4 /* HXExamModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamModel.h; sourceTree = "<group>"; };
+		04C3A2EC2595B433008F32A4 /* HXExamModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamModel.m; sourceTree = "<group>"; };
 		04CB3C0D25906A500042A682 /* HXLiveDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveDetailViewController.h; sourceTree = "<group>"; };
 		04CB3C0E25906A500042A682 /* HXLiveDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveDetailViewController.m; sourceTree = "<group>"; };
 		04CB3C1225906A960042A682 /* HXLiveModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveModel.h; sourceTree = "<group>"; };
@@ -1497,6 +1503,8 @@
 				046CD58E259477450097B18D /* cell */,
 				04936D4E259325EC0000ED74 /* HXExamModuleViewController.h */,
 				04936D4F259325EC0000ED74 /* HXExamModuleViewController.m */,
+				04C3A2E625959A27008F32A4 /* HXExamDetailViewController.h */,
+				04C3A2E725959A27008F32A4 /* HXExamDetailViewController.m */,
 			);
 			name = "考试";
 			sourceTree = "<group>";
@@ -1510,6 +1518,8 @@
 				04CE28A12591C3A900FFF7CB /* HXCourseModel.m */,
 				04CE28A42591C6DF00FFF7CB /* HXMajorModel.h */,
 				04CE28A52591C6DF00FFF7CB /* HXMajorModel.m */,
+				04C3A2EB2595B433008F32A4 /* HXExamModel.h */,
+				04C3A2EC2595B433008F32A4 /* HXExamModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1970,6 +1980,7 @@
 				0449A532254C11F6001A28D5 /* RSColorPickerState.m in Sources */,
 				047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */,
 				0449A548254C11F6001A28D5 /* HXPublicParamTool.m in Sources */,
+				04C3A2E825959A27008F32A4 /* HXExamDetailViewController.m in Sources */,
 				0449A4E5254C11F6001A28D5 /* TXMedia.m in Sources */,
 				04D793B3254FA5C400BCB358 /* HXQuestionGroup.m in Sources */,
 				0449A314254BFE92001A28D5 /* AppDelegate.m in Sources */,
@@ -1993,6 +2004,7 @@
 				0449A4CA254C11F6001A28D5 /* NSObject+MJKeyValue.m in Sources */,
 				0449A509254C11F6001A28D5 /* HXDBManager.m in Sources */,
 				0449A4CF254C11F6001A28D5 /* NSObject+MJClass.m in Sources */,
+				04C3A2ED2595B433008F32A4 /* HXExamModel.m in Sources */,
 				0449A533254C11F6001A28D5 /* BGRSLoupeLayer.m in Sources */,
 				0449A4F2254C11F6001A28D5 /* AVCVideo.m in Sources */,
 				04936D50259325EC0000ED74 /* HXExamModuleViewController.m in Sources */,

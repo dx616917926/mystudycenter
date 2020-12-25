@@ -7,8 +7,9 @@
 
 #import "HXExamModuleViewController.h"
 #import "HXExamCell.h"
+#import "HXExamDetailViewController.h"
 
-@interface HXExamModuleViewController ()
+@interface HXExamModuleViewController ()<HXExamCellDelegate>
 {
     BOOL needRefresh;      //刷新
 }
@@ -134,7 +135,7 @@
             [self.exams removeAllObjects];
                         
             //设置空白页
-            [self setTableHeaderView];
+//            [self setTableHeaderView];
             
             [self.tableView reloadData];
             
@@ -189,7 +190,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.exams.count;
+    return 4;//self.exams.count;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -210,8 +211,8 @@
 
     HXExamCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HXExamCell" forIndexPath:indexPath];
     cell.selectedBackgroundView = [[UIView alloc] init];
-//    cell.entity = courseware;
-//    cell.delegate = self;
+//    cell.model = courseware;
+    cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -219,10 +220,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+
 }
 
 #pragma - mark HXExamCellDelegate
 
-
+/// 点击了进入考试按钮
+- (void)didClickStartExamButtonInCell:(HXExamCell *)cell
+{
+    HXExamDetailViewController *detailVC = [[HXExamDetailViewController alloc] init];
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
 
 @end
