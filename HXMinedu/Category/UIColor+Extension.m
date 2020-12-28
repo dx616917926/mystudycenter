@@ -65,4 +65,39 @@
     return [UIColor colorWithRed:finalRed green:finalGreen blue:finalBlue alpha:finalAlpha];
 }
 
+/*!
+ * 通过16进制计算颜色
+ */
++ (UIColor *)colorFromHexRGB:(NSString *)inColorString
+{
+    UIColor *result = nil;
+    unsigned int colorCode = 0;
+    unsigned char redByte, greenByte, blueByte;
+    
+    if (nil != inColorString)
+    {
+        NSScanner *scanner = [NSScanner scannerWithString:inColorString];
+        (void) [scanner scanHexInt:&colorCode]; // ignore error
+    }
+    redByte = (unsigned char) (colorCode >> 16);
+    greenByte = (unsigned char) (colorCode >> 8);
+    blueByte = (unsigned char) (colorCode); // masks off high bits
+    result = [UIColor
+              colorWithRed: (float)redByte / 0xff
+              green: (float)greenByte/ 0xff
+              blue: (float)blueByte / 0xff
+              alpha:1.0];
+    return result;
+}
+
+/*!
+ * 随机色
+ */
++ (UIColor *)randomColor {
+    CGFloat red = (arc4random()%255/255.0);
+    CGFloat green = (arc4random()%255/255.0);
+    CGFloat blue = (arc4random()%255/255.0);
+    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+}
+
 @end

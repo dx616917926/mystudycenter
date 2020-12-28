@@ -311,18 +311,18 @@ static const NSUInteger kTagOfRightSideButton = 999;
         sender.selected = YES;
         [UIView animateWithDuration:0.25 animations:^{
             
-            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 0, sender.frame.size.width, _shadowImage.size.height)];
+            [self->_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 0, sender.frame.size.width, self->_shadowImage.size.height)];
             
         } completion:^(BOOL finished) {
             if (finished) {
                 //设置新页出现
-                if (!_isRootScroll) {
-                    [_rootScrollView setContentOffset:CGPointMake((sender.tag - 100)*self.bounds.size.width, 0) animated:YES];
+                if (!self->_isRootScroll) {
+                    [self->_rootScrollView setContentOffset:CGPointMake((sender.tag - 100)*self.bounds.size.width, 0) animated:YES];
                 }
-                _isRootScroll = NO;
+                self->_isRootScroll = NO;
                 
                 if (self.slideSwitchViewDelegate && [self.slideSwitchViewDelegate respondsToSelector:@selector(slideSwitchView:didselectTab:)]) {
-                    [self.slideSwitchViewDelegate slideSwitchView:self didselectTab:_userSelectedChannelID - 100];
+                    [self.slideSwitchViewDelegate slideSwitchView:self didselectTab:self->_userSelectedChannelID - 100];
                 }
             }
         }];
@@ -458,33 +458,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
     if (_rootScrollView) {
         [_rootScrollView removeObserver:self forKeyPath:@"contentOffset"];
     }
-}
-
-#pragma mark - 工具方法
-
-/*!
- * @method 通过16进制计算颜色
- */
-+ (UIColor *)colorFromHexRGB:(NSString *)inColorString
-{
-    UIColor *result = nil;
-    unsigned int colorCode = 0;
-    unsigned char redByte, greenByte, blueByte;
-    
-    if (nil != inColorString)
-    {
-        NSScanner *scanner = [NSScanner scannerWithString:inColorString];
-        (void) [scanner scanHexInt:&colorCode]; // ignore error
-    }
-    redByte = (unsigned char) (colorCode >> 16);
-    greenByte = (unsigned char) (colorCode >> 8);
-    blueByte = (unsigned char) (colorCode); // masks off high bits
-    result = [UIColor
-              colorWithRed: (float)redByte / 0xff
-              green: (float)greenByte/ 0xff
-              blue: (float)blueByte / 0xff
-              alpha:1.0];
-    return result;
 }
 
 @end

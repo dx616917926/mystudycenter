@@ -63,11 +63,6 @@
  */
 - (void)buildUI;
 
-/*!
- * @method 通过16进制计算颜色
- */
-+ (UIColor *)colorFromHexRGB:(NSString *)inColorString;
-
 @end
 
 @protocol QCSlideSwitchViewDelegate <NSObject>

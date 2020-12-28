@@ -54,6 +54,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (UIColor *)colorFromColor:(UIColor *)fromColor toColor:(UIColor *)toColor progress:(CGFloat)progress;
 
+
+/*!
+ * 通过16进制计算颜色
+ */
++ (UIColor *)colorFromHexRGB:(NSString *)inColorString;
+
+/*!
+ * 随机色
+ */
++ (UIColor *)randomColor;
+
 @end
 
 NS_ASSUME_NONNULL_END
