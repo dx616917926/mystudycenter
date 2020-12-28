@@ -198,6 +198,7 @@
 		04936D4A259324710000ED74 /* HXCwsModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D49259324710000ED74 /* HXCwsModuleViewController.m */; };
 		04936D50259325EC0000ED74 /* HXExamModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D4F259325EC0000ED74 /* HXExamModuleViewController.m */; };
 		04936D552593268E0000ED74 /* HXPullRefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D542593268E0000ED74 /* HXPullRefreshViewController.m */; };
+		04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */; };
 		04C3A2E825959A27008F32A4 /* HXExamDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2E725959A27008F32A4 /* HXExamDetailViewController.m */; };
 		04C3A2ED2595B433008F32A4 /* HXExamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2EC2595B433008F32A4 /* HXExamModel.m */; };
 		04C3A2F22595BAE5008F32A4 /* HXExamDetailTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2F12595BAE5008F32A4 /* HXExamDetailTopView.m */; };
@@ -586,6 +587,8 @@
 		04936D4F259325EC0000ED74 /* HXExamModuleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamModuleViewController.m; sourceTree = "<group>"; };
 		04936D532593268E0000ED74 /* HXPullRefreshViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPullRefreshViewController.h; sourceTree = "<group>"; };
 		04936D542593268E0000ED74 /* HXPullRefreshViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPullRefreshViewController.m; sourceTree = "<group>"; };
+		04BA63E32599A2EA00F2C1E8 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
+		04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
 		04C3A2E625959A27008F32A4 /* HXExamDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamDetailViewController.h; sourceTree = "<group>"; };
 		04C3A2E725959A27008F32A4 /* HXExamDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamDetailViewController.m; sourceTree = "<group>"; };
 		04C3A2EB2595B433008F32A4 /* HXExamModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamModel.h; sourceTree = "<group>"; };
@@ -974,6 +977,8 @@
 				0449A3C6254C11F4001A28D5 /* Rotation.h */,
 				0449A3CA254C11F4001A28D5 /* UIImage+Extension.h */,
 				0449A3C5254C11F4001A28D5 /* UIImage+Extension.m */,
+				04BA63E32599A2EA00F2C1E8 /* UIColor+Extension.h */,
+				04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1948,6 +1953,7 @@
 				04D793C0254FA5D200BCB358 /* HXQuestionBtn.m in Sources */,
 				0449A505254C11F6001A28D5 /* TXExamPopView.m in Sources */,
 				0449A52B254C11F6001A28D5 /* BitmapRotationManipulator.m in Sources */,
+				04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */,
 				0449A4E8254C11F6001A28D5 /* TXKnowledgePoint.m in Sources */,
 				0449A4DA254C11F6001A28D5 /* XHImageViewer.m in Sources */,
 				04D793B5254FA5C400BCB358 /* AnswerObject.m in Sources */,

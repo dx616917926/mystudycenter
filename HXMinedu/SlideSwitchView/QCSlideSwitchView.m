@@ -8,8 +8,8 @@
 
 
 #import "QCSlideSwitchView.h"
+#import "UIColor+Extension.h"
 
-static const BOOL bisection = YES;  //根据view大小，平分button
 static const CGFloat kWidthOfButton = 78.0f;
 
 static const CGFloat kHeightOfTopScrollView = 44.0f;
@@ -35,6 +35,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     _rootScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
     _userContentOffsetX = 0;
     [_rootScrollView.panGestureRecognizer addTarget:self action:@selector(scrollHandlePan:)];
+    [_rootScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     [self addSubview:_rootScrollView];
     
     //创建顶部可滑动的tab
@@ -53,6 +54,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     
     _isBuildUI = NO;
     
+    self.bisection = YES;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -118,7 +120,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
         //滚动到选中的视图
         [_rootScrollView setContentOffset:CGPointMake((_userSelectedChannelID - 100)*self.bounds.size.width, 0) animated:NO];
         
-        if (bisection) {
+        if (self.bisection) {
             //顶部tabbar的总长度
             CGFloat widthOfButtonMargin = (self.bounds.size.width - _viewArray.count*kWidthOfButton)/(_viewArray.count +1);
             //每个tab偏移量
@@ -160,10 +162,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
 
 /*!
  * @method 创建子视图UI
- * @abstract
- * @discussion
- * @param
- * @result
  */
 - (void)buildUI
 {
@@ -175,7 +173,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
         [_rootScrollView addSubview:vc.view];
         NSLog(@"%@",[vc.view class]);
     }
-    if (bisection) {
+    if (self.bisection) {
         [self createNameButtonsBisection];
     }else
     {
@@ -196,10 +194,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
 
 /*!
  * @method 初始化顶部tab的各个按钮
- * @abstract
- * @discussion
- * @param
- * @result
  */
 - (void)createNameButtons
 {
@@ -245,10 +239,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
 
 /*!
  * @method 初始化顶部tab的各个按钮,根据view大小平分之
- * @abstract
- * @discussion
- * @param
- * @result
  */
 - (void)createNameButtonsBisection
 {
@@ -294,15 +284,18 @@ static const NSUInteger kTagOfRightSideButton = 999;
 
 /*!
  * @method 选中tab时间
- * @abstract
- * @discussion
- * @param 按钮
- * @result
  */
 - (void)selectNameButton:(UIButton *)sender
 {
     //如果点击的tab文字显示不全，调整滚动视图x坐标使用使tab文字显示全
     [self adjustScrollViewContentX:sender];
+    
+    //重新设置颜色--滑动特别快的时候有用
+    for (int i = 0; i < [_viewArray count]; i++) {
+        UIButton *button = (UIButton *)[_topScrollView viewWithTag:i+100];
+        [button setTitleColor:self.tabItemNormalColor forState:UIControlStateNormal];
+        [button setTitleColor:self.tabItemSelectedColor forState:UIControlStateSelected];
+    }
     
     //如果更换按钮
     if (sender.tag != _userSelectedChannelID) {
@@ -316,7 +309,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
     //按钮选中状态
     if (!sender.selected) {
         sender.selected = YES;
-        
         [UIView animateWithDuration:0.25 animations:^{
             
             [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 0, sender.frame.size.width, _shadowImage.size.height)];
@@ -338,20 +330,16 @@ static const NSUInteger kTagOfRightSideButton = 999;
     }
     //重复点击选中按钮
     else {
-        
+        _isRootScroll = NO;
     }
 }
 
 /*!
  * @method 调整顶部滚动视图x位置
- * @abstract
- * @discussion
- * @param
- * @result
  */
 - (void)adjustScrollViewContentX:(UIButton *)sender
 {
-    if (bisection) {
+    if (self.bisection) {
         return;
     }
     
@@ -421,14 +409,61 @@ static const NSUInteger kTagOfRightSideButton = 999;
     }
 }
 
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"contentOffset"]) {
+        CGPoint contentOffset = [change[NSKeyValueChangeNewKey] CGPointValue];
+        if ((_rootScrollView.isTracking || _rootScrollView.isDecelerating)) {
+            //只处理用户滚动的情况
+            [self contentOffsetOfRootViewDidChanged:contentOffset];
+        }
+//        self.lastContentViewContentOffset = contentOffset;
+    }
+}
+
+- (void)contentOffsetOfRootViewDidChanged:(CGPoint)contentOffset {
+    
+    CGFloat ratio = contentOffset.x/_rootScrollView.bounds.size.width;
+    
+    NSInteger baseIndex = floorf(ratio);  //向下取整
+    
+    CGFloat percent = ratio - baseIndex;
+
+    UIButton *buttonLeft = (UIButton *)[_topScrollView viewWithTag:baseIndex+100];
+    
+    UIButton *buttonRight = (UIButton *)[_topScrollView viewWithTag:baseIndex+101];
+    
+    [_shadowImageView setX:buttonLeft.x + (buttonRight.x-buttonLeft.x)*percent];
+    
+    //按钮颜色
+    if (buttonLeft.selected) {
+        UIColor *leftButtonColor = [UIColor colorFromColor:self.tabItemSelectedColor toColor:self.tabItemNormalColor progress:percent];
+        [buttonLeft setTitleColor:leftButtonColor forState:UIControlStateSelected];
+        
+        UIColor *rightButtonColor = [UIColor colorFromColor:self.tabItemNormalColor toColor:self.tabItemSelectedColor progress:percent];
+        [buttonRight setTitleColor:rightButtonColor forState:UIControlStateNormal];
+    }else
+    {
+        UIColor *rightButtonColor = [UIColor colorFromColor:self.tabItemNormalColor toColor:self.tabItemSelectedColor progress:percent];
+        [buttonRight setTitleColor:rightButtonColor forState:UIControlStateSelected];
+        
+        UIColor *leftButtonColor = [UIColor colorFromColor:self.tabItemSelectedColor toColor:self.tabItemNormalColor progress:percent];
+        [buttonLeft setTitleColor:leftButtonColor forState:UIControlStateNormal];
+    }
+}
+
+- (void)dealloc
+{
+    if (_rootScrollView) {
+        [_rootScrollView removeObserver:self forKeyPath:@"contentOffset"];
+    }
+}
+
 #pragma mark - 工具方法
 
 /*!
  * @method 通过16进制计算颜色
- * @abstract
- * @discussion
- * @param 16机制
- * @result 颜色对象
  */
 + (UIColor *)colorFromHexRGB:(NSString *)inColorString
 {

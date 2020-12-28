@@ -10,6 +10,12 @@
 #import <UIKit/UIKit.h>
 #import "QCScrollView.h"
 
+//
+//  更新记录
+//  v1.0 第一个上线版本
+//  v2.0 适配iOS 14
+//  v3.0 增加title颜色渐变动效
+
 @protocol QCSlideSwitchViewDelegate;
 @interface QCSlideSwitchView : UIView<UIScrollViewDelegate>
 {
@@ -50,22 +56,15 @@
 @property (nonatomic, strong) UIImage *shadowImage;
 @property (nonatomic, strong) NSMutableArray *viewArray;
 @property (nonatomic, strong) IBOutlet UIButton *rigthSideButton;
+@property(nonatomic, assign) BOOL bisection;  //根据view大小，平分button。默认yes。要不然就会从左往右顺序排列
 
 /*!
  * @method 创建子视图UI
- * @abstract
- * @discussion
- * @param
- * @result
  */
 - (void)buildUI;
 
 /*!
  * @method 通过16进制计算颜色
- * @abstract
- * @discussion
- * @param 16机制
- * @result 颜色对象
  */
 + (UIColor *)colorFromHexRGB:(NSString *)inColorString;
 
@@ -77,19 +76,11 @@
 
 /*!
  * @method 顶部tab个数
- * @abstract
- * @discussion
- * @param 本控件
- * @result tab个数
  */
 - (NSUInteger)numberOfTab:(QCSlideSwitchView *)view;
 
 /*!
  * @method 每个tab所属的viewController
- * @abstract
- * @discussion
- * @param tab索引
- * @result viewController
  */
 - (UIViewController *)slideSwitchView:(QCSlideSwitchView *)view viewOfTab:(NSUInteger)number;
 
@@ -97,28 +88,16 @@
 
 /*!
  * @method 滑动左边界时传递手势
- * @abstract
- * @discussion
- * @param   手势
- * @result
  */
 - (void)slideSwitchView:(QCSlideSwitchView *)view panLeftEdge:(UIPanGestureRecognizer*) panParam;
 
 /*!
  * @method 滑动右边界时传递手势
- * @abstract
- * @discussion
- * @param   手势
- * @result
  */
 - (void)slideSwitchView:(QCSlideSwitchView *)view panRightEdge:(UIPanGestureRecognizer*) panParam;
 
 /*!
  * @method 点击tab
- * @abstract
- * @discussion
- * @param tab索引
- * @result
  */
 - (void)slideSwitchView:(QCSlideSwitchView *)view didselectTab:(NSUInteger)number;
 

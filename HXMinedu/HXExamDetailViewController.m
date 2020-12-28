@@ -227,6 +227,8 @@
 {
     HXExamRecordCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HXExamRecordCell"];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
 //    HXCourseModel *model = [self.courseListArray objectAtIndex:indexPath.row];
     
 //    cell.delegate = self;
