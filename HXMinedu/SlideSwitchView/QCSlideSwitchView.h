@@ -14,49 +14,36 @@
 //  更新记录
 //  v1.0 第一个上线版本
 //  v2.0 适配iOS 14
-//  v3.0 增加title颜色渐变动效
+//  v3.0 增加title颜色渐变动效  2020年12月28日
+//  v4.0 完善参数  2020年12月29日
 
 @protocol QCSlideSwitchViewDelegate;
+
 @interface QCSlideSwitchView : UIView<UIScrollViewDelegate>
 {
-    QCScrollView *_rootScrollView;                  //主视图
-    UIScrollView *_topScrollView;                   //顶部页签视图
-    
-    CGFloat _userContentOffsetX;
     BOOL _isLeftScroll;                             //是否左滑动
     BOOL _isRootScroll;                             //是否主视图滑动
-    BOOL _isBuildUI;                                //是否建立了ui
-    
-    NSInteger _userSelectedChannelID;               //点击按钮选择名字ID
-    
-    UIImageView *_shadowImageView;
-    UIImage *_shadowImage;
-    
-    UIColor *_tabItemNormalColor;                   //正常时tab文字颜色
-    UIColor *_tabItemSelectedColor;                 //选中时tab文字颜色
-    UIImage *_tabItemNormalBackgroundImage;         //正常时tab的背景
-    UIImage *_tabItemSelectedBackgroundImage;       //选中时tab的背景
-    NSMutableArray *_viewArray;                     //主视图的子视图数组
-    
-    UIButton *_rigthSideButton;                     //右侧按钮
-    
-    __weak id<QCSlideSwitchViewDelegate> _slideSwitchViewDelegate;
+    BOOL _isBuildUI;                                //是否建立了UI
 }
 
-@property (nonatomic, strong) IBOutlet UIScrollView *rootScrollView;
-@property (nonatomic, strong) IBOutlet UIScrollView *topScrollView;
-@property (nonatomic, assign) CGFloat userContentOffsetX;
-@property (nonatomic, assign) NSInteger userSelectedChannelID;
-@property (nonatomic, assign) NSInteger scrollViewSelectedChannelID;
-@property (nonatomic, weak) IBOutlet id<QCSlideSwitchViewDelegate> slideSwitchViewDelegate;
-@property (nonatomic, strong) UIColor *tabItemNormalColor;
-@property (nonatomic, strong) UIColor *tabItemSelectedColor;
-@property (nonatomic, strong) UIImage *tabItemNormalBackgroundImage;
-@property (nonatomic, strong) UIImage *tabItemSelectedBackgroundImage;
-@property (nonatomic, strong) UIImage *shadowImage;
-@property (nonatomic, strong) NSMutableArray *viewArray;
-@property (nonatomic, strong) IBOutlet UIButton *rigthSideButton;
-@property(nonatomic, assign) BOOL bisection;  //根据view大小，平分button。默认yes。要不然就会从左往右顺序排列
+@property(nonatomic, strong) IBOutlet QCScrollView *rootScrollView;  //主视图
+@property(nonatomic, strong) IBOutlet UIScrollView *topScrollView;   //顶部页签视图
+@property(nonatomic, assign) CGFloat userContentOffsetX;
+@property(nonatomic, assign) NSInteger userSelectedChannelID;        //点击按钮选择名字ID
+@property(nonatomic, assign) NSInteger scrollViewSelectedChannelID;
+@property(nonatomic, weak) IBOutlet id<QCSlideSwitchViewDelegate> slideSwitchViewDelegate;
+@property(nonatomic, strong) UIColor *tabItemNormalColor;            //正常时tab文字颜色
+@property(nonatomic, strong) UIColor *tabItemSelectedColor;          //选中时tab文字颜色
+@property(nonatomic, strong) UIImage *tabItemNormalBackgroundImage;  //正常时tab的背景
+@property(nonatomic, strong) UIImage *tabItemSelectedBackgroundImage;//选中时tab的背景
+@property(nonatomic, strong) UIImageView *shadowImageView;
+@property(nonatomic, strong) UIImage *shadowImage;                  //滑块背景图
+@property(nonatomic, strong) NSMutableArray *viewArray;             //主视图的子视图数组
+@property(nonatomic, strong) IBOutlet UIButton *rigthSideButton;    //右侧按钮
+@property(nonatomic, assign) BOOL bisection;                         //根据view大小平均分布button。默认yes。要不然就会从左往右顺序排列
+@property(nonatomic, assign) CGFloat widthOfButton;                  //button的宽度 默认四个字宽度78像素
+@property(nonatomic, assign) CGFloat widthOfButtonMargin;            //button的默认间距  默认56像素
+@property(nonatomic, assign) CGFloat fontSizeOfTabButton;            //字体大小 默认17号字
 
 /*!
  * @method 创建子视图UI

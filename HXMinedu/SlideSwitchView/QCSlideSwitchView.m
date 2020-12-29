@@ -10,12 +10,8 @@
 #import "QCSlideSwitchView.h"
 #import "UIColor+Extension.h"
 
-static const CGFloat kWidthOfButton = 78.0f;
-
 static const CGFloat kHeightOfTopScrollView = 44.0f;
-static const CGFloat kWidthOfButtonMargin = 56.0f;
-static const CGFloat kFontSizeOfTabButton = 17.0f;
-static const NSUInteger kTagOfRightSideButton = 999;
+static const NSUInteger kTagOfRightSideButton = 9699;
 
 @implementation QCSlideSwitchView
 
@@ -55,6 +51,9 @@ static const NSUInteger kTagOfRightSideButton = 999;
     _isBuildUI = NO;
     
     self.bisection = YES;
+    self.widthOfButton = 78.0f;
+    self.widthOfButtonMargin = 56.0f;
+    self.fontSizeOfTabButton = 17.0f;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -122,33 +121,33 @@ static const NSUInteger kTagOfRightSideButton = 999;
         
         if (self.bisection) {
             //顶部tabbar的总长度
-            CGFloat widthOfButtonMargin = (self.bounds.size.width - _viewArray.count*kWidthOfButton)/(_viewArray.count +1);
+            CGFloat widthOfButtonMargin = (self.bounds.size.width - _viewArray.count*self.widthOfButton)/(_viewArray.count +1);
             //每个tab偏移量
             CGFloat xOffset = widthOfButtonMargin;
             
             for (int i = 0; i < [_viewArray count]; i++) {
                 UIButton *button = (UIButton *)[_topScrollView viewWithTag:i+100];
                 //设置按钮尺寸
-                [button setFrame:CGRectMake(xOffset,0,kWidthOfButton, kHeightOfTopScrollView)];
+                [button setFrame:CGRectMake(xOffset,0,self.widthOfButton, kHeightOfTopScrollView)];
                 //计算下一个tab的x偏移量
-                xOffset += kWidthOfButton + widthOfButtonMargin;
+                xOffset += self.widthOfButton + widthOfButtonMargin;
             }
         }else
         {
             //顶部tabbar的总长度
-            CGFloat topScrollViewContentWidth = kWidthOfButtonMargin;
+            CGFloat topScrollViewContentWidth = self.widthOfButtonMargin;
             //每个tab偏移量
-            CGFloat xOffset = kWidthOfButtonMargin;
+            CGFloat xOffset = self.widthOfButtonMargin;
             
             for (int i = 0; i < [_viewArray count]; i++) {
                 UIButton *button = (UIButton *)[_topScrollView viewWithTag:i+100];
-                CGSize textSize = [button.titleLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:kFontSizeOfTabButton]} context:nil].size;
+                CGSize textSize = [button.titleLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:self.fontSizeOfTabButton]} context:nil].size;
                 //累计每个tab文字的长度
-                topScrollViewContentWidth += kWidthOfButtonMargin+textSize.width;
+                topScrollViewContentWidth += self.widthOfButtonMargin+textSize.width;
                 //设置按钮尺寸
                 [button setFrame:CGRectMake(xOffset,0,textSize.width, kHeightOfTopScrollView)];
                 //计算下一个tab的x偏移量
-                xOffset += textSize.width + kWidthOfButtonMargin;
+                xOffset += textSize.width + self.widthOfButtonMargin;
             }
         }
         
@@ -202,28 +201,28 @@ static const NSUInteger kTagOfRightSideButton = 999;
     [_topScrollView addSubview:_shadowImageView];
     
     //顶部tabbar的总长度
-    CGFloat topScrollViewContentWidth = kWidthOfButtonMargin;
+    CGFloat topScrollViewContentWidth = self.widthOfButtonMargin;
     //每个tab偏移量
-    CGFloat xOffset = kWidthOfButtonMargin;
+    CGFloat xOffset = self.widthOfButtonMargin;
     for (int i = 0; i < [_viewArray count]; i++) {
         UIViewController *vc = _viewArray[i];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        CGSize textSize = [vc.title boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:kFontSizeOfTabButton]} context:nil].size;
+        CGSize textSize = [vc.title boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:self.fontSizeOfTabButton]} context:nil].size;
         //累计每个tab文字的长度
-        topScrollViewContentWidth += kWidthOfButtonMargin+textSize.width;
+        topScrollViewContentWidth += self.widthOfButtonMargin+textSize.width;
         //设置按钮尺寸
         [button setFrame:CGRectMake(xOffset,0,
                                     textSize.width, kHeightOfTopScrollView)];
         //计算下一个tab的x偏移量
-        xOffset += textSize.width + kWidthOfButtonMargin;
+        xOffset += textSize.width + self.widthOfButtonMargin;
         
         [button setTag:i+100];
         if (i == 0) {
-            _shadowImageView.frame = CGRectMake(kWidthOfButtonMargin, 0, textSize.width, _shadowImage.size.height);
+            _shadowImageView.frame = CGRectMake(self.widthOfButtonMargin, 0, textSize.width, _shadowImage.size.height);
             button.selected = YES;
         }
         [button setTitle:vc.title forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:kFontSizeOfTabButton];
+        button.titleLabel.font = [UIFont systemFontOfSize:self.fontSizeOfTabButton];
         [button setTitleColor:self.tabItemNormalColor forState:UIControlStateNormal];
         [button setTitleColor:self.tabItemSelectedColor forState:UIControlStateSelected];
         [button setBackgroundImage:self.tabItemNormalBackgroundImage forState:UIControlStateNormal];
@@ -249,7 +248,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     //顶部tabbar的总长度
     CGFloat topScrollViewContentWidth = self.bounds.size.width;
     
-    CGFloat widthOfButtonMargin = (topScrollViewContentWidth - _viewArray.count*kWidthOfButton)/(_viewArray.count +1);
+    CGFloat widthOfButtonMargin = (topScrollViewContentWidth - _viewArray.count*self.widthOfButton)/(_viewArray.count +1);
     //每个tab偏移量
     CGFloat xOffset = widthOfButtonMargin;
     for (int i = 0; i < [_viewArray count]; i++) {
@@ -257,17 +256,17 @@ static const NSUInteger kTagOfRightSideButton = 999;
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         //设置按钮尺寸
         [button setFrame:CGRectMake(xOffset,0,
-                                    kWidthOfButton, kHeightOfTopScrollView)];
+                                    self.widthOfButton, kHeightOfTopScrollView)];
         //计算下一个tab的x偏移量
-        xOffset += kWidthOfButton + widthOfButtonMargin;
+        xOffset += self.widthOfButton + widthOfButtonMargin;
         
         [button setTag:i+100];
         if (i == 0) {
-            _shadowImageView.frame = CGRectMake(widthOfButtonMargin, 0, kWidthOfButton, _shadowImage.size.height);
+            _shadowImageView.frame = CGRectMake(widthOfButtonMargin, 0, self.widthOfButton, _shadowImage.size.height);
             button.selected = YES;
         }
         [button setTitle:vc.title forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:kFontSizeOfTabButton];
+        button.titleLabel.font = [UIFont systemFontOfSize:self.fontSizeOfTabButton];
         [button setTitleColor:self.tabItemNormalColor forState:UIControlStateNormal];
         [button setTitleColor:self.tabItemSelectedColor forState:UIControlStateSelected];
         [button setBackgroundImage:self.tabItemNormalBackgroundImage forState:UIControlStateNormal];
@@ -344,15 +343,15 @@ static const NSUInteger kTagOfRightSideButton = 999;
     }
     
     //如果 当前显示的最后一个tab文字超出右边界
-    if (sender.frame.origin.x - _topScrollView.contentOffset.x > self.bounds.size.width - (kWidthOfButtonMargin+sender.bounds.size.width)) {
+    if (sender.frame.origin.x - _topScrollView.contentOffset.x > self.bounds.size.width - (self.widthOfButtonMargin+sender.bounds.size.width)) {
         //向左滚动视图，显示完整tab文字
-        [_topScrollView setContentOffset:CGPointMake(sender.frame.origin.x - (_topScrollView.bounds.size.width- (kWidthOfButtonMargin+sender.bounds.size.width)), 0)  animated:YES];
+        [_topScrollView setContentOffset:CGPointMake(sender.frame.origin.x - (_topScrollView.bounds.size.width- (self.widthOfButtonMargin+sender.bounds.size.width)), 0)  animated:YES];
     }
     
     //如果 （tab的文字坐标 - 当前滚动视图左边界所在整个视图的x坐标） < 按钮的隔间 ，代表tab文字已超出边界
-    if (sender.frame.origin.x - _topScrollView.contentOffset.x < kWidthOfButtonMargin) {
+    if (sender.frame.origin.x - _topScrollView.contentOffset.x < self.widthOfButtonMargin) {
         //向右滚动视图（tab文字的x坐标 - 按钮间隔 = 新的滚动视图左边界在整个视图的x坐标），使文字显示完整
-        [_topScrollView setContentOffset:CGPointMake(sender.frame.origin.x - kWidthOfButtonMargin, 0)  animated:YES];
+        [_topScrollView setContentOffset:CGPointMake(sender.frame.origin.x - self.widthOfButtonMargin, 0)  animated:YES];
     }
 }
 
@@ -418,7 +417,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
             //只处理用户滚动的情况
             [self contentOffsetOfRootViewDidChanged:contentOffset];
         }
-//        self.lastContentViewContentOffset = contentOffset;
     }
 }
 
@@ -435,6 +433,10 @@ static const NSUInteger kTagOfRightSideButton = 999;
     UIButton *buttonRight = (UIButton *)[_topScrollView viewWithTag:baseIndex+101];
     
     [_shadowImageView setX:buttonLeft.x + (buttonRight.x-buttonLeft.x)*percent];
+    
+    if (!self.bisection) {
+        [_shadowImageView setWidth:buttonLeft.width - (buttonLeft.width - buttonRight.width)*percent];
+    }
     
     //按钮颜色
     if (buttonLeft.selected) {
