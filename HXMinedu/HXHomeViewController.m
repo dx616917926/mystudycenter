@@ -14,6 +14,7 @@
 @interface HXHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UIImageView *imageBackImageView;
+    CGFloat topViewHegiht;           //顶部视图高度
 }
 @property(nonatomic, strong) UIView *topView;           //顶部视图
 @property(nonatomic, strong) UITableView *mTableView;
@@ -29,14 +30,14 @@
     [self sc_setNavigationBarBackgroundAlpha:0];
     [self setSc_NavigationBarAnimateInvalid:YES];
     
-    [self initTableView];
+    topViewHegiht = MIN(kScreenWidth*0.54, 300);
     
-    [self createTopView];
+    [self initTableView];
 }
 
 - (void)initTableView {
     if (!self.mTableView) {
-        self.mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kTabBarHeight-1) style:UITableViewStylePlain];
+        self.mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kTabBarHeight) style:UITableViewStylePlain];
         self.mTableView.delegate = self;
         self.mTableView.dataSource = self;
         self.mTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -44,6 +45,8 @@
         self.mTableView.backgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.96 alpha:1.00];
         if (@available(iOS 11.0, *)) {
             self.mTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = NO;
         }
         [self.mTableView registerClass:[HXHomeViewCell class] forCellReuseIdentifier:@"HXHomeViewCell"];
         [self.view addSubview:self.mTableView];
@@ -60,23 +63,25 @@
         
         // 设置header
         self.mTableView.mj_header = header;
+        
+        [self createTopView];
     }
 }
 
 // 创建头部视图
 -(void)createTopView
 {
-    self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 268)];
+    self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, topViewHegiht)];
     self.mTableView.tableHeaderView = self.topView;
     
-    imageBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 268)];
-    imageBackImageView.image = [UIImage imageNamed:@"userbg"];
+    imageBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, topViewHegiht)];
+    imageBackImageView.backgroundColor = kNavigationBarColor;
     [self.topView addSubview:imageBackImageView];
     
-    CGFloat height = 268-kStatusBarHeight-44;
+    CGFloat height = topViewHegiht-kStatusBarHeight-38;
     CGFloat width = height/1.3;
     
-    self.faceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(22, kStatusBarHeight+22, width, height)];
+    self.faceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(22, kStatusBarHeight+20, width, height)];
     self.faceImageView.layer.masksToBounds = YES;
     self.faceImageView.layer.cornerRadius = 8;
     self.faceImageView.image = [UIImage imageNamed:@"heade_icon"];
@@ -90,6 +95,8 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         //结束刷新状态
         [weakSelf.mTableView.mj_header endRefreshing];
+        
+        [self.mTableView bringSubviewToFront:self.mTableView.mj_header];
     });
     
 }
@@ -126,17 +133,17 @@
     
     if (indexPath.section == 0) {
 
-        cell.imageView.image = [UIImage imageNamed:@"userinfo_icon"];
+        cell.imageView.image = [UIImage imageNamed:@"set_icon_user"];
         cell.textLabel.text = @"个人信息";
     }else
     {
         switch (indexPath.row) {
             case 0:
-                cell.imageView.image = [UIImage imageNamed:@"set_icon"];
+                cell.imageView.image = [UIImage imageNamed:@"set_icon_pwd"];
                 cell.textLabel.text = @"修改密码";
                 break;
             case 1:
-                cell.imageView.image = [UIImage imageNamed:@"set_icon"];
+                cell.imageView.image = [UIImage imageNamed:@"set_icon_message"];
                 cell.textLabel.text = @"我的消息";
                 break;
             case 2:
@@ -192,15 +199,15 @@
     
     CGFloat contentOffset = scrollView.contentOffsetY + scrollView.contentInsetTop;
     
-    imageBackImageView.height = 268 - MIN(scrollView.contentOffsetY, 0);
+    imageBackImageView.height = topViewHegiht - MIN(scrollView.contentOffsetY, 0);
     imageBackImageView.y = MIN(scrollView.contentOffsetY, 0);
     
-    if (contentOffset >= 268 - kStatusBarHeight) {
+    if (contentOffset >= topViewHegiht - kStatusBarHeight) {
         [self sc_setNavigationBarBackgroundAlpha:1];
         [self setSc_NavigationBarAnimateInvalid:NO];
         return;
     }
-    if (contentOffset < 268 - kStatusBarHeight) {
+    if (contentOffset < topViewHegiht - kStatusBarHeight) {
         [self sc_setNavigationBarBackgroundAlpha:0];
         [self setSc_NavigationBarAnimateInvalid:YES];
         [self sc_setNavigationBarHidden:YES animated:YES];
