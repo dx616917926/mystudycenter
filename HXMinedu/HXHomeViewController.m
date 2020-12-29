@@ -15,6 +15,7 @@
 {
     UIImageView *imageBackImageView;
     CGFloat topViewHegiht;           //顶部视图高度
+    NSInteger messageCount;          //未读消息数量
 }
 @property(nonatomic, strong) UIView *topView;           //顶部视图
 @property(nonatomic, strong) UITableView *mTableView;
@@ -31,6 +32,7 @@
     [self setSc_NavigationBarAnimateInvalid:YES];
     
     topViewHegiht = MIN(kScreenWidth*0.54, 300);
+    messageCount = 0;
     
     [self initTableView];
 }
@@ -91,6 +93,8 @@
 
 - (void)loadNewData {
     
+    [self requestMessageCount];
+    
     __weak __typeof(self)weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         //结束刷新状态
@@ -99,6 +103,28 @@
         [self.mTableView bringSubviewToFront:self.mTableView.mj_header];
     });
     
+}
+
+//请求未读消息数量
+- (void)requestMessageCount {
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_COUNT withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            
+            NSDictionary *data = [dictionary objectForKey:@"Data"];
+            self->messageCount = [[data stringValueForKey:@"WDCount"] integerValue];
+        }else
+        {
+            self->messageCount = 0;
+        }
+        [self.mTableView reloadData];
+        
+    } failure:^(NSError * _Nonnull error) {
+        //do nothing
+        NSLog(@"请求未读消息数量失败！");
+    }];
 }
 
 #pragma mark - 表视图代理
@@ -118,7 +144,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 54;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -130,6 +156,9 @@
     
     cell.backgroundColor = [UIColor clearColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    UIView * numView = [cell.contentView viewWithTag:401];
+    [numView removeFromSuperview];
     
     if (indexPath.section == 0) {
 
@@ -145,6 +174,19 @@
             case 1:
                 cell.imageView.image = [UIImage imageNamed:@"set_icon_message"];
                 cell.textLabel.text = @"我的消息";
+                
+                if (messageCount!=0) {
+                    UIView * countView = [self circleViewWithCount:messageCount];
+                    countView.tag = 401;
+                    [cell.contentView addSubview:countView];
+                    
+                    [countView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.right.offset(-4);
+                        make.centerY.offset(0);
+                        make.height.mas_equalTo(22);
+                        make.width.mas_greaterThanOrEqualTo(22);
+                    }];
+                }
                 break;
             case 2:
                 cell.imageView.image = [UIImage imageNamed:@"set_icon"];
@@ -217,6 +259,32 @@
         [self sc_setNavigationBarHidden:YES animated:YES];
         return;
     }
+}
+
+#pragma mark - 圆圈
+
+/**
+ *  创建小圆圈视图
+ *  @param count 数量
+ *  @return view
+ */
+-(UIView *)circleViewWithCount:(NSInteger)count
+{
+    UILabel *countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,0,22,22)];
+    if (count<99) {
+        countLabel.text = [NSString stringWithFormat:@"%ld",(long)count];
+    }else
+    {
+        countLabel.text = @"99+";
+    }
+    countLabel.textAlignment = NSTextAlignmentCenter;
+    countLabel.font = [UIFont systemFontOfSize:13];
+    [countLabel setBackgroundColor:[UIColor redColor]];
+    countLabel.highlightedTextColor = [UIColor whiteColor];
+    countLabel.textColor = [UIColor whiteColor];
+    countLabel.layer.masksToBounds = YES;
+    countLabel.layer.cornerRadius = 11;
+    return countLabel;
 }
 
 /*
