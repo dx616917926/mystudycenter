@@ -8,6 +8,7 @@
 #import "HXHomeViewController.h"
 #import "HXResetViewController.h"
 #import "HXSettingViewController.h"
+#import "HXMessageListController.h"
 #import "HXHomeViewCell.h"
 #import "MJRefresh.h"
 
@@ -231,7 +232,11 @@
             [self.navigationController pushViewController:resetVC animated:YES];
             
         }else if (indexPath.row == 1) {
-
+            //我的消息
+            HXMessageListController *listVC = [[HXMessageListController alloc] init];
+            listVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:listVC animated:YES];
+            
         }else if (indexPath.row == 2) {
             //设置
             HXSettingViewController *setVC = [[HXSettingViewController alloc] init];

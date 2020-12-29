@@ -21,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define HXPOST_CHANGE_PWD  @"/MD/StuInfo/changePassword" //修改密码
 #define HXPOST_MESSAGE_COUNT  @"/MD/MessageInfo/GetMessageWDCount"  //未读消息数量
-
+#define HXPOST_MESSAGE_LIST   @"/MD/MessageInfo/GetMessageList"     //消息列表
+#define HXPOST_MESSAGE_UPDATE @"/MD/MessageInfo/MessageUpdate"      //消息设置已读
 
 #define HXGET_FINDPASS    @"/api/v1/findPass"            //找回密码得到邮箱地址
 #define HXGET_SENDEMAIL   @"/api/v1/sendEmail"           //发送邮件

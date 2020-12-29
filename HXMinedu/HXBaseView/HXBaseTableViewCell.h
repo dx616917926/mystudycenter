@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HXBaseTableViewCell : UITableViewCell
 
+@property(nonatomic,assign)BOOL showCustomSeparator; //默认是NO
+
 @end
 
 NS_ASSUME_NONNULL_END
