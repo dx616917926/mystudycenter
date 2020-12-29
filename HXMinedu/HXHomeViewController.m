@@ -183,14 +183,18 @@
     }else
     {
         if (indexPath.row == 0) {
-            //弹框修改密码
+            //修改密码
+            HXResetViewController *resetVC = [[HXResetViewController alloc] init];
+            resetVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:resetVC animated:YES];
+            
         }else if (indexPath.row == 1) {
 
         }else if (indexPath.row == 2) {
-            
-            HXSettingViewController *resetVC = [[HXSettingViewController alloc] init];
-            resetVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:resetVC animated:YES];
+            //设置
+            HXSettingViewController *setVC = [[HXSettingViewController alloc] init];
+            setVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:setVC animated:YES];
         }
     }
 }

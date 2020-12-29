@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define HXPOST_CWSLIST     @""
 
+#define HXPOST_CHANGE_PWD  @"/MD/StuInfo/changePassword" //修改密码
+
 
 #define HXGET_FINDPASS    @"/api/v1/findPass"            //找回密码得到邮箱地址
 #define HXGET_SENDEMAIL   @"/api/v1/sendEmail"           //发送邮件

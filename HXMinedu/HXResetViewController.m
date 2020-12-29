@@ -41,10 +41,10 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.sc_navigationBar.title = @"重置密码";
+    self.sc_navigationBar.title = @"修改密码";
     self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
     
-    self.cellTitleArray = @[@"旧密码:",@"新密码:",@"确认密码:"];
+    self.cellTitleArray = @[@"旧密码：",@"新密码：",@"确认密码："];
     self.placeholderTitleArray = @[@"请输入旧密码",@"请输入新的密码",@"请再一次输入新密码"];
     
     [self createResetPassWordView];
@@ -112,16 +112,20 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *view = [[UIView alloc] init];
-    CGRect frameRect = CGRectMake(0, 0, kScreenWidth, 60);
+    CGRect frameRect = CGRectMake(0, 0, kScreenWidth, 80);
     view.frame = frameRect;
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setFrame:CGRectMake(15, 30, kScreenWidth-40, 44)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake((kScreenWidth-220)/2, 40, 220, 40);
     [button setTitle:@"确认修改" forState:UIControlStateNormal];
-    [button setBackgroundColor:kNavigationBarColor];
+    [button.titleLabel setFont:[UIFont systemFontOfSize:19]];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.layer.cornerRadius = 22;
-    [button.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [button addTarget:self action:@selector(resetBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    button.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
+    button.layer.cornerRadius = 20;
+    button.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
+    button.layer.shadowOffset = CGSizeMake(0,0);
+    button.layer.shadowOpacity = 1;
+    button.layer.shadowRadius = 4;
     [view addSubview:button];
     return view;
 }
@@ -134,28 +138,20 @@
     if ([self.firstPassWordTextField.text isEqualToString:self.secondPassWordTextField.text] && self.firstPassWordTextField.text.length != 0)
     {
         NSDictionary *parameters = @{
-                                     @"password":self.oldPassWordTextField.text,
-                                     @"repassword":self.firstPassWordTextField.text,
-                                     @"type":@"1"
+                                     @"oldPassword":self.oldPassWordTextField.text,
+                                     @"newPassword":self.firstPassWordTextField.text,
                                      };
 
         [self.view showLoading];
-        
+                
         __weak __typeof(self)weakSelf = self;
-        [HXBaseURLSessionManager postDataWithNSString:[NSString stringWithFormat:@"%@%@",BaseUrl,@""] withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
-            if ([[dictionary objectForKey:@"success"] isEqualToString:@"True"]) {
+        [HXBaseURLSessionManager postDataWithNSString:HXPOST_CHANGE_PWD withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
+            
+            BOOL Success = [dictionary boolValueForKey:@"Success"];
+            if (Success) {
                 
-                NSString *errorMessage = dictionary[@"message"];
-                [weakSelf.view showSuccessWithMessage:errorMessage];
-                
-                NSString *token = [dictionary objectForKey:@"token"];
-                if (token)
-                {
-                    //NSLog(@"token = %@",token);
-//                    [[HXLoginManager defaultManager] setToken:token];
-//                    [[HXLoginManager defaultManager] saveLoginInfoWithToken:token account:[HXLoginManager defaultManager].account];
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:DismissLoginView object:nil userInfo:nil];
-                }
+                NSString *message = [dictionary stringValueForKey:@"Message"];
+                [weakSelf.view showSuccessWithMessage:message];
                 
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [weakSelf.navigationController popToRootViewControllerAnimated:YES];
@@ -163,7 +159,7 @@
 
             }else
             {
-                NSString *errorMessage = dictionary[@"message"];
+                NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
                 [weakSelf.view showTostWithMessage:errorMessage];
             }
         } failure:^(NSError * _Nonnull error) {
