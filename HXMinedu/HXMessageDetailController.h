@@ -6,10 +6,13 @@
 //
 
 #import "HXBaseViewController.h"
+#import "HXMessageObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXMessageDetailController : HXBaseViewController
+
+@property(nonatomic, strong) HXMessageObject *message;
 
 @end
 

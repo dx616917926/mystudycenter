@@ -10,6 +10,10 @@
 
 #define SHOWLOGIN @"HXShowLoginVC"
 
+#define NETWORK_AVAILIABLE ([[AFNetworkReachabilityManager sharedManager] isReachable])
+#define NETWORK_ViaWWAN    ([[AFNetworkReachabilityManager sharedManager] isReachableViaWWAN])
+#define NETWORK_ViaWiFi    ([[AFNetworkReachabilityManager sharedManager] isReachableViaWiFi])
+
 //判断是否是刘海屏
 #define IS_iPhoneX \
 ({BOOL isPhoneX = NO;\

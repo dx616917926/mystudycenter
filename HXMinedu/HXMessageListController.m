@@ -70,6 +70,7 @@
     self.sc_navigationBar.title = @"通知";
     
     if (ifNeedUpdate) {
+        ifNeedUpdate = NO;
         [self loadNewData];
     }
 }
@@ -82,10 +83,10 @@
     __block BOOL hasNoReadMessage = NO;
     [messageArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         HXMessageObject * message = obj;
-//        if (message.statusID) {
+        if ([message.statusID isEqualToString:@"0"]) {
             hasNoReadMessage = YES;
             *stop = YES;
-//        }
+        }
     }];
     
     if (hasNoReadMessage) {
@@ -107,7 +108,7 @@
     
     [self.view showLoading];
     
-    NSDictionary *parameters = @{@"clid":@""};
+    NSDictionary *parameters = @{@"message_id":@""};
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_UPDATE withDictionary:parameters success:^(NSDictionary *dic) {
         NSString *success = [NSString stringWithFormat:@"%@",[dic objectForKey:@"success"]];
@@ -137,35 +138,25 @@
  */
 -(void)rightBarItemAction {
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"全部标记为”已读“？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.tag = 110;
-    [alert show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        if (alertView.tag == 110){
-            //清空消息
-            [self messageUpdate];
-        }
-    }
+    __weak __typeof(self)weakSelf = self;
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"全部标记为“已读”？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        //清空消息
+        [weakSelf messageUpdate];
+    }];
+    UIAlertAction *confirmAction2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alertC addAction:confirmAction2];
+    [alertC addAction:confirmAction];
+    [self presentViewController:alertC animated:YES completion:nil];
 }
 
 -(void)requestProductsListDataWithPage:(int)page
 {
-    if (!self.isLogin) {
-        [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
-        [self setRequestFiledView];
-        //结束刷新状态
-        [self.tableView.mj_header endRefreshing];
-        [self.tableView.mj_footer endRefreshing];
-        return;
-    }
-    
     [self.view showLoading];
     
-    NSDictionary *parameters = @{@"pageindex":[NSString stringWithFormat:@"%d",page],@"pagesize":@"15"};
+    NSDictionary *parameters = @{@"pageIndex":[NSString stringWithFormat:@"%d",page],@"pageSize":@"15"};
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_LIST withDictionary:parameters success:^(NSDictionary *dic) {
         BOOL Success = [dic boolValueForKey:@"Success"];
@@ -174,19 +165,6 @@
             NSArray *data = [dic objectForKey:@"Data"];
             
             NSMutableArray *arr = [HXMessageObject mj_objectArrayWithKeyValuesArray:data];
-            
-            HXMessageObject *obj = [[HXMessageObject alloc] init];
-            obj.MessageTitle = @"精灵盛典文物局放飞文";
-            obj.sendTime = @"2020年12月29日17:20:23";
-            obj.statusID = @"1";
-            
-            HXMessageObject *obj2 = [[HXMessageObject alloc] init];
-            obj2.MessageTitle = @"事件点击司法局色近段时间了未连接";
-            obj2.sendTime = @"2020年12月29日17:20:23";
-            obj2.statusID = @"0";
-            
-            [arr addObject:obj];
-            [arr addObject:obj2];
             
             if (page == 1) {
                 self->messageArr = arr;
@@ -222,13 +200,6 @@
         [self.tableView.mj_footer endRefreshing];
         
     } failure:^(NSError *error) {
-        
-        if (error.code==NSURLErrorNotConnectedToInternet) {
-            [self.view showErrorWithMessage:@"请检查网络!"];
-        }else
-        {
-            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
-        }
         
         [self setRequestFiledView];
         
@@ -348,9 +319,9 @@
     ifNeedUpdate = YES;
     
     //打开通知
-    HXMessageObject * item = [messageArr objectAtIndex:indexPath.row];
-
+    HXMessageObject *message = [messageArr objectAtIndex:indexPath.row];
     HXMessageDetailController * detailVC = [[HXMessageDetailController alloc] init];
+    detailVC.message = message;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
