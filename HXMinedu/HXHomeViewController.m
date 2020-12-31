@@ -159,6 +159,11 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    if (@available(iOS 13, *)) {
+        UIImageView *accessoryImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_icon"]];
+        cell.accessoryView = accessoryImgView;
+    }
+    
     UIView * numView = [cell.contentView viewWithTag:401];
     [numView removeFromSuperview];
     

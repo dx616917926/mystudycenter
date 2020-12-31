@@ -104,6 +104,11 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.detailTextLabel.text = @"";
     
+    if (@available(iOS 13, *)) {
+        UIImageView *accessoryImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_icon"]];
+        cell.accessoryView = accessoryImgView;
+    }
+    
     switch (indexPath.row) {
         case 0:{
             cell.textLabel.text = @"检查更新";

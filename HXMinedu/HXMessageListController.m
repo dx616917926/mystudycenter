@@ -201,6 +201,8 @@
         
     } failure:^(NSError *error) {
         
+        [self.view hideLoading];
+        
         [self setRequestFiledView];
         
         //结束刷新状态
