@@ -107,7 +107,7 @@ NSString * const HXIntroViewDismissNotification = @"HXIntroViewDismissNotificati
     //最后一页
     UIImageView *logoView = [[UIImageView alloc] init];
     logoView.image = [UIImage imageNamed:@"intro_logo"];
-    logoView.frame = CGRectMake(3*scrollView.frame.size.width+(kScreenWidth-175)/2.0, kScreenHeight/2.0-165, 175, 165);
+    logoView.frame = CGRectMake(3*scrollView.frame.size.width+(kScreenWidth-106)/2.0, kScreenHeight/2.0-116, 106, 116);
     [scrollView addSubview:logoView];
     
     UIButton *useButton = [UIButton buttonWithType:UIButtonTypeCustom];

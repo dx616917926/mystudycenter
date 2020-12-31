@@ -60,8 +60,8 @@
         //
         make.centerX.equalTo(self.view);
         make.top.mas_equalTo(@30);
-        make.width.mas_equalTo(@148);
-        make.height.mas_equalTo(@48);
+        make.width.mas_equalTo(@185);
+        make.height.mas_equalTo(@60);
     }];
     
     loginView = [[UINib nibWithNibName:NSStringFromClass([HXLoginContentView class]) bundle:nil] instantiateWithOwner:self options:nil].lastObject;

@@ -190,6 +190,7 @@
 		0459C716258B02E2000555D4 /* HXLoginContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0459C715258B02E2000555D4 /* HXLoginContentView.xib */; };
 		0459C72D258B51E1000555D4 /* launch_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72B258B51E1000555D4 /* launch_logo@3x.png */; };
 		0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72C258B51E1000555D4 /* launch_logo@2x.png */; };
+		045FA186259D67AF00910575 /* HXUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045FA185259D67AF00910575 /* HXUserInfoViewController.m */; };
 		046CD599259477AF0097B18D /* HXExamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 046CD597259477AF0097B18D /* HXExamCell.m */; };
 		046CD59A259477AF0097B18D /* HXExamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 046CD598259477AF0097B18D /* HXExamCell.xib */; };
 		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
@@ -578,6 +579,8 @@
 		0459C715258B02E2000555D4 /* HXLoginContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXLoginContentView.xib; sourceTree = "<group>"; };
 		0459C72B258B51E1000555D4 /* launch_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@3x.png"; sourceTree = "<group>"; };
 		0459C72C258B51E1000555D4 /* launch_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@2x.png"; sourceTree = "<group>"; };
+		045FA184259D67AF00910575 /* HXUserInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXUserInfoViewController.h; sourceTree = "<group>"; };
+		045FA185259D67AF00910575 /* HXUserInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXUserInfoViewController.m; sourceTree = "<group>"; };
 		046CD596259477AF0097B18D /* HXExamCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamCell.h; sourceTree = "<group>"; };
 		046CD597259477AF0097B18D /* HXExamCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamCell.m; sourceTree = "<group>"; };
 		046CD598259477AF0097B18D /* HXExamCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXExamCell.xib; sourceTree = "<group>"; };
@@ -1459,6 +1462,7 @@
 				047E12B52559238F0000F8C8 /* cell */,
 				04D793D7254FFDFD00BCB358 /* HXHomeViewController.h */,
 				04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */,
+				045FA183259D679700910575 /* 个人信息 */,
 				040581A2255147070022A300 /* 修改密码 */,
 				04D5AF3F259B1EE4004F11E8 /* 我的消息 */,
 				040B03A82554E93500E977E2 /* 设置 */,
@@ -1487,6 +1491,15 @@
 				0459C715258B02E2000555D4 /* HXLoginContentView.xib */,
 			);
 			name = view;
+			sourceTree = "<group>";
+		};
+		045FA183259D679700910575 /* 个人信息 */ = {
+			isa = PBXGroup;
+			children = (
+				045FA184259D67AF00910575 /* HXUserInfoViewController.h */,
+				045FA185259D67AF00910575 /* HXUserInfoViewController.m */,
+			);
+			name = "个人信息";
 			sourceTree = "<group>";
 		};
 		046CD58E259477450097B18D /* cell */ = {
@@ -2094,6 +2107,7 @@
 				0449A4D6254C11F6001A28D5 /* HXBaseURLSessionManager.m in Sources */,
 				0449A35A254C1174001A28D5 /* HXNavigationPushAnimation.m in Sources */,
 				0449A4E3254C11F6001A28D5 /* NSString+md5.m in Sources */,
+				045FA186259D67AF00910575 /* HXUserInfoViewController.m in Sources */,
 				0449A53B254C11F6001A28D5 /* HXPainterViewController.m in Sources */,
 				0449A4DF254C11F6001A28D5 /* NSString+Base64.m in Sources */,
 				0449A52C254C11F6001A28D5 /* BitmapScaleManipulator.m in Sources */,
@@ -2281,7 +2295,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.HXMinedu";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2309,7 +2323,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.HXMinedu";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

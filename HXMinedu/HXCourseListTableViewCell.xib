@@ -21,7 +21,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="agw-d2-9dx">
                         <rect key="frame" x="10" y="10" width="300" height="115"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1z2-Af-yDU">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="course_default" translatesAutoresizingMaskIntoConstraints="NO" id="1z2-Af-yDU">
                                 <rect key="frame" x="10" y="10" width="140" height="95"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <constraints>
@@ -79,10 +79,11 @@
                 <outlet property="mTitleLabel" destination="2ef-9o-a7a" id="MNB-M8-meS"/>
                 <outlet property="startStudyButton" destination="aS1-15-1vl" id="LYr-yv-VuB"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="155.02232142857142"/>
+            <point key="canvasLocation" x="132" y="184"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="course_default" width="152" height="88"/>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

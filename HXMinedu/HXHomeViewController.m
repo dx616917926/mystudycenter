@@ -9,6 +9,7 @@
 #import "HXResetViewController.h"
 #import "HXSettingViewController.h"
 #import "HXMessageListController.h"
+#import "HXUserInfoViewController.h"
 #import "HXHomeViewCell.h"
 #import "MJRefresh.h"
 
@@ -222,7 +223,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        
+        //个人信息
+        HXUserInfoViewController *infoVC = [[HXUserInfoViewController alloc] init];
+        infoVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:infoVC animated:YES];
     }else
     {
         if (indexPath.row == 0) {
