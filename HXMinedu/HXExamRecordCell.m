@@ -18,12 +18,38 @@
     self.mBackgroundView.layer.shadowOffset = CGSizeMake(0,0);
     self.mBackgroundView.layer.shadowOpacity = 1;
     self.mBackgroundView.layer.shadowRadius = 4;
+    
+    //
+    [self.mContinueExamButton setTitleColor:kNavigationBarColor forState:UIControlStateNormal];
+    [self.mContinueExamButton setBackgroundColor:[UIColor whiteColor]];
+    self.mContinueExamButton.layer.cornerRadius = 15;
+    self.mContinueExamButton.layer.borderColor = kNavigationBarColor.CGColor;
+    self.mContinueExamButton.layer.borderWidth = 1;
+    
+    //
+    [self.mLookExamButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.mLookExamButton setBackgroundColor:kNavigationBarColor];
+    self.mLookExamButton.layer.cornerRadius = 15;
+    self.mLookExamButton.layer.shadowColor = kNavigationBarColor.CGColor;
+    self.mLookExamButton.layer.shadowOffset = CGSizeMake(0,0);
+    self.mLookExamButton.layer.shadowOpacity = 1;
+    self.mLookExamButton.layer.shadowRadius = 4;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (IBAction)continueExamButtonPressed:(id)sender {
+    
+    [self.delegate didClickContinueExamButtonInCell:self];
+}
+
+- (IBAction)lookExamButtonPressed:(id)sender {
+    
+    [self.delegate didClickLookExamButtonInCell:self];
 }
 
 @end

@@ -10,12 +10,13 @@
 #import "HXExamRecordCell.h"
 #import "MJRefresh.h"
 
-@interface HXExamDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HXExamDetailViewController ()<UITableViewDelegate,UITableViewDataSource,HXExamRecordCellDelegate>
 
 @property(nonatomic, strong) HXExamDetailTopView *topView;
 @property(nonatomic, strong) HXBarButtonItem *leftBarItem;
 @property(nonatomic, strong) UITableView *mTableView;
 @property(nonatomic, strong) NSArray *dataSource;
+@property(nonatomic, strong) UIButton *bottomStartExamButton;
 
 @end
 
@@ -50,6 +51,7 @@
     
     [self initTopView];
     [self initTableView];
+    [self initStartExamButton];
 }
 
 - (void)initTopView {
@@ -73,7 +75,7 @@
 
 - (void)initTableView {
     if (!self.mTableView) {
-        self.mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.topView.bottom+20, kScreenWidth, kScreenHeight-self.topView.bottom - 70) style:UITableViewStylePlain];
+        self.mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.topView.bottom+14, kScreenWidth, self.bottomStartExamButton.y-self.topView.bottom - 24) style:UITableViewStylePlain];
         self.mTableView.delegate = self;
         self.mTableView.dataSource = self;
         self.mTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -100,11 +102,32 @@
     }
 }
 
+- (void)initStartExamButton {
+    [self.view addSubview:self.bottomStartExamButton];
+}
+
+-(UIButton *)bottomStartExamButton
+{
+    if (_bottomStartExamButton == nil) {
+        _bottomStartExamButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        CGFloat bottomMargin = IS_iPhoneX?30:18;
+        CGFloat height = 48;
+        [_bottomStartExamButton setFrame:CGRectMake(self.topView.x, kScreenHeight-height-bottomMargin, self.topView.width, height)];
+        [_bottomStartExamButton setTitle:@"开始考试" forState:UIControlStateNormal];
+        [_bottomStartExamButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_bottomStartExamButton setBackgroundColor:kNavigationBarColor];
+        _bottomStartExamButton.layer.cornerRadius = 24;
+        [_bottomStartExamButton addTarget:self action:@selector(didClickStartExamButton) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return _bottomStartExamButton;
+}
+
 -(void)setRequestFiledView
 {
     if (self.dataSource.count == 0) {
         //设置空白界面
-        UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 400)];
+        UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 300)];
         
         UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((blankBg.width-190)/2, blankBg.height - 290, 190, 190)];
         [iconView setImage:[UIImage imageNamed:@"network_error_icon"]];
@@ -145,12 +168,12 @@
     if (self.dataSource.count == 0) {
         //设置空白界面
         UIView *blankBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 400)];
-        UIImageView *logoImg = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-300)/2, 30, 320, 300)];
+        UIImageView *logoImg = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-300)/2, 0, 320, 300)];
         logoImg.image = [UIImage imageNamed:@"course_no"];
         [blankBg addSubview:logoImg];
-        UILabel *warnMsg = [[UILabel alloc]initWithFrame:CGRectMake(30, logoImg.bottom, kScreenWidth-60, 80)];
+        UILabel *warnMsg = [[UILabel alloc]initWithFrame:CGRectMake(30, logoImg.bottom, kScreenWidth-60, 30)];
         warnMsg.numberOfLines = 2;
-        warnMsg.text = @"暂无课程~";
+        warnMsg.text = @"暂无考试记录~";
         warnMsg.textColor = [UIColor colorWithWhite:0.5 alpha:1.000];
         warnMsg.font = [UIFont systemFontOfSize:16];
         warnMsg.textAlignment = NSTextAlignmentCenter;
@@ -231,7 +254,7 @@
     
 //    HXCourseModel *model = [self.courseListArray objectAtIndex:indexPath.row];
     
-//    cell.delegate = self;
+    cell.delegate = self;
 //    cell.model = model;
     
     return cell;
@@ -260,8 +283,27 @@
     
 }
 
-#pragma mark - HXCourseListTableViewCellDelegate
+#pragma mark -
 
+// 点击了开始考试按钮
+- (void)didClickStartExamButton
+{
+    NSLog(@"点击了开始考试按钮");
+}
+
+#pragma mark - HXExamRecordCellDelegate
+
+/// 点击了继续考试按钮
+- (void)didClickContinueExamButtonInCell:(HXExamRecordCell *)cell
+{
+    NSLog(@"点击了继续考试按钮");
+}
+
+/// 点击了查看答卷按钮
+- (void)didClickLookExamButtonInCell:(HXExamRecordCell *)cell
+{
+    NSLog(@"点击了查看答卷按钮");
+}
 
 
 /*

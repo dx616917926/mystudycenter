@@ -39,13 +39,24 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sde-MW-Pg6">
-                                <rect key="frame" x="155.5" y="76" width="85" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84v-Aj-JSN">
+                                <rect key="frame" x="108.5" y="79" width="43" height="27"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="85" id="ZgX-MR-IRj"/>
+                                    <constraint firstAttribute="height" constant="27" id="A4k-ez-xOs"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sde-MW-Pg6">
+                                <rect key="frame" x="155.5" y="76" width="88" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="88" id="ZgX-MR-IRj"/>
                                     <constraint firstAttribute="height" constant="30" id="cN8-vf-5cQ"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="查看答卷"/>
+                                <connections>
+                                    <action selector="lookExamButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="luM-g4-Io9"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100分" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGf-bL-e7M">
                                 <rect key="frame" x="202.5" y="10" width="45.5" height="28"/>
@@ -56,20 +67,17 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84v-Aj-JSN">
-                                <rect key="frame" x="108.5" y="79" width="43" height="27"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="27" id="A4k-ez-xOs"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V4e-Fc-19K">
-                                <rect key="frame" x="19.5" y="76" width="85" height="30"/>
+                                <rect key="frame" x="16.5" y="76" width="88" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="NW8-Be-iMB"/>
-                                    <constraint firstAttribute="width" constant="85" id="p1V-eX-TiN"/>
+                                    <constraint firstAttribute="width" constant="88" id="p1V-eX-TiN"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="继续作答"/>
+                                <connections>
+                                    <action selector="continueExamButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="MXY-wg-IkF"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -103,6 +111,11 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="mBackgroundView" destination="z1j-h5-cZ4" id="HWR-Ti-l60"/>
+                <outlet property="mContinueExamButton" destination="V4e-Fc-19K" id="HQs-3M-HHZ"/>
+                <outlet property="mLookExamButton" destination="Sde-MW-Pg6" id="FjO-mS-G29"/>
+                <outlet property="mScoreLabel" destination="eGf-bL-e7M" id="ieM-hh-bjX"/>
+                <outlet property="mTimeLabel" destination="NL5-81-Vg8" id="jFK-FP-Oxr"/>
+                <outlet property="mTitleLabel" destination="QIm-Gw-9Bj" id="0lL-eD-jek"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="153.01339285714286"/>
         </tableViewCell>

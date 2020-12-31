@@ -19,7 +19,7 @@
     self.mBackgroundView.layer.shadowRadius = 4;
     
     self.mStartExamButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
-    self.mStartExamButton.layer.cornerRadius = 14;
+    self.mStartExamButton.layer.cornerRadius = 15;
     self.mStartExamButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
     self.mStartExamButton.layer.shadowOffset = CGSizeMake(0,0);
     self.mStartExamButton.layer.shadowOpacity = 1;
