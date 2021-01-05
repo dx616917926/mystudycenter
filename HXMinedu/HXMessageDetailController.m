@@ -14,7 +14,6 @@
     UIView *errorView;
 }
 @property (nonatomic, strong) UIProgressView *progressView;
-@property (nonatomic, strong) NSTimer *fakeProgressTimer;
 @property (nonatomic, strong) HXBarButtonItem *leftBarItem;
 @end
 

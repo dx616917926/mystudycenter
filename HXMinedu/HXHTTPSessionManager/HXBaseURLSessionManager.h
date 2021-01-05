@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXGET_TOKEN       @"/api/ApiLogin/Login"         //获取token
 
 #define HXPOST_LOGIN       @"/MD/LoginInfo/Login"        //登录
+#define HXPOST_STUINFO     @"/MD/StuInfo/getStuInfo"     //学生信息
 #define HXPOST_LIVELIST    @"/MD/Live/getLiveList"       //直播地址
 #define HXPOST_COURSELIST  @"/MD/StuCourse/getCourseList"//课程列表
 #define HXPOST_MAJORLIST   @"/MD/StuInfo/geMajorList"    //获取学生专业
@@ -24,11 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXPOST_MESSAGE_LIST   @"/MD/MessageInfo/GetMessageList"     //消息列表
 #define HXPOST_MESSAGE_UPDATE @"/MD/MessageInfo/MessageUpdate"      //消息设置已读
 
-#define HXGET_FINDPASS    @"/api/v1/findPass"            //找回密码得到邮箱地址
-#define HXGET_SENDEMAIL   @"/api/v1/sendEmail"           //发送邮件
-#define HXGET_LISTYEAR    @"/api/v1/listYear"            //学习中心首页
-#define HXGET_COURSELIST  @"/api/v1/courseWareList"      //课程列表
-#define HXGET_EXAMDATA    @"/api/v1/getExamData"         //获取考试数据
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 
