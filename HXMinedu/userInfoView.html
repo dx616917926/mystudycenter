@@ -36,9 +36,22 @@ table{
 	font-weight: 400;
 	color: #05090E;
 	padding: 4px 0px 4px 6px;
+    line-height: 0px;
 	text-align-last:justify;
 	text-align:justify;
-	text-justify:distribute-all-lines; // 这行必加，兼容ie浏览器
+	text-justify:distribute-all-lines;
+}
+
+.table-td-name:before {
+    content: '';
+    display: inline-block;
+    width: 100%;
+}
+
+.table-td-name:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
 }
 
 .table-td-m{
@@ -166,6 +179,8 @@ table{
     <td class="table-td-value">@byrq</td>
   </tr>
 </table>
+
+</br>
 
 </body>
 </html>

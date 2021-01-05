@@ -22,9 +22,9 @@
     
     //
     [self.startStudyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.startStudyButton setBackgroundColor:kNavigationBarColor];
+    self.startStudyButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
     self.startStudyButton.layer.cornerRadius = 14;
-    self.startStudyButton.layer.shadowColor = kNavigationBarColor.CGColor;
+    self.startStudyButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:170/255.0 blue:254/255.0 alpha:0.5].CGColor;
     self.startStudyButton.layer.shadowOffset = CGSizeMake(0,0);
     self.startStudyButton.layer.shadowOpacity = 1;
     self.startStudyButton.layer.shadowRadius = 4;
