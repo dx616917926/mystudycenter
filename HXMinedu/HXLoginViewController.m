@@ -8,6 +8,7 @@
 #import "HXLoginViewController.h"
 #import "AppDelegate.h"
 #import "HXLoginContentView.h"
+#import "HXForgetPasswordController.h"
 
 @interface HXLoginViewController ()<UITextFieldDelegate,HXLoginContentViewDeleagte>
 {
@@ -161,7 +162,9 @@
 }
 
 - (void)forgetPassworkButtonClick {
-    //
+    //重设密码
+    HXForgetPasswordController *resetVC = [[HXForgetPasswordController alloc] init];
+    [self.navigationController pushViewController:resetVC animated:YES];
 }
 
 - (void)privacyPolicyButtonClick {

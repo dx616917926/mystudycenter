@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXPOST_LIVELIST    @"/MD/Live/getLiveList"       //直播地址
 #define HXPOST_COURSELIST  @"/MD/StuCourse/getCourseList"//课程列表
 #define HXPOST_MAJORLIST   @"/MD/StuInfo/geMajorList"    //获取学生专业
-
+#define HXPOST_RESET_PWD   @"/MD/StuInfo/resetPassword"  //重置密码
+#define HXPOST_SENDCODE    @"/MD/StuInfo/SendMsgVerificationCode"   //发送短信验证码
 #define HXPOST_CWSLIST     @""
 
 #define HXPOST_CHANGE_PWD  @"/MD/StuInfo/changePassword" //修改密码

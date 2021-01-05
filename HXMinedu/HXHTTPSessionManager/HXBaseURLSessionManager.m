@@ -138,7 +138,9 @@
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     
     NSString *personId = [HXPublicParamTool sharedInstance].personId;
-    [parameters setObject:personId forKey:@"personId"];
+    if (personId) {
+        [parameters setObject:personId forKey:@"personId"];
+    }
     
     return parameters;
 }

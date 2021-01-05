@@ -1,16 +1,18 @@
 //
-//  HXResetViewController.m
+//  HXForgetPasswordController.m
 //  HXMinedu
 //
-//  Created by Mac on 2020/11/3.
+//  Created by Mac on 2021/1/5.
 //
 
-#import "HXResetViewController.h"
+#import "HXForgetPasswordController.h"
 #import "HXResetTableViewCell.h"
+#import "HXVertifyCodeViewController.h"
 
-@interface HXResetViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@interface HXForgetPasswordController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
-@property(nonatomic,strong)UITextField *oldPassWordTextField;//旧的密码
+@property(nonatomic,strong)UITextField *mobileTextField;//手机号
+@property(nonatomic,strong)UITextField *personIdTextField;//身份证号
 @property(nonatomic,strong)UITextField *firstPassWordTextField;//新的密码1
 @property(nonatomic,strong)UITextField *secondPassWordTextField;//新的密码2
 //
@@ -21,13 +23,15 @@
 @property (nonatomic, strong)HXBarButtonItem *leftBarItem;
 @end
 
-@implementation HXResetViewController
+@implementation HXForgetPasswordController
+
+
 -(void)loadView
 {
     [super loadView];
     
     @weakify(self);
-    self.leftBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_back"] style:HXBarButtonItemStylePlain handler:^(id sender) {
+    self.leftBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_back"] style:HXBarButtonItemStyleCustom handler:^(id sender) {
         
         @strongify(self);
         [self.navigationController popViewControllerAnimated:YES];
@@ -38,21 +42,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.view.backgroundColor = [UIColor whiteColor];
     
-    self.sc_navigationBar.title = @"修改密码";
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self sc_setNavigationBarBackgroundAlpha:0];
+    [self setSc_NavigationBarAnimateInvalid:YES];
+    
+    self.sc_navigationBar.title = @"重设密码";
+    self.sc_navigationBar.titleLabel.textColor = [UIColor blackColor];
     self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
     
-    self.cellTitleArray = @[@"旧密码：",@"新密码：",@"确认密码："];
-    self.placeholderTitleArray = @[@"请输入旧密码",@"请输入新的密码",@"请再一次输入新密码"];
+    self.cellTitleArray = @[@"手机号：",@"身份证号：",@"新密码：",@"确认密码："];
+    self.placeholderTitleArray = @[@"请输入手机号",@"请输入身份证号",@"请输入新的密码",@"请再一次输入新密码"];
     
     [self createResetPassWordView];
 }
 
 -(void)createResetPassWordView
 {
-    self.mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight) style:UITableViewStylePlain];
+    self.mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight) style:UITableViewStyleGrouped];
     _mTableView.delegate = self;
     _mTableView.dataSource = self;
     _mTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -68,7 +75,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 4;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -83,12 +90,15 @@
     cell.mTextField.placeholder = _placeholderTitleArray[indexPath.row];
     switch (indexPath.row) {
         case 0:
-            self.oldPassWordTextField = cell.mTextField;
+            self.mobileTextField = cell.mTextField;
             break;
         case 1:
-            self.firstPassWordTextField = cell.mTextField;
+            self.personIdTextField = cell.mTextField;
             break;
         case 2:
+            self.firstPassWordTextField = cell.mTextField;
+            break;
+        case 3:
             self.secondPassWordTextField = cell.mTextField;
             break;
         default:
@@ -98,7 +108,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 12;
+    return 60;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -107,6 +117,17 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [[UIView alloc] init];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(12,6,kScreenWidth-24,34);
+    label.numberOfLines = 0;
+    [view addSubview:label];
+
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"请设置登录密码，需8-20位字符，必须包含字母/数字/字符中两种以上组合" attributes: @{NSFontAttributeName: [UIFont systemFontOfSize:14],NSForegroundColorAttributeName: [UIColor colorWithRed:151/255.0 green:151/255.0 blue:151/255.0 alpha:1.0]}];
+    label.attributedText = string;
+    label.textAlignment = NSTextAlignmentLeft;
+    label.alpha = 1.0;
+                                         
     return view;
 }
 
@@ -116,7 +137,7 @@
     view.frame = frameRect;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake((kScreenWidth-220)/2, 40, 220, 40);
-    [button setTitle:@"确认修改" forState:UIControlStateNormal];
+    [button setTitle:@"下一步" forState:UIControlStateNormal];
     [button.titleLabel setFont:[UIFont systemFontOfSize:19]];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(resetBtnAction) forControlEvents:UIControlEventTouchUpInside];
@@ -137,15 +158,14 @@
     //判断两次是否一样
     if ([self.firstPassWordTextField.text isEqualToString:self.secondPassWordTextField.text] && self.firstPassWordTextField.text.length != 0)
     {
-        NSDictionary *parameters = @{
-                                     @"oldPassword":self.oldPassWordTextField.text,
-                                     @"newPassword":self.firstPassWordTextField.text,
-                                     };
+        [self hideKeybord];
+        
+        NSDictionary *parameters = @{@"mobile":self.mobileTextField.text};
 
         [self.view showLoading];
                 
         __weak __typeof(self)weakSelf = self;
-        [HXBaseURLSessionManager postDataWithNSString:HXPOST_CHANGE_PWD withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
+        [HXBaseURLSessionManager postDataWithNSString:HXPOST_SENDCODE withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
             
             BOOL Success = [dictionary boolValueForKey:@"Success"];
             if (Success) {
@@ -153,8 +173,14 @@
                 NSString *message = [dictionary stringValueForKey:@"Message"];
                 [weakSelf.view showSuccessWithMessage:message];
                 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    //查收验证码
+                    HXVertifyCodeViewController *codeVC = [[HXVertifyCodeViewController alloc] init];
+                    codeVC.personId = self.personIdTextField.text;
+                    codeVC.mobile = self.mobileTextField.text;
+                    codeVC.pwd = self.firstPassWordTextField.text;
+                    [weakSelf.navigationController pushViewController:codeVC animated:YES];
                 });
 
             }else
@@ -188,6 +214,10 @@
     [_mTableView endEditing:YES];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
 /*
 #pragma mark - Navigation
 

@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, SCBarButtonItemStyle) {  // for future use
-    HXBarButtonItemStylePlain,
-    HXBarButtonItemStyleBordered,
+typedef NS_ENUM(NSInteger, HXBarButtonItemStyle) {
+    HXBarButtonItemStylePlain,  //默认配置
+    HXBarButtonItemStyleCustom, //自定义
     HXBarButtonItemStyleDone,
 };
 
@@ -22,10 +22,10 @@ typedef NS_ENUM(NSInteger, SCBarButtonItemStyle) {  // for future use
 @property (nonatomic, assign, getter = isEnabled) BOOL enabled;
 @property (nonatomic, copy) NSString *badge;
 
-- (instancetype)initWithTitle:(NSString *)title style:(SCBarButtonItemStyle)style handler:(void (^)(id sender))action;
+- (instancetype)initWithTitle:(NSString *)title style:(HXBarButtonItemStyle)style handler:(void (^)(id sender))action;
 
-- (instancetype)initWithImage:(UIImage *)image style:(SCBarButtonItemStyle)style handler:(void (^)(id sender))action;
+- (instancetype)initWithImage:(UIImage *)image style:(HXBarButtonItemStyle)style handler:(void (^)(id sender))action;
 
-- (instancetype)initWithCustsRigthItem:(UIView *)customView style:(SCBarButtonItemStyle)style;
+- (instancetype)initWithCustsRigthItem:(UIView *)customView style:(HXBarButtonItemStyle)style;
 
 @end

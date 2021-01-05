@@ -34,7 +34,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (instancetype)initWithTitle:(NSString *)title style:(SCBarButtonItemStyle)style handler:(void (^)(id sender))action {
+- (instancetype)initWithTitle:(NSString *)title style:(HXBarButtonItemStyle)style handler:(void (^)(id sender))action {
     
     if (self = [self init]) {
         
@@ -71,13 +71,15 @@
     return self;
 }
 
-- (instancetype)initWithImage:(UIImage *)image style:(SCBarButtonItemStyle)style handler:(void (^)(id sender))action {
+- (instancetype)initWithImage:(UIImage *)image style:(HXBarButtonItemStyle)style handler:(void (^)(id sender))action {
     
     if ([self init]) {
         
         self.buttonImage = image;
         
-        image = image.imageForCurrentTheme;
+        if (style == HXBarButtonItemStylePlain) {
+            image = image.imageForCurrentTheme;
+        }
         
         UIButton *button = [[UIButton alloc] init];
         [button setImage:image forState:UIControlStateNormal];
@@ -110,7 +112,7 @@
     
     return self;
 }
-- (instancetype)initWithCustsRigthItem:(UIView *)customView style:(SCBarButtonItemStyle)style{
+- (instancetype)initWithCustsRigthItem:(UIView *)customView style:(HXBarButtonItemStyle)style{
     if (self = [self init]) {
         UIButton *button = [[UIButton alloc] init];
         button.backgroundColor =[UIColor orangeColor];
