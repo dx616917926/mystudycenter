@@ -14,7 +14,7 @@
     // Initialization code
     
     [self.mTextField setTintColor:kNavigationBarColor];
-    [self.mLineView setBackgroundColor:[UIColor lightGrayColor]];
+    [self.mLineView setBackgroundColor:[UIColor colorWithRed:0.91 green:0.91 blue:0.91 alpha:0.8]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

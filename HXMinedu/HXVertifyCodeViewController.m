@@ -8,11 +8,16 @@
 #import "HXVertifyCodeViewController.h"
 #import "HXVertifyCodeContentView.h"
 
-@interface HXVertifyCodeViewController ()
+@interface HXVertifyCodeViewController ()<HXVertifyCodeContentViewDeleagte>
 {
     HXVertifyCodeContentView *contentView;
 }
+
 @property(nonatomic, strong) HXBarButtonItem *leftBarItem;
+
+@property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,assign) NSInteger currentTimeCount;
+
 @end
 
 @implementation HXVertifyCodeViewController
@@ -43,12 +48,20 @@
     self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
     
     [self initContentView];
+    [self initTimer];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [contentView.mVertifyCodeTextField becomeFirstResponder];
 }
 
 - (void)initContentView {
     
     contentView = [[UINib nibWithNibName:NSStringFromClass([HXVertifyCodeContentView class]) bundle:nil] instantiateWithOwner:self options:nil].lastObject;
-//    contentView.delegate = self;
+    contentView.delegate = self;
+    contentView.mMobileLabel.text = self.mobile;
     [self.view addSubview:contentView];
     [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         //
@@ -58,7 +71,99 @@
         make.leading.mas_equalTo(16);
         make.trailing.mas_equalTo(-16);
     }];
+}
+
+- (void)initTimer {
+    self.currentTimeCount = 60;
+    self.timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+- (void)timerAction{
+    if (self.currentTimeCount == 0) {
+        contentView.mTimeLabel.text = @"";
+        contentView.mSendButton.enabled = YES;
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    else{
+        contentView.mSendButton.enabled = NO;
+        self.currentTimeCount --;
+        contentView.mTimeLabel.text = [NSString stringWithFormat:@"(%lds)",(long)self.currentTimeCount];
+    }
+}
+
+#pragma mark - HXVertifyCodeContentViewDeleagte
+
+//完成按钮
+- (void)completeButtonClick
+{
+    NSDictionary *parameters = @{@"mobile":self.mobile,@"pwd":self.pwd,@"yzm":contentView.mVertifyCodeTextField.text};
+
+    [self.view showLoading];
+            
+    __weak __typeof(self)weakSelf = self;
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_RESET_PWD withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            
+            NSString *message = [dictionary stringValueForKey:@"Message"];
+            [weakSelf.view showSuccessWithMessage:message completionBlock:^{
+                [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+            }];
+        }else
+        {
+            NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
+            [weakSelf.view showTostWithMessage:errorMessage];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        if (error.code == NSURLErrorBadServerResponse) {
+            [weakSelf.view showErrorWithMessage:@"服务器出错，请稍后再试！"];
+        }else
+        {
+            [weakSelf.view showErrorWithMessage:@"请求失败，请重试！"];
+        }
+    }];
+}
+
+//重新发送验证码
+- (void)sendButtonClick
+{
+    if (self.timer.isValid) {
+        return;
+    }
     
+    NSDictionary *parameters = @{@"mobile":self.mobile};
+
+    [self.view showLoading];
+            
+    __weak __typeof(self)weakSelf = self;
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_SENDCODE withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            
+            NSString *message = [dictionary stringValueForKey:@"Message"];
+            [weakSelf.view showSuccessWithMessage:message];
+            
+            weakSelf.currentTimeCount = 60;
+            weakSelf.timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+            [[NSRunLoop currentRunLoop] addTimer:weakSelf.timer forMode:NSRunLoopCommonModes];
+
+        }else
+        {
+            NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
+            [weakSelf.view showTostWithMessage:errorMessage];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        if (error.code == NSURLErrorBadServerResponse) {
+            [weakSelf.view showErrorWithMessage:@"服务器出错，请稍后再试！"];
+        }else
+        {
+            [weakSelf.view showErrorWithMessage:@"请求失败，请重试！"];
+        }
+    }];
 }
 
 #pragma mark 隐藏键盘
