@@ -23,12 +23,18 @@
     [self.mLineView setBackgroundColor:[UIColor colorWithRed:0.91 green:0.91 blue:0.91 alpha:0.8]];
     
     //完成
-    self.mCompleteButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
+    self.mCompleteButton.layer.backgroundColor = [UIColor colorWithRed:171/255.0 green:213/255.0 blue:255/255.0 alpha:1.0].CGColor;
     self.mCompleteButton.layer.cornerRadius = 20;
     self.mCompleteButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
     self.mCompleteButton.layer.shadowOffset = CGSizeMake(0,0);
     self.mCompleteButton.layer.shadowOpacity = 1;
     self.mCompleteButton.layer.shadowRadius = 4;
+    
+    //验证码
+    self.mVertifyCodeTextField.returnKeyType = UIReturnKeyNext;
+    self.mVertifyCodeTextField.keyboardType = UIKeyboardTypePhonePad;
+    self.mVertifyCodeTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.mVertifyCodeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
 - (IBAction)completeButtonClickAction:(id)sender {
@@ -44,5 +50,16 @@
         [self.delegate sendButtonClick];
     }
 }
+
+- (IBAction)vertifyCodeTextFieldEditingChanged:(id)sender {
+    
+    if (self.mVertifyCodeTextField.text.length > 0) {
+        self.mCompleteButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
+    }else
+    {
+        self.mCompleteButton.layer.backgroundColor = [UIColor colorWithRed:171/255.0 green:213/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    }
+}
+
 
 @end

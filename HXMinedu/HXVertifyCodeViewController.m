@@ -98,7 +98,12 @@
 //完成按钮
 - (void)completeButtonClick
 {
-    NSDictionary *parameters = @{@"mobile":self.mobile,@"pwd":self.pwd,@"yzm":contentView.mVertifyCodeTextField.text};
+    if (contentView.mVertifyCodeTextField.text.length == 0) {
+        [self.view showTostWithMessage:@"请输入短信验证码"];
+        return;
+    }
+        
+    NSDictionary *parameters = @{@"personId":self.personId,@"mobile":self.mobile,@"pwd":self.pwd,@"yzm":contentView.mVertifyCodeTextField.text};
 
     [self.view showLoading];
             

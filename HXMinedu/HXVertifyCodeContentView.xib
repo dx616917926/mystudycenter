@@ -80,6 +80,9 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="vertifyCodeTextFieldEditingChanged:" destination="iN0-l3-epB" eventType="editingChanged" id="jbP-q9-umF"/>
+                    </connections>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fpl-jC-B6I">
                     <rect key="frame" x="4" y="130" width="312" height="1"/>

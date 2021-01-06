@@ -8,6 +8,7 @@
 #import "HXForgetPasswordController.h"
 #import "HXResetTableViewCell.h"
 #import "HXVertifyCodeViewController.h"
+#import "NSString+HXString.h"
 
 @interface HXForgetPasswordController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -104,6 +105,17 @@
         default:
             break;
     }
+    
+    self.mobileTextField.returnKeyType = UIReturnKeyNext;
+    self.mobileTextField.keyboardType = UIKeyboardTypePhonePad;
+    self.mobileTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.mobileTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    
+    self.personIdTextField.returnKeyType = UIReturnKeyNext;
+    self.personIdTextField.keyboardType = UIKeyboardTypePhonePad;
+    self.personIdTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.personIdTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    
     return cell;
 }
 
@@ -155,52 +167,89 @@
 //重置密码
 -(void)resetBtnAction
 {
-    //判断两次是否一样
-    if ([self.firstPassWordTextField.text isEqualToString:self.secondPassWordTextField.text] && self.firstPassWordTextField.text.length != 0)
+    if (self.mobileTextField.text.length == 0) {
+        [self.view showTostWithMessage:@"请输入手机号"];
+        [self.mobileTextField becomeFirstResponder];
+        return;
+    }
+    
+    if (![NSString isValidateTelNumber:self.mobileTextField.text]) {
+        [self.view showTostWithMessage:@"请填写正确的手机号"];
+        return;
+    }
+    
+    if (self.personIdTextField.text.length == 0) {
+        [self.view showTostWithMessage:@"请输入身份证号"];
+        [self.personIdTextField becomeFirstResponder];
+        return;
+    }
+    
+    if (self.firstPassWordTextField.text.length == 0) {
+        [self.view showTostWithMessage:@"请输入新密码"];
+        [self.firstPassWordTextField becomeFirstResponder];
+        return;
+    }
+    
+    if (self.firstPassWordTextField.text.length < 8 || self.firstPassWordTextField.text.length > 20) {
+        [self.view showTostWithMessage:@"新密码需8-20位字符"];
+        return;
+    }
+    
+    if ([NSString isOnlyNumString:self.firstPassWordTextField.text] || [NSString isOnlyLetterString:self.firstPassWordTextField.text]) {
+        [self.view showTostWithMessage:@"新密码必须包含字母/数字/字符中两种以上组合"];
+        return;
+    }
+    
+    if (self.secondPassWordTextField.text.length == 0) {
+        [self.view showTostWithMessage:@"请输入确认密码"];
+        [self.secondPassWordTextField becomeFirstResponder];
+        return;
+    }
+    
+    if (![self.firstPassWordTextField.text isEqualToString:self.secondPassWordTextField.text])
     {
-        [self hideKeybord];
-        
-        NSDictionary *parameters = @{@"mobile":self.mobileTextField.text};
+        [self.view showTostWithMessage:@"两次密码输入不一致"];
+        return;
+    }
+    
+    [self hideKeybord];
+    
+    NSDictionary *parameters = @{@"mobile":self.mobileTextField.text};
 
-        [self.view showLoading];
-                
-        __weak __typeof(self)weakSelf = self;
-        [HXBaseURLSessionManager postDataWithNSString:HXPOST_SENDCODE withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
+    [self.view showLoading];
             
-            BOOL Success = [dictionary boolValueForKey:@"Success"];
-            if (Success) {
+    __weak __typeof(self)weakSelf = self;
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_SENDCODE withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            
+            NSString *message = [dictionary stringValueForKey:@"Message"];
+            [weakSelf.view showSuccessWithMessage:message];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                NSString *message = [dictionary stringValueForKey:@"Message"];
-                [weakSelf.view showSuccessWithMessage:message];
-                
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    //查收验证码
-                    HXVertifyCodeViewController *codeVC = [[HXVertifyCodeViewController alloc] init];
-                    codeVC.personId = self.personIdTextField.text;
-                    codeVC.mobile = self.mobileTextField.text;
-                    codeVC.pwd = self.firstPassWordTextField.text;
-                    [weakSelf.navigationController pushViewController:codeVC animated:YES];
-                });
+                //查收验证码
+                HXVertifyCodeViewController *codeVC = [[HXVertifyCodeViewController alloc] init];
+                codeVC.personId = self.personIdTextField.text;
+                codeVC.mobile = self.mobileTextField.text;
+                codeVC.pwd = self.firstPassWordTextField.text;
+                [weakSelf.navigationController pushViewController:codeVC animated:YES];
+            });
 
-            }else
-            {
-                NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
-                [weakSelf.view showTostWithMessage:errorMessage];
-            }
-        } failure:^(NSError * _Nonnull error) {
-            if (error.code == NSURLErrorBadServerResponse) {
-                [weakSelf.view showErrorWithMessage:@"服务器出错，请稍后再试！"];
-            }else
-            {
-                [weakSelf.view showErrorWithMessage:@"请求失败，请重试！"];
-            }
-        }];
-    }
-    else
-    {
-        [self.view showTostWithMessage:@"两次密码要相同且不为空"];
-    }
+        }else
+        {
+            NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
+            [weakSelf.view showTostWithMessage:errorMessage];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        if (error.code == NSURLErrorBadServerResponse) {
+            [weakSelf.view showErrorWithMessage:@"服务器出错，请稍后再试！"];
+        }else
+        {
+            [weakSelf.view showErrorWithMessage:@"请求失败，请重试！"];
+        }
+    }];
 }
 
 #pragma mark 隐藏键盘

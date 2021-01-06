@@ -117,12 +117,6 @@
 
 }
 
--(void)textFiledEditChanged:(NSNotification *)obj{
-    if ([_userNameTextField.text isEqualToString:@""]) {
-        _passWordTextField.text = @"";
-    }
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     if (textField == _userNameTextField) {
         [_passWordTextField becomeFirstResponder];

@@ -19,6 +19,7 @@
 		043E05C025A4682E005FABD4 /* HXVertifyCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E05BF25A4682E005FABD4 /* HXVertifyCodeViewController.m */; };
 		043E05CA25A46AFC005FABD4 /* HXVertifyCodeContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043E05C925A46AFC005FABD4 /* HXVertifyCodeContentView.xib */; };
 		043E05D025A46E8A005FABD4 /* HXVertifyCodeContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E05CE25A46E8A005FABD4 /* HXVertifyCodeContentView.m */; };
+		044824F725A5642F00A8942C /* NSString+HXString.m in Sources */ = {isa = PBXBuildFile; fileRef = 044824F625A5642F00A8942C /* NSString+HXString.m */; };
 		04492FCE25943BFE00BA722A /* HXCoursewareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04492FCC25943BFE00BA722A /* HXCoursewareCell.m */; };
 		04492FCF25943BFE00BA722A /* HXCoursewareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04492FCD25943BFE00BA722A /* HXCoursewareCell.xib */; };
 		0449A314254BFE92001A28D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A313254BFE92001A28D5 /* AppDelegate.m */; };
@@ -266,6 +267,8 @@
 		043E05C925A46AFC005FABD4 /* HXVertifyCodeContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXVertifyCodeContentView.xib; sourceTree = "<group>"; };
 		043E05CE25A46E8A005FABD4 /* HXVertifyCodeContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXVertifyCodeContentView.m; sourceTree = "<group>"; };
 		043E05CF25A46E8A005FABD4 /* HXVertifyCodeContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXVertifyCodeContentView.h; sourceTree = "<group>"; };
+		044824F525A5642F00A8942C /* NSString+HXString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+HXString.h"; sourceTree = "<group>"; };
+		044824F625A5642F00A8942C /* NSString+HXString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+HXString.m"; sourceTree = "<group>"; };
 		04492FCB25943BFE00BA722A /* HXCoursewareCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCoursewareCell.h; sourceTree = "<group>"; };
 		04492FCC25943BFE00BA722A /* HXCoursewareCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCoursewareCell.m; sourceTree = "<group>"; };
 		04492FCD25943BFE00BA722A /* HXCoursewareCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXCoursewareCell.xib; sourceTree = "<group>"; };
@@ -1034,6 +1037,8 @@
 				0449A3CB254C11F4001A28D5 /* NSString+md5.m */,
 				0449A3C7254C11F4001A28D5 /* NSString+size.h */,
 				0449A3CE254C11F4001A28D5 /* NSString+size.m */,
+				044824F525A5642F00A8942C /* NSString+HXString.h */,
+				044824F625A5642F00A8942C /* NSString+HXString.m */,
 				0449A3C6254C11F4001A28D5 /* Rotation.h */,
 				0449A3CA254C11F4001A28D5 /* UIImage+Extension.h */,
 				0449A3C5254C11F4001A28D5 /* UIImage+Extension.m */,
@@ -2035,6 +2040,7 @@
 				043E05D025A46E8A005FABD4 /* HXVertifyCodeContentView.m in Sources */,
 				0449A545254C11F6001A28D5 /* HXAudioManager.m in Sources */,
 				0449A4FB254C11F6001A28D5 /* SuperPlayerGuideView.m in Sources */,
+				044824F725A5642F00A8942C /* NSString+HXString.m in Sources */,
 				04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */,
 				0449A54E254C11F6001A28D5 /* EXTScope.m in Sources */,
 				0449A4C5254C11F6001A28D5 /* DOUAudioEventLoop.m in Sources */,
