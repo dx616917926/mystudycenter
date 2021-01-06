@@ -14,6 +14,9 @@
     // Initialization code
     
     self.showCustomSeparator = YES;
+    
+    self.mStatusLabel.layer.cornerRadius = 4;
+    self.mStatusLabel.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
