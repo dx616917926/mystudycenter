@@ -15,9 +15,9 @@
     int currentPageList;
     NSMutableArray * messageArr;
     BOOL ifNeedUpdate;
+    NSInteger messageCount;          //未读消息数量
 }
 @property (nonatomic, strong) HXBarButtonItem *leftBarItem;
-@property (nonatomic, strong) HXBarButtonItem *rightBarItem;
 @end
 
 @implementation HXMessageListController
@@ -33,10 +33,6 @@
         @strongify(self);
         [self.navigationController popViewControllerAnimated:YES];
         
-    }];
-    
-    self.rightBarItem = [[HXBarButtonItem alloc] initWithTitle:@"已读" style:HXBarButtonItemStylePlain handler:^(id sender) {
-        [self rightBarItemAction];
     }];
 }
 
@@ -76,28 +72,6 @@
 }
 
 /**
- 更新“已读”按钮的状态
- */
--(void)updateRightBarButton
-{
-    __block BOOL hasNoReadMessage = NO;
-    [messageArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        HXMessageObject * message = obj;
-        if ([message.statusID isEqualToString:@"0"]) {
-            hasNoReadMessage = YES;
-            *stop = YES;
-        }
-    }];
-    
-    if (hasNoReadMessage) {
-        self.sc_navigationBar.rightBarButtonItem = self.rightBarItem;
-    }else
-    {
-        self.sc_navigationBar.rightBarButtonItem = nil;
-    }
-}
-
-/**
  清空所有消息
  */
 -(void)messageUpdate {
@@ -108,18 +82,15 @@
     
     [self.view showLoading];
     
-    NSDictionary *parameters = @{@"message_id":@""};
-    
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_UPDATE withDictionary:parameters success:^(NSDictionary *dic) {
-        NSString *success = [NSString stringWithFormat:@"%@",[dic objectForKey:@"success"]];
-        if ([success isEqualToString:@"1"]) {
-            
-            [self loadNewData];
-            
-            [self.view hideLoading];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_UPDATE_ALL withDictionary:nil success:^(NSDictionary *dic) {
+        BOOL Success = [dic boolValueForKey:@"Success"];
+        if (Success) {
+            [self.view showSuccessWithMessage:[dic stringValueForKey:@"Message"] completionBlock:^{
+                [self loadNewData];
+            }];
         }else
         {
-            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            [self.view showErrorWithMessage:[dic stringValueForKey:@"Message"]];
         }
         
     } failure:^(NSError *error) {
@@ -136,7 +107,7 @@
 /**
  已读 按钮点击事件
  */
--(void)rightBarItemAction {
+-(void)updateAll {
     
     __weak __typeof(self)weakSelf = self;
     UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"全部标记为“已读”？" preferredStyle:UIAlertControllerStyleAlert];
@@ -183,7 +154,6 @@
             
             //设置空白页
             [self setTableHeaderView];
-            [self updateRightBarButton];
             
             [self.tableView reloadData];
             
@@ -275,12 +245,35 @@
     }
 }
 
+//请求未读消息数量
+- (void)requestMessageCount {
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_COUNT withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            
+            NSDictionary *data = [dictionary objectForKey:@"Data"];
+            self->messageCount = [[data stringValueForKey:@"WDCount"] integerValue];
+        }else
+        {
+            self->messageCount = 0;
+        }
+        [self.tableView reloadData];
+        
+    } failure:^(NSError * _Nonnull error) {
+        //do nothing
+        NSLog(@"请求未读消息数量失败！");
+    }];
+}
+
 #pragma mark 刷新数据
 
 - (void)loadNewData
 {
     currentPageList = 1;
     [self requestProductsListDataWithPage:currentPageList];
+    [self requestMessageCount];
 }
 
 -(void)loadMoreData
@@ -296,6 +289,53 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 75;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    if (messageArr.count != 0) {
+        return 36;
+    }
+    return 0.01f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] init];
+    
+    if (messageArr.count != 0) {
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 6, 100, 24)];
+        label.textColor = [UIColor colorWithRed:5/255.0 green:9/255.0 blue:14/255.0 alpha:1.0];
+        label.text = [NSString stringWithFormat:@"未读%ld条消息",messageCount];
+        label.font = [UIFont systemFontOfSize:13];
+        [view addSubview:label];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(kScreenWidth - 76,6,64,24);
+        [button setTitle:@"急速处理" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithRed:5/255.0 green:9/255.0 blue:14/255.0 alpha:1.0] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:12];
+        button.layer.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0].CGColor;
+        button.layer.cornerRadius = 2;
+        button.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.2].CGColor;
+        button.layer.shadowOffset = CGSizeMake(0,0);
+        button.layer.shadowOpacity = 1;
+        button.layer.shadowRadius = 2;
+        [button addTarget:self action:@selector(updateAll) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:button];
+    }
+    
+    return view;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc]init];
+    return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
