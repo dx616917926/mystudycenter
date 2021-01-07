@@ -283,9 +283,9 @@
     self.slideSwitchView.tabItemNormalColor = [UIColor colorWithRed:0.53 green:0.53 blue:0.53 alpha:1];
     self.slideSwitchView.tabItemSelectedColor = [UIColor blackColor];
     
-    UIImage * shadow = [[UIImage imageNamed:@"qc_slide_shadow"] stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
+    UIImage *shadow = [UIImage imageNamed:@"qc_slide_shadow"];
 
-    self.slideSwitchView.shadowImage =shadow;
+    self.slideSwitchView.shadowImage = shadow;
     
     [self.slideSwitchView buildUI];
     

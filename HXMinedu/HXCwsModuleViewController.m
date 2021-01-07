@@ -7,6 +7,8 @@
 
 #import "HXCwsModuleViewController.h"
 #import "HXCoursewareCell.h"
+#import "HXCwsCourseware.h"
+#import "TXMoviePlayerController.h"
 
 @interface HXCwsModuleViewController ()
 {
@@ -125,14 +127,26 @@
 
 -(void)requestCwsModulesListData
 {
-    NSString * url = [NSString stringWithFormat:HXPOST_MAJORLIST];
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    [parameters setValue:self.courseGUID forKey:@"courseGUID"];
+    [parameters setValue:self.courseCode forKey:@"courseCode"];
+    [parameters setValue:self.stemCode forKey:@"stemCode"];
+    [parameters setValue:self.examDate forKey:@"examDate"];
+    [parameters setValue:self.yxDM forKey:@"yxDM"];
+    [parameters setValue:self.kcDM forKey:@"kcDM"];
     
-    [HXBaseURLSessionManager postDataWithNSString:url withDictionary:nil success:^(NSDictionary *dictionary) {
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_CWSLIST withDictionary:parameters success:^(NSDictionary *dictionary) {
         BOOL Success = [dictionary boolValueForKey:@"Success"];
         if (Success) {
             
             [self.coursewares removeAllObjects];
-                        
+            
+            NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
+            if (data) {
+                HXCwsCourseware *courseware = [HXCwsCourseware mj_objectWithKeyValues:data];
+                [self.coursewares addObject:courseware];
+            }
+            
             //设置空白页
             [self setTableHeaderView];
             
@@ -143,7 +157,7 @@
         }else
         {
             [self setRequestFiledView];
-            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
         
         //结束刷新状态
@@ -206,12 +220,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    HXCourseModel *courseware = [self.coursewares objectAtIndex:indexPath.row];
+    HXCwsCourseware *courseware = [self.coursewares objectAtIndex:indexPath.row];
 
     HXCoursewareCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HXCoursewareCell" forIndexPath:indexPath];
     cell.selectedBackgroundView = [[UIView alloc] init];
-//    cell.entity = courseware;
-//    cell.delegate = self;
+    cell.entity = courseware;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -219,14 +232,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+    
+    HXCwsCourseware *courseware = [self.coursewares objectAtIndex:indexPath.row];
 
-#pragma - mark HXCoursewareCellDelegate
-
-/// 点击了播放按钮
-- (void)didClickPlayButtonInCell:(HXCoursewareCell *)cell
-{
-
+    NSString *type = courseware.coursewareType;
+    
+    //直接走新课件系统
+    if ([type isEqualToString:@"11"]) {
+        
+        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+        playerVC.cws_param = courseware.cws_param;
+        [self.navigationController pushViewController:playerVC animated:YES];
+        
+        return;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

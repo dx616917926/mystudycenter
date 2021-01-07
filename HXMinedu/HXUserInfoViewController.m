@@ -83,13 +83,17 @@
             }else
             {
                 [self.view showErrorWithMessage:@"暂无个人信息！"];
+                self->webView.hidden = YES;
             }
         }else
         {
             [self.view showErrorWithMessage:[dic stringValueForKey:@"Message"]];
+            self->webView.hidden = YES;
         }
     } failure:^(NSError *error) {
+        
         [self.view showErrorWithMessage:@"获取数据失败，请重试！"];
+        self->webView.hidden = YES;
     }];
 }
 

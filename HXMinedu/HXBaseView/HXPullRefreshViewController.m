@@ -42,7 +42,7 @@
 
 - (void)configureTableView {
     
-    self.tableView                 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kTabBarHeight+1)];
+    self.tableView                 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kTabBarHeight+1) style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = kTableViewBackgroundColor;
     self.tableView.separatorStyle  = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.delegate        = self;

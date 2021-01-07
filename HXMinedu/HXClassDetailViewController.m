@@ -131,14 +131,12 @@
     if (!_cwsModuleVC) {
         _cwsModuleVC = [[HXCwsModuleViewController alloc]init];
         _cwsModuleVC.title = self.courseModel.KJButtonName; //@"课件学习";
-//        _cwsModuleVC.moduleCode = [self getCodeWithURL:self.courseModel.cUrl forKey:@"moduleCode"];
-//        _cwsModuleVC.authorizeUrl = self.courseModel.cUrl;
-//        _cwsModuleVC.courseTime = self.courseModel.courseTime;
-//        _cwsModuleVC.courseMessage = self.courseModel.courseMessage;
-//        _cwsModuleVC.courseSource = self.courseModel.courseSource;
-//        _cwsModuleVC.moduleID = self.courseModel.modelID;
-//        _cwsModuleVC.classID = self.classID;
-//        _cwsModuleVC.proceduralTypeID = self.courseModel.ProceduralTypeID;
+        _cwsModuleVC.courseGUID = self.courseModel.courseGUID;
+        _cwsModuleVC.courseCode = self.courseModel.coursecode;
+        _cwsModuleVC.stemCode = self.courseModel.StemCode;
+        _cwsModuleVC.examDate = self.courseModel.ExamDate;
+        _cwsModuleVC.yxDM = self.courseModel.yxDM;
+        _cwsModuleVC.kcDM = self.courseModel.kcDM;
         [self addChildViewController:_cwsModuleVC];
     }
     return _cwsModuleVC;

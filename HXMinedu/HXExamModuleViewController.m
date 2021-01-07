@@ -144,7 +144,7 @@
         }else
         {
             [self setRequestFiledView];
-            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
         
         //结束刷新状态
