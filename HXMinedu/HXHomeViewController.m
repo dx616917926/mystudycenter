@@ -18,10 +18,12 @@
     UIImageView *imageBackImageView;
     CGFloat topViewHegiht;           //顶部视图高度
     NSInteger messageCount;          //未读消息数量
+    BOOL needRefresh;                //是否需要刷新未读消息数量
 }
 @property(nonatomic, strong) UIView *topView;           //顶部视图
 @property(nonatomic, strong) UITableView *mTableView;
 @property(nonatomic, strong) UIImageView *faceImageView;//头像
+@property(nonatomic, strong) UILabel *userInfoLabel;    //用户信息
 
 @end
 
@@ -37,6 +39,14 @@
     messageCount = 0;
     
     [self initTableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (needRefresh) {
+        needRefresh = NO;
+        [self requestMessageCount];
+    }
 }
 
 - (void)initTableView {
@@ -69,6 +79,8 @@
         self.mTableView.mj_header = header;
         
         [self createTopView];
+        
+        [self.mTableView.mj_header beginRefreshing];
     }
 }
 
@@ -91,20 +103,79 @@
     self.faceImageView.image = [UIImage imageNamed:@"heade_icon"];
     self.faceImageView.backgroundColor = [UIColor whiteColor];
     [self.topView addSubview:self.faceImageView];
+    
+    self.userInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.faceImageView.right+20, self.faceImageView.y-4, self.topView.width-self.faceImageView.right-36, self.faceImageView.height+4)];
+    self.userInfoLabel.numberOfLines = 0;
+    self.userInfoLabel.backgroundColor = [UIColor clearColor];
+    self.userInfoLabel.lineBreakMode= NSLineBreakByCharWrapping;
+    self.userInfoLabel.textColor = [UIColor whiteColor];
+    
+    [self.topView addSubview:self.userInfoLabel];
 }
 
 - (void)loadNewData {
     
     [self requestMessageCount];
     
+    if (!self.isLogin) {
+        return;
+    }
+    
+    //请求用户个人信息
     __weak __typeof(self)weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_STUINFO withDictionary:nil success:^(NSDictionary *dic) {
+        BOOL Success = [dic boolValueForKey:@"Success"];
+        if (Success) {
+            
+            NSArray *array = [dic objectForKey:@"Data"];
+            
+            if (array.count>0) {
+                NSDictionary *userInfoDic = [array firstObject];
+                NSMutableString *userInfoStr = [NSMutableString stringWithString:@""];
+                [userInfoStr appendFormat:@"考生号：%@\n",[userInfoDic stringValueForKey:@"examineeNo"]];
+                [userInfoStr appendFormat:@"身份证号：%@\n",[userInfoDic stringValueForKey:@"personId"]];
+                [userInfoStr appendFormat:@"层次：%@\n",[userInfoDic stringValueForKey:@"educationName"]];
+                [userInfoStr appendFormat:@"专业：%@\n",[userInfoDic stringValueForKey:@"majorName"]];
+                [userInfoStr appendFormat:@"注册考期：%@\n",[userInfoDic stringValueForKey:@"enterDate"]];
+                
+                NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:userInfoStr];
+                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+                
+                if (kScreenWidth >= 414 || [userInfoDic stringValueForKey:@"personId"].length <= 18) {
+                    paragraphStyle.lineSpacing = (self.userInfoLabel.height-100)/5;
+                }else
+                {
+                    paragraphStyle.lineSpacing = (self.userInfoLabel.height-120)/6;
+                }
+                paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+                [attr addAttributes:@{NSParagraphStyleAttributeName:paragraphStyle,
+                                                      NSFontAttributeName:[UIFont systemFontOfSize:16]}
+                                    range:NSMakeRange(0, userInfoStr.length)];
+                self.userInfoLabel.attributedText = attr;
+                
+            }else
+            {
+                self.userInfoLabel.attributedText = nil;
+            }
+            
+            //结束刷新状态
+            [weakSelf.mTableView.mj_header endRefreshing];
+            
+            [self.mTableView bringSubviewToFront:self.mTableView.mj_header];
+        }else
+        {
+            //结束刷新状态
+            [weakSelf.mTableView.mj_header endRefreshing];
+            
+            [self.view showErrorWithMessage:[dic stringValueForKey:@"Message"]];
+        }
+    } failure:^(NSError *error) {
+        
         //结束刷新状态
         [weakSelf.mTableView.mj_header endRefreshing];
         
-        [self.mTableView bringSubviewToFront:self.mTableView.mj_header];
-    });
-    
+        [self.view showErrorWithMessage:@"获取数据失败，请重试！"];
+    }];
 }
 
 //请求未读消息数量
@@ -242,6 +313,7 @@
             
         }else if (indexPath.row == 1) {
             //我的消息
+            needRefresh = YES;
             HXMessageListController *listVC = [[HXMessageListController alloc] init];
             listVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:listVC animated:YES];
