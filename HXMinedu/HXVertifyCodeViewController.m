@@ -120,7 +120,7 @@
         }else
         {
             NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
-            [weakSelf.view showTostWithMessage:errorMessage];
+            [weakSelf.view showErrorWithMessage:errorMessage];
         }
     } failure:^(NSError * _Nonnull error) {
         if (error.code == NSURLErrorBadServerResponse) {
@@ -159,7 +159,7 @@
         }else
         {
             NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
-            [weakSelf.view showTostWithMessage:errorMessage];
+            [weakSelf.view showErrorWithMessage:errorMessage];
         }
     } failure:^(NSError * _Nonnull error) {
         if (error.code == NSURLErrorBadServerResponse) {
