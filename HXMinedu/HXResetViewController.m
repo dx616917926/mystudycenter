@@ -7,6 +7,7 @@
 
 #import "HXResetViewController.h"
 #import "HXResetTableViewCell.h"
+#import "NSString+HXString.h"
 
 @interface HXResetViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -134,47 +135,72 @@
 //重置密码
 -(void)resetBtnAction
 {
-    //判断两次是否一样
-    if ([self.firstPassWordTextField.text isEqualToString:self.secondPassWordTextField.text] && self.firstPassWordTextField.text.length != 0)
+    if (self.oldPassWordTextField.text.length == 0) {
+        [self.view showTostWithMessage:@"请输入旧密码"];
+        [self.oldPassWordTextField becomeFirstResponder];
+        return;
+    }
+    
+    if (self.firstPassWordTextField.text.length == 0) {
+        [self.view showTostWithMessage:@"请输入新密码"];
+        [self.firstPassWordTextField becomeFirstResponder];
+        return;
+    }
+    
+    if (self.firstPassWordTextField.text.length < 8 || self.firstPassWordTextField.text.length > 20) {
+        [self.view showTostWithMessage:@"新密码需8-20位字符"];
+        return;
+    }
+    
+    if ([NSString isOnlyNumString:self.firstPassWordTextField.text] || [NSString isOnlyLetterString:self.firstPassWordTextField.text]) {
+        [self.view showTostWithMessage:@"新密码必须包含字母/数字/字符中两种以上组合"];
+        return;
+    }
+    
+    if (self.secondPassWordTextField.text.length == 0) {
+        [self.view showTostWithMessage:@"请输入确认密码"];
+        [self.secondPassWordTextField becomeFirstResponder];
+        return;
+    }
+    
+    if (![self.firstPassWordTextField.text isEqualToString:self.secondPassWordTextField.text])
     {
-        NSDictionary *parameters = @{
-                                     @"oldPassword":self.oldPassWordTextField.text,
-                                     @"newPassword":self.firstPassWordTextField.text,
-                                     };
-
-        [self.view showLoading];
-                
-        __weak __typeof(self)weakSelf = self;
-        [HXBaseURLSessionManager postDataWithNSString:HXPOST_CHANGE_PWD withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view showTostWithMessage:@"两次密码输入不一致"];
+        return;
+    }
+    
+    [self hideKeybord];
+    
+    NSDictionary *parameters = @{@"oldPassword":self.oldPassWordTextField.text,
+                                 @"newPassword":self.firstPassWordTextField.text};
+    [self.view showLoading];
+    
+    __weak __typeof(self)weakSelf = self;
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_CHANGE_PWD withDictionary:parameters success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
             
-            BOOL Success = [dictionary boolValueForKey:@"Success"];
-            if (Success) {
-                
-                NSString *message = [dictionary stringValueForKey:@"Message"];
-                [weakSelf.view showSuccessWithMessage:message];
-                
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [weakSelf.navigationController popToRootViewControllerAnimated:YES];
-                });
+            NSString *message = [dictionary stringValueForKey:@"Message"];
+            [weakSelf.view showSuccessWithMessage:message];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+            });
 
-            }else
-            {
-                NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
-                [weakSelf.view showErrorWithMessage:errorMessage];
-            }
-        } failure:^(NSError * _Nonnull error) {
-            if (error.code == NSURLErrorBadServerResponse) {
-                [weakSelf.view showErrorWithMessage:@"服务器出错，请稍后再试！"];
-            }else
-            {
-                [weakSelf.view showErrorWithMessage:@"请求失败，请重试！"];
-            }
-        }];
-    }
-    else
-    {
-        [self.view showTostWithMessage:@"两次密码要相同且不为空"];
-    }
+        }else
+        {
+            NSString *errorMessage = [dictionary stringValueForKey:@"Message"];
+            [weakSelf.view showErrorWithMessage:errorMessage];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        if (error.code == NSURLErrorBadServerResponse) {
+            [weakSelf.view showErrorWithMessage:@"服务器出错，请稍后再试！"];
+        }else
+        {
+            [weakSelf.view showErrorWithMessage:@"请求失败，请重试！"];
+        }
+    }];
 }
 
 #pragma mark 隐藏键盘
