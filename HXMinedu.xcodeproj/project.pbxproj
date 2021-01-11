@@ -601,6 +601,7 @@
 		046CD596259477AF0097B18D /* HXExamCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamCell.h; sourceTree = "<group>"; };
 		046CD597259477AF0097B18D /* HXExamCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamCell.m; sourceTree = "<group>"; };
 		046CD598259477AF0097B18D /* HXExamCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXExamCell.xib; sourceTree = "<group>"; };
+		0478C47725AC379800ECECBD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewCell.h; sourceTree = "<group>"; };
 		047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewCell.m; sourceTree = "<group>"; };
 		0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IntroViewAssets.xcassets; sourceTree = "<group>"; };
@@ -1418,11 +1419,11 @@
 		0449A489254C11F5001A28D5 /* FrameAccessor */ = {
 			isa = PBXGroup;
 			children = (
+				0449A48E254C11F5001A28D5 /* FrameAccessor.h */,
 				0449A48A254C11F5001A28D5 /* ScrollViewFrameAccessor.h */,
-				0449A48B254C11F5001A28D5 /* ViewFrameAccessor.m */,
 				0449A48C254C11F5001A28D5 /* ScrollViewFrameAccessor.m */,
 				0449A48D254C11F5001A28D5 /* ViewFrameAccessor.h */,
-				0449A48E254C11F5001A28D5 /* FrameAccessor.h */,
+				0449A48B254C11F5001A28D5 /* ViewFrameAccessor.m */,
 			);
 			path = FrameAccessor;
 			sourceTree = "<group>";
@@ -1870,6 +1871,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 0449A306254BFE92001A28D5;
 			productRefGroup = 0449A310254BFE92001A28D5 /* Products */;
@@ -2208,6 +2210,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0449A31C254BFE92001A28D5 /* Base */,
+				0478C47725AC379800ECECBD /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -2227,6 +2230,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2286,6 +2290,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
