@@ -144,12 +144,13 @@
     __weak __typeof(self)weakSelf = self;
     [HXBaseURLSessionManager doLoginWithUserName:loginView.userNameTextField.text andPassword:loginView.passWordTextField.text success:^(NSString * _Nonnull personId) {
         //
+        NSLog(@"登录成功！");
+        
         [HXPublicParamTool sharedInstance].isLogin = YES;
-
+        
         [weakSelf.view showSuccessWithMessage:@"登录成功" completionBlock:^{
             
             [self dismissViewControllerAnimated:YES completion:^{
-
             }];
             
             [[[UIApplication sharedApplication].delegate window] setRootViewController:[(AppDelegate*)[UIApplication sharedApplication].delegate tabBarController]];

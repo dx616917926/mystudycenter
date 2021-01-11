@@ -36,7 +36,7 @@
                    success : (void (^)(NSString *personId))success
                    failure : (void (^)(NSString *message))failure
 {
-    HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
+    HXBaseURLSessionManager *client = [HXBaseURLSessionManager sharedClient];
     
     NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
     [parameters setObject:userName forKey:@"username"];
@@ -129,6 +129,23 @@
         }else{
             failure(error);
         }
+    }];
+}
+
++ (void)doLogout{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_QUITE withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        //
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            NSLog(@"退出登录成功！");
+        }else
+        {
+            NSLog(@"退出登录失败！");
+        }
+    } failure:^(NSError * _Nonnull error) {
+        //
+        NSLog(@"退出登录失败！");
     }];
 }
 
