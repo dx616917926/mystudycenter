@@ -9,7 +9,9 @@
 #import "CustomIOSAlertView.h"
 
 @interface HXCheckUpdateTool ()
-
+{
+    BOOL donotCheckVersionAgain;
+}
 @property(nonatomic, strong) NSString *updateUrl;
 @property(nonatomic, assign) BOOL forceUpgrade;
 @property(nonatomic, strong) CustomIOSAlertView *myAlertView;
@@ -36,7 +38,9 @@
  */
 - (void)checkUpdate {
     
-    [self checkUpdateWithInController:nil];
+    if (!donotCheckVersionAgain) {
+        [self checkUpdateWithInController:nil];        
+    }
 }
 
 - (void)checkUpdateWithInController:(UIViewController *)viewController {
@@ -48,9 +52,10 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURL *URL = [NSURL URLWithString:APP_URL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+    //阿里云存储不用担心缓存问题！！
+//    request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     request.HTTPMethod = @"GET";
-    request.timeoutInterval = 5;
+    request.timeoutInterval = 15;
 
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
         //
@@ -117,6 +122,7 @@
                         if (buttonIndex == 0)
                         {
                             [alertView close];
+                            self->donotCheckVersionAgain = YES;
                         }else{
                             if(updateStr)
                             {
@@ -144,7 +150,6 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
     }
 }
-
 
 //构建提示框内容view
 - (UIView *)createViewWith:(NSString *)versionNum andWithFeatures:(NSString *)featureStr AndWithFeatureCount:(NSUInteger)count{

@@ -18,7 +18,7 @@
 #define BaseUrl @"https://testop.edu-cj.com"
 
 //更新地址
-#define APP_URL @"https://www.wlxue.com/cnapp/apps_update/ios/ccy.json"
+#define APP_URL @"https://app.edu-edu.com.cn/minedu/ios/minedu.json"
 
 //用户隐私政策网址
 #define APP_PrivacyPolicy_URL @"https://www.edu-edu.com/privacy/"

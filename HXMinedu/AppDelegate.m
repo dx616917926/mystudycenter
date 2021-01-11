@@ -28,7 +28,7 @@
     [self setUMengTrack];
     
     //检查更新
-//    [self checkAppUpdate];
+    [self checkAppUpdate];
     
     return YES;
 }
@@ -77,11 +77,8 @@
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     
     //检测新版本
-//    if (!donotCheckVersionAgain) {
-//        [self checkAppUpdate];
-//    }
+    [self checkAppUpdate];
 }
-
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
