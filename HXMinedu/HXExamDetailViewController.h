@@ -6,10 +6,13 @@
 //
 
 #import "HXBaseViewController.h"
+#import "HXExam.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXExamDetailViewController : HXBaseViewController
+
+@property(nonatomic, strong) HXExam *exam;
 
 @end
 

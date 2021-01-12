@@ -7,8 +7,8 @@
 
 #import "HXExamModuleViewController.h"
 #import "HXExamCell.h"
-#import "HXExamDetailViewController.h"
 #import "HXExamModel.h"
+#import "HXExamListViewController.h"
 
 @interface HXExamModuleViewController ()<HXExamCellDelegate>
 {
@@ -244,8 +244,11 @@
 /// 点击了进入考试按钮
 - (void)didClickStartExamButtonInCell:(HXExamCell *)cell
 {
-    HXExamDetailViewController *detailVC = [[HXExamDetailViewController alloc] init];
-    [self.navigationController pushViewController:detailVC animated:YES];
+    HXExamModel *model = cell.model;
+    
+    HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
+    listVC.authorizeUrl = model.ExamUrl;
+    [self.navigationController pushViewController:listVC animated:YES];
 }
 
 @end

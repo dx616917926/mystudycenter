@@ -9,6 +9,7 @@
 #define HXDefines_h
 
 #define SHOWLOGIN @"HXShowLoginVC"
+#define NeedReAuthorize @"needReAuthorize"
 
 #define NETWORK_AVAILIABLE ([[AFNetworkReachabilityManager sharedManager] isReachable])
 #define NETWORK_ViaWWAN    ([[AFNetworkReachabilityManager sharedManager] isReachableViaWWAN])

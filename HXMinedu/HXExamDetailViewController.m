@@ -9,14 +9,18 @@
 #import "HXExamDetailTopView.h"
 #import "HXExamRecordCell.h"
 #import "MJRefresh.h"
+#import "NSDate+HXDate.h"
 
 @interface HXExamDetailViewController ()<UITableViewDelegate,UITableViewDataSource,HXExamRecordCellDelegate>
-
+{
+    BOOL scoreSecret; //是否隐藏成绩
+}
 @property(nonatomic, strong) HXExamDetailTopView *topView;
 @property(nonatomic, strong) HXBarButtonItem *leftBarItem;
 @property(nonatomic, strong) UITableView *mTableView;
 @property(nonatomic, strong) NSArray *dataSource;
 @property(nonatomic, strong) UIButton *bottomStartExamButton;
+@property(nonatomic, strong) NSDictionary *dataResult;
 
 @end
 
@@ -52,6 +56,12 @@
     [self initTopView];
     [self initTableView];
     [self initStartExamButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.mTableView.mj_header beginRefreshing];
 }
 
 - (void)initTopView {
@@ -197,17 +207,27 @@
         return;
     }
     
-    [self requestCourseList];
+    [self requestExamRecordList];
 }
 
-- (void)requestCourseList {
+//请求考试记录数据
+- (void)requestExamRecordList
+{
+    //__weak typeof(self) bself = self;
     
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_COURSELIST withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
-        //
-        BOOL Success = [dictionary boolValueForKey:@"Success"];
-        if (Success) {
+    NSString * url = [NSString stringWithFormat:@"%@%@",HXEXAM_RESULT_JSON,self.exam.examId];
+    
+    [HXHTTPSessionManager getDataWithNSString:url withDictionary:nil success:^(NSDictionary *dictionary) {
+        if ([[dictionary objectForKey:@"success"] intValue] == 1) {
+            NSLog(@"%@",dictionary);
             
-//            self.dataSource = [HXCourseModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            self.dataResult = [NSDictionary dictionaryWithDictionary:dictionary];
+            self.dataSource = [NSArray arrayWithArray:[dictionary objectForKey:@"records"]];
+            
+            if([[dictionary objectForKey:@"scoreSecret"] integerValue] == 1)
+            {
+                self->scoreSecret = YES;
+            }
             
             [self setTableHeaderView];
             
@@ -216,12 +236,17 @@
         {
             [self setRequestFiledView];
             
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
+            [self.view showErrorWithMessage:@"获取考试记录失败,请重试!"];
         }
+        //设置空白页
+        [self setTableHeaderView];
+        
+        [self.mTableView reloadData];
+        
         //结束刷新状态
         [self.mTableView.mj_header endRefreshing];
         
-    } failure:^(NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
         [self setRequestFiledView];
         //结束刷新状态
@@ -238,7 +263,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;//self.dataSource.count;
+    return self.dataSource.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -252,10 +277,36 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-//    HXCourseModel *model = [self.courseListArray objectAtIndex:indexPath.row];
+    cell.mTitleLabel.text =[NSString stringWithFormat:@"第%ld次考试",self.dataSource.count - indexPath.row];
     
+    NSDictionary *resource = [self.dataSource objectAtIndex:indexPath.row];
+
+    NSDate *beginTime = [NSDate dateWithTimeIntervalSince1970:[[resource objectForKey:@"beginTime"] longLongValue]/1000];
+    cell.mTimeLabel.text = [beginTime timeString];
+
     cell.delegate = self;
-//    cell.model = model;
+    
+    if (scoreSecret) {
+        //隐藏分数
+        cell.mScoreLabel.hidden = YES;
+    }else
+    {
+        if ([[resource objectForKey:@"checked"] intValue]==1) {
+            
+            if ([[resource objectForKey:@"score"] intValue] >= 0) {
+                
+                NSString * s = [NSString stringWithFormat:@"%.1f",[[resource objectForKey:@"score"] floatValue]];
+                cell.mScoreLabel.text = [NSString stringWithFormat:@"%g",s.floatValue];
+            }
+            else
+            {
+                cell.mScoreLabel.text = @"交白卷";
+            }
+            
+        }else{
+            cell.mScoreLabel.text = @"处理中";
+        }
+    }
     
     return cell;
 }
