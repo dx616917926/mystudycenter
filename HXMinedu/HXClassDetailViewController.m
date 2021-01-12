@@ -13,7 +13,7 @@
 
 @interface HXClassDetailViewController ()<QCSlideSwitchViewDelegate>
 {
-    NSMutableArray * modules; //默认最多三个 exam、qa、cws
+    NSMutableArray * modules; //模块
     
     HXPullRefreshViewController * currentVC;//临时变量
 }
@@ -22,7 +22,6 @@
 
 @property (nonatomic, strong)HXCwsModuleViewController * cwsModuleVC;
 @property (nonatomic, strong)HXExamModuleViewController * examModuleVC;
-@property (nonatomic, strong)HXExamModuleViewController * finalExamModuleVC;
 
 @end
 
@@ -63,26 +62,11 @@
 {
     modules = [[NSMutableArray alloc] init];
 
-    //课程学习
-    if (self.courseModel.ShowKJ) {
-        [modules addObject:self.cwsModuleVC];
-    }else{
-
-    }
+    //视频
+    [modules addObject:self.cwsModuleVC];
     
-    //平时作业
-    if (self.courseModel.ShowZY) {
-        [modules addObject:self.examModuleVC];
-    }else{
-        
-    }
-    
-    //期末考试
-    if (self.courseModel.ShowQM) {
-        [modules addObject:self.finalExamModuleVC];
-    }else{
-        
-    }
+    //习题
+    [modules addObject:self.examModuleVC];
 
     if (modules.count == 0) {
         //设置空白界面
@@ -109,12 +93,11 @@
     [self.view addSubview:self.slideSwitchView];
     
     self.slideSwitchView.tabItemNormalColor = [UIColor colorWithRed:0.66 green:0.66 blue:0.66 alpha:1];
-    
     self.slideSwitchView.tabItemSelectedColor = [UIColor colorWithRed:0.06 green:0.06 blue:0.06 alpha:1];
     
     UIImage * shadow = [UIImage imageNamed:@"qc_slide_shadow"];
-    
     self.slideSwitchView.shadowImage =shadow;
+    self.slideSwitchView.widthOfButton = 44;
     
     [self.slideSwitchView buildUI];
     
@@ -130,13 +113,8 @@
 {
     if (!_cwsModuleVC) {
         _cwsModuleVC = [[HXCwsModuleViewController alloc]init];
-        _cwsModuleVC.title = self.courseModel.KJButtonName; //@"课件学习";
-        _cwsModuleVC.courseGUID = self.courseModel.courseGUID;
-        _cwsModuleVC.courseCode = self.courseModel.coursecode;
-        _cwsModuleVC.stemCode = self.courseModel.StemCode;
-        _cwsModuleVC.examDate = self.courseModel.ExamDate;
-        _cwsModuleVC.yxDM = self.courseModel.yxDM;
-        _cwsModuleVC.kcDM = self.courseModel.kcDM;
+        _cwsModuleVC.title = @"视频";
+        _cwsModuleVC.course_id = self.courseModel.course_id;
         [self addChildViewController:_cwsModuleVC];
     }
     return _cwsModuleVC;
@@ -146,30 +124,11 @@
 {
     if (!_examModuleVC) {
         _examModuleVC = [[HXExamModuleViewController alloc]init];
-        _examModuleVC.title = self.courseModel.ZYButtonName;//@"平时作业";
-//        _examModuleVC.moduleCode = [self getCodeWithURL:self.courseModel.aUrl forKey:@"moduleCode"];
-//        _examModuleVC.authorizeUrl = self.courseModel.aUrl;
-//        _examModuleVC.message = self.courseModel.jobCodeMessage;
-//        _examModuleVC.time = self.courseModel.jobTime;
-//        _examModuleVC.source = self.courseModel.jobCodeSource;
+        _examModuleVC.title = @"习题";
+        _examModuleVC.course_id = self.courseModel.course_id;
         [self addChildViewController:_examModuleVC];
     }
     return _examModuleVC;
-}
-
--(HXExamModuleViewController *)finalExamModuleVC
-{
-    if (!_finalExamModuleVC) {
-        _finalExamModuleVC = [[HXExamModuleViewController alloc]init];
-        _finalExamModuleVC.title = self.courseModel.QMButtonName;//@"期末考试";
-//        _finalExamModuleVC.moduleCode = [self getCodeWithURL:self.courseModel.eUrl forKey:@"moduleCode"];
-//        _finalExamModuleVC.authorizeUrl = self.courseModel.eUrl;
-//        _finalExamModuleVC.message = self.courseModel.examMessage;
-//        _finalExamModuleVC.source = self.courseModel.jobCodeSource;
-//        _finalExamModuleVC.time = self.courseModel.examTime;
-        [self addChildViewController:_finalExamModuleVC];
-    }
-    return _finalExamModuleVC;
 }
 
 #pragma mark - QCSlideSwitchViewDelegate

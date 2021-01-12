@@ -27,6 +27,12 @@
     [super setFrame:f];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    self.imageView.x = (self.textLabel.x - self.imageView.width)/2.0;
+}
+
 - (void)drawRect:(CGRect)rect {
     
     BOOL addLine = NO;

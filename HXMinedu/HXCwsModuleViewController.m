@@ -51,9 +51,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HXCoursewareCell" bundle:nil] forCellReuseIdentifier:@"HXCoursewareCell"];
-    
-    self.tableView.tableFooterView = [[UIView alloc] init];
-    
+        
     self.tableView.mj_footer.hidden = YES;
 }
 
@@ -128,12 +126,7 @@
 -(void)requestCwsModulesListData
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    [parameters setValue:self.courseGUID forKey:@"courseGUID"];
-    [parameters setValue:self.courseCode forKey:@"courseCode"];
-    [parameters setValue:self.stemCode forKey:@"stemCode"];
-    [parameters setValue:self.examDate forKey:@"examDate"];
-    [parameters setValue:self.yxDM forKey:@"yxDM"];
-    [parameters setValue:self.kcDM forKey:@"kcDM"];
+    [parameters setValue:self.course_id forKey:@"course_id"];
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_CWSLIST withDictionary:parameters success:^(NSDictionary *dictionary) {
         BOOL Success = [dictionary boolValueForKey:@"Success"];
@@ -141,10 +134,9 @@
             
             [self.coursewares removeAllObjects];
             
-            NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
+            NSArray *data = [dictionary objectForKey:@"Data"];
             if (data) {
-                HXCwsCourseware *courseware = [HXCwsCourseware mj_objectWithKeyValues:data];
-                [self.coursewares addObject:courseware];
+                self.coursewares = [HXCwsCourseware mj_objectArrayWithKeyValuesArray:data];
             }
             
             //设置空白页

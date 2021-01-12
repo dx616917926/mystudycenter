@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *learnDuration; //学习总时长
 @property(nonatomic, strong) NSString *learnTime;     //建议学时
 @property(nonatomic, assign) BOOL showLanguageButton;
+@property(nonatomic, strong) NSString *StartDate;
+@property(nonatomic, strong) NSString *EndDate;
 @property(nonatomic, strong) NSDictionary *cws_param;  //新课件系统的参数
 
 @end

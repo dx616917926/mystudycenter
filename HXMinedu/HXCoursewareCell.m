@@ -18,9 +18,6 @@
     self.mBackgroundView.layer.shadowOffset = CGSizeMake(0,0);
     self.mBackgroundView.layer.shadowOpacity = 1;
     self.mBackgroundView.layer.shadowRadius = 4;
-    
-    self.mTypeLabel.layer.cornerRadius = 4;
-    self.mTypeLabel.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

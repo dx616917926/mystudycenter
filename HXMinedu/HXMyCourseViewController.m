@@ -31,6 +31,9 @@
     
     [self initTitleView];
     [self initTableView];
+    
+    //退出登录的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginOut) name:SHOWLOGIN object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -45,7 +48,14 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+}
 
+//退出登录，清空数据
+- (void)loginOut{
+    self.majorsArr = [NSArray array];
+    [self.majorMenuView dismiss];
+    self.courseListArray = [NSArray array];
+    [self.mTableView reloadData];
 }
 
 -(void)initTitleView

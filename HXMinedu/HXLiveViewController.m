@@ -27,6 +27,23 @@
     self.sc_navigationBar.title = @"直播";
     
     [self createScrollView];
+    
+    //退出登录的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginOut) name:SHOWLOGIN object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (self.liveListArray == nil) {
+        [self.mScrollView.mj_header beginRefreshing];
+    }
+}
+
+//退出登录，清空数据
+- (void)loginOut{
+    self.liveListArray = nil;
+    [self createNoneContentView];
 }
 
 - (void)loadNewData {
@@ -49,11 +66,10 @@
     header.lastUpdatedTimeLabel.hidden = YES;
     header.stateLabel.hidden = YES;
     
-    // 马上进入刷新状态
-    [header beginRefreshing];
-    
     // 设置header
     self.mScrollView.mj_header = header;
+    
+    [self.mScrollView.mj_header beginRefreshing];
 }
 
 - (void)createContentView {

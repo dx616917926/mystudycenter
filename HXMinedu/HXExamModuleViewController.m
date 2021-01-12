@@ -8,6 +8,7 @@
 #import "HXExamModuleViewController.h"
 #import "HXExamCell.h"
 #import "HXExamDetailViewController.h"
+#import "HXExamModel.h"
 
 @interface HXExamModuleViewController ()<HXExamCellDelegate>
 {
@@ -74,7 +75,7 @@
         [self.tableView setTableHeaderView:blankBg];
         
     }else{
-        self.tableView.tableHeaderView = nil;
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.1)];;
     }
 }
 
@@ -112,7 +113,7 @@
         [self.tableView setTableHeaderView:blankBg];
     }else
     {
-        self.tableView.tableHeaderView = nil;
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.1)];;
     }
 }
 
@@ -124,23 +125,26 @@
     }
 }
 
--(void)requestCwsModulesListData
+-(void)requestExamListData
 {
-    NSString * url = [NSString stringWithFormat:HXPOST_MAJORLIST];
+    NSMutableDictionary *parsms = [NSMutableDictionary dictionary];
+    [parsms setObject:self.course_id forKey:@"course_id"];
     
-    [HXBaseURLSessionManager postDataWithNSString:url withDictionary:nil success:^(NSDictionary *dictionary) {
+    NSString * url = [NSString stringWithFormat:HXPOST_EXAMLIST];
+    
+    [HXBaseURLSessionManager postDataWithNSString:url withDictionary:parsms success:^(NSDictionary *dictionary) {
         BOOL Success = [dictionary boolValueForKey:@"Success"];
         if (Success) {
-            
-            [self.exams removeAllObjects];
-                        
-            //设置空白页
-//            [self setTableHeaderView];
-            
-            [self.tableView reloadData];
-            
             [self.view hideLoading];
             
+            [self.exams removeAllObjects];
+            
+            self.exams = [HXExamModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            
+            //设置空白页
+            [self setTableHeaderView];
+            
+            [self.tableView reloadData];
         }else
         {
             [self setRequestFiledView];
@@ -165,53 +169,65 @@
 
 - (void)loadNewData
 {
-    [self requestCwsModulesListData];
+    [self requestExamListData];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.exams.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 8;
+    if (self.exams.count) {
+        return 40;
+    }
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 94;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;//self.exams.count;
+    return 1;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView * view = [[UIView alloc] init];
+    UIView *view = [[UIView alloc] init];
+    if (self.exams.count) {
+        HXExamModel *model = [self.exams objectAtIndex:section];
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 10, 100, 30)];
+        label.text = model.ButtonName;
+        label.font = [UIFont boldSystemFontOfSize:17];
+        label.textColor = [UIColor blackColor];
+        [view addSubview:label];
+    }
     return view;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView * view = [[UIView alloc] init];
+    UIView *view = [[UIView alloc] init];
     return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    HXCourseModel *courseware = [self.exams objectAtIndex:indexPath.row];
+    HXExamModel *model = [self.exams objectAtIndex:indexPath.section];
 
     HXExamCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HXExamCell" forIndexPath:indexPath];
     cell.selectedBackgroundView = [[UIView alloc] init];
-//    cell.model = courseware;
+    cell.model = model;
     cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -220,7 +236,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 
 }
 

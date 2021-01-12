@@ -39,5 +39,13 @@
     }
 }
 
+- (void)setModel:(HXExamModel *)model {
+    
+    _model = model;
+    
+    self.mTitleLabel.text = model.ButtonName;
+    
+    self.mInfoLabel.text = [NSString stringWithFormat:@"时间：%@ - %@",model.StartDate,model.EndDate];
+}
 
 @end
