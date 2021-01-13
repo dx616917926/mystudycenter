@@ -299,14 +299,26 @@
                 
                 NSString * s = [NSString stringWithFormat:@"%.1f",[[resource objectForKey:@"score"] floatValue]];
                 cell.mScoreLabel.text = [NSString stringWithFormat:@"%g分",s.floatValue];
+                
+                //及格分数颜色
+                if (s.floatValue > 60) {
+                    cell.mScoreLabel.textColor = [UIColor colorWithRed:70/255.0 green:167/255.0 blue:79/255.0 alpha:1.0];
+                }else
+                {
+                    cell.mScoreLabel.textColor = [UIColor colorWithRed:254/255.0 green:98/255.0 blue:75/255.0 alpha:1.0];
+                }
             }
             else
             {
                 cell.mScoreLabel.text = @"交白卷";
+                
+                cell.mScoreLabel.textColor = [UIColor colorWithRed:254/255.0 green:98/255.0 blue:75/255.0 alpha:1.0];
             }
             
         }else{
             cell.mScoreLabel.text = @"处理中…";
+            
+            cell.mScoreLabel.textColor = [UIColor colorWithRed:169/255.0 green:169/255.0 blue:169/255.0 alpha:1.0];
         }
     }
     
