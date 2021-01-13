@@ -29,7 +29,7 @@
 #import <Masonry/Masonry.h>
 
 #import "HXBaseURLSessionManager.h"
-#import "HXHTTPSessionManager.h"
+#import "HXExamSessionManager.h"
 #import "HXPublicParamTool.h"
 #import "UIImage+Extension.h"
 

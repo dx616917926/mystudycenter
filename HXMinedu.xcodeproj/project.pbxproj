@@ -14,6 +14,7 @@
 		04060A40255548FF00133FB3 /* CustomIOSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */; };
 		040B03B02554EA2800E977E2 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03AF2554EA2800E977E2 /* HXSettingViewController.m */; };
 		040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */; };
+		041ABDD125AE8A590094CCFA /* exam.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041ABDD025AE8A590094CCFA /* exam.xcassets */; };
 		043E05B425A43959005FABD4 /* userInfoView.html in Resources */ = {isa = PBXBuildFile; fileRef = 043E05B325A43959005FABD4 /* userInfoView.html */; };
 		043E05BA25A45FD8005FABD4 /* HXForgetPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E05B925A45FD8005FABD4 /* HXForgetPasswordController.m */; };
 		043E05C025A4682E005FABD4 /* HXVertifyCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E05BF25A4682E005FABD4 /* HXVertifyCodeViewController.m */; };
@@ -243,7 +244,6 @@
 		04D793D0254FFA7100BCB358 /* HXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793CF254FFA7100BCB358 /* HXLoginViewController.m */; };
 		04D793D9254FFDFD00BCB358 /* HXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */; };
 		04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */; };
-		04FD3D5225AD6F7900E157EA /* HXHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5125AD6F7900E157EA /* HXHTTPSessionManager.m */; };
 		04FD3D5625AD703B00E157EA /* HXExamListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5525AD703B00E157EA /* HXExamListViewController.m */; };
 		04FD3D5A25AD72C100E157EA /* HXExam.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5825AD72C100E157EA /* HXExam.m */; };
 		04FD3D5F25AD732F00E157EA /* HXExamListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5D25AD732F00E157EA /* HXExamListCell.m */; };
@@ -266,6 +266,7 @@
 		040B03AF2554EA2800E977E2 /* HXSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
 		040B03B425552C7400E977E2 /* HXCheckUpdateTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCheckUpdateTool.h; sourceTree = "<group>"; };
 		040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCheckUpdateTool.m; sourceTree = "<group>"; };
+		041ABDD025AE8A590094CCFA /* exam.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = exam.xcassets; sourceTree = "<group>"; };
 		043E05B325A43959005FABD4 /* userInfoView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = userInfoView.html; sourceTree = "<group>"; };
 		043E05B825A45FD8005FABD4 /* HXForgetPasswordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXForgetPasswordController.h; sourceTree = "<group>"; };
 		043E05B925A45FD8005FABD4 /* HXForgetPasswordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXForgetPasswordController.m; sourceTree = "<group>"; };
@@ -686,8 +687,6 @@
 		04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewController.m; sourceTree = "<group>"; };
 		04D793DB254FFE1F00BCB358 /* HXLiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveViewController.h; sourceTree = "<group>"; };
 		04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveViewController.m; sourceTree = "<group>"; };
-		04FD3D5025AD6F7900E157EA /* HXHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXHTTPSessionManager.h; sourceTree = "<group>"; };
-		04FD3D5125AD6F7900E157EA /* HXHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXHTTPSessionManager.m; sourceTree = "<group>"; };
 		04FD3D5425AD703B00E157EA /* HXExamListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamListViewController.h; sourceTree = "<group>"; };
 		04FD3D5525AD703B00E157EA /* HXExamListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamListViewController.m; sourceTree = "<group>"; };
 		04FD3D5825AD72C100E157EA /* HXExam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXExam.m; sourceTree = "<group>"; };
@@ -1024,8 +1023,6 @@
 			children = (
 				0449A3B2254C11F4001A28D5 /* HXBaseURLSessionManager.h */,
 				0449A3B1254C11F4001A28D5 /* HXBaseURLSessionManager.m */,
-				04FD3D5025AD6F7900E157EA /* HXHTTPSessionManager.h */,
-				04FD3D5125AD6F7900E157EA /* HXHTTPSessionManager.m */,
 			);
 			path = HXHTTPSessionManager;
 			sourceTree = "<group>";
@@ -1797,6 +1794,7 @@
 				04D793B7254FA5D100BCB358 /* HXQuestionBtn.m */,
 				04D793BE254FA5D200BCB358 /* HXStartExamViewController.h */,
 				04D793B9254FA5D100BCB358 /* HXStartExamViewController.m */,
+				041ABDD025AE8A590094CCFA /* exam.xcassets */,
 			);
 			path = exam;
 			sourceTree = "<group>";
@@ -1958,6 +1956,7 @@
 				0449A51C254C11F6001A28D5 /* decrement@2x.png in Resources */,
 				0449A513254C11F6001A28D5 /* increment@2x.png in Resources */,
 				0449A31F254BFE95001A28D5 /* Assets.xcassets in Resources */,
+				041ABDD125AE8A590094CCFA /* exam.xcassets in Resources */,
 				0449A518254C11F6001A28D5 /* painter_back@2x.png in Resources */,
 				04D5AF4F259B1F5E004F11E8 /* HXMessageListCell.xib in Resources */,
 				04C3A2F62595BAF1008F32A4 /* HXExamDetailTopView.xib in Resources */,
@@ -2152,7 +2151,6 @@
 				04D5AF44259B1F2F004F11E8 /* HXMessageListController.m in Sources */,
 				0449A4EE254C11F6001A28D5 /* UIView+Fade.m in Sources */,
 				0449A4F7254C11F6001A28D5 /* PlayerSlider.m in Sources */,
-				04FD3D5225AD6F7900E157EA /* HXHTTPSessionManager.m in Sources */,
 				0449A4F5254C11F6001A28D5 /* SuperPlayerView.m in Sources */,
 				0449A4FE254C11F6001A28D5 /* TXDownloadViewController.m in Sources */,
 				0449A4E6254C11F6001A28D5 /* TXCatalogKnowledgePoint.m in Sources */,

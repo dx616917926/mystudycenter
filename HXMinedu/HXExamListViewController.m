@@ -132,9 +132,9 @@
     [mutableUrl appendString:@"&ct=client"];
     
     //重新根据返回的数据确定一下baseURL
-    [[HXHTTPSessionManager sharedClient] setBaseUrl:self.authorizeUrl];
+    [[HXExamSessionManager sharedClient] setBaseUrl:self.authorizeUrl];
     
-    [HXHTTPSessionManager getDataWithNSString:mutableUrl withDictionary:nil success:^(NSDictionary *dictionary) {
+    [HXExamSessionManager getDataWithNSString:mutableUrl withDictionary:nil success:^(NSDictionary *dictionary) {
         //
         [self requestExamModulesListData];
         
@@ -155,7 +155,7 @@
     
     NSString * url = [NSString stringWithFormat:HXEXAM_MODULES_LIST,self.moduleCode];
     
-    [HXHTTPSessionManager getDataWithNSString:url withDictionary:nil success:^(NSDictionary *dic) {
+    [HXExamSessionManager getDataWithNSString:url withDictionary:nil success:^(NSDictionary *dic) {
         NSString *success = [NSString stringWithFormat:@"%@",[dic objectForKey:@"success"]];
         if ([success isEqualToString:@"1"]) {
             

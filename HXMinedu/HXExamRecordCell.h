@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *mContinueExamButton;
 @property (weak, nonatomic) IBOutlet UIButton *mLookExamButton;
 
+@property(nonatomic, strong) NSDictionary *dataSource;
+
 @property (nonatomic, weak) id<HXExamRecordCellDelegate> delegate;
 
 @end

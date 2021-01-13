@@ -22,10 +22,9 @@
 #import "HXPainterViewController.h"
 #import "XHImageViewer.h"
 #import "UIImageView+AFNetworking.h"
+#import <UMCommon/MobClick.h>
 
-#define MAX_Attach_Count 5   //最大附件个数
-
-@interface HXStartExamViewController ()<HXPainterViewControllerDelegate,XHImageViewerDelegate>{
+@interface HXStartExamViewController ()<HXPainterViewControllerDelegate,XHImageViewerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
     
     UIView *menuView;//目录视图 点击目录出现 再次点击消失
     
@@ -105,6 +104,12 @@
     BOOL shouldHiddenLoading; //临时变量，第一次加载试卷会有很大延迟，这段试卷先转圈
     
     WKProcessPool * pool;//两个WKWebview共用同一个pool
+    
+    UIButton * leftSwitchButton;//上一题
+    
+    UIButton * rightSwitchButton;//下一题
+    
+    NSString *tempTitleText; //临时变量
 }
 @property WKWebViewJavascriptBridge* bridge1;
 @property WKWebViewJavascriptBridge* bridge2;
@@ -113,19 +118,19 @@
 @property (nonatomic, strong) HXBarButtonItem *submitBarItem;//提交按钮
 @property (nonatomic, strong) HXBarButtonItem *menuBarItem;  //目录
 
-@property(nonatomic, strong) NSString *tempFileName;         //临时的全局变量，用于删除附件
-@property(nonatomic, assign) int top;             //用于textarea键盘控制、焦点控制
+@property(nonatomic, strong) NSString *tempFileName;   //临时的全局变量，用于删除附件
+@property(nonatomic, assign) int top;                  //用于textarea键盘控制、焦点控制
 @property(nonatomic, strong) ExamResultDetail *lastUserSaveAnswer;
 
 @property(nonatomic, strong) NSMutableDictionary *userAnswers;  //存放答题结果信息, 用于网页显示和客户端判卷
 @property(nonatomic, strong) NSMutableDictionary *rightAnswers; //题目正确答案和分数
-@property(nonatomic, assign) int subPosition;    //复合题子题位置
+@property(nonatomic, assign) int subPosition;          //复合题子题位置
 @property(nonatomic, strong) HXQuestionInfo * curQuestion;      //当前显示的题目信息
-
 @end
 
 #define SplitViewBottomMargin (IS_iPhoneX?400:0)
 #define LeftTimeViewHeight (IS_iPhoneX?60:40)
+#define MAX_Attach_Count 5
 
 @implementation HXStartExamViewController
 
@@ -137,7 +142,6 @@
     }
     return self;
 }
-
 
 -(void)loadView
 {
@@ -174,7 +178,6 @@
     self.top = 0;
     offlineProcessNum = 0;
     shouldLoadCount = 0;
-    
     self.userAnswers = [[NSMutableDictionary alloc]init];
     self.rightAnswers = [[NSMutableDictionary alloc]init];
     
@@ -214,7 +217,7 @@
     
     [self drawSplitView];
     
-    [self initBridge];    
+    [self initBridge];
     
     if (isHaveTimer) {
         [self.view addSubview:leftTimeView];
@@ -257,6 +260,8 @@
     {
         type = @"查看试卷";
     }
+    //发送统计信息
+    [MobClick event:@"ExamViewEvent" attributes:@{@"title":_examTitle,@"type":type}];
     
     //引导页
     [self createGuideImageView];
@@ -266,7 +271,6 @@
     
     //断网通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkDidChangeNotification) name:AFNetworkingReachabilityDidChangeNotification object:nil];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -292,8 +296,8 @@
     //禁用全局滑动手势
     HXNavigationController * navigationController = (HXNavigationController *)self.navigationController;
     navigationController.enableInnerInactiveGesture = NO;
-    
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -370,7 +374,7 @@
 {
     if (_isEnterExam) {
         //判断是否是第一次进入app，如果是则显示引导页面
-        BOOL firstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"];
+        BOOL firstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch3"];
         if (!firstLaunch && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             
             guideImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
@@ -387,11 +391,12 @@
             [guideImageView addSubview:btn];
             
             //这个页面只显示一次
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch3"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }
 }
+
 #pragma mark - 一些网络请求放在这里了---
 
 /**
@@ -437,6 +442,7 @@
     @synchronized (self) {
         if (shouldLoadCount <= 1) {
             shouldHiddenLoading = YES;
+            [self drawSwitchButton];
             [self setWebViewContentWithInfo:self.curQuestion];
         }
         shouldLoadCount--;
@@ -455,6 +461,7 @@
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
     [manager GET:self.examUrl parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        //
         //解析数据
         [self parseQuestionGroup:responseObject];
         
@@ -542,7 +549,7 @@
     }
     
     NSString *url =[NSString stringWithFormat:@"%@%@%@",self.examBasePath,HXEXAM_MYANSWER,userExamId];
-    
+
     [HXExamSessionManager getDataWithNSString:url withDictionary:nil success:^(NSDictionary *dictionary) {
         NSLog(@"UserAnswer = %@",dictionary);
         NSString *success = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
@@ -571,8 +578,19 @@
     }];
     
 }
-/** 提交试卷  **/
 
+/**
+ 准备提交试卷
+ */
+- (void)prepareSubmitTheExampaper {
+    
+    //直接提交试卷
+    [[[UIApplication sharedApplication] keyWindow] showLoading];
+    isFinal =NO;
+    [self submitTheExampaper];
+}
+
+/** 提交试卷  **/
 - (void)submitTheExampaper{
     
     offlineAnswers = [[HXDBManager defaultDBManager] listAnswerByUserExamId:[self.userExam objectForKey:@"userExamId"]];
@@ -609,23 +627,10 @@
     [HXExamSessionManager postDataWithNSString:url withDictionary:dic success:^(NSDictionary *dictionary) {
         
         NSString *Str = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
-        if ([Str isEqualToString:@"1"]) {
-            [self overTheExam];
-        }else{
-            [[[UIApplication sharedApplication] keyWindow] hideLoading];
-            
-            NSString *suspendContinue = [NSString stringWithFormat:@"%@",[self.userExam objectForKey:@"suspendContinue"]];
-            NSString *msg;
-            if ([suspendContinue isEqualToString:@"1"]) {
-                msg = @"连接服务器失败!您回答的问题已被暂存在客户端中,请检查您的网络条件后重试!";
-            }else{
-                msg = @"连接服务器失败!您回答的问题已被暂存在客户端中,请检查您的网络条件后重试!该考试支持续考,您也可以选择\"退出\"后,通过\"继续考试\"功能重新提交!";
-                
-            }
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"退出" otherButtonTitles:@"重试", nil];
-            alert.tag = 170;
-            [alert show];
+        if (![Str isEqualToString:@"1"]) {
+            NSLog(@"submit考试失败！");  //虽然失败了（就是session过期了）依然让它继续执行交卷操作
         }
+        [self overTheExam];
         
     } failure:^(NSError *error) {
         
@@ -651,33 +656,20 @@
     [HXExamSessionManager getDataWithNSString:url withDictionary:nil success:^(NSDictionary *dictionary) {
         
         NSString *Str = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
-        if ([Str isEqualToString:@"1"]) {
-            
-            //结束统计
-            [self.view hideLoading];
-            
-            HXCompleteViewController  *cvc = [[HXCompleteViewController alloc]init];
-            cvc.basePath = self.examBasePath;
-            cvc.resultUrlDic = dictionary;
-            cvc.examTitle = _examTitle;
-            cvc.examBasePath = _examBasePath;
-            [self.navigationController pushViewController:cvc animated:YES];
-            
-            [[[UIApplication sharedApplication] keyWindow] hideLoading];
-        }else{
-            [self.view hideLoading];
-            NSString *suspendContinue = [NSString stringWithFormat:@"%@",[self.userExam objectForKey:@"suspendContinue"]];
-            NSString *msg;
-            if ([suspendContinue isEqualToString:@"1"]) {
-                msg = @"连接服务器失败!您回答的问题已被暂存在客户端中,请检查您的网络条件后重试!";
-            }else{
-                msg = @"连接服务器失败!您回答的问题已被暂存在客户端中,请检查您的网络条件后重试!该考试支持续考,您也可以选择\"退出\"后,通过\"继续考试\"功能重新提交!";
-                
-            }
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"退出" otherButtonTitles:@"重试", nil];
-            alert.tag = 170;
-            [alert show];
+        if (![Str isEqualToString:@"1"]) {
+            NSLog(@"结束考试失败！");  //虽然失败了（就是session过期了）依然让它继续执行交卷操作
         }
+        
+        [self.view hideLoading];
+        
+        HXCompleteViewController  *cvc = [[HXCompleteViewController alloc]init];
+        cvc.basePath = self.examBasePath;
+        cvc.resultUrlDic = dictionary;
+        cvc.examTitle = _examTitle;
+        cvc.examBasePath = _examBasePath;
+        [self.navigationController pushViewController:cvc animated:YES];
+        
+        [[[UIApplication sharedApplication] keyWindow] hideLoading];
         
     } failure:^(NSError *error) {
         //断网
@@ -701,11 +693,17 @@
 /** 提交用户答案  **/
 - (void)saveTheCurrentAnswer:(ExamResultDetail *)data andTheFinalSave:(BOOL)finalSave{
     
-    if(data.answer==nil || [data.answer isKindOfClass:[NSNull class]])
+    if (data == nil && !finalSave) {
+        // 结束考试
+        [self submitTheExampaper];
+        return;
+    }
+    
+    if(data.answer==nil)
     {
         data.answer = @"";
     }
-    if(data.attach==nil || [data.attach isKindOfClass:[NSNull class]])
+    if(data.attach==nil)
     {
         data.attach = @"";
     }
@@ -727,7 +725,7 @@
     }
     
     NSDictionary *dic = @{@"psqId":[NSNumber numberWithInteger:data.paperSuitQuestionId],@"questionId":[NSNumber numberWithInteger:data.questionId],@"answer":data.answer,@"right":right ,@"score":[NSNumber numberWithFloat:score],@"attach":data.attach};
-    
+
     [HXExamSessionManager postDataWithNSString:url withDictionary:dic success:^(NSDictionary *dictionary) {
         
         NSLog(@"answer = %@",dictionary);
@@ -764,7 +762,7 @@
         //离线保存
         [[HXDBManager defaultDBManager]saveOneExamResultDetail:data];
         
-        if (!isOffLineModel) {
+        if (!isOffLineModel && !finalSave) {
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"连接网络失败,您是否进入离线考试模式?" delegate:self cancelButtonTitle:@"重试" otherButtonTitles:@"确定", nil];
             alert.tag = 160;
             [alert show];
@@ -913,7 +911,7 @@
         {
             NSDictionary * dic = [weakSelf.userAnswers objectForKey:[data objectForKey:@"qid"]];
             if (dic != nil) {
-                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":ExamBaseUrl});
+                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":self.examBasePath});
             }else
             {
                 responseCallback(@"");
@@ -967,7 +965,7 @@
         [weakSelf.view showErrorWithMessage:@"暂不支持下载！"];
     }];
     
-    //进入画板应用
+    //进入画板应用----上传照片按钮
     [_bridge1 registerHandler:@"enterPainterApp" handler:^(id data1, WVJBResponseCallback responseCallback) {
         //
         weakSelf.bridgeCurrent = weakSelf.bridge1;
@@ -989,17 +987,21 @@
                 NSArray * attachs = [attach componentsSeparatedByString:@","];
                 if (attachs.count>=MAX_Attach_Count) {
                     [weakSelf.view showErrorWithMessage:@"附件数量不能超过5个！"];
+                    
+                    weakSelf.bridgeCurrent = nil;
                     return;
                 }
             }
         }
         
-        HXPainterViewController * painterViewC = [[HXPainterViewController alloc] initWithNibName:@"HXPainterViewController" bundle:nil];
-        painterViewC.delegate = weakSelf;
-        [weakSelf.navigationController pushViewController:painterViewC animated:YES];
-        painterViewC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+        //选择照片
+        [weakSelf showSelectPhotoAlertView];
+        
+//        HXPainterViewController * painterViewC = [[HXPainterViewController alloc] initWithNibName:@"HXPainterViewController" bundle:nil];
+//        painterViewC.delegate = weakSelf;
+//        [weakSelf.navigationController pushViewController:painterViewC animated:YES];
+//        painterViewC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     }];
-    
     
     //webView2注册js方法
     _bridge2 = [WKWebViewJavascriptBridge bridgeForWebView:myWebView2];
@@ -1020,6 +1022,7 @@
     [_bridge2 registerHandler:@"isTablet" handler:^(id data, WVJBResponseCallback responseCallback) {
         responseCallback(@"0");
     }];
+    
     
     [_bridge2 registerHandler:@"SaveItem" handler:^(id data1, WVJBResponseCallback responseCallback) {
         //
@@ -1073,6 +1076,7 @@
     //判断键盘缩放
     [_bridge2 registerHandler:@"setTop" handler:^(id data1, WVJBResponseCallback responseCallback) {
         
+        
         NSDictionary * data = (NSDictionary *)data1;
         
         NSLog(@"top == %@",[data objectForKey:@"top"]);
@@ -1089,7 +1093,7 @@
         {
             NSDictionary * dic = [weakSelf.userAnswers objectForKey:[data objectForKey:@"qid"]];
             if (dic != nil) {
-                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":ExamBaseUrl});
+                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":self.examBasePath});
             }else
             {
                 responseCallback(@"");
@@ -1115,6 +1119,7 @@
     
     [_bridge2 registerHandler:@"isAllowSeeAnswer" handler:^(id data, WVJBResponseCallback responseCallback) {
         //
+        //
         if(weakSelf.isAllowSeeAnswer){
             responseCallback(@"1");
         }else
@@ -1125,6 +1130,7 @@
     
     [_bridge2 registerHandler:@"viewAttachImage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //
+        
         weakSelf.bridgeCurrent = weakSelf.bridge2;
         
         NSString * src = [data objectForKey:@"src"];
@@ -1135,13 +1141,14 @@
         NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@",src]];
         
         [weakSelf showImageView:imageUrl];
+        
     }];
     
     [_bridge2 registerHandler:@"downloadAttachFile" handler:^(id data, WVJBResponseCallback responseCallback) {
         //
     }];
     
-    //进入画板应用
+    //进入画板应用----上传照片按钮
     [_bridge2 registerHandler:@"enterPainterApp" handler:^(id data1, WVJBResponseCallback responseCallback) {
         //
         weakSelf.bridgeCurrent = weakSelf.bridge2;
@@ -1162,15 +1169,20 @@
                 NSArray * attachs = [attach componentsSeparatedByString:@","];
                 if (attachs.count>=MAX_Attach_Count) {
                     [weakSelf.view showErrorWithMessage:@"附件数量不能超过5个！"];
+                    
+                    weakSelf.bridgeCurrent = nil;
                     return;
                 }
             }
         }
         
-        HXPainterViewController * painterViewC = [[HXPainterViewController alloc] initWithNibName:@"HXPainterViewController" bundle:nil];
-        painterViewC.delegate = weakSelf;
-        [weakSelf.navigationController pushViewController:painterViewC animated:YES];
-        painterViewC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+        //选择照片
+        [weakSelf showSelectPhotoAlertView];
+        
+//        HXPainterViewController * painterViewC = [[HXPainterViewController alloc] initWithNibName:@"HXPainterViewController" bundle:nil];
+//        painterViewC.delegate = weakSelf;
+//        [weakSelf.navigationController pushViewController:painterViewC animated:YES];
+//        painterViewC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     }];
 }
 
@@ -1229,10 +1241,6 @@
             
             UILabel *qTitle = [[UILabel alloc]initWithFrame:CGRectMake(itemMargin,scrollerHeight, 280, 40)];
             
-            [gmodel.title stringByReplacingOccurrencesOfString:@" " withString:@""];
-            [gmodel.title stringByReplacingOccurrencesOfString:@"\\r" withString:@""];
-            [gmodel.title stringByReplacingOccurrencesOfString:@"\\n" withString:@""];
-            
             qTitle.text = [NSString stringWithFormat:@"%d.%@",i+1,gmodel.title];
             
             [scroller addSubview:qTitle];
@@ -1262,20 +1270,20 @@
                             [qbtn setTitle:qInfo.label forState:UIControlStateNormal];
                             
                             if ([self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",qInfo._id]] != nil) {
-                                [qbtn setBackgroundImage:[UIImage imageNamed:@"topic_1"] forState:UIControlStateNormal];
+                                [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img3"] forState:UIControlStateNormal];
                                 [qbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                             }else{
-                                [qbtn setBackgroundImage:[UIImage imageNamed:@"topic_2"] forState:UIControlStateNormal];
+                                [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img4"] forState:UIControlStateNormal];
                                 [qbtn setTitleColor:[UIColor colorWithRed:0.54 green:0.54 blue:0.54 alpha:1] forState:UIControlStateNormal];//@"#8A8A8A"
                             }
                             
                         }else{
                             
                             if ([[[self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",qInfo._id]]objectForKey:@"right"] boolValue]) {
-                                [qbtn setBackgroundImage:[UIImage imageNamed:@"xzt_1"] forState:UIControlStateNormal];
+                                [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img5"] forState:UIControlStateNormal];
                                 [qbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                             }else{
-                                [qbtn setBackgroundImage:[UIImage imageNamed:@"xzt_2"] forState:UIControlStateNormal];
+                                [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img6"] forState:UIControlStateNormal];
                                 [qbtn setTitleColor:[UIColor colorWithRed:0.54 green:0.54 blue:0.54 alpha:1] forState:UIControlStateNormal];//@"#8A8A8A"
                             }
                         }
@@ -1293,13 +1301,13 @@
                         
                         UILabel *fhTitle = [[UILabel alloc]initWithFrame:CGRectMake(20,scrollerHeight+10, scroller.frame.size.width-40,30 )];
                         fhTitle.backgroundColor = [UIColor clearColor];
-                        UIImage * fuheQImg2 = [UIImage imageNamed:@"fuheQImg2"];
+                        UIImage * fuheQImg2 = [UIImage imageNamed:@"exam_img2"];
                         fuheQImg2 = [fuheQImg2 resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
                         UIImageView * fuheView2 = [[UIImageView alloc]initWithImage:fuheQImg2];
                         fuheView2.frame = fhTitle.frame;
                         [scroller addSubview:fuheView2];
                         
-                        UIImage * fuheQImg1 = [UIImage imageNamed:@"fuheQImg1"];
+                        UIImage * fuheQImg1 = [UIImage imageNamed:@"exam_img1"];
                         UIImageView * fuheView1 = [[UIImageView alloc]initWithImage:fuheQImg1];
                         fuheView1.center = fhTitle.center;
                         [scroller addSubview:fuheView1];
@@ -1323,20 +1331,20 @@
                             if (_isEnterExam) {
                                 [qbtn setTitle:[NSString stringWithFormat:@"( %d )",i3+1]forState:UIControlStateNormal];
                                 if ([self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",q3Info._id]] != nil) {
-                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"topic_1"] forState:UIControlStateNormal];
+                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img3"] forState:UIControlStateNormal];
                                     [qbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                                 }else{
-                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"topic_2"] forState:UIControlStateNormal];
+                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img4"] forState:UIControlStateNormal];
                                     [qbtn setTitleColor:[UIColor colorWithRed:0.54 green:0.54 blue:0.54 alpha:1] forState:UIControlStateNormal];//@"#8A8A8A"
                                 }
                                 
                             }else{
                                 
                                 if ([[[self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",q3Info._id]]objectForKey:@"right"] boolValue]) {
-                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"xzt_1"] forState:UIControlStateNormal];
+                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img5"] forState:UIControlStateNormal];
                                     [qbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                                 }else{
-                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"xzt_2"] forState:UIControlStateNormal];
+                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img6"] forState:UIControlStateNormal];
                                     [qbtn setTitleColor:[UIColor colorWithRed:0.54 green:0.54 blue:0.54 alpha:1] forState:UIControlStateNormal];//@"#8A8A8A"
                                 }
                             }
@@ -1399,6 +1407,7 @@
     }
     menuView.hidden = YES;
     self.sc_navigationBar.title = _examTitle;
+    [self refreshSwitchButton];
 }
 
 //绘制顶部webview
@@ -1527,7 +1536,6 @@
         [mSplitView setHidden:YES]; //默认先隐藏
     }
 }
-
 //设置底部可拖拽控件当前进度
 -(void)splistViewSetProgress:(int)current andTotal:(NSInteger)total
 {
@@ -1536,6 +1544,7 @@
     
     UILabel * tot = (UILabel *)[mSplitView viewWithTag:202];
     tot.text = [NSString stringWithFormat:@"/%ld",total];
+    
 }
 
 -(void)setSplistViewHidden:(BOOL)hidden
@@ -1631,6 +1640,65 @@
         }
     }
 }
+
+#pragma mark - 左右切换题目按钮
+
+//上一题、下一题按钮
+-(void)drawSwitchButton
+{
+    if (leftSwitchButton == nil) {
+        leftSwitchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        leftSwitchButton.frame = CGRectMake(-10, kScreenHeight/2.0-20, 70, 70);
+        [leftSwitchButton setBackgroundColor:[UIColor clearColor]];
+        [leftSwitchButton setImage:[UIImage imageNamed:@"exam_left_switch"] forState:UIControlStateNormal];
+        [leftSwitchButton addTarget:self action:@selector(handleWeb1SwipeFromLeft:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:leftSwitchButton];
+    }
+    //默认隐藏上一题按钮
+    leftSwitchButton.hidden = YES;
+    
+    if (rightSwitchButton == nil) {
+        rightSwitchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        rightSwitchButton.frame = CGRectMake(kScreenWidth-60, kScreenHeight/2.0-20, 70, 70);
+        [rightSwitchButton setBackgroundColor:[UIColor clearColor]];
+        [rightSwitchButton setImage:[UIImage imageNamed:@"exam_right_switch"] forState:UIControlStateNormal];
+        [rightSwitchButton addTarget:self action:@selector(handleWeb1SwipeFromRight:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:rightSwitchButton];
+    }
+    //当题目数大约1时才显示下一题按钮
+    if (qList.count<=1) {
+        rightSwitchButton.hidden = YES;
+    }
+}
+
+//刷新两个按钮的状态
+-(void)refreshSwitchButton
+{
+    //当出现菜单的时候隐藏按钮
+    if (menuView.hidden == NO) {
+        leftSwitchButton.hidden = YES;
+        rightSwitchButton.hidden = YES;
+        
+    }else if (self.curQuestion!=nil) {
+        
+        int currentPosition = self.curQuestion.position;
+        
+        if (currentPosition==0)
+        {
+            leftSwitchButton.hidden = YES;
+            rightSwitchButton.hidden = NO;
+        }else if (currentPosition==qList.count-1)
+        {
+            leftSwitchButton.hidden = NO;
+            rightSwitchButton.hidden = YES;
+        }else
+        {
+            leftSwitchButton.hidden = NO;
+            rightSwitchButton.hidden = NO;
+        }
+    }
+}
+
 #pragma mark - webView左右手势
 
 //顶部webView
@@ -1659,6 +1727,7 @@
             //没有了
             [self.view showTostWithMessage:@"已经是第一题了！"];
         }
+        [self refreshSwitchButton];
     }
 }
 
@@ -1684,6 +1753,7 @@
             //没有了
             [self.view showTostWithMessage:@"已经是最后一题了！"];
         }
+        [self refreshSwitchButton];
     }
 }
 //底部webView
@@ -1714,6 +1784,7 @@
             //没有了
             [self.view showTostWithMessage:@"已经是第一题了！"];
         }
+        [self refreshSwitchButton];
     }
 }
 
@@ -1745,6 +1816,7 @@
             //没有了
             [self.view showTostWithMessage:@"已经是最后一题了！"];
         }
+        [self refreshSwitchButton];
     }
 }
 
@@ -1845,7 +1917,7 @@
             [mAlertView dismissWithClickedButtonIndex:0 animated:NO];
         }
         
-        [self performSelector:@selector(submitTheExampaper) withObject:nil afterDelay:2];
+        [self performSelector:@selector(prepareSubmitTheExampaper) withObject:nil afterDelay:2];
         
     }else {
         if (lTime <= 30)
@@ -1918,6 +1990,7 @@
         mAlertView.tag = 150;
         [mAlertView show];
     }else{
+        
         [self.navigationController popViewControllerAnimated:YES];
     }
     
@@ -1933,9 +2006,8 @@
             NSLog(@"cancle");
             [alertView  dismissWithClickedButtonIndex:1 animated:YES];
         }else{
-            [[[UIApplication sharedApplication] keyWindow] showLoading];
-            isFinal =NO;
-            [self submitTheExampaper];
+            
+            [self prepareSubmitTheExampaper];
         }
     }else if (alertView.tag == 160){ //提交每道小题时候网络出问题的时候弹出
         if (buttonIndex == 0) {
@@ -1956,6 +2028,7 @@
             isFinal =NO;
             [self submitTheExampaper];
         }
+        
     }
 }
 
@@ -1977,6 +2050,8 @@
         menuView.hidden = YES;
         self.sc_navigationBar.title = _examTitle;
     }
+    
+    [self refreshSwitchButton];
 }
 
 #pragma mark - webview Delegate -
@@ -2000,7 +2075,7 @@
         decisionHandler(WKNavigationActionPolicyAllow);
         return;
         
-    }else if ([url isEqualToString:ExamBaseUrl]) {
+    }else if ([url isEqualToString:BaseUrl]) {
         decisionHandler(WKNavigationActionPolicyAllow);
         return;
         
@@ -2011,7 +2086,7 @@
         
     }else if(!isOutLink)
     {
-        if (!([[AFNetworkReachabilityManager sharedManager] isReachable])) {
+        if (!NETWORK_AVAILIABLE) {
             [self.view showErrorWithMessage:@"请检查网络链接！"];
             decisionHandler(WKNavigationActionPolicyCancel);
             return;
@@ -2082,7 +2157,7 @@
     if (_isEnterExam) {
         NSMutableString * html = [[NSMutableString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         
-        [html replaceOccurrencesOfString:@"</textarea>" withString:@"</textarea> <button type=\"button\" id=\"btn_open_painter\" style='font-size:18px'>启用画板输入</button>" options:NSLiteralSearch range:NSMakeRange(0, html.length)];
+        [html replaceOccurrencesOfString:@"</textarea>" withString:@"</textarea> <button type=\"button\" id=\"btn_open_painter\" style='font-size:18px'>添加照片</button><p style='font-size:16px;color:#ec8580;'>答题需要画图或者写计算过程的可在纸上完成，拍照成一张图上传。如需删除图片，可点击图片，右上角删除。</p>" options:NSLiteralSearch range:NSMakeRange(0, html.length)];   //改为从相册选择照片   2020年12月10日
         
         htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
     }else
@@ -2131,7 +2206,16 @@
     for (TFHppleElement * elGroup in elGroups) {
         //
         HXQuestionGroup * qGroup = [[HXQuestionGroup alloc]init];
-        [qGroup setTitle:[[elGroup firstChildWithClassName:@"ui-question-group-title"] text]];
+        
+        NSString *title = [[elGroup firstChildWithClassName:@"ui-question-group-title"] text];
+        title = [title stringByReplacingOccurrencesOfString:@" " withString:@""];
+        title = [title stringByReplacingOccurrencesOfString:@"\\r" withString:@""];
+        title = [title stringByReplacingOccurrencesOfString:@"\\n" withString:@""];
+        title = [title stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        title = [title stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+        
+        [qGroup setTitle:title];
+        tempTitleText = title;
         
         //四种小题类型
         NSArray * a = [elGroup childrenWithClassName:@"ui-question ui-question-independency ui-question-1"];
@@ -2211,6 +2295,8 @@
     
     [question setContent:content];
     
+    [self checkQuestionContent:question];
+    
     return question;
 }
 
@@ -2266,19 +2352,20 @@
         NSData * fileData = UIImageJPEGRepresentation(image,0.9);
         
         NSString * name = [NSString stringWithFormat:@"%f.jpg",[[NSDate date] timeIntervalSince1970]];
-        
+        NSString *url =[NSString stringWithFormat:@"%@%@",self.examBasePath,HXPOST_ANSWER_FILE];
+
         HXExamSessionManager *_sharedClient =[HXExamSessionManager sharedClient];
-        
-        [_sharedClient POST:HXPOST_ANSWER_FILE parameters:nil headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        [_sharedClient POST:url parameters:nil headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
             [formData appendPartWithFileData:fileData name:@"file" fileName:name mimeType:@"image/JPG"];
         }
         progress:^(NSProgress * _Nonnull uploadProgress) {
                    //
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-
+            
             //NSLog(@"Success: %@", responseObject);
             if ([[responseObject objectForKey:@"success"] intValue] == 1)
             {
+                
                 [self.view showSuccessWithMessage:@"上传成功！"];
                 
                 NSString * fileName = [NSString stringWithFormat:@"%@/%@",[responseObject objectForKey:@"tmpFileName"],name];
@@ -2300,7 +2387,7 @@
                     }
                 }
                 
-                [_bridgeCurrent callHandler:@"uploadedCallBack" data:@{@"qId": [NSNumber numberWithInt:question._id],@"uploadName":fileName,@"baseurl":ExamBaseUrl}];
+                [_bridgeCurrent callHandler:@"uploadedCallBack" data:@{@"qId": [NSNumber numberWithInt:question._id],@"uploadName":fileName,@"baseurl":self.examBasePath}];
                 
             }else
             {
@@ -2308,15 +2395,12 @@
             }
             _bridgeCurrent = nil;
             
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+            
             _bridgeCurrent = nil;
             
             [self.view showErrorWithMessage:@"提交答案失败，请重试！"];
         }];
-    }else
-    {
-        _bridgeCurrent = nil;
     }
 }
 
@@ -2361,7 +2445,7 @@
     
     [trashButton setBackgroundImage:[UIImage imageNamed:@"trash_green"] forState:UIControlStateNormal];
     
-    [trashButton setFrame:CGRectMake(kScreenWidth-50, 30, 40, 40)];
+    [trashButton setFrame:CGRectMake(kScreenWidth-50, kStatusBarHeight+10, 40, 40)];
     
     [trashButton addTarget:self action:@selector(trashButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -2372,6 +2456,7 @@
 
 -(void)trashButtonPressed:(UIButton *)button
 {
+    
     HXQuestionInfo * question = self.curQuestion;
     
     if ([self.curQuestion isComplex] && self.subPosition >= 0) {
@@ -2399,7 +2484,7 @@
         }
     }
     
-    [_bridgeCurrent callHandler:@"uploadedCallBack" data:@{@"qId": [NSNumber numberWithInt:question._id],@"uploadName":uploadName,@"baseurl":ExamBaseUrl}];
+    [_bridgeCurrent callHandler:@"uploadedCallBack" data:@{@"qId": [NSNumber numberWithInt:question._id],@"uploadName":uploadName,@"baseurl":self.examBasePath}];
     
     _bridgeCurrent = nil;
     
@@ -2408,21 +2493,168 @@
     [self.view showSuccessWithMessage:@"删除成功！"];
 }
 
+#pragma mark - 上传照片
+
+/// 弹框
+- (void)showSelectPhotoAlertView {
+    
+    __weak __typeof(self)weakSelf = self;
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    if (IS_IPAD) {
+        alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+    }
+    UIAlertAction *confirmAction1 = [UIAlertAction actionWithTitle:@"从相册中选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf showImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
+    }];
+    UIAlertAction *confirmAction2 = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf showImagePicker:UIImagePickerControllerSourceTypeCamera];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        weakSelf.bridgeCurrent = nil;
+    }];
+    [alertC addAction:confirmAction1];
+    [alertC addAction:confirmAction2];
+    [alertC addAction:cancelAction];
+    [self presentViewController:alertC animated:YES completion:nil];
+}
+
+- (void)showImagePicker:(NSUInteger)sourceType {
+    
+    // 跳转到相机或相册页面
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.sourceType = sourceType;
+    imagePickerController.allowsEditing = NO;
+    imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
+    
+    [self presentViewController:imagePickerController animated:YES completion:^{
+        //
+    }];
+}
+
+#pragma mark -  UIImagePickerControllerDelegate
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    self.bridgeCurrent = nil;
+}
+
+//选完图片要上传
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    [picker dismissViewControllerAnimated:YES
+                               completion:nil];
+    
+    if (image) {
+        
+        CGFloat scale = 1;
+        float longSide = MAX(image.size.height, image.size.width);
+        scale = MIN(1, 1000/longSide);
+        
+        image = [UIImage scaleImage:image toScale:scale];
+        NSData *jpegData = UIImageJPEGRepresentation(image, 0.93);
+        
+        [self uploadImageWithData:jpegData];
+    }else
+    {
+        [self.view showErrorWithMessage:@"上传图片失败，请重试！"];
+        
+        self.bridgeCurrent = nil;
+    }
+}
+
+//上传
+-(void)uploadImageWithData:(NSData *)fileData
+{
+    if (fileData) {
+        
+        NSLog(@"准备提交图片");
+        [self.view showLoadingWithMessage:@"上传中……"];
+        
+        NSString *name = [NSString stringWithFormat:@"%f.jpg",[[NSDate date] timeIntervalSince1970]];
+        NSString *url =[NSString stringWithFormat:@"%@%@",self.examBasePath,HXPOST_ANSWER_FILE];
+
+        HXExamSessionManager *_sharedClient =[HXExamSessionManager sharedClient];
+        [_sharedClient POST:url parameters:nil headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+            [formData appendPartWithFileData:fileData name:@"file" fileName:name mimeType:@"image/JPG"];
+        }
+        progress:^(NSProgress * _Nonnull uploadProgress) {
+                   //
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            //NSLog(@"Success: %@", responseObject);
+            if ([[responseObject objectForKey:@"success"] intValue] == 1)
+            {
+                
+                [self.view showSuccessWithMessage:@"上传成功！"];
+                
+                NSString * fileName = [NSString stringWithFormat:@"%@/%@",[responseObject objectForKey:@"tmpFileName"],name];
+                
+                //NSLog(@"%@",fileName);
+                
+                HXQuestionInfo * question = self.curQuestion;
+                
+                if ([self.curQuestion isComplex] && self.subPosition >= 0) {
+                    //如果是小题的话，要用小题的id
+                    question = [self.curQuestion.subs objectAtIndex:self.subPosition];
+                }
+                
+                NSDictionary * ans = [self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",question._id]];
+                if (ans) {
+                    NSString * file = [ans objectForKey:@"file"];
+                    if (file && ![file isEqualToString:@""]) {
+                        fileName = [file stringByAppendingFormat:@",%@",fileName];
+                    }
+                }
+                
+                [_bridgeCurrent callHandler:@"uploadedCallBack" data:@{@"qId": [NSNumber numberWithInt:question._id],@"uploadName":fileName,@"baseurl":self.examBasePath}];
+                
+            }else
+            {
+                [self.view showErrorWithMessage:@"上传图片失败，请重试！"];
+            }
+            _bridgeCurrent = nil;
+            
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+            
+            _bridgeCurrent = nil;
+            
+            [self.view showErrorWithMessage:@"上传图片失败，请重试！"];
+        }];
+    }else
+    {
+        _bridgeCurrent = nil;
+        
+        [self.view showErrorWithMessage:@"上传图片失败，请重试！"];
+    }
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return kStatusBarStyle;
 }
 
-////查看答卷时使用--使用效果和上述函数相同
-//-(NSString *)getHtmlWithHead:(BOOL)isComplex Content:(NSString *)content
-//{
-//    if (isComplex) {
-//        return [NSString stringWithFormat:@"%@<body><div class=\"ui-paper-wrapper\"><div class=\"ui-question ui-question-independency ui-question-4\">%@</div></div></body>",headHtml,content];
-//    }else
-//    {
-//        return [NSString stringWithFormat:@"%@<body><div class=\"ui-paper-wrapper\">%@</div></body>",headHtml,content];
-//    }
-//}
+/// 检查题目是否拆分成功，并上报给友盟统计
+/// 判断依据：是否包含多个class：ui-question-independency
+/// @param question 题目
+- (void)checkQuestionContent:(HXQuestionInfo *)question {
+    
+    NSMutableString * mutContent = [NSMutableString stringWithString:question.content];
+    NSInteger num = [mutContent replaceOccurrencesOfString:@"class=\"ui-question ui-question-independency ui-question-" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, mutContent.length)];
+    
+    //判断题干个数，如果超过1，则代表拆分失败
+    if (num > 1) {
+        [MobClick event:@"ExamQuestionError" attributes:@{@"title":_examTitle,@"qid":[NSString stringWithFormat:@"%@-%d",tempTitleText,question._id]}];
+        NSLog(@"⚠️检测到题目拆分失败！⚠️");
+    }
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 @end
 

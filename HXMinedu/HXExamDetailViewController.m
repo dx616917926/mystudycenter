@@ -10,6 +10,7 @@
 #import "HXExamRecordCell.h"
 #import "MJRefresh.h"
 #import "NSDate+HXDate.h"
+#import "HXStartExamViewController.h"
 
 @interface HXExamDetailViewController ()<UITableViewDelegate,UITableViewDataSource,HXExamRecordCellDelegate>
 {
@@ -217,7 +218,7 @@
     
     NSString * url = [NSString stringWithFormat:@"%@%@",HXEXAM_RESULT_JSON,self.exam.examId];
     
-    [HXHTTPSessionManager getDataWithNSString:url withDictionary:nil success:^(NSDictionary *dictionary) {
+    [HXExamSessionManager getDataWithNSString:url withDictionary:nil success:^(NSDictionary *dictionary) {
         if ([[dictionary objectForKey:@"success"] intValue] == 1) {
             NSLog(@"%@",dictionary);
             
@@ -282,8 +283,9 @@
     NSDictionary *resource = [self.dataSource objectAtIndex:indexPath.row];
 
     NSDate *beginTime = [NSDate dateWithTimeIntervalSince1970:[[resource objectForKey:@"beginTime"] longLongValue]/1000];
-    cell.mTimeLabel.text = [beginTime timeString];
+    cell.mTimeLabel.text = [NSString stringWithFormat:@"开考试卷：%@",[beginTime timeString]];
 
+    cell.dataSource = resource;
     cell.delegate = self;
     
     if (scoreSecret) {
@@ -291,12 +293,12 @@
         cell.mScoreLabel.hidden = YES;
     }else
     {
-        if ([[resource objectForKey:@"checked"] intValue]==1) {
+        if ([[resource objectForKey:@"checked"] boolValue]) {
             
             if ([[resource objectForKey:@"score"] intValue] >= 0) {
                 
                 NSString * s = [NSString stringWithFormat:@"%.1f",[[resource objectForKey:@"score"] floatValue]];
-                cell.mScoreLabel.text = [NSString stringWithFormat:@"%g",s.floatValue];
+                cell.mScoreLabel.text = [NSString stringWithFormat:@"%g分",s.floatValue];
             }
             else
             {
@@ -304,8 +306,36 @@
             }
             
         }else{
-            cell.mScoreLabel.text = @"处理中";
+            cell.mScoreLabel.text = @"处理中…";
         }
+    }
+    
+    //是否可以继续考试
+    if ([[resource objectForKey:@"canContinue"] boolValue]) {
+        cell.mContinueExamButton.enabled = YES;
+
+        [cell.mContinueExamButton setBackgroundColor:[UIColor whiteColor]];
+        cell.mContinueExamButton.layer.borderColor = kNavigationBarColor.CGColor;
+    }else
+    {
+        cell.mContinueExamButton.enabled = NO;
+        
+        [cell.mContinueExamButton setBackgroundColor:[UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1.0]];
+        cell.mContinueExamButton.layer.borderColor = [UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1.0].CGColor;
+    }
+    
+    //是否可以查看答卷
+    if ([[self.dataResult objectForKey:@"allowSeeResult"] boolValue]) {
+        cell.mLookExamButton.enabled = YES;
+        
+        [cell.mLookExamButton setBackgroundColor:kNavigationBarColor];
+        cell.mLookExamButton.layer.shadowColor = kNavigationBarColor.CGColor;
+    }else
+    {
+        cell.mLookExamButton.enabled = NO;
+        
+        [cell.mLookExamButton setBackgroundColor:[UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1.0]];
+        cell.mLookExamButton.layer.shadowColor = [UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1.0].CGColor;
     }
     
     return cell;
@@ -340,6 +370,64 @@
 - (void)didClickStartExamButton
 {
     NSLog(@"点击了开始考试按钮");
+    
+    if (!NETWORK_AVAILIABLE) {
+        [self.view showErrorWithMessage:@"请检查网络连接！"];
+        return;
+    }
+    
+    [self.view showLoading];
+    
+    NSString *examId = self.exam.examId;
+    NSString *title = self.exam.examTitle;
+    
+    [HXExamSessionManager getDataWithExamId:examId success:^(NSDictionary *dic) {
+        
+        NSString *success = [NSString stringWithFormat:@"%@",[dic objectForKey:@"success"]];
+        if ([success isEqualToString:@"1"]) {
+            
+            [HXExamSessionManager getDataWithNSString:[dic objectForKey:@"url"] withDictionary:nil success:^(NSDictionary *dictionary) {
+                
+                [self.view hideLoading];
+                
+                NSString *success = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
+                if ([success isEqualToString:@"1"]) {
+                    NSDictionary *examExam = [dictionary objectForKey:@"userExam"];
+                    NSLog(@"%@",examExam);
+                    
+                    HXStartExamViewController *svc = [[HXStartExamViewController alloc] init];
+                    svc.examUrl = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"url"]];
+                    svc.userExam = [dictionary objectForKey:@"userExam"];
+                    svc.examTitle = title;
+                    svc.isStartExam = YES;
+                    svc.isEnterExam = YES;
+                    svc.examBasePath = [dic objectForKey:@"context"];
+                    [self.navigationController pushViewController:svc animated:YES];
+                    
+                }else
+                {
+                    if ([dictionary objectForKey:@"errMsg"]) {
+                        [self.view showErrorWithMessage:[dictionary objectForKey:@"errMsg"]];
+                    }else
+                    {
+                        [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+                    }
+                }
+            } failure:^(NSError *error) {
+                [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            }];
+        }else
+        {
+            if ([dic objectForKey:@"errMsg"]) {
+                [self.view showErrorWithMessage:[dic objectForKey:@"errMsg"]];
+            }else
+            {
+                [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            }
+        }
+    } failure:^(NSError *error) {
+        [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+    }];
 }
 
 #pragma mark - HXExamRecordCellDelegate
@@ -348,12 +436,99 @@
 - (void)didClickContinueExamButtonInCell:(HXExamRecordCell *)cell
 {
     NSLog(@"点击了继续考试按钮");
+    
+    if (!NETWORK_AVAILIABLE) {
+        [self.view showErrorWithMessage:@"请检查网络连接！"];
+        return;
+    }
+    
+    NSDictionary *dicSource = cell.dataSource;
+    
+    //继续考试
+    [self.view showLoading];
+    
+    NSString *url = [NSString stringWithFormat:HXEXAM_RESTART,[dicSource objectForKey:@"id"]];
+    
+    [HXExamSessionManager getDataWithNSString:url withDictionary:nil success:^(NSDictionary *dic) {
+        NSString *success = [NSString stringWithFormat:@"%@",[dic objectForKey:@"success"]];
+        if ([success isEqualToString:@"1"]) {
+            [HXExamSessionManager getDataWithNSString:[dic objectForKey:@"examUrl"] withDictionary:nil success:^(NSDictionary *dictionary) {
+                
+                [self.view hideLoading];
+                
+                NSString *success = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
+                if ([success isEqualToString:@"1"]) {
+                    //NSLog(@"%@",[dictionary objectForKey:@"url"]);
+
+                    HXStartExamViewController *svc = [[HXStartExamViewController alloc] init];
+                    svc.examUrl = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"url"]];
+                    svc.userExam = [dictionary objectForKey:@"userExam"];
+                    svc.examTitle = [dic objectForKey:@"examName"];
+                    svc.isStartExam = NO;
+                    svc.isEnterExam = YES;
+                    svc.examBasePath = [dic objectForKey:@"context"];
+                    
+                    [self.navigationController pushViewController:svc animated:YES];
+                    
+                }else
+                {
+                    [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+                }
+            } failure:^(NSError *error) {
+                [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            }];
+        }else
+        {
+            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            
+        }
+    } failure:^(NSError *error) {
+        [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+    }];
 }
 
 /// 点击了查看答卷按钮
 - (void)didClickLookExamButtonInCell:(HXExamRecordCell *)cell
 {
     NSLog(@"点击了查看答卷按钮");
+    
+    if (!NETWORK_AVAILIABLE) {
+        [self.view showErrorWithMessage:@"请检查网络连接！"];
+        return;
+    }
+    
+    NSDictionary *dicSource = cell.dataSource;
+    
+    //查看试卷
+    [self.view showLoading];
+    
+    [HXExamSessionManager getDataWithNSString:[dicSource objectForKey:@"viewUrl"] withDictionary:nil success:^(NSDictionary *dictionary) {
+        
+        [self.view hideLoading];
+        
+        NSString *success = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
+        if ([success isEqualToString:@"1"]) {
+            //NSLog(@"%@",[dictionary objectForKey:@"url"]);
+            
+            HXStartExamViewController *svc = [[HXStartExamViewController alloc] init];
+            svc.examUrl = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"url"]];
+            svc.userExam = [dictionary objectForKey:@"userExam"];
+            svc.examTitle = self.exam.examTitle;
+            svc.isStartExam = NO;
+            svc.isEnterExam = NO;
+            svc.isAllowSeeAnswer = [[dictionary objectForKey:@"allowSeeAnswer"] boolValue];
+            svc.examBasePath = [dicSource objectForKey:@"context"];
+            
+            [self.navigationController pushViewController:svc animated:YES];
+            
+        }else
+        {
+            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            NSLog(@"%@",dictionary);
+        }
+    } failure:^(NSError *error) {
+        [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+    }];
 }
 
 

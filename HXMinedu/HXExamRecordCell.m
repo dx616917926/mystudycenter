@@ -21,6 +21,7 @@
     
     //
     [self.mContinueExamButton setTitleColor:kNavigationBarColor forState:UIControlStateNormal];
+    [self.mContinueExamButton setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
     [self.mContinueExamButton setBackgroundColor:[UIColor whiteColor]];
     self.mContinueExamButton.layer.cornerRadius = 15;
     self.mContinueExamButton.layer.borderColor = kNavigationBarColor.CGColor;
@@ -28,12 +29,13 @@
     
     //
     [self.mLookExamButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.mLookExamButton setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
     [self.mLookExamButton setBackgroundColor:kNavigationBarColor];
     self.mLookExamButton.layer.cornerRadius = 15;
     self.mLookExamButton.layer.shadowColor = kNavigationBarColor.CGColor;
     self.mLookExamButton.layer.shadowOffset = CGSizeMake(0,0);
     self.mLookExamButton.layer.shadowOpacity = 1;
-    self.mLookExamButton.layer.shadowRadius = 4;
+    self.mLookExamButton.layer.shadowRadius = 3;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

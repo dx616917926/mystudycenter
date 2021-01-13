@@ -56,7 +56,7 @@
                     failure : (void (^)(NSError *error))failure
 {
 
-    HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
+    HXExamSessionManager * client = [HXExamSessionManager sharedClient];
     
     [client GET:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         if(dictionary)
@@ -76,7 +76,7 @@
                      success : (void (^)(NSDictionary* dictionary))success
                      failure : (void (^)(NSError *error))failure
 {
-    HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
+    HXExamSessionManager * client = [HXExamSessionManager sharedClient];
     
     [client POST:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         if(dictionary)

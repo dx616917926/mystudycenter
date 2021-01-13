@@ -35,4 +35,6 @@
 
 - (UIImage *)imageWithTintColor:(UIColor *)tintColor;
 
++ (UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize;
+
 @end
