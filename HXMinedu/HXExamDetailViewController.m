@@ -81,7 +81,11 @@
     self.topView.layer.shadowRadius = 4;
     [self.view addSubview:self.topView];
     
-    self.topView.mExamTitleLabel.text = @"专升本大学语文模拟考试";
+    self.topView.mExamTitleLabel.text = self.exam.examTitle;
+    self.topView.mExamTimeLabel.text = @"未知";
+    self.topView.mExamStartTimeLabel.text = [NSString stringWithFormat:@"开始时间：%@",self.exam.beginTime];
+    self.topView.mExamEndTimeLabel.text = [NSString stringWithFormat:@"结束时间：%@",self.exam.endTime];
+    self.topView.mExamAllowCountLabel.text = [NSString stringWithFormat:@"最多%@次",self.exam.maxExamNum];
 }
 
 - (void)initTableView {
@@ -114,6 +118,15 @@
 }
 
 - (void)initStartExamButton {
+    
+    //是否可以开始考试
+    if (self.exam.canExam) {
+        [self.bottomStartExamButton setBackgroundColor:kNavigationBarColor];
+    }else
+    {
+        [self.bottomStartExamButton setBackgroundColor:[UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1.0]];
+    }
+    
     [self.view addSubview:self.bottomStartExamButton];
 }
 

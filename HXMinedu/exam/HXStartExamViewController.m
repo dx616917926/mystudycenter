@@ -1219,7 +1219,7 @@
         rowNum = 10;
     }
     
-    CGFloat itemMargin = 10; //item外边距
+    CGFloat itemMargin = 20; //item外边距
     CGFloat itemHeight = 48;  //item宽高
     
     itemHeight = (scroller.width-itemMargin*(rowNum+1))/(CGFloat)rowNum; //动态计算item宽高
@@ -1264,27 +1264,30 @@
                         qbtn.info = qInfo;
                         
                         //判断是考试 还是查看试卷
+                        [qbtn setTitle:qInfo.label forState:UIControlStateNormal];
                         
                         if (_isEnterExam) {
-                            
-                            [qbtn setTitle:qInfo.label forState:UIControlStateNormal];
-                            
                             if ([self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",qInfo._id]] != nil) {
                                 [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img3"] forState:UIControlStateNormal];
                                 [qbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                             }else{
                                 [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img4"] forState:UIControlStateNormal];
-                                [qbtn setTitleColor:[UIColor colorWithRed:0.54 green:0.54 blue:0.54 alpha:1] forState:UIControlStateNormal];//@"#8A8A8A"
+                                [qbtn setTitleColor:[UIColor colorWithRed:0.38 green:0.64 blue:0.97 alpha:1.00] forState:UIControlStateNormal];//@"#62a4f7"
                             }
                             
                         }else{
-                            
-                            if ([[[self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",qInfo._id]]objectForKey:@"right"] boolValue]) {
-                                [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img5"] forState:UIControlStateNormal];
+                            NSDictionary *answer = [self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",qInfo._id]];
+                            if (answer) {
                                 [qbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                            }else{
-                                [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img6"] forState:UIControlStateNormal];
-                                [qbtn setTitleColor:[UIColor colorWithRed:0.54 green:0.54 blue:0.54 alpha:1] forState:UIControlStateNormal];//@"#8A8A8A"
+                                if ([[answer objectForKey:@"right"] boolValue]) {
+                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img5"] forState:UIControlStateNormal];
+                                }else{
+                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img6"] forState:UIControlStateNormal];
+                                }
+                            }else
+                            {
+                                [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img4"] forState:UIControlStateNormal];
+                                [qbtn setTitleColor:[UIColor colorWithRed:0.38 green:0.64 blue:0.97 alpha:1.00] forState:UIControlStateNormal];//@"#62a4f7"
                             }
                         }
                         
@@ -1648,7 +1651,7 @@
 {
     if (leftSwitchButton == nil) {
         leftSwitchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        leftSwitchButton.frame = CGRectMake(-10, kScreenHeight/2.0-20, 70, 70);
+        leftSwitchButton.frame = CGRectMake(0, kScreenHeight/2.0, 42, 60);
         [leftSwitchButton setBackgroundColor:[UIColor clearColor]];
         [leftSwitchButton setImage:[UIImage imageNamed:@"exam_left_switch"] forState:UIControlStateNormal];
         [leftSwitchButton addTarget:self action:@selector(handleWeb1SwipeFromLeft:) forControlEvents:UIControlEventTouchUpInside];
@@ -1659,7 +1662,7 @@
     
     if (rightSwitchButton == nil) {
         rightSwitchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        rightSwitchButton.frame = CGRectMake(kScreenWidth-60, kScreenHeight/2.0-20, 70, 70);
+        rightSwitchButton.frame = CGRectMake(kScreenWidth-42, kScreenHeight/2.0, 42, 60);
         [rightSwitchButton setBackgroundColor:[UIColor clearColor]];
         [rightSwitchButton setImage:[UIImage imageNamed:@"exam_right_switch"] forState:UIControlStateNormal];
         [rightSwitchButton addTarget:self action:@selector(handleWeb1SwipeFromRight:) forControlEvents:UIControlEventTouchUpInside];
