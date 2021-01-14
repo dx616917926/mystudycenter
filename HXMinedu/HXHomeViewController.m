@@ -100,7 +100,7 @@
     self.faceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(22, kStatusBarHeight+20, width, height)];
     self.faceImageView.layer.masksToBounds = YES;
     self.faceImageView.layer.cornerRadius = 8;
-    self.faceImageView.image = [UIImage imageNamed:@"heade_icon"];
+    self.faceImageView.image = [UIImage imageNamed:@"set_tx"];
     self.faceImageView.backgroundColor = [UIColor whiteColor];
     [self.topView addSubview:self.faceImageView];
     
