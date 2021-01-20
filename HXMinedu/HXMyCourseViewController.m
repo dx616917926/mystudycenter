@@ -284,6 +284,11 @@
 /// 点击了模块按钮
 - (void)didClickStudyButtonWithModel:(HXModelItem *)modelItem
 {
+    if (modelItem.Message) {
+        [self.view showTostWithMessage:modelItem.Message];
+        return;
+    }
+    
     if ([modelItem.Type isEqualToString:@"1"]) {
         //课件学习模块
         TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
