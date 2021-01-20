@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HXModelItem.h"
 #import "MJExtension.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *kcDM;                 //课程性质代码
 @property(nonatomic, strong) NSString *yxDM;                 //主考院校代码
 @property(nonatomic, strong) NSString *ExamDate;             //考期
+
+@property(nonatomic, strong) NSArray<HXModelItem *> *modules;          //课件、考试等模块
 
 @end
 

@@ -150,6 +150,9 @@
         
         [weakSelf.view showSuccessWithMessage:@"登录成功" completionBlock:^{
             
+            //发送登录成功的通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:LOGINSUCCESS object:nil];
+            
             [self dismissViewControllerAnimated:YES completion:^{
             }];
             

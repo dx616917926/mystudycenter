@@ -82,6 +82,13 @@
     [client GET:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         if(dictionary)
         {
+            if ([[dictionary stringValueForKey:@"Message"] isEqualToString:@"您的口令已经过期，请重新登录！"]) {
+                failure(nil);
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"您的口令已经过期，请重新登录！" completionBlock:^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                }];
+                return;
+            }
             success(dictionary);
         }else
         {
@@ -114,6 +121,13 @@
     [client POST:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         if(dictionary)
         {
+            if ([[dictionary stringValueForKey:@"Message"] isEqualToString:@"您的口令已经过期，请重新登录！"]) {
+                failure(nil);
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"您的口令已经过期，请重新登录！" completionBlock:^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                }];
+                return;
+            }
             success(dictionary);
         }else
         {

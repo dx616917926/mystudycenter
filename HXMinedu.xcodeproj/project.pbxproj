@@ -20,6 +20,9 @@
 		043E05C025A4682E005FABD4 /* HXVertifyCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E05BF25A4682E005FABD4 /* HXVertifyCodeViewController.m */; };
 		043E05CA25A46AFC005FABD4 /* HXVertifyCodeContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043E05C925A46AFC005FABD4 /* HXVertifyCodeContentView.xib */; };
 		043E05D025A46E8A005FABD4 /* HXVertifyCodeContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E05CE25A46E8A005FABD4 /* HXVertifyCodeContentView.m */; };
+		0445807D25B7F71B005E719C /* HXCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445807C25B7F71B005E719C /* HXCustomButton.m */; };
+		0445808225B7F9AF005E719C /* HXCourseListModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445808125B7F9AF005E719C /* HXCourseListModelView.m */; };
+		0445808625B807B5005E719C /* HXModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445808525B807B5005E719C /* HXModelItem.m */; };
 		044824F725A5642F00A8942C /* NSString+HXString.m in Sources */ = {isa = PBXBuildFile; fileRef = 044824F625A5642F00A8942C /* NSString+HXString.m */; };
 		04492FCE25943BFE00BA722A /* HXCoursewareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04492FCC25943BFE00BA722A /* HXCoursewareCell.m */; };
 		04492FCF25943BFE00BA722A /* HXCoursewareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04492FCD25943BFE00BA722A /* HXCoursewareCell.xib */; };
@@ -275,6 +278,12 @@
 		043E05C925A46AFC005FABD4 /* HXVertifyCodeContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXVertifyCodeContentView.xib; sourceTree = "<group>"; };
 		043E05CE25A46E8A005FABD4 /* HXVertifyCodeContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXVertifyCodeContentView.m; sourceTree = "<group>"; };
 		043E05CF25A46E8A005FABD4 /* HXVertifyCodeContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXVertifyCodeContentView.h; sourceTree = "<group>"; };
+		0445807B25B7F71B005E719C /* HXCustomButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCustomButton.h; sourceTree = "<group>"; };
+		0445807C25B7F71B005E719C /* HXCustomButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCustomButton.m; sourceTree = "<group>"; };
+		0445808025B7F9AF005E719C /* HXCourseListModelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCourseListModelView.h; sourceTree = "<group>"; };
+		0445808125B7F9AF005E719C /* HXCourseListModelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCourseListModelView.m; sourceTree = "<group>"; };
+		0445808425B807B5005E719C /* HXModelItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXModelItem.h; sourceTree = "<group>"; };
+		0445808525B807B5005E719C /* HXModelItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXModelItem.m; sourceTree = "<group>"; };
 		044824F525A5642F00A8942C /* NSString+HXString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+HXString.h"; sourceTree = "<group>"; };
 		044824F625A5642F00A8942C /* NSString+HXString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+HXString.m"; sourceTree = "<group>"; };
 		04492FCB25943BFE00BA722A /* HXCoursewareCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCoursewareCell.h; sourceTree = "<group>"; };
@@ -793,6 +802,15 @@
 			name = view;
 			sourceTree = "<group>";
 		};
+		0445807925B7F6E0005E719C /* HXCustomButton */ = {
+			isa = PBXGroup;
+			children = (
+				0445807B25B7F71B005E719C /* HXCustomButton.h */,
+				0445807C25B7F71B005E719C /* HXCustomButton.m */,
+			);
+			path = HXCustomButton;
+			sourceTree = "<group>";
+		};
 		04492FCA25943BC800BA722A /* cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -897,6 +915,7 @@
 		0449A368254C11B3001A28D5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				0445807925B7F6E0005E719C /* HXCustomButton */,
 				04CE28A82591C7B600FFF7CB /* HXGradeDropDownMenu */,
 				048516502589E1430071F7C8 /* HXPageControl */,
 				04060A3D255548FF00133FB3 /* CustomIOSAlertView */,
@@ -1649,6 +1668,8 @@
 				04CB3C1325906A960042A682 /* HXLiveModel.m */,
 				04CE28A02591C3A900FFF7CB /* HXCourseModel.h */,
 				04CE28A12591C3A900FFF7CB /* HXCourseModel.m */,
+				0445808425B807B5005E719C /* HXModelItem.h */,
+				0445808525B807B5005E719C /* HXModelItem.m */,
 				04CE28A42591C6DF00FFF7CB /* HXMajorModel.h */,
 				04CE28A52591C6DF00FFF7CB /* HXMajorModel.m */,
 				04C3A2EB2595B433008F32A4 /* HXExamModel.h */,
@@ -1679,6 +1700,8 @@
 				04CE289A2591A67100FFF7CB /* HXCourseListTableViewCell.h */,
 				04CE289B2591A67100FFF7CB /* HXCourseListTableViewCell.m */,
 				04CE289C2591A67100FFF7CB /* HXCourseListTableViewCell.xib */,
+				0445808025B7F9AF005E719C /* HXCourseListModelView.h */,
+				0445808125B7F9AF005E719C /* HXCourseListModelView.m */,
 			);
 			name = cell;
 			sourceTree = "<group>";
@@ -2051,10 +2074,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0445808625B807B5005E719C /* HXModelItem.m in Sources */,
 				0449A4E4254C11F6001A28D5 /* NSString+size.m in Sources */,
 				0449A35E254C1174001A28D5 /* UIControl+BlocksKit.m in Sources */,
 				04D793C4254FA5D200BCB358 /* HXCompleteViewController.m in Sources */,
 				04936D552593268E0000ED74 /* HXPullRefreshViewController.m in Sources */,
+				0445807D25B7F71B005E719C /* HXCustomButton.m in Sources */,
 				0449A359254C1174001A28D5 /* UIViewController+HXNavigation.m in Sources */,
 				043E05C025A4682E005FABD4 /* HXVertifyCodeViewController.m in Sources */,
 				0449A35B254C1174001A28D5 /* HXNavigationBar.m in Sources */,
@@ -2170,6 +2195,7 @@
 				0449A4C6254C11F6001A28D5 /* DOUAudioSpatialAnalyzer.m in Sources */,
 				0449A537254C11F6001A28D5 /* RSSelectionLayer.m in Sources */,
 				0449A54A254C11F6001A28D5 /* QRCodeReaderViewController.m in Sources */,
+				0445808225B7F9AF005E719C /* HXCourseListModelView.m in Sources */,
 				0449A4BF254C11F6001A28D5 /* DOUEAGLView.m in Sources */,
 				0449A530254C11F6001A28D5 /* BitmapContextRep.m in Sources */,
 				0449A50A254C11F6001A28D5 /* HXPenPickerController.m in Sources */,
@@ -2394,7 +2420,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2424,7 +2450,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

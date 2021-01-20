@@ -39,6 +39,9 @@
     messageCount = 0;
     
     [self initTableView];
+    
+    //登录成功的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData) name:LOGINSUCCESS object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

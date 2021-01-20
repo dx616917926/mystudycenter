@@ -6,12 +6,15 @@
 //
 
 #import "HXMyCourseViewController.h"
-#import "HXClassDetailViewController.h"
+//#import "HXClassDetailViewController.h"
 #import "HXCourseListTableViewCell.h"
 #import "MJRefresh.h"
 #import "HXCourseModel.h"
 #import "HXGradeDropDownMenu.h"
 #import "HXMajorModel.h"
+#import "HXCwsCourseware.h"
+#import "TXMoviePlayerController.h"
+#import "HXExamListViewController.h"
 
 @interface HXMyCourseViewController ()<UITableViewDelegate,UITableViewDataSource,HXGradeDropDownMenuDataSource,HXGradeDropDownMenuDelegate,HXCourseListTableViewCellDelegate>
 
@@ -75,6 +78,8 @@
         self.mTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.mTableView.cellLayoutMarginsFollowReadableWidth = NO;
         self.mTableView.backgroundColor = kTableViewBackgroundColor;
+        self.mTableView.estimatedRowHeight = 190;
+        self.mTableView.rowHeight = UITableViewAutomaticDimension;
         if (@available(iOS 11.0, *)) {
             self.mTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
@@ -239,11 +244,6 @@
     return self.courseListArray.count;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 135;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HXCourseListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HXCourseListTableViewCell"];
@@ -257,7 +257,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.1;
+    return 8;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -281,13 +281,41 @@
 
 #pragma mark - HXCourseListTableViewCellDelegate
 
-/// 点击了开始学习按钮
-- (void)didClickStudyButtonInCell:(HXCourseListTableViewCell *)cell
+/// 点击了模块按钮
+- (void)didClickStudyButtonWithModel:(HXModelItem *)modelItem
 {
-    HXClassDetailViewController *detailVC = [[HXClassDetailViewController alloc] init];
-    detailVC.courseModel = cell.model;
-    detailVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:detailVC animated:YES];
+    if ([modelItem.Type isEqualToString:@"1"]) {
+        //课件学习模块
+        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+        playerVC.cws_param = modelItem.cws_param;
+        playerVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:playerVC animated:YES];
+        
+    }else if ([modelItem.Type isEqualToString:@"2"]) {
+        //考试模块
+        HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
+        listVC.authorizeUrl = modelItem.ExamUrl;
+        listVC.title = modelItem.ModuleName;
+        listVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:listVC animated:YES];
+    }
+}
+
+//
+///// 点击了平时作业按钮
+//- (void)didClickExamButtonInCell:(HXCourseListTableViewCell *)cell
+//{
+//    //这个页面已经作废了----2021年01月20日
+//    HXClassDetailViewController *detailVC = [[HXClassDetailViewController alloc] init];
+//    detailVC.courseModel = cell.model;
+//    detailVC.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:detailVC animated:YES];
+//}
+
+/// 点击了学习情况按钮
+- (void)didClickReportButtonInCell:(HXCourseListTableViewCell *)cell
+{
+    
 }
 
 #pragma mark - HXGradeDropDownMenuDelegate

@@ -38,7 +38,7 @@
     // Do any additional setup after loading the view.
     
     self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
-    self.sc_navigationBar.title = @"考试列表";
+    self.sc_navigationBar.title = self.title;
     
     self.moduleCode = [self getCodeWithURL:self.authorizeUrl forKey:@"moduleCode"];
     self.exams = [[NSMutableArray alloc] init];
@@ -57,7 +57,7 @@
 {
     [self.tableView setFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     [self.tableView setBackgroundColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.96 alpha:1]];
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HXExamListCell" bundle:nil] forCellReuseIdentifier:@"HXExamListCell"];
     
@@ -208,12 +208,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 8;
+    return 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0;
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -246,7 +246,6 @@
     cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
     HXExam *exam = [self.exams objectAtIndex:row];
     cell.entity = exam;
-//    cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

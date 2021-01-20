@@ -9,4 +9,16 @@
 
 @implementation HXCourseModel
 
++ (NSDictionary *)mj_replacedKeyFromPropertyName
+{
+    return @{@"modules" : @"t_ExamCourseList"};
+}
+
++ (NSDictionary *)mj_objectClassInArray
+{
+    return @{
+             @"modules" : @"HXModelItem"
+             };
+}
+
 @end

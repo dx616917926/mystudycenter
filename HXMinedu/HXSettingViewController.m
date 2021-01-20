@@ -196,10 +196,13 @@
     UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定退出此账号？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        //退出登录---先主动请求接口！
+        [HXBaseURLSessionManager doLogout];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            //注销登录
+            //退出登录--弹登录框！
             [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
-            [self.tabBarController setSelectedIndex:0];  //默认选中在线学习模块
+            [self.tabBarController setSelectedIndex:0];  //默认选中课程模块
             [self.navigationController popViewControllerAnimated:NO];
         });
     }];

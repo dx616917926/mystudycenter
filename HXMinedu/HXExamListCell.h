@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HXExamListCell : HXBaseTableViewCell
 
+@property (weak, nonatomic) IBOutlet UIView *mBackgroundView;
+
 @property (weak, nonatomic) IBOutlet UILabel *mTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *mLastExamNumLabel;
 

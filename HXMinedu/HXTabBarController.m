@@ -32,9 +32,6 @@
 
 - (void)showLogin{
     
-    //退出登录
-    [HXBaseURLSessionManager doLogout];
-    
     //删除用户名密码
     [[HXPublicParamTool sharedInstance] logOut];
     
