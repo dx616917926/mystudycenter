@@ -17,7 +17,9 @@
 #import "HXExamListViewController.h"
 
 @interface HXMyCourseViewController ()<UITableViewDelegate,UITableViewDataSource,HXGradeDropDownMenuDataSource,HXGradeDropDownMenuDelegate,HXCourseListTableViewCellDelegate>
-
+{
+    NSTimer *timer; //定时刷新器 1小时
+}
 @property(nonatomic, strong) UITableView *mTableView;
 @property (nonatomic,strong) NSArray *majorsArr;       //专业数据数组
 @property(nonatomic, strong) NSArray *courseListArray; //课程列表数组
@@ -37,6 +39,8 @@
     
     //退出登录的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginOut) name:SHOWLOGIN object:nil];
+    
+    [self initTimer];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -59,6 +63,12 @@
     [self.majorMenuView dismiss];
     self.courseListArray = [NSArray array];
     [self.mTableView reloadData];
+}
+
+- (void)initTimer {
+    //定时刷新
+    timer = [NSTimer scheduledTimerWithTimeInterval:3600 target:self selector:@selector(requestCourseList) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop]addTimer:timer forMode:NSRunLoopCommonModes];
 }
 
 -(void)initTitleView
