@@ -148,7 +148,9 @@
         
         [HXPublicParamTool sharedInstance].isLogin = YES;
         
-        [weakSelf.view showSuccessWithMessage:@"登录成功" completionBlock:^{
+        [weakSelf.view showSuccessWithMessage:@"登录成功!"];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             //发送登录成功的通知
             [[NSNotificationCenter defaultCenter] postNotificationName:LOGINSUCCESS object:nil];
@@ -157,7 +159,7 @@
             }];
             
             [[[UIApplication sharedApplication].delegate window] setRootViewController:[(AppDelegate*)[UIApplication sharedApplication].delegate tabBarController]];
-        }];
+        });
         
     } failure:^(NSString * _Nonnull messsage) {
         //

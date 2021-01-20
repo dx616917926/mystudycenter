@@ -7,6 +7,7 @@
 
 #import "HXCourseListModelView.h"
 #import "HXCustomButton.h"
+#import <UIButton+WebCache.h>
 
 @interface HXCourseListModelView ()
 {
@@ -67,7 +68,15 @@
         
         HXCustomButton *button = [HXCustomButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
-        [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        
+        //设置模块的图片
+        if (item.ImgUrl) {
+            [button sd_setImageWithURL:[NSURL URLWithString:item.ImgUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:imageName]];
+        }else
+        {
+            [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        }
+        
         [button setTitle:item.ModuleName forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:14];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
