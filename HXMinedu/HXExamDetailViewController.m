@@ -296,7 +296,7 @@
     NSDictionary *resource = [self.dataSource objectAtIndex:indexPath.row];
 
     NSDate *beginTime = [NSDate dateWithTimeIntervalSince1970:[[resource objectForKey:@"beginTime"] longLongValue]/1000];
-    cell.mTimeLabel.text = [NSString stringWithFormat:@"开考试卷：%@",[beginTime timeString]];
+    cell.mTimeLabel.text = [NSString stringWithFormat:@"开考时间：%@",[beginTime timeString]];
 
     cell.dataSource = resource;
     cell.delegate = self;
