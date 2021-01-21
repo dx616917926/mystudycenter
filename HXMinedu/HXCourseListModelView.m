@@ -103,7 +103,8 @@
 }
 
 - (CGSize)intrinsicContentSize {
-    return CGSizeMake(self.bounds.size.width,(self.subviews.count/rowNum)*(buttonHeight+20) - 20);
+    //ceilf() 向上取整数
+    return CGSizeMake(self.bounds.size.width,(ceilf(1.0*self.subviews.count/rowNum))*(buttonHeight+20) - 20);
 }
 
 - (void)modelButtonAction:(UIButton *)button {
