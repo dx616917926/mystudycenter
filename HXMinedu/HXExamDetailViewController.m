@@ -81,11 +81,20 @@
     self.topView.layer.shadowRadius = 4;
     [self.view addSubview:self.topView];
     
+    //考试名称等信息
     self.topView.mExamTitleLabel.text = self.exam.examTitle;
-    self.topView.mExamTimeLabel.text = @"未知";
     self.topView.mExamStartTimeLabel.text = [NSString stringWithFormat:@"开始时间：%@",self.exam.beginTime];
     self.topView.mExamEndTimeLabel.text = [NSString stringWithFormat:@"结束时间：%@",self.exam.endTime];
     self.topView.mExamAllowCountLabel.text = [NSString stringWithFormat:@"最多%@次",self.exam.maxExamNum];
+    //考试时间
+    if ([self.exam.limitTime isEqualToString:@""]) {
+        self.topView.mExamTimeLabel.text = @"未知";
+    }else if ([self.exam.limitTime isEqualToString:@"0"]) {
+        self.topView.mExamTimeLabel.text = @"不限";
+    }else
+    {
+        self.topView.mExamTimeLabel.text = [NSString stringWithFormat:@"%@分钟",self.exam.limitTime];
+    }
 }
 
 - (void)initTableView {

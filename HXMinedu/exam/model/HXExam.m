@@ -30,6 +30,7 @@
             _clientJudge = [dictionary boolValueForKey:@"clientJudge"];
             _allowSeeAnswerOnContinue = [dictionary boolValueForKey:@"allowSeeAnswerOnContinue"];
             _canExam = [dictionary boolValueForKey:@"canExam"];
+            _limitTime = [dictionary stringValueForKey:@"limitTime"];
         }
     }
     return self;
@@ -72,6 +73,7 @@
     [aCoder encodeBool:self.clientJudge forKey:@"clientJudge"];
     [aCoder encodeBool:self.allowSeeAnswerOnContinue forKey:@"allowSeeAnswerOnContinue"];
     [aCoder encodeBool:self.canExam forKey:@"canExam"];
+    [aCoder encodeObject:self.limitTime forKey:@"limitTime"];
 }
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -89,6 +91,7 @@
         self.clientJudge = [aDecoder decodeBoolForKey:@"clientJudge"];
         self.allowSeeAnswerOnContinue = [aDecoder decodeBoolForKey:@"allowSeeAnswerOnContinue"];
         self.canExam = [aDecoder decodeBoolForKey:@"canExam"];
+        self.limitTime = [aDecoder decodeObjectForKey:@"limitTime"];
     }
     return self;
 }

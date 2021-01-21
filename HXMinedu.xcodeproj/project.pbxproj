@@ -2420,7 +2420,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2450,7 +2450,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

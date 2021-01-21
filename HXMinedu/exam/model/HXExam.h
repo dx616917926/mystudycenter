@@ -24,6 +24,7 @@
 @property(nonatomic, strong) NSString *examId;
 @property(nonatomic, assign) BOOL allowSeeAnswerOnContinue;//续考期间允许查看答案
 @property(nonatomic, assign) BOOL canExam;
+@property(nonatomic, strong) NSString *limitTime;    //考试时间，0表示不限制，单位分钟
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
