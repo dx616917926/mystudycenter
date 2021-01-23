@@ -15,6 +15,7 @@
 #import "HXCwsCourseware.h"
 #import "TXMoviePlayerController.h"
 #import "HXExamListViewController.h"
+#import "HXStudyRecordController.h"
 
 @interface HXMyCourseViewController ()<UITableViewDelegate,UITableViewDataSource,HXGradeDropDownMenuDataSource,HXGradeDropDownMenuDelegate,HXCourseListTableViewCellDelegate>
 {
@@ -313,6 +314,9 @@
         listVC.title = modelItem.ModuleName;
         listVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:listVC animated:YES];
+    }else
+    {
+        [self.view showTostWithMessage:@"暂不支持此模块"];
     }
 }
 
@@ -330,7 +334,9 @@
 /// 点击了学习情况按钮
 - (void)didClickReportButtonInCell:(HXCourseListTableViewCell *)cell
 {
-    
+    HXStudyRecordController *recordVC = [[HXStudyRecordController alloc] init];
+    recordVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:recordVC animated:YES];
 }
 
 #pragma mark - HXGradeDropDownMenuDelegate

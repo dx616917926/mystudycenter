@@ -247,6 +247,7 @@
 		04D793D0254FFA7100BCB358 /* HXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793CF254FFA7100BCB358 /* HXLoginViewController.m */; };
 		04D793D9254FFDFD00BCB358 /* HXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */; };
 		04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */; };
+		04DE261825BBFC2500B6705C /* HXStudyRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE261725BBFC2500B6705C /* HXStudyRecordController.m */; };
 		04FD3D5625AD703B00E157EA /* HXExamListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5525AD703B00E157EA /* HXExamListViewController.m */; };
 		04FD3D5A25AD72C100E157EA /* HXExam.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5825AD72C100E157EA /* HXExam.m */; };
 		04FD3D5F25AD732F00E157EA /* HXExamListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5D25AD732F00E157EA /* HXExamListCell.m */; };
@@ -696,6 +697,8 @@
 		04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewController.m; sourceTree = "<group>"; };
 		04D793DB254FFE1F00BCB358 /* HXLiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveViewController.h; sourceTree = "<group>"; };
 		04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveViewController.m; sourceTree = "<group>"; };
+		04DE261625BBFC2500B6705C /* HXStudyRecordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudyRecordController.h; sourceTree = "<group>"; };
+		04DE261725BBFC2500B6705C /* HXStudyRecordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudyRecordController.m; sourceTree = "<group>"; };
 		04FD3D5425AD703B00E157EA /* HXExamListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamListViewController.h; sourceTree = "<group>"; };
 		04FD3D5525AD703B00E157EA /* HXExamListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamListViewController.m; sourceTree = "<group>"; };
 		04FD3D5825AD72C100E157EA /* HXExam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXExam.m; sourceTree = "<group>"; };
@@ -1530,6 +1533,7 @@
 				0449A558254C1299001A28D5 /* HXMyCourseViewController.h */,
 				0449A559254C1299001A28D5 /* HXMyCourseViewController.m */,
 				04CE288F2591A5C700FFF7CB /* 课程详情 */,
+				04DE261525BBFB6700B6705C /* 学习情况 */,
 			);
 			name = "课程";
 			sourceTree = "<group>";
@@ -1861,6 +1865,15 @@
 			name = "引导页";
 			sourceTree = "<group>";
 		};
+		04DE261525BBFB6700B6705C /* 学习情况 */ = {
+			isa = PBXGroup;
+			children = (
+				04DE261625BBFC2500B6705C /* HXStudyRecordController.h */,
+				04DE261725BBFC2500B6705C /* HXStudyRecordController.m */,
+			);
+			name = "学习情况";
+			sourceTree = "<group>";
+		};
 		08BC7DB449F0590380C365E1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2084,6 +2097,7 @@
 				043E05C025A4682E005FABD4 /* HXVertifyCodeViewController.m in Sources */,
 				0449A35B254C1174001A28D5 /* HXNavigationBar.m in Sources */,
 				043E05BA25A45FD8005FABD4 /* HXForgetPasswordController.m in Sources */,
+				04DE261825BBFC2500B6705C /* HXStudyRecordController.m in Sources */,
 				0449A4EC254C11F6001A28D5 /* SPWeiboControlView.m in Sources */,
 				0449A35C254C1174001A28D5 /* UIImage+Tint.m in Sources */,
 				0449A4D7254C11F6001A28D5 /* XHZoomingImageView.m in Sources */,
