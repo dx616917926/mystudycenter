@@ -21,6 +21,6 @@
 #define APP_URL @"https://app.edu-edu.com.cn/minedu/ios/minedu.json"
 
 //用户隐私政策网址
-#define APP_PrivacyPolicy_URL @"https://www.edu-edu.com/privacy/"
+#define APP_PrivacyPolicy_URL @"https://testop.edu-cj.com/privacy.html"
 
 #endif /* SetUp_h */
