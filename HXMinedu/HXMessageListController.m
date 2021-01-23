@@ -171,7 +171,7 @@
         
     } failure:^(NSError *error) {
         
-        [self.view hideLoading];
+        [self.view showErrorWithMessage:@"获取数据失败，请重试！"];
         
         [self setRequestFiledView];
         

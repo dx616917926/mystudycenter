@@ -237,6 +237,8 @@
         
     } failure:^(NSError * _Nonnull error) {
         
+        [self.view showErrorWithMessage:@"获取数据失败，请重试！"];
+        
         [self setRequestFiledView];
         //结束刷新状态
         [self.mTableView.mj_header endRefreshing];

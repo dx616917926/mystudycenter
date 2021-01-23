@@ -12,6 +12,7 @@
 {
     WKWebView *webView;
     NSString *htmlData;
+    UIView *errorView;
 }
 @property (nonatomic, strong) HXBarButtonItem *leftBarItem;
 @end
@@ -60,6 +61,43 @@
     [self.view addSubview:webView];
 }
 
+-(void)setRequestFiledView
+{
+    if (!errorView) {
+        //设置空白界面
+        errorView = [[UIView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight)];
+
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake((errorView.width-190)/2, 110, 190, 190)];
+        [iconView setImage:[UIImage imageNamed:@"network_error_icon"]];
+        [errorView addSubview:iconView];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((errorView.width-230)/2, iconView.bottom, 230, 30)];
+        label.text = @"网络不给力，请点击重新加载~";
+        label.font = [UIFont systemFontOfSize:15];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor colorWithRed:0.662 green:0.662 blue:0.662 alpha:1.0];
+        [errorView addSubview:label];
+        
+        UIButton *retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        retryButton.frame = CGRectMake((errorView.width-160)/2, 350, 160, 40);
+        [retryButton setTitle:@"重新加载" forState:UIControlStateNormal];
+        [retryButton.titleLabel setFont:[UIFont systemFontOfSize:19]];
+        [retryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [retryButton addTarget:self action:@selector(requestStuInfo) forControlEvents:UIControlEventTouchUpInside];
+        retryButton.layer.backgroundColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:1.0].CGColor;
+        retryButton.layer.cornerRadius = 20;
+        retryButton.layer.shadowColor = [UIColor colorWithRed:75/255.0 green:164/255.0 blue:254/255.0 alpha:0.5].CGColor;
+        retryButton.layer.shadowOffset = CGSizeMake(0,0);
+        retryButton.layer.shadowOpacity = 1;
+        retryButton.layer.shadowRadius = 4;
+        [errorView addSubview:retryButton];
+    }
+    
+    if (errorView.superview == nil) {
+        [self.view insertSubview:errorView atIndex:0];
+    }
+}
+
 /**
  请求用户个人信息
  */
@@ -75,10 +113,15 @@
         BOOL Success = [dic boolValueForKey:@"Success"];
         if (Success) {
             
+            if (self->errorView.superview) {
+                [self->errorView removeFromSuperview];
+            }
+            
             NSArray *array = [dic objectForKey:@"Data"];
             
             if (array.count>0) {
                 [self resetWebViewData:array.firstObject];
+                self->webView.hidden = NO;
                 [self.view hideLoading];
             }else
             {
@@ -87,10 +130,14 @@
             }
         }else
         {
+            [self setRequestFiledView];
+            
             [self.view showErrorWithMessage:[dic stringValueForKey:@"Message"]];
             self->webView.hidden = YES;
         }
     } failure:^(NSError *error) {
+        
+        [self setRequestFiledView];
         
         [self.view showErrorWithMessage:@"获取数据失败，请重试！"];
         self->webView.hidden = YES;
