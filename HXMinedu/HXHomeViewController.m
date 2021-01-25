@@ -144,15 +144,18 @@
                 NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:userInfoStr];
                 NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                 
-                if (kScreenWidth >= 414 || [userInfoDic stringValueForKey:@"personId"].length <= 18) {
+                //适配一下不同屏幕
+                CGFloat fontSize = 16;
+                if (kScreenWidth >= 414 || [userInfoDic stringValueForKey:@"personId"].length < 10) {
                     paragraphStyle.lineSpacing = (self.userInfoLabel.height-100)/5;
                 }else
                 {
-                    paragraphStyle.lineSpacing = (self.userInfoLabel.height-120)/6;
+                    fontSize = 15;
+                    paragraphStyle.lineSpacing = (self.userInfoLabel.height-110)/6;
                 }
                 paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
                 [attr addAttributes:@{NSParagraphStyleAttributeName:paragraphStyle,
-                                                      NSFontAttributeName:[UIFont systemFontOfSize:16]}
+                                                      NSFontAttributeName:[UIFont systemFontOfSize:fontSize]}
                                     range:NSMakeRange(0, userInfoStr.length)];
                 self.userInfoLabel.attributedText = attr;
                 
