@@ -1220,6 +1220,12 @@
     }
     
     CGFloat itemMargin = 20; //item外边距
+
+    //适配4寸屏幕
+    if (kScreenWidth<=320) {
+        itemMargin = 16;
+    }
+    
     CGFloat itemHeight = 48;  //item宽高
     
     itemHeight = (scroller.width-itemMargin*(rowNum+1))/(CGFloat)rowNum; //动态计算item宽高
