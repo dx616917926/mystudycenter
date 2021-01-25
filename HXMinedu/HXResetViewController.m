@@ -185,7 +185,11 @@
             [weakSelf.view showSuccessWithMessage:message];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+                
+                //退出登录--弹登录框！
+                [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                [weakSelf.tabBarController setSelectedIndex:0];  //默认选中课程模块
+                [weakSelf.navigationController popToRootViewControllerAnimated:NO];
             });
 
         }else
