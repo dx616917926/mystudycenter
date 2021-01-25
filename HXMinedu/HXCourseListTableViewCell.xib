@@ -29,7 +29,7 @@
                                 <nil key="textColor"/>
                                 <color key="highlightedColor" red="0.066666666666666666" green="0.058823529411764705" blue="0.058823529411764705" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Iq-c9-S3X">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Iq-c9-S3X">
                                 <rect key="frame" x="211" y="16" width="62" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="62" id="Rae-hg-79o"/>
@@ -50,7 +50,7 @@
                                     <constraint firstAttribute="height" constant="1" id="u6q-UX-B5n"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDa-Ut-2bm">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDa-Ut-2bm">
                                 <rect key="frame" x="273" y="16.5" width="16" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="16" id="enQ-sP-qmb"/>
