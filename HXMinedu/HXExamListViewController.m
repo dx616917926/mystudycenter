@@ -153,9 +153,20 @@
     //重新根据返回的数据确定一下baseURL
     [[HXExamSessionManager sharedClient] setBaseUrl:self.authorizeUrl];
     
-    [HXExamSessionManager getDataWithNSString:mutableUrl withDictionary:nil success:^(NSDictionary *dictionary) {
+    [HXExamSessionManager getDataWithNSString:mutableUrl withDictionary:nil success:^(NSDictionary *dic) {
         //
-        [self requestExamModulesListData];
+        NSString *success = [NSString stringWithFormat:@"%@",[dic objectForKey:@"success"]];
+        if ([success isEqualToString:@"1"]) {
+            [self requestExamModulesListData];
+        }else
+        {
+            [self.view showErrorWithMessage:[dic stringValueForKey:@"errMsg" WithHolder:@"获取数据失败,请重试!"]];
+            
+            [self setRequestFiledView];
+        }
+        
+        //结束刷新状态
+        [self.tableView.mj_header endRefreshing];
         
     } failure:^(NSError *error) {
         //
@@ -194,7 +205,7 @@
             [self.view hideLoading];
         }else
         {
-            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+            [self.view showErrorWithMessage:[dic stringValueForKey:@"errMsg" WithHolder:@"获取数据失败,请重试!"]];
             
             [self setRequestFiledView];
         }

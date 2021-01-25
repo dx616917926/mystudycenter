@@ -422,10 +422,11 @@
             
             [HXExamSessionManager getDataWithNSString:[dic objectForKey:@"url"] withDictionary:nil success:^(NSDictionary *dictionary) {
                 
-                [self.view hideLoading];
-                
                 NSString *success = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
                 if ([success isEqualToString:@"1"]) {
+                    
+                    [self.view hideLoading];
+                    
                     NSDictionary *examExam = [dictionary objectForKey:@"userExam"];
                     NSLog(@"%@",examExam);
                     
@@ -440,24 +441,14 @@
                     
                 }else
                 {
-                    if ([dictionary objectForKey:@"errMsg"]) {
-                        [self.view showErrorWithMessage:[dictionary objectForKey:@"errMsg"]];
-                    }else
-                    {
-                        [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
-                    }
+                    [self.view showErrorWithMessage:[dictionary stringValueForKey:@"errMsg" WithHolder:@"获取数据失败,请重试!"]];
                 }
             } failure:^(NSError *error) {
                 [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
             }];
         }else
         {
-            if ([dic objectForKey:@"errMsg"]) {
-                [self.view showErrorWithMessage:[dic objectForKey:@"errMsg"]];
-            }else
-            {
-                [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
-            }
+            [self.view showErrorWithMessage:[dic stringValueForKey:@"errMsg" WithHolder:@"获取数据失败,请重试!"]];
         }
     } failure:^(NSError *error) {
         [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
@@ -492,7 +483,6 @@
                 
                 NSString *success = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
                 if ([success isEqualToString:@"1"]) {
-                    //NSLog(@"%@",[dictionary objectForKey:@"url"]);
 
                     HXStartExamViewController *svc = [[HXStartExamViewController alloc] init];
                     svc.examUrl = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"url"]];
@@ -506,15 +496,14 @@
                     
                 }else
                 {
-                    [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
+                    [self.view showErrorWithMessage:[dictionary stringValueForKey:@"errMsg" WithHolder:@"获取数据失败,请重试!"]];
                 }
             } failure:^(NSError *error) {
                 [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
             }];
         }else
         {
-            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
-            
+            [self.view showErrorWithMessage:[dic stringValueForKey:@"errMsg" WithHolder:@"获取数据失败,请重试!"]];
         }
     } failure:^(NSError *error) {
         [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
@@ -538,11 +527,9 @@
     
     [HXExamSessionManager getDataWithNSString:[dicSource objectForKey:@"viewUrl"] withDictionary:nil success:^(NSDictionary *dictionary) {
         
-        [self.view hideLoading];
-        
         NSString *success = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"success"]];
         if ([success isEqualToString:@"1"]) {
-            //NSLog(@"%@",[dictionary objectForKey:@"url"]);
+            [self.view hideLoading];
             
             HXStartExamViewController *svc = [[HXStartExamViewController alloc] init];
             svc.examUrl = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"url"]];
@@ -557,8 +544,7 @@
             
         }else
         {
-            [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
-            NSLog(@"%@",dictionary);
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"errMsg" WithHolder:@"获取数据失败,请重试!"]];
         }
     } failure:^(NSError *error) {
         [self.view showErrorWithMessage:@"获取数据失败,请重试!"];
