@@ -87,41 +87,6 @@
 		0449A4E2254C11F6001A28D5 /* HXFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3C8254C11F4001A28D5 /* HXFileManager.m */; };
 		0449A4E3254C11F6001A28D5 /* NSString+md5.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3CB254C11F4001A28D5 /* NSString+md5.m */; };
 		0449A4E4254C11F6001A28D5 /* NSString+size.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3CE254C11F4001A28D5 /* NSString+size.m */; };
-		0449A4E5254C11F6001A28D5 /* TXMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3D2254C11F4001A28D5 /* TXMedia.m */; };
-		0449A4E6254C11F6001A28D5 /* TXCatalogKnowledgePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3D3254C11F4001A28D5 /* TXCatalogKnowledgePoint.m */; };
-		0449A4E7254C11F6001A28D5 /* TXQuestionOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3D6254C11F4001A28D5 /* TXQuestionOption.m */; };
-		0449A4E8254C11F6001A28D5 /* TXKnowledgePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3DA254C11F4001A28D5 /* TXKnowledgePoint.m */; };
-		0449A4E9254C11F6001A28D5 /* TXLecture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3DB254C11F4001A28D5 /* TXLecture.m */; };
-		0449A4EA254C11F6001A28D5 /* TXQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3DC254C11F4001A28D5 /* TXQuestion.m */; };
-		0449A4EB254C11F6001A28D5 /* TXCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3DD254C11F4001A28D5 /* TXCatalog.m */; };
-		0449A4EC254C11F6001A28D5 /* SPWeiboControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3E4254C11F5001A28D5 /* SPWeiboControlView.m */; };
-		0449A4ED254C11F6001A28D5 /* SPDefaultControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3E5254C11F5001A28D5 /* SPDefaultControlView.m */; };
-		0449A4EE254C11F6001A28D5 /* UIView+Fade.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3EE254C11F5001A28D5 /* UIView+Fade.m */; };
-		0449A4EF254C11F6001A28D5 /* StrUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3EF254C11F5001A28D5 /* StrUtils.m */; };
-		0449A4F0254C11F6001A28D5 /* TXBitrateItemHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3F0254C11F5001A28D5 /* TXBitrateItemHelper.m */; };
-		0449A4F1254C11F6001A28D5 /* NetWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3F1254C11F5001A28D5 /* NetWatcher.m */; };
-		0449A4F2254C11F6001A28D5 /* AVCVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3F5254C11F5001A28D5 /* AVCVideo.m */; };
-		0449A4F3254C11F6001A28D5 /* SuperPlayerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3F6254C11F5001A28D5 /* SuperPlayerModel.m */; };
-		0449A4F4254C11F6001A28D5 /* SuperPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3F7254C11F5001A28D5 /* SuperPlayerControlView.m */; };
-		0449A4F5254C11F6001A28D5 /* SuperPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3F8254C11F5001A28D5 /* SuperPlayerView.m */; };
-		0449A4F6254C11F6001A28D5 /* SuperPlayerViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3F9254C11F5001A28D5 /* SuperPlayerViewConfig.m */; };
-		0449A4F7254C11F6001A28D5 /* PlayerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3FB254C11F5001A28D5 /* PlayerSlider.m */; };
-		0449A4F8254C11F6001A28D5 /* MoreContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3FE254C11F5001A28D5 /* MoreContentView.m */; };
-		0449A4F9254C11F6001A28D5 /* SuperPlayerFastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A402254C11F5001A28D5 /* SuperPlayerFastView.m */; };
-		0449A4FA254C11F6001A28D5 /* MMMaterialDesignSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A403254C11F5001A28D5 /* MMMaterialDesignSpinner.m */; };
-		0449A4FB254C11F6001A28D5 /* SuperPlayerGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A405254C11F5001A28D5 /* SuperPlayerGuideView.m */; };
-		0449A4FC254C11F6001A28D5 /* TXDownloadViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A40B254C11F5001A28D5 /* TXDownloadViewCell.m */; };
-		0449A4FD254C11F6001A28D5 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A40F254C11F5001A28D5 /* DownloadManager.m */; };
-		0449A4FE254C11F6001A28D5 /* TXDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A410254C11F5001A28D5 /* TXDownloadViewController.m */; };
-		0449A4FF254C11F6001A28D5 /* TXMoviePlayer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0449A412254C11F5001A28D5 /* TXMoviePlayer.xcassets */; };
-		0449A500254C11F6001A28D5 /* TXLectureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A415254C11F5001A28D5 /* TXLectureViewController.m */; };
-		0449A501254C11F6001A28D5 /* TXMoviePlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A416254C11F5001A28D5 /* TXMoviePlayerController.m */; };
-		0449A502254C11F6001A28D5 /* TXCatalogListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A41B254C11F5001A28D5 /* TXCatalogListViewCell.m */; };
-		0449A503254C11F6001A28D5 /* TXCatalogListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A41C254C11F5001A28D5 /* TXCatalogListViewController.m */; };
-		0449A504254C11F6001A28D5 /* TXHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A41E254C11F5001A28D5 /* TXHTTPSessionManager.m */; };
-		0449A505254C11F6001A28D5 /* TXExamPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A421254C11F5001A28D5 /* TXExamPopView.m */; };
-		0449A506254C11F6001A28D5 /* TXExamPopView.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0449A422254C11F5001A28D5 /* TXExamPopView.xcassets */; };
-		0449A507254C11F6001A28D5 /* txexampop.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0449A424254C11F5001A28D5 /* txexampop.bundle */; };
 		0449A508254C11F6001A28D5 /* HXDBManager+ExamResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A427254C11F5001A28D5 /* HXDBManager+ExamResult.m */; };
 		0449A509254C11F6001A28D5 /* HXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A428254C11F5001A28D5 /* HXDBManager.m */; };
 		0449A50A254C11F6001A28D5 /* HXPenPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A42B254C11F5001A28D5 /* HXPenPickerController.m */; };
@@ -248,6 +213,9 @@
 		04D793D9254FFDFD00BCB358 /* HXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */; };
 		04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */; };
 		04DE261825BBFC2500B6705C /* HXStudyRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE261725BBFC2500B6705C /* HXStudyRecordController.m */; };
+		04E34D702601D00A0003002A /* TXMoviePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E34D6F2601D00A0003002A /* TXMoviePlayer.framework */; };
+		04E34D732601D0100003002A /* TXMoviePlayer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04E34D712601D0100003002A /* TXMoviePlayer.xcassets */; };
+		04E34D742601D0100003002A /* TXExamPopView.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04E34D722601D0100003002A /* TXExamPopView.xcassets */; };
 		04FD3D5625AD703B00E157EA /* HXExamListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5525AD703B00E157EA /* HXExamListViewController.m */; };
 		04FD3D5A25AD72C100E157EA /* HXExam.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5825AD72C100E157EA /* HXExam.m */; };
 		04FD3D5F25AD732F00E157EA /* HXExamListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5D25AD732F00E157EA /* HXExamListCell.m */; };
@@ -416,76 +384,6 @@
 		0449A3CC254C11F4001A28D5 /* HXDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDictionary.h; sourceTree = "<group>"; };
 		0449A3CD254C11F4001A28D5 /* HXFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXFileManager.h; sourceTree = "<group>"; };
 		0449A3CE254C11F4001A28D5 /* NSString+size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+size.m"; sourceTree = "<group>"; };
-		0449A3D1254C11F4001A28D5 /* TXKnowledgePoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXKnowledgePoint.h; sourceTree = "<group>"; };
-		0449A3D2254C11F4001A28D5 /* TXMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXMedia.m; sourceTree = "<group>"; };
-		0449A3D3254C11F4001A28D5 /* TXCatalogKnowledgePoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXCatalogKnowledgePoint.m; sourceTree = "<group>"; };
-		0449A3D4254C11F4001A28D5 /* TXQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXQuestion.h; sourceTree = "<group>"; };
-		0449A3D5254C11F4001A28D5 /* TXLecture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXLecture.h; sourceTree = "<group>"; };
-		0449A3D6254C11F4001A28D5 /* TXQuestionOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXQuestionOption.m; sourceTree = "<group>"; };
-		0449A3D7254C11F4001A28D5 /* TXCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXCatalog.h; sourceTree = "<group>"; };
-		0449A3D8254C11F4001A28D5 /* TXCatalogKnowledgePoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXCatalogKnowledgePoint.h; sourceTree = "<group>"; };
-		0449A3D9254C11F4001A28D5 /* TXMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXMedia.h; sourceTree = "<group>"; };
-		0449A3DA254C11F4001A28D5 /* TXKnowledgePoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXKnowledgePoint.m; sourceTree = "<group>"; };
-		0449A3DB254C11F4001A28D5 /* TXLecture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXLecture.m; sourceTree = "<group>"; };
-		0449A3DC254C11F4001A28D5 /* TXQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXQuestion.m; sourceTree = "<group>"; };
-		0449A3DD254C11F4001A28D5 /* TXCatalog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXCatalog.m; sourceTree = "<group>"; };
-		0449A3DE254C11F5001A28D5 /* TXQuestionOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXQuestionOption.h; sourceTree = "<group>"; };
-		0449A3E0254C11F5001A28D5 /* SuperPlayerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperPlayerModel.h; sourceTree = "<group>"; };
-		0449A3E1254C11F5001A28D5 /* SuperPlayerViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperPlayerViewConfig.h; sourceTree = "<group>"; };
-		0449A3E2254C11F5001A28D5 /* SuperPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperPlayerView.h; sourceTree = "<group>"; };
-		0449A3E4254C11F5001A28D5 /* SPWeiboControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPWeiboControlView.m; sourceTree = "<group>"; };
-		0449A3E5254C11F5001A28D5 /* SPDefaultControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPDefaultControlView.m; sourceTree = "<group>"; };
-		0449A3E6254C11F5001A28D5 /* SPDefaultControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPDefaultControlView.h; sourceTree = "<group>"; };
-		0449A3E7254C11F5001A28D5 /* SPWeiboControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPWeiboControlView.h; sourceTree = "<group>"; };
-		0449A3E8254C11F5001A28D5 /* SuperPlayerControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperPlayerControlView.h; sourceTree = "<group>"; };
-		0449A3EA254C11F5001A28D5 /* UIView+Fade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Fade.h"; sourceTree = "<group>"; };
-		0449A3EB254C11F5001A28D5 /* TXBitrateItemHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXBitrateItemHelper.h; sourceTree = "<group>"; };
-		0449A3EC254C11F5001A28D5 /* StrUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StrUtils.h; sourceTree = "<group>"; };
-		0449A3ED254C11F5001A28D5 /* NetWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWatcher.h; sourceTree = "<group>"; };
-		0449A3EE254C11F5001A28D5 /* UIView+Fade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Fade.m"; sourceTree = "<group>"; };
-		0449A3EF254C11F5001A28D5 /* StrUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StrUtils.m; sourceTree = "<group>"; };
-		0449A3F0254C11F5001A28D5 /* TXBitrateItemHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXBitrateItemHelper.m; sourceTree = "<group>"; };
-		0449A3F1254C11F5001A28D5 /* NetWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWatcher.m; sourceTree = "<group>"; };
-		0449A3F2254C11F5001A28D5 /* SuperPlayerControlViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperPlayerControlViewDelegate.h; sourceTree = "<group>"; };
-		0449A3F4254C11F5001A28D5 /* AVCVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCVideo.h; sourceTree = "<group>"; };
-		0449A3F5254C11F5001A28D5 /* AVCVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCVideo.m; sourceTree = "<group>"; };
-		0449A3F6254C11F5001A28D5 /* SuperPlayerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperPlayerModel.m; sourceTree = "<group>"; };
-		0449A3F7254C11F5001A28D5 /* SuperPlayerControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperPlayerControlView.m; sourceTree = "<group>"; };
-		0449A3F8254C11F5001A28D5 /* SuperPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperPlayerView.m; sourceTree = "<group>"; };
-		0449A3F9254C11F5001A28D5 /* SuperPlayerViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperPlayerViewConfig.m; sourceTree = "<group>"; };
-		0449A3FB254C11F5001A28D5 /* PlayerSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSlider.m; sourceTree = "<group>"; };
-		0449A3FC254C11F5001A28D5 /* SuperPlayerFastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperPlayerFastView.h; sourceTree = "<group>"; };
-		0449A3FD254C11F5001A28D5 /* SuperPlayerView+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SuperPlayerView+Private.h"; sourceTree = "<group>"; };
-		0449A3FE254C11F5001A28D5 /* MoreContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreContentView.m; sourceTree = "<group>"; };
-		0449A3FF254C11F5001A28D5 /* MMMaterialDesignSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMMaterialDesignSpinner.h; sourceTree = "<group>"; };
-		0449A400254C11F5001A28D5 /* SuperPlayerGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperPlayerGuideView.h; sourceTree = "<group>"; };
-		0449A401254C11F5001A28D5 /* PlayerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSlider.h; sourceTree = "<group>"; };
-		0449A402254C11F5001A28D5 /* SuperPlayerFastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperPlayerFastView.m; sourceTree = "<group>"; };
-		0449A403254C11F5001A28D5 /* MMMaterialDesignSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMMaterialDesignSpinner.m; sourceTree = "<group>"; };
-		0449A404254C11F5001A28D5 /* MoreContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreContentView.h; sourceTree = "<group>"; };
-		0449A405254C11F5001A28D5 /* SuperPlayerGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperPlayerGuideView.m; sourceTree = "<group>"; };
-		0449A406254C11F5001A28D5 /* SuperPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperPlayer.h; sourceTree = "<group>"; };
-		0449A409254C11F5001A28D5 /* TXDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXDownloadViewController.h; sourceTree = "<group>"; };
-		0449A40B254C11F5001A28D5 /* TXDownloadViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXDownloadViewCell.m; sourceTree = "<group>"; };
-		0449A40C254C11F5001A28D5 /* TXDownloadViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXDownloadViewCell.h; sourceTree = "<group>"; };
-		0449A40E254C11F5001A28D5 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
-		0449A40F254C11F5001A28D5 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
-		0449A410254C11F5001A28D5 /* TXDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXDownloadViewController.m; sourceTree = "<group>"; };
-		0449A411254C11F5001A28D5 /* TXMoviePlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXMoviePlayerController.h; sourceTree = "<group>"; };
-		0449A412254C11F5001A28D5 /* TXMoviePlayer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TXMoviePlayer.xcassets; sourceTree = "<group>"; };
-		0449A414254C11F5001A28D5 /* TXLectureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXLectureViewController.h; sourceTree = "<group>"; };
-		0449A415254C11F5001A28D5 /* TXLectureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXLectureViewController.m; sourceTree = "<group>"; };
-		0449A416254C11F5001A28D5 /* TXMoviePlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXMoviePlayerController.m; sourceTree = "<group>"; };
-		0449A418254C11F5001A28D5 /* TXCatalogListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXCatalogListViewController.h; sourceTree = "<group>"; };
-		0449A41A254C11F5001A28D5 /* TXCatalogListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXCatalogListViewCell.h; sourceTree = "<group>"; };
-		0449A41B254C11F5001A28D5 /* TXCatalogListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXCatalogListViewCell.m; sourceTree = "<group>"; };
-		0449A41C254C11F5001A28D5 /* TXCatalogListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXCatalogListViewController.m; sourceTree = "<group>"; };
-		0449A41E254C11F5001A28D5 /* TXHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXHTTPSessionManager.m; sourceTree = "<group>"; };
-		0449A41F254C11F5001A28D5 /* TXHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXHTTPSessionManager.h; sourceTree = "<group>"; };
-		0449A421254C11F5001A28D5 /* TXExamPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXExamPopView.m; sourceTree = "<group>"; };
-		0449A422254C11F5001A28D5 /* TXExamPopView.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TXExamPopView.xcassets; sourceTree = "<group>"; };
-		0449A423254C11F5001A28D5 /* TXExamPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXExamPopView.h; sourceTree = "<group>"; };
-		0449A424254C11F5001A28D5 /* txexampop.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = txexampop.bundle; sourceTree = "<group>"; };
 		0449A426254C11F5001A28D5 /* HXDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXDBManager.h; sourceTree = "<group>"; };
 		0449A427254C11F5001A28D5 /* HXDBManager+ExamResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HXDBManager+ExamResult.m"; sourceTree = "<group>"; };
 		0449A428254C11F5001A28D5 /* HXDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXDBManager.m; sourceTree = "<group>"; };
@@ -699,6 +597,9 @@
 		04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveViewController.m; sourceTree = "<group>"; };
 		04DE261625BBFC2500B6705C /* HXStudyRecordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudyRecordController.h; sourceTree = "<group>"; };
 		04DE261725BBFC2500B6705C /* HXStudyRecordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudyRecordController.m; sourceTree = "<group>"; };
+		04E34D6F2601D00A0003002A /* TXMoviePlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TXMoviePlayer.framework; sourceTree = "<group>"; };
+		04E34D712601D0100003002A /* TXMoviePlayer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TXMoviePlayer.xcassets; sourceTree = "<group>"; };
+		04E34D722601D0100003002A /* TXExamPopView.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TXExamPopView.xcassets; sourceTree = "<group>"; };
 		04FD3D5425AD703B00E157EA /* HXExamListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamListViewController.h; sourceTree = "<group>"; };
 		04FD3D5525AD703B00E157EA /* HXExamListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamListViewController.m; sourceTree = "<group>"; };
 		04FD3D5825AD72C100E157EA /* HXExam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXExam.m; sourceTree = "<group>"; };
@@ -718,6 +619,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04E34D702601D00A0003002A /* TXMoviePlayer.framework in Frameworks */,
 				04D7939F254FA07700BCB358 /* UMCommonLog.framework in Frameworks */,
 				04D793A2254FA07700BCB358 /* UMCommon.framework in Frameworks */,
 				5402E7E5284CAF80DC24B23E /* Pods_HXMinedu.framework in Frameworks */,
@@ -1095,198 +997,11 @@
 		0449A3CF254C11F4001A28D5 /* TXMoviePlayer */ = {
 			isa = PBXGroup;
 			children = (
-				0449A3D0254C11F4001A28D5 /* TXModel */,
-				0449A3DF254C11F5001A28D5 /* SuperPlayer */,
-				0449A407254C11F5001A28D5 /* TXMoviePlayerController */,
-				0449A41D254C11F5001A28D5 /* TXHTTPSessionManager */,
-				0449A420254C11F5001A28D5 /* TXExamPopView */,
+				04E34D6F2601D00A0003002A /* TXMoviePlayer.framework */,
+				04E34D722601D0100003002A /* TXExamPopView.xcassets */,
+				04E34D712601D0100003002A /* TXMoviePlayer.xcassets */,
 			);
 			path = TXMoviePlayer;
-			sourceTree = "<group>";
-		};
-		0449A3D0254C11F4001A28D5 /* TXModel */ = {
-			isa = PBXGroup;
-			children = (
-				0449A3D1254C11F4001A28D5 /* TXKnowledgePoint.h */,
-				0449A3D2254C11F4001A28D5 /* TXMedia.m */,
-				0449A3D3254C11F4001A28D5 /* TXCatalogKnowledgePoint.m */,
-				0449A3D4254C11F4001A28D5 /* TXQuestion.h */,
-				0449A3D5254C11F4001A28D5 /* TXLecture.h */,
-				0449A3D6254C11F4001A28D5 /* TXQuestionOption.m */,
-				0449A3D7254C11F4001A28D5 /* TXCatalog.h */,
-				0449A3D8254C11F4001A28D5 /* TXCatalogKnowledgePoint.h */,
-				0449A3D9254C11F4001A28D5 /* TXMedia.h */,
-				0449A3DA254C11F4001A28D5 /* TXKnowledgePoint.m */,
-				0449A3DB254C11F4001A28D5 /* TXLecture.m */,
-				0449A3DC254C11F4001A28D5 /* TXQuestion.m */,
-				0449A3DD254C11F4001A28D5 /* TXCatalog.m */,
-				0449A3DE254C11F5001A28D5 /* TXQuestionOption.h */,
-			);
-			path = TXModel;
-			sourceTree = "<group>";
-		};
-		0449A3DF254C11F5001A28D5 /* SuperPlayer */ = {
-			isa = PBXGroup;
-			children = (
-				0449A3F3254C11F5001A28D5 /* AVC */,
-				0449A3E3254C11F5001A28D5 /* Skins */,
-				0449A406254C11F5001A28D5 /* SuperPlayer.h */,
-				0449A3E8254C11F5001A28D5 /* SuperPlayerControlView.h */,
-				0449A3F7254C11F5001A28D5 /* SuperPlayerControlView.m */,
-				0449A3F2254C11F5001A28D5 /* SuperPlayerControlViewDelegate.h */,
-				0449A3E0254C11F5001A28D5 /* SuperPlayerModel.h */,
-				0449A3F6254C11F5001A28D5 /* SuperPlayerModel.m */,
-				0449A3E2254C11F5001A28D5 /* SuperPlayerView.h */,
-				0449A3F8254C11F5001A28D5 /* SuperPlayerView.m */,
-				0449A3E1254C11F5001A28D5 /* SuperPlayerViewConfig.h */,
-				0449A3F9254C11F5001A28D5 /* SuperPlayerViewConfig.m */,
-				0449A3E9254C11F5001A28D5 /* Utils */,
-				0449A3FA254C11F5001A28D5 /* Views */,
-			);
-			path = SuperPlayer;
-			sourceTree = "<group>";
-		};
-		0449A3E3254C11F5001A28D5 /* Skins */ = {
-			isa = PBXGroup;
-			children = (
-				0449A3E4254C11F5001A28D5 /* SPWeiboControlView.m */,
-				0449A3E5254C11F5001A28D5 /* SPDefaultControlView.m */,
-				0449A3E6254C11F5001A28D5 /* SPDefaultControlView.h */,
-				0449A3E7254C11F5001A28D5 /* SPWeiboControlView.h */,
-			);
-			path = Skins;
-			sourceTree = "<group>";
-		};
-		0449A3E9254C11F5001A28D5 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				0449A3EA254C11F5001A28D5 /* UIView+Fade.h */,
-				0449A3EB254C11F5001A28D5 /* TXBitrateItemHelper.h */,
-				0449A3EC254C11F5001A28D5 /* StrUtils.h */,
-				0449A3ED254C11F5001A28D5 /* NetWatcher.h */,
-				0449A3EE254C11F5001A28D5 /* UIView+Fade.m */,
-				0449A3EF254C11F5001A28D5 /* StrUtils.m */,
-				0449A3F0254C11F5001A28D5 /* TXBitrateItemHelper.m */,
-				0449A3F1254C11F5001A28D5 /* NetWatcher.m */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		0449A3F3254C11F5001A28D5 /* AVC */ = {
-			isa = PBXGroup;
-			children = (
-				0449A3F4254C11F5001A28D5 /* AVCVideo.h */,
-				0449A3F5254C11F5001A28D5 /* AVCVideo.m */,
-			);
-			path = AVC;
-			sourceTree = "<group>";
-		};
-		0449A3FA254C11F5001A28D5 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				0449A3FB254C11F5001A28D5 /* PlayerSlider.m */,
-				0449A3FC254C11F5001A28D5 /* SuperPlayerFastView.h */,
-				0449A3FD254C11F5001A28D5 /* SuperPlayerView+Private.h */,
-				0449A3FE254C11F5001A28D5 /* MoreContentView.m */,
-				0449A3FF254C11F5001A28D5 /* MMMaterialDesignSpinner.h */,
-				0449A400254C11F5001A28D5 /* SuperPlayerGuideView.h */,
-				0449A401254C11F5001A28D5 /* PlayerSlider.h */,
-				0449A402254C11F5001A28D5 /* SuperPlayerFastView.m */,
-				0449A403254C11F5001A28D5 /* MMMaterialDesignSpinner.m */,
-				0449A404254C11F5001A28D5 /* MoreContentView.h */,
-				0449A405254C11F5001A28D5 /* SuperPlayerGuideView.m */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		0449A407254C11F5001A28D5 /* TXMoviePlayerController */ = {
-			isa = PBXGroup;
-			children = (
-				0449A417254C11F5001A28D5 /* TXCatalogList */,
-				0449A408254C11F5001A28D5 /* TXDownload */,
-				0449A413254C11F5001A28D5 /* TXLecture */,
-				0449A412254C11F5001A28D5 /* TXMoviePlayer.xcassets */,
-				0449A411254C11F5001A28D5 /* TXMoviePlayerController.h */,
-				0449A416254C11F5001A28D5 /* TXMoviePlayerController.m */,
-			);
-			path = TXMoviePlayerController;
-			sourceTree = "<group>";
-		};
-		0449A408254C11F5001A28D5 /* TXDownload */ = {
-			isa = PBXGroup;
-			children = (
-				0449A409254C11F5001A28D5 /* TXDownloadViewController.h */,
-				0449A40A254C11F5001A28D5 /* cell */,
-				0449A40D254C11F5001A28D5 /* model */,
-				0449A410254C11F5001A28D5 /* TXDownloadViewController.m */,
-			);
-			path = TXDownload;
-			sourceTree = "<group>";
-		};
-		0449A40A254C11F5001A28D5 /* cell */ = {
-			isa = PBXGroup;
-			children = (
-				0449A40B254C11F5001A28D5 /* TXDownloadViewCell.m */,
-				0449A40C254C11F5001A28D5 /* TXDownloadViewCell.h */,
-			);
-			path = cell;
-			sourceTree = "<group>";
-		};
-		0449A40D254C11F5001A28D5 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				0449A40E254C11F5001A28D5 /* DownloadManager.h */,
-				0449A40F254C11F5001A28D5 /* DownloadManager.m */,
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
-		0449A413254C11F5001A28D5 /* TXLecture */ = {
-			isa = PBXGroup;
-			children = (
-				0449A414254C11F5001A28D5 /* TXLectureViewController.h */,
-				0449A415254C11F5001A28D5 /* TXLectureViewController.m */,
-			);
-			path = TXLecture;
-			sourceTree = "<group>";
-		};
-		0449A417254C11F5001A28D5 /* TXCatalogList */ = {
-			isa = PBXGroup;
-			children = (
-				0449A418254C11F5001A28D5 /* TXCatalogListViewController.h */,
-				0449A419254C11F5001A28D5 /* cell */,
-				0449A41C254C11F5001A28D5 /* TXCatalogListViewController.m */,
-			);
-			path = TXCatalogList;
-			sourceTree = "<group>";
-		};
-		0449A419254C11F5001A28D5 /* cell */ = {
-			isa = PBXGroup;
-			children = (
-				0449A41A254C11F5001A28D5 /* TXCatalogListViewCell.h */,
-				0449A41B254C11F5001A28D5 /* TXCatalogListViewCell.m */,
-			);
-			path = cell;
-			sourceTree = "<group>";
-		};
-		0449A41D254C11F5001A28D5 /* TXHTTPSessionManager */ = {
-			isa = PBXGroup;
-			children = (
-				0449A41E254C11F5001A28D5 /* TXHTTPSessionManager.m */,
-				0449A41F254C11F5001A28D5 /* TXHTTPSessionManager.h */,
-			);
-			path = TXHTTPSessionManager;
-			sourceTree = "<group>";
-		};
-		0449A420254C11F5001A28D5 /* TXExamPopView */ = {
-			isa = PBXGroup;
-			children = (
-				0449A421254C11F5001A28D5 /* TXExamPopView.m */,
-				0449A422254C11F5001A28D5 /* TXExamPopView.xcassets */,
-				0449A423254C11F5001A28D5 /* TXExamPopView.h */,
-				0449A424254C11F5001A28D5 /* txexampop.bundle */,
-			);
-			path = TXExamPopView;
 			sourceTree = "<group>";
 		};
 		0449A425254C11F5001A28D5 /* HXDBHelper */ = {
@@ -1968,7 +1683,6 @@
 				0449A50F254C11F6001A28D5 /* painter_complete@2x.png in Resources */,
 				0449A515254C11F6001A28D5 /* painter_rect@2x.png in Resources */,
 				0449A50E254C11F6001A28D5 /* painter_undo@2x.png in Resources */,
-				0449A4FF254C11F6001A28D5 /* TXMoviePlayer.xcassets in Resources */,
 				0449A53C254C11F6001A28D5 /* HXPenPickerController2.xib in Resources */,
 				0449A514254C11F6001A28D5 /* painter_redo@2x.png in Resources */,
 				0449A541254C11F6001A28D5 /* HXProgressHUD.bundle in Resources */,
@@ -1985,7 +1699,6 @@
 				0459C72D258B51E1000555D4 /* launch_logo@3x.png in Resources */,
 				0449A510254C11F6001A28D5 /* painter_bg@2x.png in Resources */,
 				0449A512254C11F6001A28D5 /* 样式-橡皮擦.png in Resources */,
-				0449A506254C11F6001A28D5 /* TXExamPopView.xcassets in Resources */,
 				0449A520254C11F6001A28D5 /* painter_share@2x.png in Resources */,
 				04FD3D6025AD732F00E157EA /* HXExamListCell.xib in Resources */,
 				0449A521254C11F6001A28D5 /* painter_bg2@2x.png in Resources */,
@@ -1995,11 +1708,12 @@
 				041ABDD125AE8A590094CCFA /* exam.xcassets in Resources */,
 				0449A518254C11F6001A28D5 /* painter_back@2x.png in Resources */,
 				04D5AF4F259B1F5E004F11E8 /* HXMessageListCell.xib in Resources */,
+				04E34D732601D0100003002A /* TXMoviePlayer.xcassets in Resources */,
 				04C3A2F62595BAF1008F32A4 /* HXExamDetailTopView.xib in Resources */,
-				0449A507254C11F6001A28D5 /* txexampop.bundle in Resources */,
 				0449A53E254C11F6001A28D5 /* HXPenPickerController.xib in Resources */,
 				0449A31D254BFE92001A28D5 /* Main.storyboard in Resources */,
 				043E05CA25A46AFC005FABD4 /* HXVertifyCodeContentView.xib in Resources */,
+				04E34D742601D0100003002A /* TXExamPopView.xcassets in Resources */,
 				0449A51D254C11F6001A28D5 /* painter_text@2x.png in Resources */,
 				0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */,
 				0449A50C254C11F6001A28D5 /* painter_line@2x.png in Resources */,
@@ -2098,22 +1812,18 @@
 				0449A35B254C1174001A28D5 /* HXNavigationBar.m in Sources */,
 				043E05BA25A45FD8005FABD4 /* HXForgetPasswordController.m in Sources */,
 				04DE261825BBFC2500B6705C /* HXStudyRecordController.m in Sources */,
-				0449A4EC254C11F6001A28D5 /* SPWeiboControlView.m in Sources */,
 				0449A35C254C1174001A28D5 /* UIImage+Tint.m in Sources */,
 				0449A4D7254C11F6001A28D5 /* XHZoomingImageView.m in Sources */,
 				0459C712258B02C7000555D4 /* HXLoginContentView.m in Sources */,
 				0449A525254C11F6001A28D5 /* RSColorPickerView.m in Sources */,
 				0449A53F254C11F6001A28D5 /* HXProgressHUD.m in Sources */,
 				0449A535254C11F6001A28D5 /* RSBrightnessSlider.m in Sources */,
-				0449A4EA254C11F6001A28D5 /* TXQuestion.m in Sources */,
 				0449A543254C11F6001A28D5 /* ScrollViewFrameAccessor.m in Sources */,
 				04D793D0254FFA7100BCB358 /* HXLoginViewController.m in Sources */,
-				0449A4F8254C11F6001A28D5 /* MoreContentView.m in Sources */,
 				04CE289D2591A67100FFF7CB /* HXCourseListTableViewCell.m in Sources */,
 				04CB3C1425906A960042A682 /* HXLiveModel.m in Sources */,
 				043E05D025A46E8A005FABD4 /* HXVertifyCodeContentView.m in Sources */,
 				0449A545254C11F6001A28D5 /* HXAudioManager.m in Sources */,
-				0449A4FB254C11F6001A28D5 /* SuperPlayerGuideView.m in Sources */,
 				044824F725A5642F00A8942C /* NSString+HXString.m in Sources */,
 				04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */,
 				0449A54E254C11F6001A28D5 /* EXTScope.m in Sources */,
@@ -2121,29 +1831,22 @@
 				04D793C1254FA5D200BCB358 /* HXStartExamViewController.m in Sources */,
 				04D7938F254F9DF200BCB358 /* HXBaseTableViewCell.m in Sources */,
 				0449A357254C1174001A28D5 /* HXBarButtonItem.m in Sources */,
-				0449A4ED254C11F6001A28D5 /* SPDefaultControlView.m in Sources */,
 				0449A53D254C11F6001A28D5 /* HXPopoverView.m in Sources */,
 				0449A528254C11F6001A28D5 /* OSCommonImage.m in Sources */,
 				04CE28AB2591C7C500FFF7CB /* HXGradeDropDownMenu.m in Sources */,
-				0449A4F9254C11F6001A28D5 /* SuperPlayerFastView.m in Sources */,
 				0449A54B254C11F6001A28D5 /* QRCodeReaderView.m in Sources */,
 				04CE28A62591C6DF00FFF7CB /* HXMajorModel.m in Sources */,
 				0449A35D254C1174001A28D5 /* HXNavigationController.m in Sources */,
-				0449A4EF254C11F6001A28D5 /* StrUtils.m in Sources */,
 				04D5AF54259B20E6004F11E8 /* HXMessageObject.m in Sources */,
-				0449A4F0254C11F6001A28D5 /* TXBitrateItemHelper.m in Sources */,
 				0449A523254C11F6001A28D5 /* RSColorFunctions.m in Sources */,
 				0449A4D0254C11F6001A28D5 /* NSString+MJExtension.m in Sources */,
 				04D793C0254FA5D200BCB358 /* HXQuestionBtn.m in Sources */,
-				0449A505254C11F6001A28D5 /* TXExamPopView.m in Sources */,
 				0449A52B254C11F6001A28D5 /* BitmapRotationManipulator.m in Sources */,
 				04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */,
-				0449A4E8254C11F6001A28D5 /* TXKnowledgePoint.m in Sources */,
 				0449A4DA254C11F6001A28D5 /* XHImageViewer.m in Sources */,
 				04FD3D5A25AD72C100E157EA /* HXExam.m in Sources */,
 				04D793B5254FA5C400BCB358 /* AnswerObject.m in Sources */,
 				0449A4B9254C11F6001A28D5 /* DOUAudioAnalyzer.m in Sources */,
-				0449A4F4254C11F6001A28D5 /* SuperPlayerControlView.m in Sources */,
 				0449A55A254C1299001A28D5 /* HXMyCourseViewController.m in Sources */,
 				040B03B02554EA2800E977E2 /* HXSettingViewController.m in Sources */,
 				04FD3D5625AD703B00E157EA /* HXExamListViewController.m in Sources */,
@@ -2151,28 +1854,22 @@
 				0449A54D254C11F6001A28D5 /* UIImage+QRCode.m in Sources */,
 				0449A526254C11F6001A28D5 /* UIImage+ANImageBitmapRep.m in Sources */,
 				0449A4BA254C11F6001A28D5 /* DOUAudioRenderer.m in Sources */,
-				0449A4F3254C11F6001A28D5 /* SuperPlayerModel.m in Sources */,
 				0449A4C8254C11F6001A28D5 /* DOUMPMediaLibraryAssetLoader.m in Sources */,
-				0449A504254C11F6001A28D5 /* TXHTTPSessionManager.m in Sources */,
 				0449A542254C11F6001A28D5 /* ViewFrameAccessor.m in Sources */,
 				0449A358254C1174001A28D5 /* HXNavigationPopAnimation.m in Sources */,
 				0449A4E0254C11F6001A28D5 /* HXDictionary.m in Sources */,
 				0449A52F254C11F6001A28D5 /* CGContextCreator.m in Sources */,
 				0449A4BD254C11F6001A28D5 /* DOUAudioFilePreprocessor.m in Sources */,
-				0449A501254C11F6001A28D5 /* TXMoviePlayerController.m in Sources */,
-				0449A503254C11F6001A28D5 /* TXCatalogListViewController.m in Sources */,
 				04D793B2254FA5C400BCB358 /* HXQuestionInfo.m in Sources */,
 				0449A52D254C11F6001A28D5 /* BitmapContextManipulator.m in Sources */,
 				0449A4CE254C11F6001A28D5 /* NSObject+MJProperty.m in Sources */,
 				0449A544254C11F6001A28D5 /* Track.m in Sources */,
-				0449A4F6254C11F6001A28D5 /* SuperPlayerViewConfig.m in Sources */,
 				0449A4D5254C11F6001A28D5 /* QCScrollView.m in Sources */,
 				040581BC255156AF0022A300 /* HXResetTableViewCell.m in Sources */,
 				0449A53A254C11F6001A28D5 /* ACEDrawingView.m in Sources */,
 				04BFCB6225A6A4DB00B03A58 /* HXCwsCourseware.m in Sources */,
 				0449A4E2254C11F6001A28D5 /* HXFileManager.m in Sources */,
 				0449A563254C13AB001A28D5 /* HXBaseViewController.m in Sources */,
-				0449A4F1254C11F6001A28D5 /* NetWatcher.m in Sources */,
 				04CE28A22591C3A900FFF7CB /* HXCourseModel.m in Sources */,
 				0449A553254C11F6001A28D5 /* HXCircularProgressView.m in Sources */,
 				040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */,
@@ -2180,7 +1877,6 @@
 				0449A539254C11F6001A28D5 /* ACEDrawingTools.m in Sources */,
 				0449A4D3254C11F6001A28D5 /* HXVerificationCodeView.m in Sources */,
 				0449A4D2254C11F6001A28D5 /* MJFoundation.m in Sources */,
-				0449A4E9254C11F6001A28D5 /* TXLecture.m in Sources */,
 				0449A531254C11F6001A28D5 /* ANImageBitmapRep.m in Sources */,
 				0449A4B7254C11F6001A28D5 /* DOUAudioFileProvider.m in Sources */,
 				0449A4D8254C11F6001A28D5 /* XHViewState.m in Sources */,
@@ -2188,11 +1884,6 @@
 				0449A508254C11F6001A28D5 /* HXDBManager+ExamResult.m in Sources */,
 				048516532589E16B0071F7C8 /* HXPageControl.m in Sources */,
 				04D5AF44259B1F2F004F11E8 /* HXMessageListController.m in Sources */,
-				0449A4EE254C11F6001A28D5 /* UIView+Fade.m in Sources */,
-				0449A4F7254C11F6001A28D5 /* PlayerSlider.m in Sources */,
-				0449A4F5254C11F6001A28D5 /* SuperPlayerView.m in Sources */,
-				0449A4FE254C11F6001A28D5 /* TXDownloadViewController.m in Sources */,
-				0449A4E6254C11F6001A28D5 /* TXCatalogKnowledgePoint.m in Sources */,
 				0449A4B8254C11F6001A28D5 /* DOUAudioStreamer+Options.m in Sources */,
 				0449A4C4254C11F6001A28D5 /* DOUAudioPlaybackItem.m in Sources */,
 				040581B62551564B0022A300 /* HXResetViewController.m in Sources */,
@@ -2201,7 +1892,6 @@
 				047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */,
 				0449A548254C11F6001A28D5 /* HXPublicParamTool.m in Sources */,
 				04C3A2E825959A27008F32A4 /* HXExamDetailViewController.m in Sources */,
-				0449A4E5254C11F6001A28D5 /* TXMedia.m in Sources */,
 				04D793B3254FA5C400BCB358 /* HXQuestionGroup.m in Sources */,
 				0449A314254BFE92001A28D5 /* AppDelegate.m in Sources */,
 				04CB3C0F25906A500042A682 /* HXLiveDetailViewController.m in Sources */,
@@ -2229,16 +1919,13 @@
 				04C3A2ED2595B433008F32A4 /* HXExamModel.m in Sources */,
 				0449A533254C11F6001A28D5 /* BGRSLoupeLayer.m in Sources */,
 				04C3A2F22595BAE5008F32A4 /* HXExamDetailTopView.m in Sources */,
-				0449A4F2254C11F6001A28D5 /* AVCVideo.m in Sources */,
 				04FD3D6425ADAADA00E157EA /* NSDate+HXDate.m in Sources */,
 				04936D50259325EC0000ED74 /* HXExamModuleViewController.m in Sources */,
 				0449A540254C11F6001A28D5 /* UIView+loading.m in Sources */,
-				0449A4E7254C11F6001A28D5 /* TXQuestionOption.m in Sources */,
 				04D5AF48259B1F40004F11E8 /* HXMessageDetailController.m in Sources */,
 				0405818E2551041A0022A300 /* HXIntroViewManager.m in Sources */,
 				0449A4C2254C11F6001A28D5 /* DOUAudioDecoder.m in Sources */,
 				0449A4E1254C11F6001A28D5 /* UIImage+Extension.m in Sources */,
-				0449A4FD254C11F6001A28D5 /* DownloadManager.m in Sources */,
 				0449A4D6254C11F6001A28D5 /* HXBaseURLSessionManager.m in Sources */,
 				0449A35A254C1174001A28D5 /* HXNavigationPushAnimation.m in Sources */,
 				0449A4E3254C11F6001A28D5 /* NSString+md5.m in Sources */,
@@ -2250,13 +1937,10 @@
 				0449A331254C0D47001A28D5 /* HXTabBarController.m in Sources */,
 				0449A524254C11F6001A28D5 /* RSGenerateOperation.m in Sources */,
 				0449A4C9254C11F6001A28D5 /* MJPropertyType.m in Sources */,
-				0449A502254C11F6001A28D5 /* TXCatalogListViewCell.m in Sources */,
 				04D793D9254FFDFD00BCB358 /* HXHomeViewController.m in Sources */,
 				0449A4C1254C11F6001A28D5 /* DOUAudioStreamer.m in Sources */,
 				0449A4BC254C11F6001A28D5 /* NSData+DOUMappedFile.m in Sources */,
-				0449A4EB254C11F6001A28D5 /* TXCatalog.m in Sources */,
 				0449A52A254C11F6001A28D5 /* BitmapCropManipulator.m in Sources */,
-				0449A4FA254C11F6001A28D5 /* MMMaterialDesignSpinner.m in Sources */,
 				04C3A2FB2595C282008F32A4 /* HXExamRecordCell.m in Sources */,
 				046CD599259477AF0097B18D /* HXExamCell.m in Sources */,
 				0449A4CC254C11F6001A28D5 /* NSObject+MJCoding.m in Sources */,
@@ -2266,10 +1950,8 @@
 				04492FCE25943BFE00BA722A /* HXCoursewareCell.m in Sources */,
 				0449A4D4254C11F6001A28D5 /* QCSlideSwitchView.m in Sources */,
 				04CE28922591A5EC00FFF7CB /* HXClassDetailViewController.m in Sources */,
-				0449A500254C11F6001A28D5 /* TXLectureViewController.m in Sources */,
 				0449A4CD254C11F6001A28D5 /* MJExtensionConst.m in Sources */,
 				0449A4BE254C11F6001A28D5 /* DOUAudioVisualizer.m in Sources */,
-				0449A4FC254C11F6001A28D5 /* TXDownloadViewCell.m in Sources */,
 				04D793B4254FA5C400BCB358 /* ExamResultDetail.m in Sources */,
 				0449A4C0254C11F6001A28D5 /* DOUAudioLPCM.m in Sources */,
 			);
@@ -2418,14 +2100,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = CX9724CS5M;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.1.3/umcommonlog/umcommonlog_ios_2.0.0",
 					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.1.3/thirdparties/thirdparties_ios_1.0.5",
 					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.1.3/common/common_ios_7.1.3/normal",
+					"$(PROJECT_DIR)/HXMinedu/TXMoviePlayer",
 				);
 				GCC_PREFIX_HEADER = HXMinedu/PrefixHeader.pch;
 				INFOPLIST_FILE = HXMinedu/Info.plist;
@@ -2434,10 +2117,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = developer;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2448,14 +2131,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CX9724CS5M;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.1.3/umcommonlog/umcommonlog_ios_2.0.0",
 					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.1.3/thirdparties/thirdparties_ios_1.0.5",
 					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.1.3/common/common_ios_7.1.3/normal",
+					"$(PROJECT_DIR)/HXMinedu/TXMoviePlayer",
 				);
 				GCC_PREFIX_HEADER = HXMinedu/PrefixHeader.pch;
 				INFOPLIST_FILE = HXMinedu/Info.plist;
@@ -2464,10 +2148,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "迈读";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

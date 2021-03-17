@@ -1,0 +1,6 @@
+framework module TXMoviePlayer {
+  umbrella header "TXMoviePlayer-umbrella.h"
+
+  export *
+  module * { export * }
+}

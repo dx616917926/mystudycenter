@@ -13,7 +13,7 @@
 #import "HXGradeDropDownMenu.h"
 #import "HXMajorModel.h"
 #import "HXCwsCourseware.h"
-#import "TXMoviePlayerController.h"
+#import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXExamListViewController.h"
 #import "HXStudyRecordController.h"
 

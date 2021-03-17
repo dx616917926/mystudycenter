@@ -8,7 +8,7 @@
 #import "HXCwsModuleViewController.h"
 #import "HXCoursewareCell.h"
 #import "HXCwsCourseware.h"
-#import "TXMoviePlayerController.h"
+#import <TXMoviePlayer/TXMoviePlayerController.h>
 
 @interface HXCwsModuleViewController ()
 {
