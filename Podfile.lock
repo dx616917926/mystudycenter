@@ -41,7 +41,7 @@ DEPENDENCIES:
   - WebViewJavascriptBridge (~> 5.1.2)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - AliPlayerSDK_iOS
     - FMDB
@@ -65,4 +65,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: f1e59fe7b8bdc4f8261048ad96b7e09da8dfdc2b
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.10.1
