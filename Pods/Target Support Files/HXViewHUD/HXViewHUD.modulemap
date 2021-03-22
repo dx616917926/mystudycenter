@@ -1,0 +1,6 @@
+framework module HXViewHUD {
+  umbrella header "HXViewHUD-umbrella.h"
+
+  export *
+  module * { export * }
+}

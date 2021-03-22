@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,8 @@
 		043E05C025A4682E005FABD4 /* HXVertifyCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E05BF25A4682E005FABD4 /* HXVertifyCodeViewController.m */; };
 		043E05CA25A46AFC005FABD4 /* HXVertifyCodeContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043E05C925A46AFC005FABD4 /* HXVertifyCodeContentView.xib */; };
 		043E05D025A46E8A005FABD4 /* HXVertifyCodeContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E05CE25A46E8A005FABD4 /* HXVertifyCodeContentView.m */; };
+		043F49AF260836AF006E304D /* TXMoviePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E34D6F2601D00A0003002A /* TXMoviePlayer.framework */; };
+		043F49B0260836AF006E304D /* TXMoviePlayer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04E34D6F2601D00A0003002A /* TXMoviePlayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0445807D25B7F71B005E719C /* HXCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445807C25B7F71B005E719C /* HXCustomButton.m */; };
 		0445808225B7F9AF005E719C /* HXCourseListModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445808125B7F9AF005E719C /* HXCourseListModelView.m */; };
 		0445808625B807B5005E719C /* HXModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445808525B807B5005E719C /* HXModelItem.m */; };
@@ -60,16 +62,6 @@
 		0449A4C6254C11F6001A28D5 /* DOUAudioSpatialAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A38A254C11F4001A28D5 /* DOUAudioSpatialAnalyzer.m */; };
 		0449A4C7254C11F6001A28D5 /* DOUAudioFrequencyAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A38C254C11F4001A28D5 /* DOUAudioFrequencyAnalyzer.m */; };
 		0449A4C8254C11F6001A28D5 /* DOUMPMediaLibraryAssetLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A38F254C11F4001A28D5 /* DOUMPMediaLibraryAssetLoader.m */; };
-		0449A4C9254C11F6001A28D5 /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A396254C11F4001A28D5 /* MJPropertyType.m */; };
-		0449A4CA254C11F6001A28D5 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A399254C11F4001A28D5 /* NSObject+MJKeyValue.m */; };
-		0449A4CB254C11F6001A28D5 /* MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A39A254C11F4001A28D5 /* MJProperty.m */; };
-		0449A4CC254C11F6001A28D5 /* NSObject+MJCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A39C254C11F4001A28D5 /* NSObject+MJCoding.m */; };
-		0449A4CD254C11F6001A28D5 /* MJExtensionConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A39E254C11F4001A28D5 /* MJExtensionConst.m */; };
-		0449A4CE254C11F6001A28D5 /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A39F254C11F4001A28D5 /* NSObject+MJProperty.m */; };
-		0449A4CF254C11F6001A28D5 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3A1254C11F4001A28D5 /* NSObject+MJClass.m */; };
-		0449A4D0254C11F6001A28D5 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3A2254C11F4001A28D5 /* NSString+MJExtension.m */; };
-		0449A4D1254C11F6001A28D5 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3A3254C11F4001A28D5 /* MJPropertyKey.m */; };
-		0449A4D2254C11F6001A28D5 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3A7254C11F4001A28D5 /* MJFoundation.m */; };
 		0449A4D3254C11F6001A28D5 /* HXVerificationCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3A9254C11F4001A28D5 /* HXVerificationCodeView.m */; };
 		0449A4D4254C11F6001A28D5 /* QCSlideSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3AC254C11F4001A28D5 /* QCSlideSwitchView.m */; };
 		0449A4D5254C11F6001A28D5 /* QCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A3AD254C11F4001A28D5 /* QCScrollView.m */; };
@@ -213,7 +205,6 @@
 		04D793D9254FFDFD00BCB358 /* HXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793D8254FFDFD00BCB358 /* HXHomeViewController.m */; };
 		04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D793DC254FFE1F00BCB358 /* HXLiveViewController.m */; };
 		04DE261825BBFC2500B6705C /* HXStudyRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE261725BBFC2500B6705C /* HXStudyRecordController.m */; };
-		04E34D702601D00A0003002A /* TXMoviePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E34D6F2601D00A0003002A /* TXMoviePlayer.framework */; };
 		04E34D732601D0100003002A /* TXMoviePlayer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04E34D712601D0100003002A /* TXMoviePlayer.xcassets */; };
 		04E34D742601D0100003002A /* TXExamPopView.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04E34D722601D0100003002A /* TXExamPopView.xcassets */; };
 		04FD3D5625AD703B00E157EA /* HXExamListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5525AD703B00E157EA /* HXExamListViewController.m */; };
@@ -223,6 +214,20 @@
 		04FD3D6425ADAADA00E157EA /* NSDate+HXDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D6325ADAADA00E157EA /* NSDate+HXDate.m */; };
 		5402E7E5284CAF80DC24B23E /* Pods_HXMinedu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A568469A6B6F55B5712E3B2 /* Pods_HXMinedu.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		043F49B1260836AF006E304D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				043F49B0260836AF006E304D /* TXMoviePlayer.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0405818C2551041A0022A300 /* HXIntroViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXIntroViewManager.h; sourceTree = "<group>"; };
@@ -332,27 +337,6 @@
 		0449A38F254C11F4001A28D5 /* DOUMPMediaLibraryAssetLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOUMPMediaLibraryAssetLoader.m; sourceTree = "<group>"; };
 		0449A390254C11F4001A28D5 /* NSData+DOUMappedFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DOUMappedFile.h"; sourceTree = "<group>"; };
 		0449A391254C11F4001A28D5 /* DOUAudioBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOUAudioBase.h; sourceTree = "<group>"; };
-		0449A393254C11F4001A28D5 /* MJPropertyKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyKey.h; sourceTree = "<group>"; };
-		0449A394254C11F4001A28D5 /* NSObject+MJClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJClass.h"; sourceTree = "<group>"; };
-		0449A395254C11F4001A28D5 /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
-		0449A396254C11F4001A28D5 /* MJPropertyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyType.m; sourceTree = "<group>"; };
-		0449A397254C11F4001A28D5 /* NSObject+MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJProperty.h"; sourceTree = "<group>"; };
-		0449A398254C11F4001A28D5 /* MJExtensionConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtensionConst.h; sourceTree = "<group>"; };
-		0449A399254C11F4001A28D5 /* NSObject+MJKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJKeyValue.m"; sourceTree = "<group>"; };
-		0449A39A254C11F4001A28D5 /* MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJProperty.m; sourceTree = "<group>"; };
-		0449A39B254C11F4001A28D5 /* MJFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJFoundation.h; sourceTree = "<group>"; };
-		0449A39C254C11F4001A28D5 /* NSObject+MJCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJCoding.m"; sourceTree = "<group>"; };
-		0449A39D254C11F4001A28D5 /* MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtension.h; sourceTree = "<group>"; };
-		0449A39E254C11F4001A28D5 /* MJExtensionConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJExtensionConst.m; sourceTree = "<group>"; };
-		0449A39F254C11F4001A28D5 /* NSObject+MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJProperty.m"; sourceTree = "<group>"; };
-		0449A3A0254C11F4001A28D5 /* MJPropertyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyType.h; sourceTree = "<group>"; };
-		0449A3A1254C11F4001A28D5 /* NSObject+MJClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJClass.m"; sourceTree = "<group>"; };
-		0449A3A2254C11F4001A28D5 /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
-		0449A3A3254C11F4001A28D5 /* MJPropertyKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyKey.m; sourceTree = "<group>"; };
-		0449A3A4254C11F4001A28D5 /* MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJProperty.h; sourceTree = "<group>"; };
-		0449A3A5254C11F4001A28D5 /* NSObject+MJKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJKeyValue.h"; sourceTree = "<group>"; };
-		0449A3A6254C11F4001A28D5 /* NSObject+MJCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJCoding.h"; sourceTree = "<group>"; };
-		0449A3A7254C11F4001A28D5 /* MJFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJFoundation.m; sourceTree = "<group>"; };
 		0449A3A9254C11F4001A28D5 /* HXVerificationCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXVerificationCodeView.m; sourceTree = "<group>"; };
 		0449A3AA254C11F4001A28D5 /* HXVerificationCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXVerificationCodeView.h; sourceTree = "<group>"; };
 		0449A3AC254C11F4001A28D5 /* QCSlideSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCSlideSwitchView.m; sourceTree = "<group>"; };
@@ -619,7 +603,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04E34D702601D00A0003002A /* TXMoviePlayer.framework in Frameworks */,
+				043F49AF260836AF006E304D /* TXMoviePlayer.framework in Frameworks */,
 				04D7939F254FA07700BCB358 /* UMCommonLog.framework in Frameworks */,
 				04D793A2254FA07700BCB358 /* UMCommon.framework in Frameworks */,
 				5402E7E5284CAF80DC24B23E /* Pods_HXMinedu.framework in Frameworks */,
@@ -838,7 +822,6 @@
 				0449A483254C11F5001A28D5 /* HXProgressHUD */,
 				0449A496254C11F6001A28D5 /* HXPublicParamTool */,
 				0449A3A8254C11F4001A28D5 /* HXVerificationCodeView */,
-				0449A392254C11F4001A28D5 /* MJExtension */,
 				0449A499254C11F6001A28D5 /* QRCodeReaderViewController */,
 				0449A3AB254C11F4001A28D5 /* SlideSwitchView */,
 				0449A3CF254C11F4001A28D5 /* TXMoviePlayer */,
@@ -892,34 +875,6 @@
 				0449A391254C11F4001A28D5 /* DOUAudioBase.h */,
 			);
 			path = DOUAudio;
-			sourceTree = "<group>";
-		};
-		0449A392254C11F4001A28D5 /* MJExtension */ = {
-			isa = PBXGroup;
-			children = (
-				0449A393254C11F4001A28D5 /* MJPropertyKey.h */,
-				0449A394254C11F4001A28D5 /* NSObject+MJClass.h */,
-				0449A395254C11F4001A28D5 /* NSString+MJExtension.h */,
-				0449A396254C11F4001A28D5 /* MJPropertyType.m */,
-				0449A397254C11F4001A28D5 /* NSObject+MJProperty.h */,
-				0449A398254C11F4001A28D5 /* MJExtensionConst.h */,
-				0449A399254C11F4001A28D5 /* NSObject+MJKeyValue.m */,
-				0449A39A254C11F4001A28D5 /* MJProperty.m */,
-				0449A39B254C11F4001A28D5 /* MJFoundation.h */,
-				0449A39C254C11F4001A28D5 /* NSObject+MJCoding.m */,
-				0449A39D254C11F4001A28D5 /* MJExtension.h */,
-				0449A39E254C11F4001A28D5 /* MJExtensionConst.m */,
-				0449A39F254C11F4001A28D5 /* NSObject+MJProperty.m */,
-				0449A3A0254C11F4001A28D5 /* MJPropertyType.h */,
-				0449A3A1254C11F4001A28D5 /* NSObject+MJClass.m */,
-				0449A3A2254C11F4001A28D5 /* NSString+MJExtension.m */,
-				0449A3A3254C11F4001A28D5 /* MJPropertyKey.m */,
-				0449A3A4254C11F4001A28D5 /* MJProperty.h */,
-				0449A3A5254C11F4001A28D5 /* NSObject+MJKeyValue.h */,
-				0449A3A6254C11F4001A28D5 /* NSObject+MJCoding.h */,
-				0449A3A7254C11F4001A28D5 /* MJFoundation.m */,
-			);
-			path = MJExtension;
 			sourceTree = "<group>";
 		};
 		0449A3A8254C11F4001A28D5 /* HXVerificationCodeView */ = {
@@ -1618,6 +1573,7 @@
 				0449A30C254BFE92001A28D5 /* Frameworks */,
 				0449A30D254BFE92001A28D5 /* Resources */,
 				5D001E1C8B35E6599E9E67F5 /* [CP] Embed Pods Frameworks */,
+				043F49B1260836AF006E304D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1812,7 +1768,6 @@
 				0449A35D254C1174001A28D5 /* HXNavigationController.m in Sources */,
 				04D5AF54259B20E6004F11E8 /* HXMessageObject.m in Sources */,
 				0449A523254C11F6001A28D5 /* RSColorFunctions.m in Sources */,
-				0449A4D0254C11F6001A28D5 /* NSString+MJExtension.m in Sources */,
 				04D793C0254FA5D200BCB358 /* HXQuestionBtn.m in Sources */,
 				0449A52B254C11F6001A28D5 /* BitmapRotationManipulator.m in Sources */,
 				04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */,
@@ -1835,7 +1790,6 @@
 				0449A4BD254C11F6001A28D5 /* DOUAudioFilePreprocessor.m in Sources */,
 				04D793B2254FA5C400BCB358 /* HXQuestionInfo.m in Sources */,
 				0449A52D254C11F6001A28D5 /* BitmapContextManipulator.m in Sources */,
-				0449A4CE254C11F6001A28D5 /* NSObject+MJProperty.m in Sources */,
 				0449A544254C11F6001A28D5 /* Track.m in Sources */,
 				0449A4D5254C11F6001A28D5 /* QCScrollView.m in Sources */,
 				040581BC255156AF0022A300 /* HXResetTableViewCell.m in Sources */,
@@ -1849,7 +1803,6 @@
 				0449A536254C11F6001A28D5 /* TestColorViewController.m in Sources */,
 				0449A539254C11F6001A28D5 /* ACEDrawingTools.m in Sources */,
 				0449A4D3254C11F6001A28D5 /* HXVerificationCodeView.m in Sources */,
-				0449A4D2254C11F6001A28D5 /* MJFoundation.m in Sources */,
 				0449A531254C11F6001A28D5 /* ANImageBitmapRep.m in Sources */,
 				0449A4B7254C11F6001A28D5 /* DOUAudioFileProvider.m in Sources */,
 				0449A4D8254C11F6001A28D5 /* XHViewState.m in Sources */,
@@ -1880,15 +1833,12 @@
 				0449A534254C11F6001A28D5 /* RSOpacitySlider.m in Sources */,
 				0449A54C254C11F6001A28D5 /* QRCodeReader.m in Sources */,
 				0449A366254C119B001A28D5 /* HXThemeSettingManager.m in Sources */,
-				0449A4CB254C11F6001A28D5 /* MJProperty.m in Sources */,
 				04D793C2254FA5D200BCB358 /* HXExamSessionManager.m in Sources */,
 				0449A529254C11F6001A28D5 /* BitmapDrawManipulator.m in Sources */,
 				0449A325254BFE95001A28D5 /* main.m in Sources */,
 				0449A52E254C11F6001A28D5 /* CGImageContainer.m in Sources */,
-				0449A4CA254C11F6001A28D5 /* NSObject+MJKeyValue.m in Sources */,
 				0449A509254C11F6001A28D5 /* HXDBManager.m in Sources */,
 				04D5AF4E259B1F5E004F11E8 /* HXMessageListCell.m in Sources */,
-				0449A4CF254C11F6001A28D5 /* NSObject+MJClass.m in Sources */,
 				04C3A2ED2595B433008F32A4 /* HXExamModel.m in Sources */,
 				0449A533254C11F6001A28D5 /* BGRSLoupeLayer.m in Sources */,
 				04C3A2F22595BAE5008F32A4 /* HXExamDetailTopView.m in Sources */,
@@ -1909,21 +1859,17 @@
 				04FD3D5F25AD732F00E157EA /* HXExamListCell.m in Sources */,
 				0449A331254C0D47001A28D5 /* HXTabBarController.m in Sources */,
 				0449A524254C11F6001A28D5 /* RSGenerateOperation.m in Sources */,
-				0449A4C9254C11F6001A28D5 /* MJPropertyType.m in Sources */,
 				04D793D9254FFDFD00BCB358 /* HXHomeViewController.m in Sources */,
 				0449A4C1254C11F6001A28D5 /* DOUAudioStreamer.m in Sources */,
 				0449A4BC254C11F6001A28D5 /* NSData+DOUMappedFile.m in Sources */,
 				0449A52A254C11F6001A28D5 /* BitmapCropManipulator.m in Sources */,
 				04C3A2FB2595C282008F32A4 /* HXExamRecordCell.m in Sources */,
 				046CD599259477AF0097B18D /* HXExamCell.m in Sources */,
-				0449A4CC254C11F6001A28D5 /* NSObject+MJCoding.m in Sources */,
 				0449A4BB254C11F6001A28D5 /* DOUAudioAnalyzer+Default.m in Sources */,
-				0449A4D1254C11F6001A28D5 /* MJPropertyKey.m in Sources */,
 				04060A40255548FF00133FB3 /* CustomIOSAlertView.m in Sources */,
 				04492FCE25943BFE00BA722A /* HXCoursewareCell.m in Sources */,
 				0449A4D4254C11F6001A28D5 /* QCSlideSwitchView.m in Sources */,
 				04CE28922591A5EC00FFF7CB /* HXClassDetailViewController.m in Sources */,
-				0449A4CD254C11F6001A28D5 /* MJExtensionConst.m in Sources */,
 				0449A4BE254C11F6001A28D5 /* DOUAudioVisualizer.m in Sources */,
 				04D793B4254FA5C400BCB358 /* ExamResultDetail.m in Sources */,
 				0449A4C0254C11F6001A28D5 /* DOUAudioLPCM.m in Sources */,
