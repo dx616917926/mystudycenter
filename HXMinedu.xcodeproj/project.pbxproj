@@ -134,9 +134,6 @@
 		0449A53C254C11F6001A28D5 /* HXPenPickerController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0449A47C254C11F5001A28D5 /* HXPenPickerController2.xib */; };
 		0449A53D254C11F6001A28D5 /* HXPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A480254C11F5001A28D5 /* HXPopoverView.m */; };
 		0449A53E254C11F6001A28D5 /* HXPenPickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0449A482254C11F5001A28D5 /* HXPenPickerController.xib */; };
-		0449A53F254C11F6001A28D5 /* HXProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A484254C11F5001A28D5 /* HXProgressHUD.m */; };
-		0449A540254C11F6001A28D5 /* UIView+loading.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A486254C11F5001A28D5 /* UIView+loading.m */; };
-		0449A541254C11F6001A28D5 /* HXProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0449A488254C11F5001A28D5 /* HXProgressHUD.bundle */; };
 		0449A542254C11F6001A28D5 /* ViewFrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A48B254C11F5001A28D5 /* ViewFrameAccessor.m */; };
 		0449A543254C11F6001A28D5 /* ScrollViewFrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A48C254C11F5001A28D5 /* ScrollViewFrameAccessor.m */; };
 		0449A544254C11F6001A28D5 /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 0449A490254C11F6001A28D5 /* Track.m */; };
@@ -453,11 +450,6 @@
 		0449A480254C11F5001A28D5 /* HXPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPopoverView.m; sourceTree = "<group>"; };
 		0449A481254C11F5001A28D5 /* HXPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPopoverView.h; sourceTree = "<group>"; };
 		0449A482254C11F5001A28D5 /* HXPenPickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HXPenPickerController.xib; sourceTree = "<group>"; };
-		0449A484254C11F5001A28D5 /* HXProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXProgressHUD.m; sourceTree = "<group>"; };
-		0449A485254C11F5001A28D5 /* UIView+loading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+loading.h"; sourceTree = "<group>"; };
-		0449A486254C11F5001A28D5 /* UIView+loading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+loading.m"; sourceTree = "<group>"; };
-		0449A487254C11F5001A28D5 /* HXProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXProgressHUD.h; sourceTree = "<group>"; };
-		0449A488254C11F5001A28D5 /* HXProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HXProgressHUD.bundle; sourceTree = "<group>"; };
 		0449A48A254C11F5001A28D5 /* ScrollViewFrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewFrameAccessor.h; sourceTree = "<group>"; };
 		0449A48B254C11F5001A28D5 /* ViewFrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewFrameAccessor.m; sourceTree = "<group>"; };
 		0449A48C254C11F5001A28D5 /* ScrollViewFrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewFrameAccessor.m; sourceTree = "<group>"; };
@@ -819,7 +811,6 @@
 				0449A425254C11F5001A28D5 /* HXDBHelper */,
 				0449A3B0254C11F4001A28D5 /* HXHTTPSessionManager */,
 				0449A42A254C11F5001A28D5 /* HXPainterViewController */,
-				0449A483254C11F5001A28D5 /* HXProgressHUD */,
 				0449A496254C11F6001A28D5 /* HXPublicParamTool */,
 				0449A3A8254C11F4001A28D5 /* HXVerificationCodeView */,
 				0449A499254C11F6001A28D5 /* QRCodeReaderViewController */,
@@ -1112,18 +1103,6 @@
 				0449A481254C11F5001A28D5 /* HXPopoverView.h */,
 			);
 			path = PopoverView;
-			sourceTree = "<group>";
-		};
-		0449A483254C11F5001A28D5 /* HXProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				0449A484254C11F5001A28D5 /* HXProgressHUD.m */,
-				0449A485254C11F5001A28D5 /* UIView+loading.h */,
-				0449A486254C11F5001A28D5 /* UIView+loading.m */,
-				0449A487254C11F5001A28D5 /* HXProgressHUD.h */,
-				0449A488254C11F5001A28D5 /* HXProgressHUD.bundle */,
-			);
-			path = HXProgressHUD;
 			sourceTree = "<group>";
 		};
 		0449A489254C11F5001A28D5 /* FrameAccessor */ = {
@@ -1641,7 +1620,6 @@
 				0449A50E254C11F6001A28D5 /* painter_undo@2x.png in Resources */,
 				0449A53C254C11F6001A28D5 /* HXPenPickerController2.xib in Resources */,
 				0449A514254C11F6001A28D5 /* painter_redo@2x.png in Resources */,
-				0449A541254C11F6001A28D5 /* HXProgressHUD.bundle in Resources */,
 				0449A522254C11F6001A28D5 /* painter_pen@2x.png in Resources */,
 				0449A51F254C11F6001A28D5 /* painter_clear.png in Resources */,
 				0449A516254C11F6001A28D5 /* painter_color@2x.png in Resources */,
@@ -1745,7 +1723,6 @@
 				0449A4D7254C11F6001A28D5 /* XHZoomingImageView.m in Sources */,
 				0459C712258B02C7000555D4 /* HXLoginContentView.m in Sources */,
 				0449A525254C11F6001A28D5 /* RSColorPickerView.m in Sources */,
-				0449A53F254C11F6001A28D5 /* HXProgressHUD.m in Sources */,
 				0449A535254C11F6001A28D5 /* RSBrightnessSlider.m in Sources */,
 				0449A543254C11F6001A28D5 /* ScrollViewFrameAccessor.m in Sources */,
 				04D793D0254FFA7100BCB358 /* HXLoginViewController.m in Sources */,
@@ -1844,7 +1821,6 @@
 				04C3A2F22595BAE5008F32A4 /* HXExamDetailTopView.m in Sources */,
 				04FD3D6425ADAADA00E157EA /* NSDate+HXDate.m in Sources */,
 				04936D50259325EC0000ED74 /* HXExamModuleViewController.m in Sources */,
-				0449A540254C11F6001A28D5 /* UIView+loading.m in Sources */,
 				04D5AF48259B1F40004F11E8 /* HXMessageDetailController.m in Sources */,
 				0405818E2551041A0022A300 /* HXIntroViewManager.m in Sources */,
 				0449A4C2254C11F6001A28D5 /* DOUAudioDecoder.m in Sources */,

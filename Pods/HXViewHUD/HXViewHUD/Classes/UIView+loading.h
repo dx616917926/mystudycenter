@@ -56,6 +56,11 @@
 - (void)showSuccessWithMessage:(NSString *)message hideAfter:(NSTimeInterval)second;
 
 /**
+ *  功能:显示Success 回调block
+ */
+- (void)showSuccessWithMessage:(NSString *)message completionBlock:(void(^)(void))completionBlock;
+
+/**
  *  功能:显示Success
  */
 - (void)showSuccessWithMessage:(NSString *)message onView:(UIView *)aView hideAfter:(NSTimeInterval)second;
@@ -75,6 +80,11 @@
  *  功能:显示Error
  */
 - (void)showErrorWithMessage:(NSString *)message onView:(UIView *)aView hideAfter:(NSTimeInterval)second;
+
+/**
+ *  功能:显示Error 回调block
+ */
+- (void)showErrorWithMessage:(NSString *)message completionBlock:(void(^)(void))completionBlock;
 
 /**
  *  功能:隐藏loading
