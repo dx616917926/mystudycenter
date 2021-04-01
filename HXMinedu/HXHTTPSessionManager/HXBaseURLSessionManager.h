@@ -30,6 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define HXPOST_QUITE                @"/MD/ReturnBack/APPQuite"            //退出登录
 
+#pragma mark - 新版增加接口
+//获取报考类型专业列表
+#define HXPOST_Get_Version_Major_List               @"/MD/StuScoreInfo/getVersionAndMajorList"
+//获取教学计划列表
+#define HXPOST_Get_CourseScoreIn_List               @"/MD/StuScoreInfo/getCourseScoreInfoList"
+
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

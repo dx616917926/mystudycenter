@@ -97,8 +97,8 @@
 
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text = @"11101010011";
-    loginView.userNameTextField.text = @"11101010011";
+    loginView.passWordTextField.text = @"411261199001011123";//@"430621199804054256";
+    loginView.userNameTextField.text = @"411261199001011123"; //@"430621199804054256";
 #endif
 }
 
@@ -139,9 +139,27 @@
         return;
     }
     
-    [self.view showLoadingWithMessage:@"登录中…"];
     
+//    ///获取token
+//    __weak __typeof(self)weakSelf = self;
+//    [HXBaseURLSessionManager getDataWithNSString:@"http://yapi.edu-edu.com/mock/71/api/ApiLogin/Login"  withDictionary:@{@"UserName":loginView.userNameTextField.text,@"Password":loginView.passWordTextField.text} success:^(NSDictionary * _Nonnull dictionary) {
+//        NSLog(@"%@",dictionary);
+//        [HXPublicParamTool sharedInstance].token = [dictionary objectForKey:@"Token"];
+//        [weakSelf login];
+//    } failure:^(NSError * _Nonnull error) {
+//        [weakSelf.view showErrorWithMessage:@"登陆失败"];
+//    }];
+//
+    
+    [self login];
+    
+    
+    
+}
+
+-(void)login{
     __weak __typeof(self)weakSelf = self;
+    [self.view showLoadingWithMessage:@"登录中…"];
     [HXBaseURLSessionManager doLoginWithUserName:loginView.userNameTextField.text andPassword:loginView.passWordTextField.text success:^(NSString * _Nonnull personId) {
         //
         NSLog(@"登录成功！");

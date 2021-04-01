@@ -17,7 +17,7 @@
 
 @implementation HXPublicParamTool
 
-@synthesize currentYear = _currentYear, personId = _personId, accessToken = _accessToken,username = _username,mobilePhone = _mobilePhone,email = _email,isLaunch = _isLaunch,accountantNoDate = _accountantNoDate, skillGrade = _skillGrade, partnerId = _partnerId,homeUrl = _homeUrl,logoUrl = _logoUrl,partnerName = _partnerName,code = _code,userCode = _userCode;
+@synthesize currentYear = _currentYear, personId = _personId, accessToken = _accessToken,username = _username,mobilePhone = _mobilePhone,email = _email,isLaunch = _isLaunch,accountantNoDate = _accountantNoDate, skillGrade = _skillGrade,token=_token, partnerId = _partnerId,homeUrl = _homeUrl,logoUrl = _logoUrl,partnerName = _partnerName,code = _code,userCode = _userCode;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
@@ -52,6 +52,17 @@
 }
 - (void)setIsLaunch:(BOOL)isLaunch{
     [self.userDefault setBool:isLaunch forKey:@"isLaunch"];
+}
+
+- (NSString *)token{
+    if (!_token) {
+        _token = [self.userDefault objectForKey:@"token"];
+    }
+    return _partnerId;
+}
+- (void)setToken:(NSString *)token{
+    _token = token;
+    [self.userDefault setObject:token forKey:@"token"];
 }
 
 - (NSString *)partnerId{

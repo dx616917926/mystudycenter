@@ -27,10 +27,13 @@
 #import "UIView+loading.h"
 
 #import <Masonry/Masonry.h>
+#import <SDAutoLayout/SDAutoLayout.h>
 
 #import "HXBaseURLSessionManager.h"
 #import "HXExamSessionManager.h"
 #import "HXPublicParamTool.h"
 #import "UIImage+Extension.h"
+#import "HXCommonUtil.h"
+
 
 #endif /* PrefixHeader_pch */

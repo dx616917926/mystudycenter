@@ -18,6 +18,7 @@
         _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:[NSURL URLWithString:BaseUrl]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.requestSerializer.timeoutInterval = 10;
+       
     });
     
     return _sharedClient;
@@ -37,10 +38,17 @@
                    failure : (void (^)(NSString *message))failure
 {
     HXBaseURLSessionManager *client = [HXBaseURLSessionManager sharedClient];
+//    NSString *token = [HXPublicParamTool sharedInstance].token;
+//    if (token) {
+//        [client.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
+//    }
     
+
     NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
+    
     [parameters setObject:userName forKey:@"username"];
     [parameters setObject:pwd forKey:@"password"];
+   
     
     [client POST:HXPOST_LOGIN parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         
@@ -119,30 +127,35 @@
     [parameters addEntriesFromDictionary:nsDic];
     
     [client POST:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
-        if(dictionary)
-        {
-            if ([[dictionary stringValueForKey:@"Message"] isEqualToString:@"您的口令已经过期，请重新登录！"]) {
+        ///回到主线程
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(dictionary){
+                if ([[dictionary stringValueForKey:@"Message"] isEqualToString:@"您的口令已经过期，请重新登录！"]) {
+                    failure(nil);
+                    [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"您的口令已经过期，请重新登录！" completionBlock:^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                    }];
+                    return;
+                }
+                success(dictionary);
+            }else
+            {
                 failure(nil);
-                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"您的口令已经过期，请重新登录！" completionBlock:^{
+            }
+        });
+      
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
+            if (response.statusCode == 401) {
+                failure(nil);
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
                 }];
-                return;
+            }else{
+                failure(error);
             }
-            success(dictionary);
-        }else
-        {
-            failure(nil);
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
-        if (response.statusCode == 401) {
-            failure(nil);
-            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
-            }];
-        }else{
-            failure(error);
-        }
+        });
     }];
 }
 
@@ -172,7 +185,6 @@
     if (personId) {
         [parameters setObject:personId forKey:@"personId"];
     }
-    
     return parameters;
 }
 

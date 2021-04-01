@@ -1437,7 +1437,7 @@
         
         myWebView1.navigationDelegate = self;
         //向左手势
-        UISwipeGestureRecognizer *left = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleWeb1SwipeFromRight:)];
+        UISwipeGestureRecognizer *left = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(:)];
         [left setDirection:(UISwipeGestureRecognizerDirectionLeft)];
         [myWebView1.scrollView.panGestureRecognizer requireGestureRecognizerToFail:left];
         [myWebView1.scrollView addGestureRecognizer:left];

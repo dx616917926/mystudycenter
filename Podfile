@@ -16,5 +16,6 @@ target 'HXMinedu' do
   pod 'AliPlayerSDK_iOS', '4.7.5'
   pod 'MJExtension', '3.2.4'
   pod 'HXViewHUD', '~> 0.2.0'
+  pod 'SDAutoLayout', '~> 2.2.1'
 
 end

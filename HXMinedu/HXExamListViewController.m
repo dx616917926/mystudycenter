@@ -37,7 +37,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
     self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
     self.sc_navigationBar.title = self.title;
     

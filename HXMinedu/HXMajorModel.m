@@ -8,5 +8,12 @@
 #import "HXMajorModel.h"
 
 @implementation HXMajorModel
-
++ (NSDictionary *)mj_replacedKeyFromPropertyName
+{
+    return @{
+        @"versionId" : @"version_id",
+        @"bkSchool" : @"BkSchool",
+             
+    };
+}
 @end

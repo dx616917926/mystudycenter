@@ -11,7 +11,8 @@
 @interface HXPublicParamTool : NSObject
 
 + (instancetype)sharedInstance;
-
+//token
+@property (nonatomic, copy) NSString *token;
 //是否登录成功
 @property(nonatomic,assign) BOOL isLogin;
 //是否是运行过

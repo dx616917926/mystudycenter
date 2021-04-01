@@ -6,9 +6,11 @@
 //
 
 #import "HXTabBarController.h"
+#import "HXStudyViewController.h"
 #import "HXMyCourseViewController.h"
 #import "HXLiveViewController.h"
 #import "HXHomeViewController.h"
+#import "HXEducationViewController.h"
 #import "HXLoginViewController.h"
 
 @interface HXTabBarController ()
@@ -59,6 +61,20 @@
     [self.rootArray removeAllObjects];
     [self setViewControllers:self.rootArray];
     
+    //学习
+    HXStudyViewController *study = [HXStudyViewController new];
+    HXNavigationController *studyNav = [[HXNavigationController alloc] initWithRootViewController:study];
+    studyNav.tabBarItem.title = @"学习";
+    studyNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_1"];
+    studyNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_1"];
+    
+    //教务
+    HXEducationViewController *education = [HXEducationViewController new];
+    HXNavigationController *educationNav = [[HXNavigationController alloc] initWithRootViewController:education];
+    educationNav.tabBarItem.title = @"教务";
+    educationNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_2"];
+    educationNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_2"];
+    
     //课程
     HXMyCourseViewController *myCourse = [HXMyCourseViewController new];
     HXNavigationController *myCourseNav = [[HXNavigationController alloc] initWithRootViewController:myCourse];
@@ -70,17 +86,17 @@
     HXLiveViewController *live = [HXLiveViewController new];
     HXNavigationController *liveNav = [[HXNavigationController alloc] initWithRootViewController:live];
     liveNav.tabBarItem.title = @"直播";
-    liveNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_2"];
-    liveNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_2"];
+    liveNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_3"];
+    liveNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_3"];
 
     //我的账号
     HXHomeViewController *home = [HXHomeViewController new];
     HXNavigationController *homeNav = [[HXNavigationController alloc] initWithRootViewController:home];
     homeNav.tabBarItem.title = @"我的";
-    homeNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_3"];
-    homeNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_3"];
+    homeNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_4"];
+    homeNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_4"];
 
-    [self.rootArray addObjectsFromArray:@[myCourseNav,liveNav,homeNav]];
+    [self.rootArray addObjectsFromArray:@[studyNav,educationNav,liveNav,homeNav]];
     [self setViewControllers:self.rootArray];
     
     [self.tabBar setTintColor:kNavigationBarColor];

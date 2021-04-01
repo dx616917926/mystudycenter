@@ -76,7 +76,7 @@
     self.topView.layer.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0].CGColor;
     self.topView.layer.cornerRadius = 8;
     self.topView.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.15].CGColor;
-    self.topView.layer.shadowOffset = CGSizeMake(0,0);
+    self.topView.layer.shadowOffset = CGSizeMake(2,3);
     self.topView.layer.shadowOpacity = 1;
     self.topView.layer.shadowRadius = 4;
     [self.view addSubview:self.topView];

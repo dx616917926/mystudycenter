@@ -26,6 +26,7 @@ PODS:
   - MJExtension (3.2.4)
   - MJRefresh (3.1.14.1)
   - MMLayout (0.1.0)
+  - SDAutoLayout (2.2.1)
   - SDWebImage (3.8.3):
     - SDWebImage/Core (= 3.8.3)
   - SDWebImage/Core (3.8.3)
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - MJExtension (= 3.2.4)
   - MJRefresh (= 3.1.14.1)
   - MMLayout (= 0.1.0)
+  - SDAutoLayout (~> 2.2.1)
   - SDWebImage (~> 3.8.3)
   - WebViewJavascriptBridge (~> 5.1.2)
 
@@ -58,6 +60,7 @@ SPEC REPOS:
   trunk:
     - HXViewHUD
     - MJExtension
+    - SDAutoLayout
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
@@ -69,9 +72,10 @@ SPEC CHECKSUMS:
   MJExtension: 88e0900751b6cac8de1cf724ca9838a0b28d5acb
   MJRefresh: 238e6a37e2dba12160ee3b79f6d2a2b26abcab42
   MMLayout: 7caa6fe2ebfd018ec49ab3ac2409b454c3687995
+  SDAutoLayout: 8bf6b3bbc8b01f775d4defbb4fda2ace805461be
   SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
   WebViewJavascriptBridge: f99dac16105500a570a12b0b03e6bc46501eeb00
 
-PODFILE CHECKSUM: 8f9b17a7bfe61aabf56ad96918ee8dc3b7d1d422
+PODFILE CHECKSUM: b534d2453860ec3e69ef288606db6495c36df25f
 
 COCOAPODS: 1.10.1

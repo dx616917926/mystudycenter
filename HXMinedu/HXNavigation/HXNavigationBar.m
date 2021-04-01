@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong, readwrite) UILabel *titleLabel;
 @property (nonatomic, strong, readwrite) UIImageView *imageView;
+@property (nonatomic, strong, readwrite) CAGradientLayer *gradientLayer;
 
 @end
 
@@ -24,11 +25,10 @@
         
         self.frame = (CGRect){0, 0, kScreenWidth, kNavigationBarHeight};
         _backgroundAlpha = 1;
-        
         self.backgroundColor = kNavigationBarColor;
         self.imageView = [[UIImageView alloc] init];
         self.imageView.frame = (CGRect){0, 0, kScreenWidth, kNavigationBarHeight};
-        [self.imageView setImage:[UIImage imageNamed:@"navi_bgImage"]];
+        [self.imageView setImage:[UIImage imageNamed:@"navbar_bg"]];
         self.imageView.contentMode = UIViewContentModeScaleToFill;
         [self addSubview:self.imageView];
         self.lineView = [[UIView alloc] initWithFrame:(CGRect){0, kNavigationBarHeight, kScreenWidth, 0.5}];
@@ -40,6 +40,20 @@
     }
     return self;
 }
+
+- (CAGradientLayer *)gradientLayer {
+    if (!_gradientLayer) {
+        _gradientLayer = [CAGradientLayer layer];
+        _gradientLayer.bounds =(CGRect){0, 0, kScreenWidth, kNavigationBarHeight};
+        _gradientLayer.startPoint = CGPointMake(0, 0.5);
+        _gradientLayer.endPoint = CGPointMake(1, 0.5);
+        _gradientLayer.anchorPoint = CGPointMake(0, 0);
+        NSArray *colorArr = @[(id)[UIColor redColor].CGColor,(id)[UIColor greenColor].CGColor,(id)[UIColor blueColor].CGColor];
+        _gradientLayer.colors = colorArr;
+    }
+    return _gradientLayer;
+}
+
 
 -(void)setBackgroundAlpha:(CGFloat)alpha
 {

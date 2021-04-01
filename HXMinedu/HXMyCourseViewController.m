@@ -369,7 +369,7 @@
 {
     if (menu == self.majorMenuView) {
         //专业选单
-        HXMajorModel *major = self.majorsArr[indexPath.row];
+        HXMajorModel *major = self.majorsArr.count>0?self.majorsArr[indexPath.row]:nil;
         if (major) {
             return major.majorName;
         }
