@@ -1426,6 +1426,7 @@
         
         WKUserContentController* userContentController = [WKUserContentController new];
         
+        
         WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
         // 全局使用同一个processPool
         configuration.processPool = pool;
@@ -1437,7 +1438,7 @@
         
         myWebView1.navigationDelegate = self;
         //向左手势
-        UISwipeGestureRecognizer *left = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(:)];
+        UISwipeGestureRecognizer *left = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleWeb1SwipeFromRight:)];
         [left setDirection:(UISwipeGestureRecognizerDirectionLeft)];
         [myWebView1.scrollView.panGestureRecognizer requireGestureRecognizerToFail:left];
         [myWebView1.scrollView addGestureRecognizer:left];
