@@ -11,7 +11,7 @@
 #import "HXExaminationResultsViewController.h"
 #import "MJRefresh.h"
 #import "HXCourseTypeModel.h"
-#import "HXTeachPlanModel.h"
+
 
 @interface HXTeachPlanViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -30,11 +30,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    //获取数据
-    [self loadData];
     //布局子视图
     [self createUI];
-    
     
 }
 
@@ -42,14 +39,14 @@
 -(void)createUI{
     [self.view addSubview:self.mainTableView];
     // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    // 设置自动切换透明度(在导航栏下面自动隐藏)
-    header.automaticallyChangeAlpha = YES;
-    // 隐藏时间
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.stateLabel.hidden = YES;
+//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//    // 设置自动切换透明度(在导航栏下面自动隐藏)
+//    header.automaticallyChangeAlpha = YES;
+//    // 隐藏时间
+//    header.lastUpdatedTimeLabel.hidden = YES;
+//    header.stateLabel.hidden = YES;
     // 设置header
-    self.mainTableView.mj_header = header;
+//    self.mainTableView.mj_header = header;
 //    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 //    self.mainTableView.mj_footer = footer;
     
@@ -67,59 +64,37 @@
 
 #pragma mark - 获取数据
 -(void)loadNewData{
-    [self.view showLoading];
-    [self.mainTableView.mj_header endRefreshing];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        [self.view hideLoading];
-    });
+    
 }
 -(void)loadMoreData{
-    [self.view showLoading];
-    [self.mainTableView.mj_footer endRefreshing];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.view hideLoading];
-        self.mainTableView.mj_footer.hidden = YES;
-    });
-    
    
+    
+
 }
 
--(void)loadData{
-    HXTeachPlanModel *model1 = [HXTeachPlanModel new];
-    model1.title = @"必修课";
-    model1.num = 3;
-    
-    [self.dataArray addObject:model1];
-    
-    HXTeachPlanModel *model2 = [HXTeachPlanModel new];
-    model2.title = @"选修课";
-    model2.num = 4;
-    model2.isExpand = YES;
-    [self.dataArray addObject:model2];
-    
-    HXTeachPlanModel *model3 = [HXTeachPlanModel new];
-    model3.title = @"实践课课";
-    model3.num = 5;
-    [self.dataArray addObject:model3];
-    
-    
-}
+
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return self.isHaveHeader? self.courseTypeList.count:1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    HXCourseTypeModel *model = self.courseTypeList[section];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    HXCourseTypeModel *model = self.courseTypeList.count>0?self.courseTypeList[section]:nil;
     return  self.isHaveHeader?(model.isExpand?model.courseList.count:0):model.courseList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 114;
+    
+    HXCourseTypeModel *courseTypeModel = self.courseTypeList[indexPath.section];
+    HXTeachCourseModel *teachCourseModel = courseTypeModel.courseList[indexPath.row];
+    CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                         model:teachCourseModel keyPath:@"teachCourseModel"
+                                                     cellClass:([HXTeachPlanCell class])
+                                              contentViewWidth:kScreenWidth];
+    return rowHeight;
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -131,18 +106,23 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    HXCourseTypeModel *model = self.courseTypeList[section];
-    static NSString * teachPlanHeaderIdentifier = @"HXTeachPlanHeaderViewIdentifier";
-    HXTeachPlanHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:teachPlanHeaderIdentifier];
-    if (!headerView) {
-        headerView = [[HXTeachPlanHeaderView alloc] initWithReuseIdentifier:teachPlanHeaderIdentifier];
+    if (self.isHaveHeader) {
+        HXCourseTypeModel *model = self.courseTypeList[section];
+        static NSString * teachPlanHeaderIdentifier = @"HXTeachPlanHeaderViewIdentifier";
+        HXTeachPlanHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:teachPlanHeaderIdentifier];
+        if (!headerView) {
+            headerView = [[HXTeachPlanHeaderView alloc] initWithReuseIdentifier:teachPlanHeaderIdentifier];
+        }
+        headerView.model = model;
+        ///展开/折叠回调
+        headerView.expandCallBack = ^(void) {
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
+        };
+        return headerView;
+    }else{
+        return nil;
     }
-    headerView.model = model;
-    ///展开/折叠回调
-    headerView.expandCallBack = ^(void) {
-        [tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
-    };
-    return headerView;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -153,6 +133,7 @@
         cell = [[HXTeachPlanCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:teachPlanCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
     HXCourseTypeModel *courseTypeModel = self.courseTypeList[indexPath.section];
     HXTeachCourseModel *teachCourseModel = courseTypeModel.courseList[indexPath.row];
     cell.teachCourseModel = teachCourseModel;

@@ -53,7 +53,13 @@
         if (obj.isSelected) {
             self.detailLabel.text = HXSafeString(obj.educationName);
             self.secondLabel.text = HXSafeString(obj.majorName);
-            [self.addresstBtn setTitle:HXSafeString(obj.bkSchool) forState:UIControlStateNormal];
+            if (![HXCommonUtil isNull:obj.bkSchool]) {
+                self.addresstBtn.hidden = NO;
+                [self.addresstBtn setTitle:HXSafeString(obj.bkSchool) forState:UIControlStateNormal];
+            }else{
+                self.addresstBtn.hidden = YES;
+            }
+            
             *stop = YES;
             return;
         }
@@ -194,6 +200,7 @@
         _secondControl = [[UIControl alloc] init];
         [_secondControl addSubview:self.secondLabel];
         [_secondControl addSubview:self.secondImageView];
+        [_secondControl addTarget:self action:@selector(selectType:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _secondControl;
 }

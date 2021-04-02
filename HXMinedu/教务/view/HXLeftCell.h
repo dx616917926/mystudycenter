@@ -10,7 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXLeftCell : UITableViewCell
+
 @property(nonatomic,strong) HXVersionModel *model;
+
+-(void)hideBottomLine;
+
 @end
 
 NS_ASSUME_NONNULL_END

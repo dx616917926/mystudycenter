@@ -45,6 +45,13 @@
     self.bottomLine.hidden = model.isSelected;
 }
 
+#pragma mark - publick method
+-(void)hideBottomLine{
+    self.bottomLine.hidden = YES;
+}
+
+
+#pragma mark - UI布局
 -(void)createUI{
     [self addSubview:self.backgroudImageView];
     [self addSubview:self.titleLabel];

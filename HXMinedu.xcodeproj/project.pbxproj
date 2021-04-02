@@ -173,7 +173,6 @@
 		045FA186259D67AF00910575 /* HXUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045FA185259D67AF00910575 /* HXUserInfoViewController.m */; };
 		04663BAA2615540800239120 /* HXVersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04663BA92615540800239120 /* HXVersionModel.m */; };
 		04663BAD2615B3C300239120 /* HXTeachCourseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04663BAC2615B3C300239120 /* HXTeachCourseModel.m */; };
-		04663BB02615C28700239120 /* HXTeachPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04663BAF2615C28700239120 /* HXTeachPlanModel.m */; };
 		04663BB32615C32F00239120 /* HXCourseTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04663BB22615C32F00239120 /* HXCourseTypeModel.m */; };
 		046CD599259477AF0097B18D /* HXExamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 046CD597259477AF0097B18D /* HXExamCell.m */; };
 		046CD59A259477AF0097B18D /* HXExamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 046CD598259477AF0097B18D /* HXExamCell.xib */; };
@@ -561,8 +560,6 @@
 		04663BA92615540800239120 /* HXVersionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXVersionModel.m; sourceTree = "<group>"; };
 		04663BAB2615B3C300239120 /* HXTeachCourseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXTeachCourseModel.h; sourceTree = "<group>"; };
 		04663BAC2615B3C300239120 /* HXTeachCourseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXTeachCourseModel.m; sourceTree = "<group>"; };
-		04663BAE2615C28700239120 /* HXTeachPlanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXTeachPlanModel.h; sourceTree = "<group>"; };
-		04663BAF2615C28700239120 /* HXTeachPlanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXTeachPlanModel.m; sourceTree = "<group>"; };
 		04663BB12615C32F00239120 /* HXCourseTypeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCourseTypeModel.h; sourceTree = "<group>"; };
 		04663BB22615C32F00239120 /* HXCourseTypeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCourseTypeModel.m; sourceTree = "<group>"; };
 		046CD596259477AF0097B18D /* HXExamCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamCell.h; sourceTree = "<group>"; };
@@ -1573,8 +1570,6 @@
 				04CE28A52591C6DF00FFF7CB /* HXMajorModel.m */,
 				04663BB12615C32F00239120 /* HXCourseTypeModel.h */,
 				04663BB22615C32F00239120 /* HXCourseTypeModel.m */,
-				04663BAE2615C28700239120 /* HXTeachPlanModel.h */,
-				04663BAF2615C28700239120 /* HXTeachPlanModel.m */,
 				04663BAB2615B3C300239120 /* HXTeachCourseModel.h */,
 				04663BAC2615B3C300239120 /* HXTeachCourseModel.m */,
 				04C3A2EB2595B433008F32A4 /* HXExamModel.h */,
@@ -2039,7 +2034,6 @@
 				04BFCB6225A6A4DB00B03A58 /* HXCwsCourseware.m in Sources */,
 				04663BB32615C32F00239120 /* HXCourseTypeModel.m in Sources */,
 				0449A4E2254C11F6001A28D5 /* HXFileManager.m in Sources */,
-				04663BB02615C28700239120 /* HXTeachPlanModel.m in Sources */,
 				041FE0CC2614766800696D5C /* HXRightCollectionViewCell.m in Sources */,
 				0449A563254C13AB001A28D5 /* HXBaseViewController.m in Sources */,
 				04CE28A22591C3A900FFF7CB /* HXCourseModel.m in Sources */,

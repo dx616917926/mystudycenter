@@ -97,8 +97,8 @@
 
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text = @"411261199001011123";//@"430621199804054256";
-    loginView.userNameTextField.text = @"411261199001011123"; //@"430621199804054256";
+    loginView.passWordTextField.text = @"430621199908080707";//@"430621199804054256";
+    loginView.userNameTextField.text = @"430621199908080707"; //@"430621199804054256";
 #endif
 }
 

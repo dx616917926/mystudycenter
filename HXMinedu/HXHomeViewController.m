@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self sc_setNavigationBarBackgroundAlpha:1];
+    [self sc_setNavigationBarBackgroundAlpha:0];
     [self setSc_NavigationBarAnimateInvalid:YES];
     
     topViewHegiht = MIN(kScreenWidth*0.54, 300);

@@ -65,41 +65,42 @@
     HXStudyViewController *study = [HXStudyViewController new];
     HXNavigationController *studyNav = [[HXNavigationController alloc] initWithRootViewController:study];
     studyNav.tabBarItem.title = @"学习";
-    studyNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_1"];
-    studyNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_1"];
+    studyNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_1"];
+    studyNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_1"];
     
     //教务
     HXEducationViewController *education = [HXEducationViewController new];
     HXNavigationController *educationNav = [[HXNavigationController alloc] initWithRootViewController:education];
     educationNav.tabBarItem.title = @"教务";
-    educationNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_2"];
-    educationNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_2"];
+    educationNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_2"];
+    educationNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_2"];
     
     //课程
     HXMyCourseViewController *myCourse = [HXMyCourseViewController new];
     HXNavigationController *myCourseNav = [[HXNavigationController alloc] initWithRootViewController:myCourse];
     myCourseNav.tabBarItem.title = @"课程";
-    myCourseNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_1"];
-    myCourseNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_1"];
+    myCourseNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_1"];
+    myCourseNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_1"];
 
     //直播
     HXLiveViewController *live = [HXLiveViewController new];
     HXNavigationController *liveNav = [[HXNavigationController alloc] initWithRootViewController:live];
     liveNav.tabBarItem.title = @"直播";
-    liveNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_3"];
-    liveNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_3"];
+    liveNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_3"];
+    liveNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_3"];
 
     //我的账号
     HXHomeViewController *home = [HXHomeViewController new];
     HXNavigationController *homeNav = [[HXNavigationController alloc] initWithRootViewController:home];
     homeNav.tabBarItem.title = @"我的";
-    homeNav.tabBarItem.image = [UIImage imageNamed:@"tabbar_4"];
-    homeNav.tabBarItem.selectedImage = [UIImage imageNamed:@"tabbarSelect_4"];
+    homeNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_4"];
+    homeNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_4"];
 
-    [self.rootArray addObjectsFromArray:@[studyNav,educationNav,liveNav,homeNav]];
+    [self.rootArray addObjectsFromArray:@[studyNav,educationNav,myCourseNav,homeNav]];
     [self setViewControllers:self.rootArray];
     
     [self.tabBar setTintColor:kNavigationBarColor];
+    [self.tabBar setBarTintColor:[UIColor whiteColor]];
 }
 /*
 #pragma mark - Navigation

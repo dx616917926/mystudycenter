@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) BOOL isNetCourse; //是否是网学
 @property(nonatomic, assign) NSInteger isShowIsPass; //是否显示通过
 @property(nonatomic, assign) NSInteger IsPass; //是否通过
-@property(nonatomic, assign) NSInteger isShowFinalScore; //是否显示成绩
+//是否显示成绩
+@property(nonatomic, assign) NSInteger isShowFinalScore;
 @property(nonatomic, copy) NSString *finalScore;//成绩
 @property(nonatomic, assign) NSInteger isShowCoursePoint; //是否显示学分
 @property(nonatomic, copy) NSString *coursePoint; //学分

@@ -16,6 +16,7 @@
 @property(nonatomic,strong) UILabel *titleLabel;
 
 @property(nonatomic,strong) UITableView *leftTableView;
+@property(nonatomic,strong) UIView *leftShadowView;
 @property(nonatomic,strong) UICollectionView *rightCollectionView;
 
 @property(nonatomic,strong)  HXVersionModel *leftFirstSelectModel;//记录左侧刚进来时次选择
@@ -43,6 +44,8 @@
         return UIStatusBarStyleDefault;
     }
 }
+
+
 
 #pragma mark - Event
 -(void)clickCloseBtn{
@@ -113,8 +116,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.model = self.versionList[indexPath.row];
     return cell;
-    
-    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -130,6 +131,11 @@
     [self.leftTableView reloadData];
     [self.rightCollectionView reloadData];
     
+    //隐藏选择的cell的上面那个cell的分割线
+    HXLeftCell *cell = (HXLeftCell*)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:(indexPath.row-1) inSection:0]];
+    if (cell) {
+        [cell hideBottomLine];
+    }
 
 }
 
@@ -184,6 +190,7 @@
     [self.bigNavBackGroundView addSubview:self.closeBtn];
     [self.bigNavBackGroundView addSubview:self.titleLabel];
     [self.view addSubview:self.leftTableView];
+    [self.view addSubview:self.leftShadowView];
     [self.view addSubview:self.rightCollectionView];
     
     self.bigNavBackGroundView.sd_layout
@@ -215,6 +222,12 @@
     .topSpaceToView(self.bigNavBackGroundView,0)
     .bottomSpaceToView(self.view,0)
     .widthIs(_kpw(130));
+    
+    self.leftShadowView.sd_layout
+    .topEqualToView(self.leftTableView)
+    .leftEqualToView(self.leftTableView)
+    .rightEqualToView(self.leftTableView)
+    .bottomEqualToView(self.leftTableView);
 //
     self.rightCollectionView.sd_layout
     .topEqualToView(self.leftTableView)
@@ -224,6 +237,7 @@
     ///调整一下顺序，不然阴影被遮挡了
     [self.view insertSubview:self.rightCollectionView belowSubview:self.bigNavBackGroundView];
     [self.view insertSubview:self.leftTableView aboveSubview:self.bigNavBackGroundView];
+    [self.view insertSubview:self.leftShadowView belowSubview:self.bigNavBackGroundView];
     
 }
 
@@ -292,11 +306,6 @@
         _leftTableView.bounces = NO;
         _leftTableView.delegate = self;
         _leftTableView.dataSource = self;
-        _leftTableView.backgroundColor = [UIColor whiteColor];
-        _leftTableView.layer.shadowColor = [UIColor redColor].CGColor;
-        _leftTableView.layer.shadowOffset = CGSizeMake(2, 2);
-        _leftTableView.layer.shadowRadius = 6;
-        _leftTableView.layer.shadowOpacity = 1;
         _leftTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         if ([_leftTableView respondsToSelector:@selector(setSeparatorInset:)]) {
             [_leftTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -314,6 +323,18 @@
     }
     return _leftTableView;
     
+}
+
+-(UIView *)leftShadowView{
+    if (!_leftShadowView) {
+        _leftShadowView = [[UIView alloc] init];
+        _leftShadowView.backgroundColor = [UIColor whiteColor];
+        _leftShadowView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.15).CGColor;
+        _leftShadowView.layer.shadowOffset = CGSizeMake(0, 1);
+        _leftShadowView.layer.shadowRadius = 6;
+        _leftShadowView.layer.shadowOpacity = 1;
+    }
+    return _leftShadowView;
 }
 
 -(UICollectionView *)rightCollectionView{

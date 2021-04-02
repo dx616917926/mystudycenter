@@ -71,6 +71,9 @@
 //保存年份列表
 @property (nonatomic, strong) NSArray *yearArray;
 
+//报考类型数组
+@property (nonatomic, strong) NSArray *versionList;
+
 //退出登录
 - (void)logOut;
 

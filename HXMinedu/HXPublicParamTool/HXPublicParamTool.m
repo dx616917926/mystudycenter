@@ -164,6 +164,10 @@
     [self.userDefault setObject:currentYear forKey:@"currentYear"];
 }
 
+-(void)setVersionList:(NSArray *)versionList{
+    _versionList = versionList;
+}
+
 - (void)logOut {
     
     //清除内存中数据

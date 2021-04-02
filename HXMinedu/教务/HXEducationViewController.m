@@ -38,15 +38,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+   
     //布局UI
     [self createUI];
+
     //获取报考类型专业列表
     [self getVersionandMajorList];
-   
     //登录成功的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getVersionandMajorList) name:LOGINSUCCESS object:nil];
 }
-
 
 
 
@@ -76,9 +76,9 @@
         @"type":@(self.selectMajorModel.type),
         @"major_id":HXSafeString(self.selectMajorModel.major_id)
     };
-    [self.view showLoading];
+    
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_CourseScoreIn_List withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-        [self.view hideLoading];
+
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.courseTypeList = [HXCourseTypeModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
@@ -88,10 +88,11 @@
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
-        [self.view hideLoading];
+    
     }];
 }
 
+///刷新导航数据
 -(void)refreshNavBarData{
     //默认选中第一个类型里的第一个专业
     self.selectVersionModel = self.versionList.firstObject;
@@ -99,7 +100,7 @@
     self.selectMajorModel = self.selectVersionModel.majorList.firstObject;
     self.selectMajorModel.isSelected = YES;
     self.custommNavView.selectVersionModel = self.selectVersionModel;
-    ///获取数据
+    ///获取取教学计划列表数据
     [self getCourseScoreInfoList];
     
 }
@@ -108,14 +109,14 @@
 -(void)selectStudyType{
     HXSelectStudyTypeViewController *vc =[[HXSelectStudyTypeViewController alloc] init];
     vc.versionList = self.versionList;
-    WeakSelf(weakSelf)
     //选择完成回调
+    WeakSelf(weakSelf)
     vc.selectFinishCallBack = ^(NSArray * _Nonnull versionList, HXVersionModel * _Nonnull selectVersionModel, HXMajorModel * _Nonnull selectMajorModel) {
         weakSelf.versionList = versionList;
         weakSelf.selectVersionModel = selectVersionModel;
         weakSelf.selectMajorModel = selectMajorModel;
         weakSelf.custommNavView.selectVersionModel = selectVersionModel;
-        ///重新拉取数据
+        ///重新拉取教学计划列表数据
         [weakSelf getCourseScoreInfoList];
     };
     [self presentViewController:vc animated:YES completion:nil];
@@ -130,7 +131,16 @@
         [weakSelf selectStudyType];
     };
 }
+
+///初始化子视图控制器
 - (void)initPageViewController {
+    ///重新初始化子视图控制器,这里会多次调用，在调用之前先移除原先的，避免多次添加
+    [self.pageViewController removeFromParentViewController];
+    self.pageViewController = nil;
+    self.pageViewController.delegate = nil;
+    self.pageViewController.dataSource = nil;
+    [self.pageViewController.view removeFromSuperview];
+    
     self.titles = @[@"教学计划",@"报考课程",@"考试成绩"];
     self.pageViewController = [[XLPageViewController alloc] initWithConfig:self.config];
     self.pageViewController.bounces = NO;
@@ -182,23 +192,24 @@
     return _custommNavView;
 }
 
+
+///显示配置
 -(XLPageViewControllerConfig *)config{
     XLPageViewControllerConfig *config = [XLPageViewControllerConfig defaultConfig];
-    
     config.titleViewHeight = 58;
     config.titleSpace = _kpw(24);
     config.titleViewInset = UIEdgeInsetsMake(0, _kpw(24), 0, _kpw(24));
     config.titleViewAlignment = XLPageTitleViewAlignmentLeft;
     config.titleViewShadowShow = YES;
-    config.shadowLineWidth = 36;
+    config.shadowLineWidth = _kpw(36);
     config.shadowLineHeight = 3;
     config.shadowLineAlignment = XLPageShadowLineAlignmentTitleBottom;
     config.isGradientColor = YES;
     config.separatorLineHidden =YES;
     config.titleNormalColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
     config.titleSelectedColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-    config.titleNormalFont = [UIFont systemFontOfSize:12];
-    config.titleSelectedFont =[UIFont boldSystemFontOfSize:16];
+    config.titleNormalFont = [UIFont systemFontOfSize:_kpAdaptationWidthFont(12)];
+    config.titleSelectedFont =[UIFont boldSystemFontOfSize:_kpAdaptationWidthFont(16)];
     return config;
 }
 

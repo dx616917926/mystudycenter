@@ -493,5 +493,12 @@ typedef void(^XLContentScollBlock)(BOOL scrollEnabled);
         [self.delegate pageViewController:self didSelectedAtIndex:index];
     }
 }
-
+-(void)dealloc{
+    [self.contentView removeFromSuperview];
+    self.contentView = nil;
+    [self.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromParentViewController];
+    }];
+    NSLog(@"XLPageViewController销毁了");
+}
 @end

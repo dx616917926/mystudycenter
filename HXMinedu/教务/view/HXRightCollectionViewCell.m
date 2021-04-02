@@ -34,6 +34,9 @@
     self.bigBackGroundView.backgroundColor = model.isSelected?COLOR_WITH_ALPHA(0x4BA4FE, 1):COLOR_WITH_ALPHA(0xF4F4F4, 1);
 }
 
+
+
+#pragma mark - UI布局
 -(void)createUI{
     [self addSubview:self.bigBackGroundView];
     [self addSubview:self.titleLabel];

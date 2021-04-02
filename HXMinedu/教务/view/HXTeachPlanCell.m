@@ -21,7 +21,7 @@
 @property(nonatomic,strong) UILabel *tongkaoNumLabel;
 @property(nonatomic,strong) UIImageView *resultImageView;
 @property(nonatomic,strong) UIButton *wangxueBtn;
-@property(nonatomic,strong) HXGradientProgressView *gradientProgressView;
+
 @end
 
 @implementation HXTeachPlanCell
@@ -45,22 +45,54 @@
     return self;
 }
 
+#pragma mark - 刷新数据
 -(void)setTeachCourseModel:(HXTeachCourseModel *)teachCourseModel{
     _teachCourseModel = teachCourseModel;
     
     self.courseNameLabel.text = HXSafeString(teachCourseModel.courseName);
     self.codeNameLabel.text = HXSafeString(teachCourseModel.courseCode);
     self.creditNumLabel.text = [NSString stringWithFormat:@"%@分",HXSafeString(teachCourseModel.coursePoint)];
+    
+    if (teachCourseModel.isShowCheckLookName==1) {//显示统考
+        self.tongkaoLabel.sd_layout
+        .topSpaceToView(self.courseNameLabel, 12)
+        .heightIs(17);
+        self.tongkaoLabel.hidden = NO;
+        self.tongkaoNumLabel.hidden = NO;
+        self.resultImageView.hidden = NO;
+        self.tongkaoLabel.text = HXSafeString(teachCourseModel.checkLookName);
+        self.resultImageView.image = (teachCourseModel.IsPass==1?[UIImage imageNamed:@"success_icon"]:[UIImage imageNamed:@"fail_icon"]);
+    }else{
+        self.tongkaoLabel.sd_layout
+        .topSpaceToView(self.courseNameLabel, 0)
+        .heightIs(0);
+        self.tongkaoLabel.hidden = YES;
+        self.tongkaoNumLabel.hidden = YES;
+        self.resultImageView.hidden = YES;
+    }
     self.tongkaoLabel.text = HXSafeString(teachCourseModel.checkLookName);
-    
-    self.tongkaoNumLabel.attributedText = [HXCommonUtil getAttributedStringWith:teachCourseModel.finalScore needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:16],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x2C2C2E, 1)} content:[teachCourseModel.finalScore stringByAppendingString:@" 分"] defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x2C2C2E, 1)}];
-    
+    if (![HXCommonUtil isNull:teachCourseModel.finalScore]) {
+        self.tongkaoNumLabel.attributedText = [HXCommonUtil getAttributedStringWith:teachCourseModel.finalScore needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:16],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x2C2C2E, 1)} content:([teachCourseModel.finalScore isEqual:@"暂无成绩"]?@"暂无成绩":[teachCourseModel.finalScore stringByAppendingString:@" 分"]) defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x2C2C2E, 1)}];
+    }
     self.resultImageView.image = (teachCourseModel.IsPass==1?[UIImage imageNamed:@"success_icon"]:[UIImage imageNamed:@"fail_icon"]);
-    
+    //控制网学显示
     self.wangxueBtn.hidden = !teachCourseModel.isNetCourse;
+    if (teachCourseModel.isShowCheckLookName == 1) {
+        self.wangxueBtn.sd_layout
+        .centerYEqualToView(self.tongkaoLabel)
+        .leftSpaceToView(self.resultImageView, _kpw(35));
+    }else{
+        self.wangxueBtn.sd_layout
+        .centerYEqualToView(self.courseNameLabel)
+        .leftSpaceToView(self.courseNameLabel, _kpw(15));
+    }
+    //控制学分显示
+    self.triangleImageView.hidden = teachCourseModel.isShowFinalScore==1?NO:YES;
     
 }
 
+
+#pragma mark - UI布局
 -(void)createUI{
     [self.contentView addSubview:self.shadowBackgroundView];
     [self.contentView addSubview:self.bigBackgroundView];
@@ -72,25 +104,26 @@
     [self.bigBackgroundView addSubview:self.tongkaoNumLabel];
     [self.bigBackgroundView addSubview:self.resultImageView];
     [self.bigBackgroundView addSubview:self.wangxueBtn];
-//    [self.bigBackgroundView addSubview:self.gradientProgressView];
     
-    self.shadowBackgroundView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(7, _kpw(23), 7, _kpw(23)));
-    self.shadowBackgroundView.layer.cornerRadius = 5;
+   
     
-    self.bigBackgroundView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(7, _kpw(23), 7, _kpw(23)));
+    self.bigBackgroundView.sd_layout
+    .leftSpaceToView(self.contentView, _kpw(23))
+    .topSpaceToView(self.contentView, 7)
+    .rightSpaceToView(self.contentView, _kpw(23));
     self.bigBackgroundView.sd_cornerRadius = @5;
     
     self.courseNameLabel.sd_layout
     .leftSpaceToView(self.bigBackgroundView, _kpw(28))
     .topSpaceToView(self.bigBackgroundView, 20)
     .heightIs(22);
-    [self.courseNameLabel setSingleLineAutoResizeWithMaxWidth:150];
+    [self.courseNameLabel setSingleLineAutoResizeWithMaxWidth:_kpw(180)];
     
     self.codeNameLabel.sd_layout
     .leftSpaceToView(self.courseNameLabel, 14)
     .centerYEqualToView(self.courseNameLabel)
     .heightRatioToView(self.courseNameLabel, 1);
-    [self.codeNameLabel setSingleLineAutoResizeWithMaxWidth:150];
+    [self.codeNameLabel setSingleLineAutoResizeWithMaxWidth:_kpw(100)];
     
     self.triangleImageView.sd_layout
     .topEqualToView(self.bigBackgroundView).offset(-2)
@@ -135,12 +168,17 @@
     .heightIs(14)
     .widthEqualToHeight();
     
-//    self.gradientProgressView.sd_layout
-//    .topSpaceToView(self.tongkaoNumLabel, 5)
-//    .leftEqualToView(self.courseNameLabel);
-//    self.gradientProgressView.progress = 0.1;
-   
-
+    //设置bigBackgroundView自适应高度
+    [self.bigBackgroundView setupAutoHeightWithBottomView:self.tongkaoLabel bottomMargin:23];
+    self.shadowBackgroundView.sd_layout
+    .topEqualToView(self.bigBackgroundView)
+    .leftEqualToView(self.bigBackgroundView)
+    .rightEqualToView(self.bigBackgroundView)
+    .bottomEqualToView(self.bigBackgroundView);
+    self.shadowBackgroundView.layer.cornerRadius = 5;
+    
+    ///设置cell高度自适应
+    [self setupAutoHeightWithBottomView:self.bigBackgroundView bottomMargin:7];
 }
 
 -(UIView *)shadowBackgroundView{
@@ -247,12 +285,6 @@
     return _wangxueBtn;;
 }
 
--(HXGradientProgressView *)gradientProgressView{
-    if (!_gradientProgressView) {
-        _gradientProgressView = [[HXGradientProgressView alloc] initWithFrame:CGRectMake(0, 0, 200, 15)];
-    }
-    return _gradientProgressView;
-}
 
 
 @end

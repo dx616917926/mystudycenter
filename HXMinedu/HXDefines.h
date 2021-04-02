@@ -52,10 +52,16 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 #define HXFont(fontSize)      [UIFont systemFontOfSize:fontSize];
 #define HXBoldFont(fontSize)  [UIFont boldSystemFontOfSize:fontSize];
 
-// 美工的标准667
-#define _kph(__height_) ([UIScreen mainScreen].bounds.size.height * (__height_) / 667.0)
+
 // 美工的标准375
 #define _kpw(__width_) ([UIScreen mainScreen].bounds.size.width * (__width_) / 375.0)
+// 美工的标准667
+#define _kph(__height_) ([UIScreen mainScreen].bounds.size.height * (__height_) / 667.0)
+// 根据屏幕宽度适配字体大小
+#define _kpAdaptationWidthFont(__font_) ([UIScreen mainScreen].bounds.size.width * (__font_) / 375.0)
+// 根据高度度适配字体大小
+#define _kpAdaptationHeightFont(__font_) ([[UIScreen mainScreen].bounds.size.height * (__font_) / 667.0)
+
 
 
 #endif /* HXDefines_h */
