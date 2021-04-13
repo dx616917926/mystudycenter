@@ -15,7 +15,11 @@
 #define Default_Theme HXThemeBlue  //蓝色
 
 //默认域名
+#if TARGET_IPHONE_SIMULATOR
+#define BaseUrl @"http://testop.edu-cj.com"
+#else
 #define BaseUrl @"https://testop.edu-cj.com"
+#endif
 
 //更新地址
 #define APP_URL @"https://app.edu-edu.com.cn/minedu/ios/minedu.json"
