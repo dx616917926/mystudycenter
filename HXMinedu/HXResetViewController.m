@@ -19,22 +19,11 @@
 @property (nonatomic, strong) NSArray *cellTitleArray;/*cell内容数组*/
 @property (nonatomic, strong) NSArray *placeholderTitleArray;/*提示信息*/
 
-@property (nonatomic, strong)HXBarButtonItem *leftBarItem;
+
 @end
 
 @implementation HXResetViewController
--(void)loadView
-{
-    [super loadView];
-    
-    @weakify(self);
-    self.leftBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_back"] style:HXBarButtonItemStylePlain handler:^(id sender) {
-        
-        @strongify(self);
-        [self.navigationController popViewControllerAnimated:YES];
-        
-    }];
-}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,8 +32,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.sc_navigationBar.title = @"修改密码";
-    self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
-    
     self.cellTitleArray = @[@"旧密码：",@"新密码：",@"确认密码："];
     self.placeholderTitleArray = @[@"请输入旧密码",@"请输入新的密码",@"请再一次输入新密码"];
     

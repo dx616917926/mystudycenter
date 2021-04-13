@@ -138,8 +138,7 @@
                     return;
                 }
                 success(dictionary);
-            }else
-            {
+            }else{
                 failure(nil);
             }
         });

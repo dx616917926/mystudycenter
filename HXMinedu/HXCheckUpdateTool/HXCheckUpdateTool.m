@@ -69,7 +69,7 @@
             
             NSDictionary * rightDic = responseObject;
             NSDictionary *localDic =[[NSBundle mainBundle] infoDictionary];
-            NSString *localVersion =[localDic objectForKey:@"CFBundleVersion"];
+            NSString *localVersion =[localDic objectForKey:@"CFBundleShortVersionString"];
             NSString * newVersion = [rightDic objectForKey:@"version"];
             NSString * newVersionLabel = [rightDic objectForKey:@"versionLabel"];
             NSArray *features = [rightDic objectForKey:@"features"];

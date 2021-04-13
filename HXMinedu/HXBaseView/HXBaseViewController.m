@@ -16,9 +16,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
+    @weakify(self);
+    self.leftBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_blackback"] style:HXBarButtonItemStyleCustom handler:^(id sender) {
+        @strongify(self);
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    self.sc_NavigationBarAnimateInvalid = YES;
+    self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
     self.view.backgroundColor = kControllerViewBackgroundColor;
 }
+
+
 
 - (instancetype)init
 {
@@ -37,9 +46,17 @@
     
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return kStatusBarStyle;
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    if (self.navigationController.viewControllers.count>1) {
+        if (@available(iOS 13.0, *)) {
+            return UIStatusBarStyleDarkContent;
+        } else {
+            return UIStatusBarStyleDefault;
+        }
+    }else{
+        return UIStatusBarStyleLightContent;
+    }
+   
 }
 
 - (BOOL)shouldAutorotate{

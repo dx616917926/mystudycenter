@@ -23,8 +23,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.sc_navigationBar.leftBarButtonItem = nil;
+    self.sc_navigationBar.backGroundImage = [UIImage imageNamed:@"navbar_bg"];
     self.sc_navigationBar.title = @"直播";
+    self.sc_navigationBar.titleColor = [UIColor whiteColor];
     
     [self createScrollView];
     

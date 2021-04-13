@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HXExamDayModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 //是否是第一个和最后一个，用来判断虚线方向，第一个：隐藏向上虚线，最后一个隐藏向下虚线
 @property(nonatomic,assign) BOOL isFirst;
 @property(nonatomic,assign) BOOL isLast;
+
+@property(nonatomic,strong) HXExamDayModel *dayModel;
+
 @end
 
 NS_ASSUME_NONNULL_END

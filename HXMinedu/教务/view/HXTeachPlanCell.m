@@ -84,7 +84,7 @@
     }else{
         self.wangxueBtn.sd_layout
         .centerYEqualToView(self.courseNameLabel)
-        .leftSpaceToView(self.courseNameLabel, _kpw(15));
+        .rightSpaceToView(self.bigBackgroundView, _kpw(0));
     }
     //控制学分显示
     self.triangleImageView.hidden = teachCourseModel.isShowFinalScore==1?NO:YES;
@@ -153,7 +153,7 @@
     self.wangxueBtn.sd_layout
     .centerYEqualToView(self.tongkaoLabel)
     .leftSpaceToView(self.resultImageView, _kpw(35))
-    .widthIs(100)
+    .widthIs(80)
     .heightIs(25);
     
     self.wangxueBtn.titleLabel.sd_layout
@@ -181,6 +181,7 @@
     [self setupAutoHeightWithBottomView:self.bigBackgroundView bottomMargin:7];
 }
 
+#pragma mark - lazyLoad
 -(UIView *)shadowBackgroundView{
     if (!_shadowBackgroundView) {
         _shadowBackgroundView = [[UIView alloc] init];

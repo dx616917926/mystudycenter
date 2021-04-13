@@ -32,9 +32,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 新版增加接口
 //获取报考类型专业列表
-#define HXPOST_Get_Version_Major_List               @"/MD/StuScoreInfo/getVersionAndMajorList"
+#define HXPOST_Get_Version_Major_List                         @"/MD/StuScoreInfo/getVersionAndMajorList"
+
 //获取教学计划列表
-#define HXPOST_Get_CourseScoreIn_List               @"/MD/StuScoreInfo/getCourseScoreInfoList"
+#define HXPOST_Get_CourseScoreIn_List                         @"/MD/StuScoreInfo/getCourseScoreInfoList"
+
+//获取课程列表
+#define HXPOST_Get_Course_List                                @"/MD/StuCourse/getCourseList"
+
+//获取报考课程列表
+#define HXPOST_Get_ExamDateSignInfo_List                      @"/MD/StuScoreInfo/getExamDateSignInfoList"
+
+//获取考试成绩列表
+#define HXPOST_Get_ExamDateCourseScoreInfo_List               @"/MD/StuScoreInfo/getExamDateCourseScoreInfoList"
+
+//获取学生专业
+#define HXPOST_Get_MajorL_List                                 @"/MD/StuInfo/geMajorList"
+
+//获取新生报名表单下载链接
+#define HXPOST_Get_DownPdf                                 @"/MD/StuInfo/getDownPdf"
+
+//获取学生图片信息
+#define HXPOST_Get_StudentFile                                 @"/MD/StuInfo/getStudentFile"
+
+//学生确认图片信息
+#define HXPOST_UpdateStudentStatu                                @"/MD/StuInfo/UpdateStudentstatus"
+
+//获取隐私协议
+#define HXPOST_Get_PrivacyUrl                                @"/MD/StuInfo/getPrivacyUrl"
+
+//获取学习报告
+#define HXPOST_Get_LearnReport                             @"/MD/StuInfo/getLearnReport"
 
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager

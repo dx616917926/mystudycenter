@@ -14,7 +14,6 @@
 }
 @property (nonatomic,strong) WKWebView *wkWebView;
 @property (nonatomic,strong) UIProgressView *progressView;  //设置加载进度条
-@property (nonatomic, strong) HXBarButtonItem *leftBarItem;
 @property (nonatomic, strong) HXBarButtonItem *rigthBarItem;
 @end
 

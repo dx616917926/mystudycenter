@@ -17,7 +17,7 @@
     
     HXPullRefreshViewController * currentVC;//临时变量
 }
-@property (nonatomic, strong)HXBarButtonItem *leftBarItem;
+
 @property (nonatomic, strong)QCSlideSwitchView *slideSwitchView;
 
 @property (nonatomic, strong)HXCwsModuleViewController * cwsModuleVC;
@@ -27,18 +27,7 @@
 
 @implementation HXClassDetailViewController
 
--(void)loadView
-{
-    [super loadView];
-    
-    @weakify(self);
-    self.leftBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_back"] style:HXBarButtonItemStylePlain handler:^(id sender) {
-        
-        @strongify(self);
-        [self.navigationController popViewControllerAnimated:YES];
-        
-    }];
-}
+
 
 
 - (void)viewDidLoad {
@@ -51,7 +40,6 @@
     
     self.sc_navigationBar.title = self.courseModel.courseName;
     
-    self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
     
     [self initModules];
     

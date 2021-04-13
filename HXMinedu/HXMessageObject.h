@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HXMessageObject : NSObject
 
 @property(nonatomic, strong) NSString *ID;
-@property(nonatomic, strong) NSString *redirectURL;
+@property(nonatomic, strong) NSString *redirectURL;//消息H5地址
 @property(nonatomic, strong) NSString *message_id;
 @property(nonatomic, strong) NSString *MessageTitle;
 @property(nonatomic, strong) NSString *sendTime;

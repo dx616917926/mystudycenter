@@ -148,20 +148,29 @@
     [super loadView];
     
     @weakify(self);
-    self.gobackBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_back"] style:HXBarButtonItemStylePlain handler:^(id sender) {
+    self.gobackBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_back"] style:HXBarButtonItemStyleCustom handler:^(id sender) {
         @strongify(self);
         [self backBtnClicked];
     }];
     
-    self.submitBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"exam_submit"] style:HXBarButtonItemStylePlain handler:^(id sender) {
+    self.submitBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"exam_submit"] style:HXBarButtonItemStyleCustom handler:^(id sender) {
         @strongify(self);
         [self backBtnClicked];
     }];
     
-    self.menuBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"exam_menu"] style:HXBarButtonItemStylePlain handler:^(id sender) {
+    self.menuBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"exam_menu"] style:HXBarButtonItemStyleCustom handler:^(id sender) {
         @strongify(self);
         [self menuButtonPressed];
     }];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    if (@available(iOS 13.0, *)) {
+        return UIStatusBarStyleDarkContent;
+    } else {
+        return UIStatusBarStyleDefault;
+    }
+   
 }
 
 - (void)viewDidLoad
@@ -2642,10 +2651,7 @@
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return kStatusBarStyle;
-}
+
 
 /// 检查题目是否拆分成功，并上报给友盟统计
 /// 判断依据：是否包含多个class：ui-question-independency

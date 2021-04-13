@@ -11,6 +11,7 @@
 #import "HXLiveViewController.h"
 #import "HXHomeViewController.h"
 #import "HXEducationViewController.h"
+#import "HXMyViewController.h"
 #import "HXLoginViewController.h"
 
 @interface HXTabBarController ()
@@ -89,14 +90,14 @@
     liveNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_3"];
     liveNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_3"];
 
-    //我的账号
-    HXHomeViewController *home = [HXHomeViewController new];
+    //我的
+    HXMyViewController *home = [HXMyViewController new];
     HXNavigationController *homeNav = [[HXNavigationController alloc] initWithRootViewController:home];
     homeNav.tabBarItem.title = @"我的";
     homeNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_4"];
     homeNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_4"];
 
-    [self.rootArray addObjectsFromArray:@[studyNav,educationNav,myCourseNav,homeNav]];
+    [self.rootArray addObjectsFromArray:@[studyNav,educationNav,liveNav,homeNav]];
     [self setViewControllers:self.rootArray];
     
     [self.tabBar setTintColor:kNavigationBarColor];

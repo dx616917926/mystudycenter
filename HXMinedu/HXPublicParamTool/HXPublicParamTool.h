@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HXMajorModel.h"
 
 @interface HXPublicParamTool : NSObject
 
 + (instancetype)sharedInstance;
-//token
-@property (nonatomic, copy) NSString *token;
+
 //是否登录成功
 @property(nonatomic,assign) BOOL isLogin;
 //是否是运行过
@@ -71,8 +71,15 @@
 //保存年份列表
 @property (nonatomic, strong) NSArray *yearArray;
 
+#pragma mark - 新增字段
+//token
+@property (nonatomic, copy) NSString *token;
+//隐私协议url
+@property (nonatomic, copy) NSString *privacyUrl;
+
 //报考类型数组
 @property (nonatomic, strong) NSArray *versionList;
+@property (nonatomic, strong) HXMajorModel *selectMajorModel;
 
 //退出登录
 - (void)logOut;

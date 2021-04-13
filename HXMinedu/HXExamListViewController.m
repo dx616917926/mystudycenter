@@ -14,30 +14,17 @@
 
 @property(nonatomic,strong) NSString *moduleCode;
 @property(nonatomic,strong) NSMutableArray *exams;
-@property(nonatomic,strong) HXBarButtonItem *leftBarItem;
 
 @end
 
 @implementation HXExamListViewController
 
--(void)loadView
-{
-    [super loadView];
-    
-    @weakify(self);
-    self.leftBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_back"] style:HXBarButtonItemStylePlain handler:^(id sender) {
-        
-        @strongify(self);
-        [self.navigationController popViewControllerAnimated:YES];
-        
-    }];
-}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
     self.sc_navigationBar.title = self.title;
     
     self.moduleCode = [self getCodeWithURL:self.authorizeUrl forKey:@"moduleCode"];

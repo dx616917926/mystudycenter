@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXSelectDateHeaderView : UIView
-
+@property(nonatomic,strong) UIButton *selectDateBtn;
 @end
 
 NS_ASSUME_NONNULL_END

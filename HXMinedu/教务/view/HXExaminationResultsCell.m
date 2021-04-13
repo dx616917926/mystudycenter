@@ -36,6 +36,16 @@
     return self;
 }
 
+-(void)setExamDateCourseScoreModel:(HXExamDateCourseScoreModel *)examDateCourseScoreModel{
+    _examDateCourseScoreModel = examDateCourseScoreModel;
+    self.examTitleLabel.text = HXSafeString(examDateCourseScoreModel.courseName);
+    self.scoreLabel.text = HXSafeString(examDateCourseScoreModel.finalScore);
+    [self.resultBtn setTitle:(examDateCourseScoreModel.IsPass==1?@"通过":@"未通过") forState:UIControlStateNormal];
+    [self.resultBtn setImage:(examDateCourseScoreModel.IsPass==1?[UIImage imageNamed:@"success_icon"]:[UIImage imageNamed:@"fail_icon"]) forState:UIControlStateNormal];
+    self.bigBackGroundView.backgroundColor = (examDateCourseScoreModel.IsPass==1?COLOR_WITH_ALPHA(0xF3FFFA, 1):COLOR_WITH_ALPHA(0xFFF8FA, 1));
+}
+
+#pragma mark - UI
 -(void)createUI{
     [self.contentView addSubview:self.bigBackGroundView];
     [self.bigBackGroundView addSubview:self.examTitleLabel];
@@ -83,7 +93,7 @@
 -(UIView *)bigBackGroundView{
     if (!_bigBackGroundView) {
         _bigBackGroundView = [[UIView alloc] init];
-        _bigBackGroundView.backgroundColor = COLOR_WITH_ALPHA(0x45EFCF, 0.10);
+        _bigBackGroundView.backgroundColor = COLOR_WITH_ALPHA(0xF3FFFA, 1);
         _bigBackGroundView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.15).CGColor;
         _bigBackGroundView.layer.shadowOffset = CGSizeMake(0, 2);
         _bigBackGroundView.layer.shadowRadius = 4;
@@ -95,9 +105,8 @@
 -(UILabel *)examTitleLabel{
     if (!_examTitleLabel) {
         _examTitleLabel = [[UILabel alloc] init];
-        _examTitleLabel.textColor = COLOR_WITH_ALPHA(0x333333, 1);
-        _examTitleLabel.font = [UIFont systemFontOfSize:16];
-        _examTitleLabel.text = @"毛泽东思想和邓小平理论与“三个代表”";
+        _examTitleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _examTitleLabel.font = HXFont(16);
         _examTitleLabel.numberOfLines = 2;
     }
     return _examTitleLabel;;
@@ -106,9 +115,8 @@
 -(UILabel *)scoreLabel{
     if (!_scoreLabel) {
         _scoreLabel = [[UILabel alloc] init];
-        _scoreLabel.textColor = COLOR_WITH_ALPHA(0x333333, 1);
-        _scoreLabel.font = [UIFont systemFontOfSize:16];
-        _scoreLabel.text = @"96分";
+        _scoreLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _scoreLabel.font = HXBoldFont(16);
     }
     return _scoreLabel;;
 }
@@ -116,11 +124,9 @@
 -(UIButton *)resultBtn{
     if (!_resultBtn) {
         _resultBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _resultBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        _resultBtn.titleLabel.font = HXFont(14);
         _resultBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-        [_resultBtn setImage:[UIImage imageNamed:@"success_icon"] forState:UIControlStateNormal];
-        [_resultBtn setTitleColor:COLOR_WITH_ALPHA(0x999999, 1) forState:UIControlStateNormal];
-        [_resultBtn setTitle:@"通过" forState:UIControlStateNormal];
+        [_resultBtn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
     }
     return _resultBtn;
 }

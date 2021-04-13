@@ -8,14 +8,33 @@
 
 #import "HXStudyViewController.h"
 #import "HXSelectStudyTypeViewController.h"
+#import "HXExaminationResultsViewController.h"
+#import "HXStudyReportViewController.h"
+#import "HXSystemNotificationViewController.h"
+#import "HXExamListViewController.h"
+#import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXCustommNavView.h"
+#import "HXCourseLearnCell.h"
+#import "HXTeachPlanHeaderView.h"
+#import "HXStudyTableHeaderView.h"
+#import "HXCourseModel.h"
 
-@interface HXStudyViewController ()
+
+@interface HXStudyViewController ()<UITableViewDelegate,UITableViewDataSource,HXStudyTableHeaderViewDelegate,HXCourseLearnCellDelegate>
+
 @property(nonatomic,strong) HXCustommNavView *custommNavView;
-//报考类型数组
-@property (nonatomic, strong) NSArray *versionList;
 @property (nonatomic, strong) HXVersionModel *selectVersionModel;
-@property (nonatomic, strong) HXMajorModel *selectMajorModel;
+
+
+@property(strong,nonatomic) UITableView *mainTableView;
+@property(strong,nonatomic) HXStudyTableHeaderView *studyTableHeaderView;
+//课程数组
+@property (nonatomic, strong) NSArray *courseList;
+
+
+///是否有分组头
+@property(assign,nonatomic) BOOL isHaveHeader;
+
 
 @end
 
@@ -28,26 +47,27 @@
     [self createUI];
     //获取报考类型专业列表
     [self getVersionandMajorList];
-   
+    
     //登录成功的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getVersionandMajorList) name:LOGINSUCCESS object:nil];
+    ///监听<<报考类型专业改变>>通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshNavBarData) name:VersionAndMajorChangeNotification object:nil];
 }
+
+
 
 #pragma mark - event
 -(void)selectStudyType{
     HXSelectStudyTypeViewController *vc =[[HXSelectStudyTypeViewController alloc] init];
-    vc.versionList = self.versionList;
     //选择完成回调
     WeakSelf(weakSelf)
-    vc.selectFinishCallBack = ^(NSArray * _Nonnull versionList, HXVersionModel * _Nonnull selectVersionModel, HXMajorModel * _Nonnull selectMajorModel) {
-        weakSelf.versionList = versionList;
+    vc.selectFinishCallBack = ^(HXVersionModel * _Nonnull selectVersionModel, HXMajorModel * _Nonnull selectMajorModel) {
         weakSelf.selectVersionModel = selectVersionModel;
-        weakSelf.selectMajorModel = selectMajorModel;
-        weakSelf.custommNavView.selectVersionModel = selectVersionModel;
-
+        [HXPublicParamTool sharedInstance].selectMajorModel = selectMajorModel;
     };
     [self presentViewController:vc animated:YES completion:nil];
 }
+
 
 
 #pragma mark - 网络请求
@@ -58,9 +78,13 @@
         [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
-            self.versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
-            ///由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
-            [HXPublicParamTool sharedInstance].versionList = [self.versionList copy];
+            //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
+            [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            ///默认选择第一个
+            HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList.firstObject;
+            model.isSelected = YES;
+            HXMajorModel *majorModel = model.majorList.firstObject;
+            majorModel.isSelected = YES;
             ///刷新导航数据
             [self refreshNavBarData];
         }else{
@@ -71,23 +95,155 @@
     }];
 }
 
+//获取课程列表
+-(void)getCourseList{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"type":@(selectMajorModel.type),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_Course_List withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.courseList = [HXCourseModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.mainTableView reloadData];
+        }else{
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
+        }
+    } failure:^(NSError * _Nonnull error) {
+    
+    }];
+}
+
+#pragma mark - 刷新导航栏数据
 -(void)refreshNavBarData{
-    //默认选中第一个类型里的第一个专业
-    self.selectVersionModel = self.versionList.firstObject;
-    self.selectVersionModel.isSelected = YES;
-    self.selectMajorModel = self.selectVersionModel.majorList.firstObject;
-    self.selectMajorModel.isSelected = YES;
-    self.custommNavView.selectVersionModel = self.selectVersionModel;
+    //筛选出选中类型
+    [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXVersionModel *model = obj;
+        if (model.isSelected) {
+            self.custommNavView.selectVersionModel = model;
+            [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.isSelected) {
+                    [HXPublicParamTool sharedInstance].selectMajorModel = obj;
+                    *stop = YES;
+                    return;
+                }
+            }];
+            *stop = YES;
+            return;;
+        }
+    }];
+    //获取教学计划列表
+    [self getCourseList];
+    
+}
+
+#pragma mark - HXStudyTableHeaderViewDelegate
+-(void)handleEventWithFlag:(NSInteger)flag{
+    if (flag == 0) {//学习报告
+        HXStudyReportViewController *studyReportVc = [[HXStudyReportViewController alloc] init];
+        studyReportVc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:studyReportVc animated:YES];
+    }else if(flag == 1){//公告
+        HXSystemNotificationViewController *systemNotificationVc = [[HXSystemNotificationViewController alloc] init];
+        systemNotificationVc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:systemNotificationVc animated:YES];
+    }else if(flag == 2){//直播
+        [self.tabBarController setSelectedIndex:2];
+    }
+    
+}
+
+#pragma mark - <HXCourseLearnCellDelegate>
+-(void)handleType:(HXClickType)type withItem:(HXModelItem *)item{
+    switch (type) {
+        case HXKeJianXueXiClickType://课件学习
+        {
+            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+            playerVC.cws_param = item.cws_param;
+            playerVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:playerVC animated:YES];
+        }
+            break;
+        case HXPingShiZuoYeClickType://平时作业
+        case HXQiMoKaoShiClickType://期末考试
+        {
+            HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
+            listVC.authorizeUrl = item.ExamUrl;
+            listVC.title = item.ModuleName;
+            listVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:listVC animated:YES];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark - <UITableViewDelegate,UITableViewDataSource>
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return  self.courseList.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    HXCourseModel *courseModel = self.courseList[indexPath.row];
+    CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                         model:courseModel keyPath:@"courseModel"
+                                                     cellClass:([HXCourseLearnCell class])
+                                              contentViewWidth:kScreenWidth];
+    return rowHeight;
+
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.01;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *courseLearnCellIdentifier = @"HXCourseLearnCellIdentifier";
+    HXCourseLearnCell *cell = [tableView dequeueReusableCellWithIdentifier:courseLearnCellIdentifier];
+    if (!cell) {
+        cell = [[HXCourseLearnCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:courseLearnCellIdentifier];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delegate = self;
+    [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+    HXCourseModel *courseModel = self.courseList[indexPath.row];
+    cell.courseModel = courseModel;
+    return cell;
+    
     
 }
 
 #pragma mark - UI
 -(void)createUI{
+    self.sc_navigationBar.leftBarButtonItem = nil;
+    self.sc_navigationBar.backGroundImage = [UIImage imageNamed:@"navbar_bg"];
     self.sc_navigationBar.titleView = self.custommNavView;
     __weak __typeof(self) weakSelf = self;
     self.custommNavView.selectTypeCallBack = ^{
         [weakSelf selectStudyType];
     };
+    
+    [self.view addSubview:self.mainTableView];
+    
 }
 
 
@@ -97,6 +253,42 @@
         _custommNavView = [[HXCustommNavView alloc] initWithFrame:CGRectMake(0, kStatusBarHeight, kScreenWidth, kNavigationBarHeight-kStatusBarHeight)];
     }
     return _custommNavView;
+}
+
+-(UITableView *)mainTableView{
+    if (!_mainTableView) {
+        _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight-kTabBarHeight) style:UITableViewStyleGrouped];
+        _mainTableView.bounces = YES;
+        _mainTableView.delegate = self;
+        _mainTableView.dataSource = self;
+        _mainTableView.backgroundColor = [UIColor whiteColor];
+        _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        if ([_mainTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+            [_mainTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        }
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        if (@available(iOS 11.0, *)) {
+            _mainTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+            _mainTableView.estimatedRowHeight = 0;
+            _mainTableView.estimatedSectionHeaderHeight = 0;
+            _mainTableView.estimatedSectionFooterHeight = 0;
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
+        _mainTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        _mainTableView.scrollIndicatorInsets = _mainTableView.contentInset;
+        _mainTableView.showsVerticalScrollIndicator = NO;
+        _mainTableView.tableHeaderView = self.studyTableHeaderView;
+    }
+    return _mainTableView;
+}
+
+-(HXStudyTableHeaderView *)studyTableHeaderView{
+    if (!_studyTableHeaderView) {
+        _studyTableHeaderView = [[HXStudyTableHeaderView alloc] initWithFrame:CGRectZero];
+        _studyTableHeaderView.delegate = self;
+    }
+    return _studyTableHeaderView;
 }
 
 -(void)dealloc{

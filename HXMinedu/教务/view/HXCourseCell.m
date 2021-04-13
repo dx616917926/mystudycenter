@@ -39,7 +39,14 @@
     _isLast = isLast;
     self.dashImageView.hidden = isLast;
 }
+#pragma mark - 刷新数据
+-(void)setExamDateSignInfoModel:(HXExamDateSignInfoModel *)examDateSignInfoModel{
+    self.timeLabel.text = HXSafeString(examDateSignInfoModel.examTime);
+    self.courseNameLabel.text = HXSafeString(examDateSignInfoModel.courseName);
+}
 
+
+#pragma mark - UI
 -(void)createUI{
     [self addSubview:self.dashImageView];
     [self addSubview:self.blueDotView];
@@ -50,27 +57,31 @@
     self.dashImageView.sd_layout
     .topEqualToView(self)
     .bottomEqualToView(self)
-    .leftSpaceToView(self, _kpw(23)-0.5)
-    .widthIs(1);
+    .leftSpaceToView(self, _kpw(28)-0.25)
+    .widthIs(0.5);
     
     self.blueDotView.sd_layout
-    .leftSpaceToView(self.dashImageView, 10)
+    .leftSpaceToView(self.dashImageView, 30)
     .topSpaceToView(self, 16)
-    .widthIs(6)
+    .widthIs(10)
     .heightEqualToWidth();
     self.blueDotView.sd_cornerRadiusFromHeightRatio = @0.5;
     
     self.timeLabel.sd_layout
-    .topSpaceToView(self, 8)
+    .centerYEqualToView(self.blueDotView).offset(2)
     .leftSpaceToView(self.blueDotView, 10)
     .heightIs(20)
-    .widthIs(100);
+    .widthIs(_kpw(130));
     
     self.courseNameLabel.sd_layout
-    .topSpaceToView(self, 8)
-    .leftSpaceToView(self.timeLabel, 10)
-    .rightSpaceToView(self, _kpw(23))
-    .heightIs(20);
+    .topEqualToView(self.timeLabel).offset(2)
+    .leftSpaceToView(self.timeLabel, 17)
+    .rightSpaceToView(self, _kpw(26))
+    .autoHeightRatio(0);
+    [self.courseNameLabel setMaxNumberOfLinesToShow:2];
+    
+    ///设置cell高度自适应
+    [self setupAutoHeightWithBottomViewsArray:@[self.courseNameLabel,self.timeLabel] bottomMargin:24];
     
 }
 
@@ -98,7 +109,6 @@
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _timeLabel.textColor = COLOR_WITH_ALPHA(0x4BA4FE, 1);
         _timeLabel.font = HXFont(13);
-        _timeLabel.text = @"09:00-12:00";
     }
     return _timeLabel;;
 }
@@ -109,7 +119,7 @@
         _courseNameLabel.textAlignment = NSTextAlignmentLeft;
         _courseNameLabel.textColor = COLOR_WITH_ALPHA(0x333333, 1);
         _courseNameLabel.font = HXFont(14);
-        _courseNameLabel.text = @"计算机应用基础";
+        _courseNameLabel.numberOfLines = 0;
     }
     return _courseNameLabel;
 }

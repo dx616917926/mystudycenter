@@ -17,7 +17,7 @@
 
 @implementation HXPublicParamTool
 
-@synthesize currentYear = _currentYear, personId = _personId, accessToken = _accessToken,username = _username,mobilePhone = _mobilePhone,email = _email,isLaunch = _isLaunch,accountantNoDate = _accountantNoDate, skillGrade = _skillGrade,token=_token, partnerId = _partnerId,homeUrl = _homeUrl,logoUrl = _logoUrl,partnerName = _partnerName,code = _code,userCode = _userCode;
+@synthesize currentYear = _currentYear, personId = _personId, accessToken = _accessToken,username = _username,mobilePhone = _mobilePhone,email = _email,isLaunch = _isLaunch,accountantNoDate = _accountantNoDate, skillGrade = _skillGrade, partnerId = _partnerId,homeUrl = _homeUrl,logoUrl = _logoUrl,partnerName = _partnerName,code = _code,userCode = _userCode,token=_token,privacyUrl=_privacyUrl;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
@@ -27,6 +27,7 @@
     });
     return instance;
 }
+
 
 + (id)allocWithZone:(struct _NSZone *)zone{
     return [self sharedInstance];
@@ -58,7 +59,7 @@
     if (!_token) {
         _token = [self.userDefault objectForKey:@"token"];
     }
-    return _partnerId;
+    return _token;
 }
 - (void)setToken:(NSString *)token{
     _token = token;
@@ -164,10 +165,23 @@
     [self.userDefault setObject:currentYear forKey:@"currentYear"];
 }
 
+- (NSString *)privacyUrl{
+    if (!_privacyUrl) {
+        _privacyUrl = [self.userDefault objectForKey:@"privacyUrl"];
+    }
+    return _privacyUrl;
+}
+- (void)setPrivacyUrl:(NSString *)privacyUrl{
+    _privacyUrl = privacyUrl;
+    [self.userDefault setObject:privacyUrl forKey:@"privacyUrl"];
+}
+
 -(void)setVersionList:(NSArray *)versionList{
     _versionList = versionList;
 }
-
+-(void)setSelectMajorModel:(HXMajorModel *)selectMajorModel{
+    _selectMajorModel = selectMajorModel;
+}
 - (void)logOut {
     
     //清除内存中数据

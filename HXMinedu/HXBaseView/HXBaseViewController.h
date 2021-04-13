@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXBaseViewController : UIViewController
-
+@property (nonatomic, strong) HXBarButtonItem *leftBarItem;
 @property(nonatomic,assign,readonly)BOOL isLogin;
 
 @end

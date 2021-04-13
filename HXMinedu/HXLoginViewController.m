@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "HXLoginContentView.h"
 #import "HXForgetPasswordController.h"
-
+#import "HXCommonWebViewController.h"
 @interface HXLoginViewController ()<UITextFieldDelegate,HXLoginContentViewDeleagte>
 {
     HXLoginContentView *loginView;
@@ -26,7 +26,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //获取隐私协议
+    [self getPrivacyUrl];
+    
     [self createLoginUI];
+}
+
+#pragma mark - 获取隐私协议
+-(void)getPrivacyUrl{
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PrivacyUrl  withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            [HXPublicParamTool sharedInstance].privacyUrl = HXSafeString([dictionary objectForKey:@"Data"]);
+        }else{
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+    }];
 }
 
 - (void)createLoginUI{
@@ -192,9 +209,12 @@
 }
 
 - (void)privacyPolicyButtonClick {
-    //
-    NSLog(@"打开用户隐私页面");
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_PrivacyPolicy_URL]];
+   
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_PrivacyPolicy_URL]];
+    HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+    webViewVC.urlString = [HXPublicParamTool sharedInstance].privacyUrl;
+    webViewVC.cuntomTitle = @"隐私协议";
+    [self.navigationController pushViewController:webViewVC animated:YES];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

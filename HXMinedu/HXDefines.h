@@ -11,6 +11,9 @@
 #define SHOWLOGIN @"HXShowLoginVC"
 #define LOGINSUCCESS @"HXLoginSuccess"
 #define NeedReAuthorize @"HXNeedReAuthorize"
+///报考类型专业改变通知
+#define VersionAndMajorChangeNotification    @"VersionAndMajorChangeNotification"
+
 
 #define NETWORK_AVAILIABLE ([[AFNetworkReachabilityManager sharedManager] isReachable])
 #define NETWORK_ViaWWAN    ([[AFNetworkReachabilityManager sharedManager] isReachableViaWWAN])

@@ -6,10 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HXExamDateCourseScoreModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXExaminationResultsCell : UITableViewCell
+
+@property(nonatomic,strong) HXExamDateCourseScoreModel *examDateCourseScoreModel;
 
 @end
 

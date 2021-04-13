@@ -8,7 +8,7 @@
 #import "HXSelectDateHeaderView.h"
 
 @interface HXSelectDateHeaderView ()
-@property(nonatomic,strong) UIButton *selectDateBtn;
+
 @end
 
 @implementation HXSelectDateHeaderView
@@ -23,20 +23,22 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
         [self createUI];
     }
     return self;
 }
 
+
 -(void)createUI{
-    self.backgroundColor = [UIColor whiteColor];
+    
     [self addSubview:self.selectDateBtn];
     
     self.selectDateBtn.sd_layout
     .centerXEqualToView(self)
     .centerYEqualToView(self)
-    .widthIs(kScreenWidth/3+40)
-    .heightIs(30);
+    .widthIs(160)
+    .heightIs(28);
     self.selectDateBtn.sd_cornerRadiusFromHeightRatio = @0.5;
     
     self.selectDateBtn.titleLabel.sd_layout
@@ -49,10 +51,8 @@
     self.selectDateBtn.imageView.sd_layout
     .centerYEqualToView(self.selectDateBtn)
     .leftSpaceToView(self.selectDateBtn.titleLabel, 14)
-    .widthIs(6)
-    .heightEqualToWidth();
-    
-    
+    .widthIs(8)
+    .heightIs(6);
     
 }
 
@@ -61,12 +61,13 @@
     if (!_selectDateBtn) {
         _selectDateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _selectDateBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        [_selectDateBtn setImage:[UIImage imageNamed:@"down_arrow"] forState:UIControlStateNormal];
+        [_selectDateBtn setImage:[UIImage imageNamed:@"bluetriangle_icon"] forState:UIControlStateNormal];
         [_selectDateBtn setTitleColor:COLOR_WITH_ALPHA(0x4BA4FE, 1) forState:UIControlStateNormal];
-        _selectDateBtn.backgroundColor = COLOR_WITH_ALPHA(0xffffff, 0.2);
+        _selectDateBtn.backgroundColor = COLOR_WITH_ALPHA(0xECF6FF, 1);
         _selectDateBtn.layer.borderWidth = 1;
         _selectDateBtn.layer.borderColor = COLOR_WITH_ALPHA(0x4BA4FE, 1).CGColor;
-        [_selectDateBtn setTitle:@"2021-04考期" forState:UIControlStateNormal];
+       
+        
     }
     return _selectDateBtn;
 }

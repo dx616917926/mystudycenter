@@ -26,7 +26,8 @@
  *  @return 返回值
  */
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
-
+///颜色生成图片
++ (UIImage*)createImageWithColor:(UIColor*)color;
 /**
  *  返回一张自由拉伸的图片
  */

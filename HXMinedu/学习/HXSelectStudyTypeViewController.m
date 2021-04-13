@@ -33,8 +33,39 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = COLOR_WITH_ALPHA(0xFCFCFC, 1);
-    
+    //UI
     [self createUI];
+    //处理数据
+    [self handleData];
+    
+    
+}
+
+-(void)handleData{
+    NSArray*originalData = [[HXPublicParamTool sharedInstance].versionList mutableCopy];//复制一份不影响单例的数据
+    //选出左侧选中的
+    [originalData enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXVersionModel *model = obj;
+        if (model.isSelected) {
+            self.leftFirstSelectModel = model ;
+            self.leftSelectModel = model;
+            *stop = YES;
+            return;
+        }
+    }];
+    //选出右侧选中的
+    [self.leftSelectModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXMajorModel *model = obj;
+        if (model.isSelected) {
+            self.rightFirstSelectModel = model;
+            self.rightSelectModel = model;
+            *stop = YES;
+            return;
+        }
+    }];
+    
+    [self.leftTableView reloadData];
+    [self.rightCollectionView reloadData];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -54,10 +85,11 @@
     if (![self.rightSelectModel.major_id isEqualToString:self.rightFirstSelectModel.major_id]) {
         isRefesh = YES;
         ///刷新选中的
-        [self.versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             HXVersionModel *model = obj;
             if (model.type == self.leftSelectModel.type) {
                 model.isSelected = YES;
+                ///重置二级选中
                 [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     if ([obj.major_id isEqualToString:self.rightSelectModel.major_id]) {
                         obj.isSelected = YES;
@@ -72,13 +104,38 @@
                 }];
             }
         }];
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+            if (self.selectFinishCallBack&&isRefesh) {
+                ///发出<<报考类型专业改变>>通知
+                [[NSNotificationCenter defaultCenter] postNotificationName:VersionAndMajorChangeNotification object:nil];
+                self.selectFinishCallBack(self.leftSelectModel,self.rightSelectModel);
+            }
+        }];
+    }else{
+        ///使用刚进来时的初始数据
+        [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            HXVersionModel *model = obj;
+            if (model.type == self.leftFirstSelectModel.type) {
+                model.isSelected = YES;
+                ///重置二级选中
+                [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if ([obj.major_id isEqualToString:self.rightFirstSelectModel.major_id]) {
+                        obj.isSelected = YES;
+                    }else{
+                        obj.isSelected = NO;
+                    }
+                }];
+            }else{
+                model.isSelected = NO;
+                [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    obj.isSelected = NO;
+                }];
+            }
+        }];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
-    
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (self.selectFinishCallBack&&isRefesh) {
-            self.selectFinishCallBack(self.versionList,self.leftSelectModel,self.rightSelectModel);
-        }
-    }];
 }
 
 
@@ -89,7 +146,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.versionList.count;
+    return [HXPublicParamTool sharedInstance].versionList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -114,14 +171,14 @@
         cell = [[HXLeftCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:leftCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.model = self.versionList[indexPath.row];
+    cell.model = [HXPublicParamTool sharedInstance].versionList[indexPath.row];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    HXVersionModel *model = self.versionList[indexPath.row];
-    if (model == self.leftSelectModel) {
+    HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList[indexPath.row];
+    if (model.type == self.leftSelectModel.type) {
         return;
     }
     //刷新右侧数据
@@ -139,12 +196,11 @@
 
 }
 
-
+#pragma mark - <UICollectionViewDataSource,UICollectionViewDelegate>
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 
-#pragma mark - <UICollectionViewDataSource,UICollectionViewDelegate>
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
     return self.leftSelectModel.majorList.count;
@@ -239,31 +295,6 @@
     [self.view insertSubview:self.leftTableView aboveSubview:self.bigNavBackGroundView];
     [self.view insertSubview:self.leftShadowView belowSubview:self.bigNavBackGroundView];
     
-}
-
-#pragma mark - setter
--(void)setVersionList:(NSArray *)versionList{
-    _versionList = versionList;
-    //选出左侧选中的
-    [versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        HXVersionModel *model = obj;
-        if (model.isSelected) {
-            self.leftFirstSelectModel = model;
-            self.leftSelectModel = model;
-            *stop = YES;
-            return;
-        }
-    }];
-    //选出右侧选中的
-    [self.leftSelectModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        HXMajorModel *model = obj;
-        if (model.isSelected) {
-            self.rightFirstSelectModel = model;
-            self.rightSelectModel = model;
-            *stop = YES;
-            return;
-        }
-    }];
 }
 
 

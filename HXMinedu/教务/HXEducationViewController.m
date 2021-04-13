@@ -22,14 +22,13 @@
 @property (nonatomic, strong) NSArray *titles;
 @property(nonatomic,strong) HXCustommNavView *custommNavView;
 
-//报考类型数组
-@property (nonatomic, strong) NSArray *versionList;
 @property (nonatomic, strong) HXVersionModel *selectVersionModel;
-@property (nonatomic, strong) HXMajorModel *selectMajorModel;
+
 
 //课程分类数组
 @property (nonatomic, strong) NSArray *courseTypeList;
 
+@property (nonatomic, assign) BOOL isFirst;
 
 @end
 
@@ -38,19 +37,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-   
     //布局UI
     [self createUI];
-
-    //获取报考类型专业列表
-    [self getVersionandMajorList];
+    
+    self.isFirst = YES;
+    
     //登录成功的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getVersionandMajorList) name:LOGINSUCCESS object:nil];
+    ///监听<<报考类型专业改变>>通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshNavBarData) name:VersionAndMajorChangeNotification object:nil];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
+    if (self.isFirst) {
+        self.isFirst = NO;
+        [self refreshNavBarData];
+    }
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
 }
 
 
-
-#pragma mark - 网络请求
+#pragma mark -  获取教学计划列表
 //获取报考类型专业列表
 -(void)getVersionandMajorList{
     [self.view showLoading];
@@ -58,7 +70,13 @@
         [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
-            self.versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
+            [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            ///默认选择第一个
+            HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList.firstObject;
+            model.isSelected = YES;
+            HXMajorModel *majorModel = model.majorList.firstObject;
+            majorModel.isSelected = YES;
             ///刷新导航数据
             [self refreshNavBarData];
         }else{
@@ -68,17 +86,17 @@
         [self.view hideLoading];
     }];
 }
-
-//获取教学计划列表
 -(void)getCourseScoreInfoList{
+    [self.view showLoading];
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
-        @"version_id":HXSafeString(self.selectMajorModel.versionId),
-        @"type":@(self.selectMajorModel.type),
-        @"major_id":HXSafeString(self.selectMajorModel.major_id)
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"type":@(selectMajorModel.type),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_CourseScoreIn_List withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-
+        [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.courseTypeList = [HXCourseTypeModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
@@ -88,36 +106,40 @@
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
-    
+        [self.view hideLoading];
     }];
 }
 
 ///刷新导航数据
 -(void)refreshNavBarData{
-    //默认选中第一个类型里的第一个专业
-    self.selectVersionModel = self.versionList.firstObject;
-    self.selectVersionModel.isSelected = YES;
-    self.selectMajorModel = self.selectVersionModel.majorList.firstObject;
-    self.selectMajorModel.isSelected = YES;
-    self.custommNavView.selectVersionModel = self.selectVersionModel;
+    //筛选出选中类型
+    [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXVersionModel *model = obj;
+        if (model.isSelected) {
+            self.custommNavView.selectVersionModel = model;
+            [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.isSelected) {
+                    [HXPublicParamTool sharedInstance].selectMajorModel = obj;
+                    *stop = YES;
+                    return;
+                }
+            }];
+            *stop = YES;
+            return;
+        }
+    }];
     ///获取取教学计划列表数据
     [self getCourseScoreInfoList];
-    
 }
 
 #pragma mark - event
 -(void)selectStudyType{
     HXSelectStudyTypeViewController *vc =[[HXSelectStudyTypeViewController alloc] init];
-    vc.versionList = self.versionList;
     //选择完成回调
     WeakSelf(weakSelf)
-    vc.selectFinishCallBack = ^(NSArray * _Nonnull versionList, HXVersionModel * _Nonnull selectVersionModel, HXMajorModel * _Nonnull selectMajorModel) {
-        weakSelf.versionList = versionList;
+    vc.selectFinishCallBack = ^(HXVersionModel * _Nonnull selectVersionModel, HXMajorModel * _Nonnull selectMajorModel) {
         weakSelf.selectVersionModel = selectVersionModel;
-        weakSelf.selectMajorModel = selectMajorModel;
-        weakSelf.custommNavView.selectVersionModel = selectVersionModel;
-        ///重新拉取教学计划列表数据
-        [weakSelf getCourseScoreInfoList];
+        [HXPublicParamTool sharedInstance].selectMajorModel = selectMajorModel;
     };
     [self presentViewController:vc animated:YES completion:nil];
 }
@@ -125,6 +147,8 @@
 
 #pragma mark - UI
 -(void)createUI{
+    self.sc_navigationBar.leftBarButtonItem = nil;
+    self.sc_navigationBar.backGroundImage = [UIImage imageNamed:@"navbar_bg"];
     self.sc_navigationBar.titleView = self.custommNavView;
     __weak __typeof(self) weakSelf = self;
     self.custommNavView.selectTypeCallBack = ^{
@@ -153,18 +177,21 @@
 
 
 
-#pragma mark TableViewDelegate&DataSource
+#pragma mark -<XLPageViewControllerDelegate,XLPageViewControllerDataSrouce>
 - (UIViewController *)pageViewController:(XLPageViewController *)pageViewController viewControllerForIndex:(NSInteger)index {
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     if (index==0) {
-        HXTeachPlanViewController *vc = [[HXTeachPlanViewController alloc] init];
-        vc.courseTypeList = self.courseTypeList;
-        return vc;
+        HXTeachPlanViewController *teachPlanVc = [[HXTeachPlanViewController alloc] init];
+        teachPlanVc.courseTypeList = self.courseTypeList;
+        return teachPlanVc;
     }else if (index==1) {
-        HXApplyCoursesViewController *vc = [[HXApplyCoursesViewController alloc] init];
-        return vc;
+        HXApplyCoursesViewController *applyCoursesVC = [[HXApplyCoursesViewController alloc] init];
+        applyCoursesVC.selectMajorModel = selectMajorModel;
+        return applyCoursesVC;
     }else if (index==2) {
-        HXExaminationResultsViewController *vc = [[HXExaminationResultsViewController alloc] init];
-        return vc;
+        HXExaminationResultsViewController *examinationResultsVc = [[HXExaminationResultsViewController alloc] init];
+        examinationResultsVc.selectMajorModel = selectMajorModel;
+        return examinationResultsVc;
     }
     return nil;
 }

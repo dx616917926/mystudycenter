@@ -98,9 +98,9 @@ static const CGFloat kToBackgroundInitAlpha = 0.08;
         naviBarView.image = [UIImage imageNamed:@"navi_bgImage"];
         [containerView addSubview:naviBarView];
         
-        UIView *lineView = [[UIView alloc] initWithFrame:(CGRect){0, kNavigationBarHeight, kScreenWidth, 0.5}];
-        lineView.backgroundColor = kNavigationBarLineColor;
-        [naviBarView addSubview:lineView];
+//        UIView *lineView = [[UIView alloc] initWithFrame:(CGRect){0, kNavigationBarHeight, kScreenWidth, 0.5}];
+//        lineView.backgroundColor = kNavigationBarLineColor;
+//        [naviBarView addSubview:lineView];
         
         toNaviLeft = toViewController.sc_navigationBar.leftBarButtonItem.view;
         toNaviRight = toViewController.sc_navigationBar.rightBarButtonItem.view;

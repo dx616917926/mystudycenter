@@ -59,7 +59,6 @@
             }else{
                 self.addresstBtn.hidden = YES;
             }
-            
             *stop = YES;
             return;
         }

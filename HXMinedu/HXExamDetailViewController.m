@@ -17,7 +17,6 @@
     BOOL scoreSecret; //是否隐藏成绩
 }
 @property(nonatomic, strong) HXExamDetailTopView *topView;
-@property(nonatomic, strong) HXBarButtonItem *leftBarItem;
 @property(nonatomic, strong) UITableView *mTableView;
 @property(nonatomic, strong) NSArray *dataSource;
 @property(nonatomic, strong) UIButton *bottomStartExamButton;
@@ -26,19 +25,6 @@
 @end
 
 @implementation HXExamDetailViewController
-
--(void)loadView
-{
-    [super loadView];
-    
-    @weakify(self);
-    self.leftBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_back"] style:HXBarButtonItemStylePlain handler:^(id sender) {
-        
-        @strongify(self);
-        [self.navigationController popViewControllerAnimated:YES];
-        
-    }];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

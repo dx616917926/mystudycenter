@@ -29,12 +29,15 @@
 -(instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        UIView *backgroundView = [[UIView alloc] init];
+        backgroundView.backgroundColor = [UIColor whiteColor];
+        self.backgroundView = backgroundView;
         [self createUI];
     }
     return self;
 }
 -(void)createUI{
+    
     [self addSubview:self.upDashImageView];
     [self addSubview:self.downDashImageView];
     [self addSubview:self.circulImageView];
@@ -42,7 +45,7 @@
     
     self.circulImageView.sd_layout
     .centerYEqualToView(self)
-    .leftSpaceToView(self, _kpw(23)-5)
+    .leftSpaceToView(self, _kpw(28)-5)
     .widthIs(10)
     .heightEqualToWidth();
     self.circulImageView.sd_cornerRadiusFromHeightRatio = @0.5;
@@ -51,13 +54,13 @@
     .centerXEqualToView(self.circulImageView)
     .topEqualToView(self)
     .bottomEqualToView(self.circulImageView)
-    .widthIs(1);
+    .widthIs(0.5);
     
     self.downDashImageView.sd_layout
     .centerXEqualToView(self.circulImageView)
     .topEqualToView(self.circulImageView)
     .bottomEqualToView(self)
-    .widthIs(1);
+    .widthIs(0.5);
     
     self.dateLabel.sd_layout
     .centerYEqualToView(self)
@@ -75,6 +78,11 @@
 - (void)setIsLast:(BOOL)isLast{
     _isLast = isLast;
     self.downDashImageView.hidden = isLast;
+}
+
+-(void)setDayModel:(HXExamDayModel *)dayModel{
+    _dayModel = dayModel;
+    self.dateLabel.text = HXSafeString(dayModel.examDayText);
 }
 
 #pragma mark - lazyLoad
@@ -107,10 +115,10 @@
 -(UILabel *)dateLabel{
     if (!_dateLabel) {
         _dateLabel = [[UILabel alloc] init];
-        _dateLabel.textColor = COLOR_WITH_ALPHA(0x333333, 1);
+        _dateLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _dateLabel.textAlignment = NSTextAlignmentLeft;
-        _dateLabel.font = HXFont(14);
-        _dateLabel.text = @"2020-04-02";
+        _dateLabel.font = HXBoldFont(14);
+        
     }
     return _dateLabel;;
 }

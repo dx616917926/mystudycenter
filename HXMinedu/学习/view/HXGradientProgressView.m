@@ -54,7 +54,6 @@
 - (void)updateView {
     self.gradientLayer.bounds = CGRectMake(0, 0, self.frame.size.width * self.progress, self.frame.size.height);
     self.gradientLayer.colors = [self calcColor];
-    self.progressLabel.hidden = self.progress<=0;
 }
 ///生成渐变色
 - (NSArray *)calcColor {

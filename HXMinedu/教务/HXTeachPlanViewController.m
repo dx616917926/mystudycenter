@@ -6,9 +6,10 @@
 //
 
 #import "HXTeachPlanViewController.h"
+#import "HXExaminationResultsViewController.h"
 #import "HXTeachPlanCell.h"
 #import "HXTeachPlanHeaderView.h"
-#import "HXExaminationResultsViewController.h"
+#import "HXNoDataTipView.h"
 #import "MJRefresh.h"
 #import "HXCourseTypeModel.h"
 
@@ -16,6 +17,7 @@
 @interface HXTeachPlanViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(strong,nonatomic) UITableView *mainTableView;
+@property(strong,nonatomic) HXNoDataTipView *noDataTipView;
 
 @property(strong,nonatomic) NSMutableArray *dataArray;
 
@@ -58,6 +60,11 @@
     HXCourseTypeModel *model = courseTypeList.firstObject;
     ///根据courseTypeName是否为空判断，是否有分组
     self.isHaveHeader = ![HXCommonUtil isNull:model.courseTypeName];
+    if (courseTypeList.count == 0) {
+        [self.view addSubview:self.noDataTipView];
+    }else{
+        [self.noDataTipView removeFromSuperview];
+    }
     
 }
 
@@ -165,7 +172,7 @@
         _mainTableView.bounces = YES;
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
-        _mainTableView.backgroundColor = [UIColor whiteColor];
+        _mainTableView.backgroundColor = COLOR_WITH_ALPHA(0xFCFCFC, 1);
         _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         if ([_mainTableView respondsToSelector:@selector(setSeparatorInset:)]) {
             [_mainTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -186,5 +193,12 @@
     return _mainTableView;
 }
 
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:self.mainTableView.bounds];
+        _noDataTipView.tipTitle = @"暂无教学计划~";
+    }
+    return _noDataTipView;
+}
 
 @end
