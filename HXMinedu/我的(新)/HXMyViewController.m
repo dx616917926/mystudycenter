@@ -52,6 +52,7 @@
     
     
     self.isFirst = YES;
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -313,11 +314,36 @@
     return cell;
 }
 
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+    CGFloat offset = _kpw(5);
+    for (UITabBarItem *item in self.tabBarController.tabBar.items) {
+        if ([item.title isEqualToString:@"我的"]) {
+            item.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
+            item.titlePositionAdjustment = UIOffsetMake(0, 100);
+        }else{
+            if ([item.title isEqualToString:@"我的"]){
+                item.titlePositionAdjustment = UIOffsetMake(0, -100);
+            }
+            item.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+            item.titlePositionAdjustment = UIOffsetMake(0, 0);
+        }
+    }
+
+}
+
 #pragma mark - lazyLoad
 -(UIScrollView *)mainScrollView{
     if (!_mainScrollView) {
         _mainScrollView = [[UIScrollView alloc] init];
         _mainScrollView.backgroundColor = COLOR_WITH_ALPHA(0xF5F6FA, 1);
+        _mainScrollView.showsVerticalScrollIndicator = NO;
+        _mainScrollView.bounces = NO;
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        if (@available(iOS 11.0, *)) {
+            _mainScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
     }
     return _mainScrollView;
 }

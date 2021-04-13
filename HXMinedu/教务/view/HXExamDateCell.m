@@ -37,7 +37,7 @@
 
 -(void)setExamDateModel:(HXExamDateModel *)examDateModel{
     _examDateModel = examDateModel;
-    self.dateLabel.text = [NSString stringWithFormat:@"%@考期",examDateModel.examDate];
+    self.dateLabel.text = [NSString stringWithFormat:@"%@",examDateModel.examDate];
     self.dateLabel.textColor = examDateModel.isSelected?COLOR_WITH_ALPHA(0x4BA4FE, 1):COLOR_WITH_ALPHA(0x2C2C2E, 1);
     self.stateImageView.image = examDateModel.isSelected?[UIImage imageNamed:@"date_select"]:[UIImage imageNamed:@"date_unselect"];
 }

@@ -14,7 +14,7 @@
 #import "HXMyViewController.h"
 #import "HXLoginViewController.h"
 
-@interface HXTabBarController ()
+@interface HXTabBarController ()<UITabBarControllerDelegate>
 
 @property(nonatomic, strong) NSMutableArray *rootArray;
 
@@ -31,6 +31,7 @@
 
     self.rootArray = [[NSMutableArray alloc] init];
     self.tabBar.tintColor = [UIColor blackColor];
+    self.delegate = self;
 }
 
 - (void)showLogin{
@@ -95,13 +96,37 @@
     HXNavigationController *homeNav = [[HXNavigationController alloc] initWithRootViewController:home];
     homeNav.tabBarItem.title = @"我的";
     homeNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_4"];
-    homeNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_4"];
+    homeNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelectImage_4"];
 
     [self.rootArray addObjectsFromArray:@[studyNav,educationNav,liveNav,homeNav]];
     [self setViewControllers:self.rootArray];
     
     [self.tabBar setTintColor:kNavigationBarColor];
     [self.tabBar setBarTintColor:[UIColor whiteColor]];
+    
+
+}
+
+
+
+   
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+        CGFloat offset = _kpw(5)+(IS_iPhoneX?5:0);
+        if (tabBarController.selectedIndex != 3) {
+            for (UITabBarItem *item in self.tabBar.items) {
+                if ([item.title isEqualToString:@"我的"]) {
+                    item.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+                    item.titlePositionAdjustment = UIOffsetMake(0, 0);
+                }
+            }
+        }else{
+            for (UITabBarItem *item in self.tabBar.items) {
+                if ([item.title isEqualToString:@"我的"]) {
+                    item.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
+                    item.titlePositionAdjustment = UIOffsetMake(0, 100);
+                }
+            }
+        }
 }
 /*
 #pragma mark - Navigation

@@ -94,7 +94,6 @@
             self.learnTimeLabel.hidden = YES;
             self.gradientProgressView.bgProgressColor = COLOR_WITH_ALPHA(0xEFEFEF, 1);
             self.gradientProgressView.colorArr = @[COLOR_WITH_ALPHA(0x54C872, 1),COLOR_WITH_ALPHA(0x54C872, 1)];
-            
         }
             
             break;
@@ -109,27 +108,26 @@
     switch (cornerRadiusType) {
         case HXNoneCornerRadiusType:
         {
-            self.bigBackGroundView.layer.mask = [self getMaskLayerWithRoundedRect:self.bigBackGroundView.bounds byroundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(8 ,8)];
-            self.bigBackGroundView.layer.shadowOffset = CGSizeMake(0, 0);
+            self.bigBackGroundView.layer.mask = [self getMaskLayerWithRoundedRect:self.bigBackGroundView.bounds byroundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(0 ,0)];
         }
             break;
         case HXTopCornerRadiusType:
         {
             self.bigBackGroundView.layer.mask = [self getMaskLayerWithRoundedRect:self.bigBackGroundView.bounds byroundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight cornerRadii:CGSizeMake(8 ,8)];
-            self.bigBackGroundView.layer.shadowOffset = CGSizeMake(0, 2);
         }
             break;
         case HXBottomCornerRadiusType:
         {
             
             self.bigBackGroundView.layer.mask = [self getMaskLayerWithRoundedRect:self.bigBackGroundView.bounds byroundingCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight cornerRadii:CGSizeMake(8 ,8)];
-            self.bigBackGroundView.layer.shadowOffset = CGSizeMake(0, 2);
+            
         }
             break;
         case HXBothCornerRadiusType:
         {
+           
             self.bigBackGroundView.layer.mask = [self getMaskLayerWithRoundedRect:self.bigBackGroundView.bounds byroundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(8 ,8)];
-            self.bigBackGroundView.layer.shadowOffset = CGSizeMake(0, 2);
+           
         }
             break;
             
@@ -160,11 +158,11 @@
 
     
     self.bigBackGroundView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, 15, 0, 15));
-
+//    self.bigBackGroundView.layer.cornerRadius = 8;
     
     self.courseLabel.sd_layout
     .topSpaceToView(self.bigBackGroundView, 18)
-    .leftSpaceToView(self.bigBackGroundView, 35)
+    .leftSpaceToView(self.bigBackGroundView, _kpw(30))
     .heightIs(22);
     [self.courseLabel setSingleLineAutoResizeWithMaxWidth:_kpw(160)];
     
@@ -172,8 +170,8 @@
     
     self.gradientProgressView.sd_layout
     .topSpaceToView(self.courseLabel, 10)
-    .leftSpaceToView(self.bigBackGroundView, 45)
-    .widthIs(_kpw(260))
+    .leftEqualToView(self.courseLabel)
+    .widthIs(_kpw(250))
     .heightIs(18);
     [self.gradientProgressView updateLayout];
     
@@ -204,17 +202,17 @@
     if (!_bigBackGroundView) {
         _bigBackGroundView = [[UIView alloc] init];
         _bigBackGroundView.backgroundColor = [UIColor whiteColor];
-        _bigBackGroundView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.15).CGColor;
-        _bigBackGroundView.layer.shadowOffset = CGSizeMake(0, 2);
-        _bigBackGroundView.layer.shadowRadius = 4;
-        _bigBackGroundView.layer.shadowOpacity = 1;
+//        _bigBackGroundView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.10).CGColor;
+//        _bigBackGroundView.layer.shadowOffset = CGSizeMake(0, 2);
+//        _bigBackGroundView.layer.shadowRadius = 4;
+//        _bigBackGroundView.layer.shadowOpacity = 0.5;
     }
     return _bigBackGroundView;;
 }
 
 -(HXGradientProgressView *)gradientProgressView{
     if (!_gradientProgressView) {
-        _gradientProgressView = [[HXGradientProgressView alloc] initWithFrame:CGRectMake(0, 0, _kpw(260), 18)];
+        _gradientProgressView = [[HXGradientProgressView alloc] initWithFrame:CGRectMake(0, 0, _kpw(250), 18)];
         _gradientProgressView.bgProgressColor = COLOR_WITH_ALPHA(0xEFEFEF, 1);
     }
     return _gradientProgressView;
