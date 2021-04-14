@@ -79,60 +79,35 @@
 #pragma mark - UI
 - (void)createUI{
     
-    [self sd_addSubviews:@[self.firstControl,self.secondControl,self.detailLabel,self.addresstBtn,self.calendarBtn,self.messageBtn]];
+    [self sd_addSubviews:@[self.firstControl,self.secondControl]];
     
     self.secondControl.sd_layout
     .centerXEqualToView(self)
     .topSpaceToView(self, 0)
     .widthIs(kScreenWidth/3)
-    .heightIs(22);
+    .bottomEqualToView(self);
     
     self.secondLabel.sd_layout
     .centerXEqualToView(self.secondControl).offset(-4)
-    .centerYEqualToView(self.secondControl)
-    .heightRatioToView(self.secondControl, 1);
+    .topEqualToView(self.secondControl)
+    .heightIs(25);
     [self.secondLabel setSingleLineAutoResizeWithMaxWidth:_kpw(kScreenWidth/3-10)];
     
     self.secondImageView.sd_layout
     .leftSpaceToView(self.secondLabel, 3)
-    .bottomEqualToView(self.secondControl).offset(-2)
+    .bottomEqualToView(self.secondLabel).offset(-5)
     .widthIs(6)
     .heightEqualToWidth();
-    
-    
-    self.firstControl.sd_layout
-    .centerYEqualToView(self.secondControl)
-    .leftSpaceToView(self, 16)
-    .widthIs(kScreenWidth/3)
-    .heightIs(22);
-    
-    
-    self.firstLabel.sd_layout
-    .leftEqualToView(self.firstControl)
-    .centerYEqualToView(self.firstControl)
-    .heightRatioToView(self.firstControl, 1);
-    [self.firstLabel setSingleLineAutoResizeWithMaxWidth:_kpw(kScreenWidth/3-10)];
-    
-    self.firstImageView.sd_layout
-    .leftSpaceToView(self.firstLabel, 3)
-    .bottomEqualToView(self.firstControl).offset(-2)
-    .widthIs(6)
-    .heightEqualToWidth();
-    
-    self.detailLabel.sd_layout
-    .leftEqualToView(self.firstControl)
-    .topSpaceToView(self.firstControl, 5)
-    .widthRatioToView(self.firstControl, 1)
-    .heightIs(13);
     
     self.addresstBtn.sd_layout
-    .centerXEqualToView(self)
-    .topEqualToView(self.detailLabel)
-    .heightRatioToView(self.detailLabel, 1)
+    .centerXEqualToView(self.secondControl)
+    .bottomEqualToView(self.secondControl)
+    .heightIs(17)
     .widthIs(kScreenWidth/3);
     
     self.addresstBtn.titleLabel.sd_layout
-    .centerXEqualToView(self.addresstBtn)
+    .centerYEqualToView(self.addresstBtn)
+    .centerXEqualToView(self.addresstBtn).offset(8)
     .heightRatioToView(self.addresstBtn, 1);
     [self.addresstBtn.titleLabel setSingleLineAutoResizeWithMaxWidth:(kScreenWidth/3-15)];
     
@@ -142,24 +117,34 @@
     .widthIs(12)
     .heightEqualToWidth();
     
-    self.messageBtn.sd_layout
-    .centerYEqualToView(self.secondControl)
-    .rightSpaceToView(self, 20)
-    .heightIs(30)
-    .widthIs(40);
     
-    self.redDot.sd_layout
-    .topSpaceToView(self.messageBtn, 5)
-    .rightSpaceToView(self.messageBtn, -2)
+    self.firstControl.sd_layout
+    .topSpaceToView(self, 0)
+    .leftSpaceToView(self, 16)
+    .widthIs(kScreenWidth/3)
+    .bottomEqualToView(self);
+    
+    
+    self.firstLabel.sd_layout
+    .leftEqualToView(self.firstControl)
+    .topEqualToView(self.firstControl)
+    .heightIs(25);
+    [self.firstLabel setSingleLineAutoResizeWithMaxWidth:_kpw(kScreenWidth/3-10)];
+    
+    self.firstImageView.sd_layout
+    .leftSpaceToView(self.firstLabel, 3)
+    .bottomEqualToView(self.firstLabel).offset(-5)
     .widthIs(6)
     .heightEqualToWidth();
-    self.redDot.sd_cornerRadiusFromWidthRatio = @0.5;
     
-    self.calendarBtn.sd_layout
-    .centerYEqualToView(self.messageBtn)
-    .rightSpaceToView(self.messageBtn, 10)
-    .heightIs(30)
-    .widthIs(40);
+    self.detailLabel.sd_layout
+    .leftEqualToView(self.firstControl)
+    .bottomEqualToView(self.firstControl).offset(-2)
+    .widthRatioToView(self.firstControl, 1)
+    .heightIs(17);
+    
+   
+    
 }
 
 
@@ -170,6 +155,7 @@
         _firstControl = [[UIControl alloc] init];
         [_firstControl addSubview:self.firstLabel];
         [_firstControl addSubview:self.firstImageView];
+        [_firstControl addSubview:self.detailLabel];
         [_firstControl addTarget:self action:@selector(selectType:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _firstControl;
@@ -180,7 +166,6 @@
         _firstLabel = [[UILabel alloc] init];
         _firstLabel.font = [UIFont boldSystemFontOfSize:16];
         _firstLabel.textColor = [UIColor whiteColor];
-        
         _firstLabel.numberOfLines = 1;
     }
     return _firstLabel;
@@ -199,6 +184,7 @@
         _secondControl = [[UIControl alloc] init];
         [_secondControl addSubview:self.secondLabel];
         [_secondControl addSubview:self.secondImageView];
+        [_secondControl addSubview:self.addresstBtn];
         [_secondControl addTarget:self action:@selector(selectType:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _secondControl;

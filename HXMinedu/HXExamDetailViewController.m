@@ -35,10 +35,15 @@
     //设置导航栏透明度
     [self sc_setNavigationBarBackgroundAlpha:0];
     [self setSc_navigationBarHidden:YES];
-    
+    @weakify(self);
+    self.leftBarItem = [[HXBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navi_whiteback"] style:HXBarButtonItemStylePlain handler:^(id sender) {
+        @strongify(self);
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
-
+    
     self.sc_navigationBar.title = @"考试详情";
+    self.sc_navigationBar.titleColor =[UIColor whiteColor];
     
     [self initTopView];
     [self initTableView];
@@ -49,6 +54,14 @@
     [super viewWillAppear:animated];
     
     [self.mTableView.mj_header beginRefreshing];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    if (@available(iOS 13.0, *)) {
+        return UIStatusBarStyleLightContent;
+    } else {
+        return UIStatusBarStyleDefault;
+    }
 }
 
 - (void)initTopView {

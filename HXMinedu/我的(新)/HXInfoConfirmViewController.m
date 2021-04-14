@@ -82,7 +82,10 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     HXPictureInfoModel *pictureInfoModel = self.pictureInfoList[indexPath.row];
-    if (pictureInfoModel.status == 0) return;//待上传，不跳转
+    if (pictureInfoModel.status == 0) {
+        [self.view showTostWithMessage:@"待上传"];
+        return;//待上传，不跳转
+    }
     HXConfirmViewController *confirmVc = [[HXConfirmViewController alloc] init];
     confirmVc.pictureInfoModel = pictureInfoModel;
     [self.navigationController pushViewController:confirmVc animated:YES];

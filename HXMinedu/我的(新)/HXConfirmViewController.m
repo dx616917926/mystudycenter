@@ -95,9 +95,9 @@
     [self.mainScrollView setupAutoContentSizeWithBottomView:self.bottomConfirmBtn bottomMargin:30];
     
     if (self.pictureInfoModel.studentstatus == 1) {//已确认隐藏确认按钮
-        self.topConfirmBtn.hidden = self.bottomConfirmBtn.hidden = YES;
+        self.topConfirmBtn.hidden  = YES;
     }else{
-        self.topConfirmBtn.hidden = self.bottomConfirmBtn.hidden = NO;
+        self.topConfirmBtn.hidden  = NO;
     }
     
 }
@@ -141,6 +141,7 @@
     if (!_bottomImageView) {
         _bottomImageView = [[UIImageView alloc] init];
         _bottomImageView.image = [UIImage imageNamed:@"uploaddash"];
+        _bottomImageView.hidden = YES;
     }
     return _bottomImageView;
 }
@@ -153,6 +154,7 @@
         [_bottomConfirmBtn setBackgroundImage:[UIImage createImageWithColor:COLOR_WITH_ALPHA(0x079A4D, 1)] forState:UIControlStateHighlighted];
         [_bottomConfirmBtn setTitle:@"确认无误" forState:UIControlStateNormal];
         [_bottomConfirmBtn addTarget:self action:@selector(confirm:) forControlEvents:UIControlEventTouchUpInside];
+        _bottomConfirmBtn.hidden = YES;
     }
     return _bottomConfirmBtn;
 }

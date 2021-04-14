@@ -52,6 +52,7 @@
         [self.view showTostWithMessage:@"资源无效"];
         return;
     }
+    
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     // 1. 创建会话管理者
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
@@ -69,6 +70,7 @@
             //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url
             [self.QLController refreshCurrentPreviewItem];
         } else {
+            [self.view showLoadingWithMessage:@"正在下载..."];
             //下载文件
             NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress){
                 
@@ -77,6 +79,7 @@
                 NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
                 return url;
             } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                [self.view hideLoading];
                 self.fileURL = filePath;
                 [self presentViewController:self.QLController animated:YES completion:nil];
                 //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url

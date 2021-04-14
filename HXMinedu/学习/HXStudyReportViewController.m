@@ -122,30 +122,29 @@
     NSDictionary *dic = self.sectionArray[indexPath.section];
     NSArray *list = [dic objectForKey:@"list"];
     cell.cellType = [[dic objectForKey:@"cellType"] integerValue];
-//    cell.cornerRadiusType = HXNoneCornerRadiusType;
-//    if (indexPath.row == 0 && indexPath.row == list.count-1) {
-//        cell.cornerRadiusType = HXBothCornerRadiusType;
-//    }else if (indexPath.row == 0) {
-//        cell.cornerRadiusType = HXTopCornerRadiusType;
-//    }else if (indexPath.row == list.count-1) {
-//        cell.cornerRadiusType = HXBottomCornerRadiusType;
-//    }
-    
     HXCourseDetailModel *courseDetailModel = list[indexPath.row];
     cell.courseDetailModel = courseDetailModel;
     return cell;
 }
 
-#pragma mark - UI
--(NSMutableArray *)sectionArray{
-    if (!_sectionArray) {
-        _sectionArray = [NSMutableArray array];
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    HXStudyReportCell * studyReportCell = (HXStudyReportCell *)cell;
+    NSDictionary *dic = self.sectionArray[indexPath.section];
+    NSArray *list = [dic objectForKey:@"list"];
+    studyReportCell.cellType = HXNoneCornerRadiusType;
+    if (indexPath.row == 0 && indexPath.row == list.count-1) {
+        studyReportCell.cornerRadiusType = HXBothCornerRadiusType;
+    }else if (indexPath.row == 0) {
+        studyReportCell.cornerRadiusType = HXTopCornerRadiusType;
+    }else if (indexPath.row == list.count-1) {
+        studyReportCell.cornerRadiusType = HXBottomCornerRadiusType;
     }
-    return _sectionArray;
 }
+
+#pragma mark - UI
 -(void)createUI{
    
-    self.view.backgroundColor = COLOR_WITH_ALPHA(0xfcfcfc, 1);
+    self.view.backgroundColor = COLOR_WITH_ALPHA(0xf5f6fa, 1);
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self setSc_NavigationBarAnimateInvalid:YES];
     self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
@@ -153,6 +152,15 @@
     [self.view addSubview:self.mainTableView];
 
 }
+
+#pragma mark - lazyLoad
+-(NSMutableArray *)sectionArray{
+    if (!_sectionArray) {
+        _sectionArray = [NSMutableArray array];
+    }
+    return _sectionArray;
+}
+
 
 
 -(UITableView *)mainTableView{
