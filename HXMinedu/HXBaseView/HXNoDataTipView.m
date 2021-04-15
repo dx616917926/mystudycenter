@@ -26,6 +26,7 @@
     return self;
 }
 
+
 #pragma mark - setter
 -(void)setTipImage:(UIImage *)tipImage{
     self.tipImageView.image = tipImage;

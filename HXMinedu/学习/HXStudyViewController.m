@@ -34,7 +34,8 @@
 
 ///是否有分组头
 @property(assign,nonatomic) BOOL isHaveHeader;
-
+///是否下拉刷新
+@property(assign,nonatomic) BOOL isPullDownRefrsh;
 
 @end
 
@@ -54,6 +55,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshNavBarData) name:VersionAndMajorChangeNotification object:nil];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    
+}
 
 
 #pragma mark - event
@@ -75,6 +84,7 @@
 -(void)getVersionandMajorList{
     [self.view showLoading];
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_Version_Major_List withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_header endRefreshing];
         [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
@@ -91,6 +101,7 @@
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_header endRefreshing];
         [self.view hideLoading];
     }];
 }
@@ -110,12 +121,19 @@
         if (success) {
             self.courseList = [HXCourseModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             [self.mainTableView reloadData];
+           
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
     
     }];
+}
+
+//下拉刷新
+-(void)pullDownRefrsh{
+    self.isPullDownRefrsh = YES;
+//    [self getVersionandMajorList];
 }
 
 #pragma mark - 刷新导航栏数据
@@ -243,6 +261,16 @@
     };
     
     [self.view addSubview:self.mainTableView];
+    
+    // 下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
+    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    header.automaticallyChangeAlpha = YES;
+    // 隐藏时间
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.stateLabel.hidden = YES;
+     //设置header
+    self.mainTableView.mj_header = header;
     
 }
 

@@ -108,10 +108,9 @@
 }
 
 
-
-   
+#pragma mark - <UITabBarControllerDelegate>
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
-        CGFloat offset = _kpw(5)+(IS_iPhoneX?5:0);
+        CGFloat offset = _kpw(5)+(IS_iPhoneX?3:0);
         if (tabBarController.selectedIndex != 3) {
             for (UITabBarItem *item in self.tabBar.items) {
                 if ([item.title isEqualToString:@"我的"]) {

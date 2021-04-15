@@ -9,12 +9,13 @@
 #import "HXConfirmViewController.h"
 #import "HXInfoConfirmCell.h"
 #import "HXPictureInfoModel.h"
+#import "HXNoDataTipView.h"
 
 @interface HXInfoConfirmViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong) NSArray *titles;
 @property (nonatomic,strong)  UITableView *mainTableView;
 @property (nonatomic,strong)  NSArray *pictureInfoList;
-
+@property(strong,nonatomic) HXNoDataTipView *noDataTipView;
 @end
 
 @implementation HXInfoConfirmViewController
@@ -43,6 +44,11 @@
         if (success) {
             self.pictureInfoList = [HXPictureInfoModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             [self.mainTableView reloadData];
+            if (self.pictureInfoList.count == 0) {
+                [self.view addSubview:self.noDataTipView];
+            }else{
+                [self.noDataTipView removeFromSuperview];
+            }
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
@@ -135,6 +141,14 @@
     return _mainTableView;
 }
 
+
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:self.mainTableView.bounds];
+        _noDataTipView.tipTitle = @"暂无数据~";
+    }
+    return _noDataTipView;
+}
 
 
 /*

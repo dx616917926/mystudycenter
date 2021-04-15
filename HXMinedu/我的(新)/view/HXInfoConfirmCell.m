@@ -41,11 +41,13 @@
 -(void)setPictureInfoModel:(HXPictureInfoModel *)pictureInfoModel{
     _pictureInfoModel = pictureInfoModel;
     self.titleLabel.text = HXSafeString(pictureInfoModel.fileTypeName);
-    self.stateLabel.text =  HXSafeString(pictureInfoModel.statusText);
+    
     if (pictureInfoModel.status == 0) {//待上传
         self.stateImageView.image = [UIImage imageNamed:@"noupload_icon"];
+        self.stateLabel.text = @"待上传";
     }else {
         self.stateImageView.image = (pictureInfoModel.studentstatus == 1? [UIImage imageNamed:@"confirm_icon"]:[UIImage imageNamed:@"unconfirm_icon"]);
+        self.stateLabel.text = (pictureInfoModel.studentstatus == 1? @"已确认":@"未确认");
     }
 }
 
@@ -78,8 +80,8 @@
     self.stateLabel.sd_layout
     .centerYEqualToView(self)
     .rightSpaceToView(self.arrowImageView, 14)
-    .heightIs(20)
-    .widthIs(50);
+    .heightIs(20);
+    [self.stateLabel setSingleLineAutoResizeWithMaxWidth:100];
     
     self.stateImageView.sd_layout
     .centerYEqualToView(self)

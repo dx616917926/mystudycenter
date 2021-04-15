@@ -74,7 +74,7 @@
     .leftSpaceToView(self.containerView, _kpw(35))
     .widthIs(_kpw(102))
     .heightIs(44);
-    self.noticeBtn.sd_cornerRadius = @6;
+    self.noticeBtn.layer.cornerRadius = 6;
     
     self.noticeBtn.imageView.sd_layout
     .centerYEqualToView(self.noticeBtn)
@@ -94,7 +94,7 @@
     .leftSpaceToView(self.noticeBtn, _kpw(24))
     .widthRatioToView(self.noticeBtn, 1)
     .heightRatioToView(self.noticeBtn, 1);
-    self.liveBroadcastBtn.sd_cornerRadius = @6;
+    self.liveBroadcastBtn.layer.cornerRadius = 6;
     
     self.liveBroadcastBtn.imageView.sd_layout
     .centerYEqualToView(self.liveBroadcastBtn)
@@ -146,7 +146,11 @@
     if (!_noticeBtn) {
         _noticeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _noticeBtn.tag = 9001;
-        _noticeBtn.backgroundColor = COLOR_WITH_ALPHA(0xD1553E, 0.1);
+        _noticeBtn.backgroundColor = COLOR_WITH_ALPHA(0xFFF1EF, 1);
+        _noticeBtn.layer.shadowColor = COLOR_WITH_ALPHA(0xD1553E, 0.1).CGColor;
+        _noticeBtn.layer.shadowOffset = CGSizeMake(0, 2);
+        _noticeBtn.layer.shadowRadius = 5;
+        _noticeBtn.layer.shadowOpacity = 1;
         _noticeBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(16));
         [_noticeBtn setImage:[UIImage imageNamed:@"notice_icon"] forState:UIControlStateNormal];
         [_noticeBtn setTitleColor:COLOR_WITH_ALPHA(0xFE664B, 1) forState:UIControlStateNormal];
@@ -160,7 +164,11 @@
     if (!_liveBroadcastBtn) {
         _liveBroadcastBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _liveBroadcastBtn.tag = 9002;
-        _liveBroadcastBtn.backgroundColor = COLOR_WITH_ALPHA(0x9F4BFE, 0.1);
+        _liveBroadcastBtn.backgroundColor = COLOR_WITH_ALPHA(0xFEEFFF, 1);
+        _liveBroadcastBtn.layer.shadowColor = COLOR_WITH_ALPHA(0x9F4BFE, 0.1).CGColor;
+        _liveBroadcastBtn.layer.shadowOffset = CGSizeMake(0, 2);
+        _liveBroadcastBtn.layer.shadowRadius = 5;
+        _liveBroadcastBtn.layer.shadowOpacity = 1;
         _liveBroadcastBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(16));
         [_liveBroadcastBtn setImage:[UIImage imageNamed:@"liveBroadcast_icon"] forState:UIControlStateNormal];
         [_liveBroadcastBtn setTitleColor:COLOR_WITH_ALPHA(0x9F4BFE, 1) forState:UIControlStateNormal];

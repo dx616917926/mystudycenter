@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HXSetCell : UITableViewCell
 @property(nonatomic,strong) UILabel *titleLabel;
+@property(nonatomic,strong) UILabel *detailLabel;
+
 @end
 
 NS_ASSUME_NONNULL_END

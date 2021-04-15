@@ -87,7 +87,7 @@
         ///刷新选中的
         [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             HXVersionModel *model = obj;
-            if (model.type == self.leftSelectModel.type) {
+            if (model.type == self.leftSelectModel.type && model.versionId == self.leftSelectModel.versionId) {
                 model.isSelected = YES;
                 ///重置二级选中
                 [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -178,7 +178,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList[indexPath.row];
-    if (model.type == self.leftSelectModel.type) {
+    if (model.type == self.leftSelectModel.type && model.versionId == self.leftSelectModel.versionId) {
         return;
     }
     //刷新右侧数据

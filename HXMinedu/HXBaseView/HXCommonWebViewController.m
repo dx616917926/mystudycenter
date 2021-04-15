@@ -124,8 +124,7 @@ static NSString * const kFunctionName      =   @"callFunctionName";
 #pragma mark- <WKNavigationDelegate>
 //// 页面开始加载时调用
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-    
-    
+    [self.progressView setAlpha:1.0f];
 }
 // 当内容开始返回时调用
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation{

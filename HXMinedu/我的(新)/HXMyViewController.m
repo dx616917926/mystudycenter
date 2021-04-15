@@ -16,6 +16,7 @@
 #import "HXRecordCell.h"
 #import "HXStudentInfoModel.h"
 #import "HXMajorModel.h"
+#import "MJRefresh.h"
 
 @interface HXMyViewController ()<HXCycleScrollViewDelegate, HXCycleScrollViewDataSource>
 
@@ -67,11 +68,11 @@
 }
 
 
+
 #pragma mark - 数据请求
 //获取学生信息和考生信息
 -(void)getStuInfo{
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_STUINFO  withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
-        
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             NSDictionary *dic = [[dictionary objectForKey:@"Data"] firstObject];
@@ -90,6 +91,7 @@
 -(void)geMajorList{
     [self.view showLoading];
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_MajorL_List  withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainScrollView.mj_header endRefreshing];
         [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
@@ -99,10 +101,18 @@
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
+        [self.mainScrollView.mj_header endRefreshing];
         [self.view hideLoading];
     }];
 }
 
+///下拉刷新
+-(void)loadNewData{
+    //获取学生信息和考生信息
+    [self getStuInfo];
+    //获取学生专业
+    [self geMajorList];
+}
 
 
 
@@ -110,8 +120,11 @@
 -(void)refreTopHeaderUI{
     self.nameLabel.text = HXSafeString(self.stuInfoModel.name);
     if (self.stuInfoModel.mobile.length>=11) {
+        self.phoneBtn.hidden = NO;
         NSString *mobileStr = [self.stuInfoModel.mobile stringByReplacingCharactersInRange:NSMakeRange(3,4) withString:@"****"];
         [self.phoneBtn setTitle:mobileStr forState:UIControlStateNormal];
+    }else{
+        self.phoneBtn.hidden = YES;
     }
     
 }
@@ -299,6 +312,16 @@
     
     [self.mainScrollView setupAutoContentSizeWithBottomView:self.logoViewImagView bottomMargin:30];
     
+    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    header.automaticallyChangeAlpha = YES;
+    // 隐藏时间
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.stateLabel.hidden = YES;
+     //设置header
+    self.mainScrollView.mj_header = header;
+
     
 }
 
@@ -337,7 +360,7 @@
         _mainScrollView = [[UIScrollView alloc] init];
         _mainScrollView.backgroundColor = COLOR_WITH_ALPHA(0xF5F6FA, 1);
         _mainScrollView.showsVerticalScrollIndicator = NO;
-        _mainScrollView.bounces = NO;
+        _mainScrollView.bounces = YES;
         self.extendedLayoutIncludesOpaqueBars = YES;
         if (@available(iOS 11.0, *)) {
             _mainScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -377,6 +400,7 @@
 -(UIButton *)phoneBtn{
     if (!_phoneBtn) {
         _phoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _phoneBtn.hidden = YES;
         _phoneBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(12));
         _phoneBtn.backgroundColor = COLOR_WITH_ALPHA(0xB8DCF9, 1);
         [_phoneBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

@@ -14,7 +14,7 @@
 //默认主题
 #define Default_Theme HXThemeBlue  //蓝色
 
-//默认域名
+//默认域名  https://testmd.hlw-study.com/Index/HomePage  https://testop.edu-cj.com
 #if TARGET_IPHONE_SIMULATOR
 #define BaseUrl @"http://testop.edu-cj.com"
 #else
@@ -28,3 +28,5 @@
 #define APP_PrivacyPolicy_URL @"https://testop.edu-cj.com/privacy.html"
 
 #endif /* SetUp_h */
+
+

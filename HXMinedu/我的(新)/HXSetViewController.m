@@ -9,6 +9,8 @@
 #import "HXAboutUsViewController.h"
 #import "HXResetViewController.h"
 #import "HXSetCell.h"
+#import "SDImageCache.h"
+#import "HXFileManager.h"
 
 
 @interface HXSetViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -74,7 +76,23 @@
         cell = [[HXSetCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:setCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.detailLabel.text = nil;
     cell.titleLabel.text = self.titles[indexPath.row];
+    if (indexPath.row == 1) {
+        //SDImageCache 图片缓存大小
+        [[SDImageCache sharedImageCache] calculateSizeWithCompletionBlock:^(NSUInteger fileCount1, NSUInteger totalSize1) {
+            //本地缓存文件大小
+            [HXFileManager calculateSizeWithCompletionBlock:^(NSUInteger fileCount2, NSUInteger totalSize2) {
+                //
+                NSString *fileSizeStr = [NSByteCountFormatter stringFromByteCount:totalSize1+totalSize2
+                                                                       countStyle:NSByteCountFormatterCountStyleFile];
+                if ([fileSizeStr isEqualToString:@"Zero KB"]) {
+                    fileSizeStr = @"0 KB";
+                }
+                cell.detailLabel.text = [NSString stringWithFormat:@"%@", fileSizeStr ];
+            }];
+        }];
+    }
     return cell;
 }
 
@@ -84,14 +102,34 @@
         HXResetViewController *resetVc = [[HXResetViewController alloc] init];
         [self.navigationController pushViewController:resetVc animated:YES];
     }else if (indexPath.row ==1){
-        HXAboutUsViewController *aboutUsVc = [[HXAboutUsViewController alloc] init];
-        [self.navigationController pushViewController:aboutUsVc animated:YES];
+//        HXAboutUsViewController *aboutUsVc = [[HXAboutUsViewController alloc] init];
+//        [self.navigationController pushViewController:aboutUsVc animated:YES];
+        
+        [self.view showLoadingWithMessage:@"清除缓存中……"];
+        [[SDImageCache sharedImageCache] clearDisk];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"showPrivacyPolicyAlert"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSString * path = [paths firstObject];
+        if ([fileManager fileExistsAtPath:path]) {
+            NSArray *childerFiles=[fileManager subpathsAtPath:path];
+            for (NSString *fileName in childerFiles) {
+                //如有需要，加入条件，过滤掉不想删除的文件
+                NSString *absolutePath=[path stringByAppendingPathComponent:fileName];
+                [fileManager removeItemAtPath:absolutePath error:nil];
+            }
+        }
+        //
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [self.view showSuccessWithMessage:@"清除完毕！"];
     }
 }
 
+
+
 #pragma mark - UI
 -(void)createUI{
-    self.titles = @[@"修改密码",@"关于我们"];
+    self.titles = @[@"修改密码",@"清除缓存"];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.sc_navigationBar.title = @"设置";
     [self.view addSubview:self.logOutBtn];
