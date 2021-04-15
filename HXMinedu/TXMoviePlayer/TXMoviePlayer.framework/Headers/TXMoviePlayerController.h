@@ -19,17 +19,20 @@
 //  v4.3 优化手势响应速度，适配iOS 14
 //  v4.4 为iOS 11以上设备自定义状态栏，升级AFNetworking到v4.0.1
 //  v4.5 组件化 阿里云SDK v5.3.0
+//  v4.6 新增修改状态栏颜色参数，新支持参数控制进度条拖拽和提示点控制，默认允许拖拽，默认显示提示点。
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TXMoviePlayerController : UIViewController
 
-@property(nonatomic, strong) NSDictionary *cws_param;  //验证参数，必传
+@property(nonatomic, strong) NSDictionary *cws_param;   //验证参数，必传
 
-@property(nonatomic,assign) BOOL canDownload;         //是否支持下载功能，默认NO
-@property(nonatomic,copy) NSString *coursewareTitle;  //课件大标题名称
-@property(nonatomic,copy) NSString *coursewareId;     //ID
-@property(nonatomic,copy) NSString *classID;          //班级ID
+@property(nonatomic, assign) UIStatusBarStyle barStyle; //状态栏颜色 默认是白色UIStatusBarStyleLightContent
+
+@property(nonatomic, assign) BOOL canDownload;          //是否支持下载功能，默认NO，请一同设置下面三个参数
+@property(nonatomic, strong) NSString *coursewareTitle; //课件大标题名称
+@property(nonatomic, strong) NSString *coursewareId;    //ID
+@property(nonatomic, strong) NSString *classID;         //班级ID
 
 @end
 

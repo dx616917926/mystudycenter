@@ -164,6 +164,7 @@
         {
             TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
             playerVC.cws_param = item.cws_param;
+            playerVC.barStyle = UIStatusBarStyleDefault;
             playerVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:playerVC animated:YES];
         }
