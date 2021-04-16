@@ -131,7 +131,7 @@
 -(void)createUI{
     self.titles = @[@"修改密码",@"清除缓存"];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.sc_navigationBar.title = @"设置";
+    self.sc_navigationBar.title = @"通用设置";
     [self.view addSubview:self.logOutBtn];
     [self.view addSubview:self.mainTableView];
     

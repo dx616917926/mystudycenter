@@ -34,8 +34,7 @@
 
 ///是否有分组头
 @property(assign,nonatomic) BOOL isHaveHeader;
-///是否下拉刷新
-@property(assign,nonatomic) BOOL isPullDownRefrsh;
+
 
 @end
 
@@ -52,7 +51,7 @@
     //登录成功的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getVersionandMajorList) name:LOGINSUCCESS object:nil];
     ///监听<<报考类型专业改变>>通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshNavBarData) name:VersionAndMajorChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -64,9 +63,18 @@
     
 }
 
+#pragma mark -  监听<<报考类型专业改变>>通知
+-(void)versionAndMajorChangeNotification:(NSNotification *)nonifi{
+    if (nonifi.object != self) {///不接收自己发出的<<报考类型专业改变>>通知
+        [self refreshNavBarData];
+    }
+}
 
 #pragma mark - event
 -(void)selectStudyType{
+    if ([HXPublicParamTool sharedInstance].versionList.count == 0) {
+        [self getVersionandMajorList];
+    }
     HXSelectStudyTypeViewController *vc =[[HXSelectStudyTypeViewController alloc] init];
     //选择完成回调
     WeakSelf(weakSelf)
@@ -97,6 +105,8 @@
             majorModel.isSelected = YES;
             ///刷新导航数据
             [self refreshNavBarData];
+            ///发出<<报考类型专业改变>>通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:VersionAndMajorChangeNotification object:self];
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
@@ -130,10 +140,9 @@
     }];
 }
 
-//下拉刷新
+#pragma mark -  下拉刷新,重新获取报考类型专业列表
 -(void)pullDownRefrsh{
-    self.isPullDownRefrsh = YES;
-//    [self getVersionandMajorList];
+    [self getVersionandMajorList];
 }
 
 #pragma mark - 刷新导航栏数据
@@ -156,7 +165,6 @@
     }];
     //获取教学计划列表
     [self getCourseList];
-    
 }
 
 #pragma mark - HXStudyTableHeaderViewDelegate
@@ -181,6 +189,11 @@
         case HXKeJianXueXiClickType://课件学习
         {
             TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+            if (@available(iOS 13.0, *)) {
+                playerVC.barStyle = UIStatusBarStyleDarkContent;
+            } else {
+                playerVC.barStyle = UIStatusBarStyleDefault;
+            }
             playerVC.cws_param = item.cws_param;
             playerVC.barStyle = UIStatusBarStyleDefault;
             playerVC.hidesBottomBarWhenPushed = YES;

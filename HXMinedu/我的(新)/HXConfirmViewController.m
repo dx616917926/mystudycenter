@@ -40,6 +40,7 @@
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
+            self.topConfirmBtn.hidden  = YES;
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }

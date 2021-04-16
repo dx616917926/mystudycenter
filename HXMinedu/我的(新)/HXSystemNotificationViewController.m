@@ -133,12 +133,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    HXMessageObject *messageModel = self.messageList[indexPath.row];
-    HXCommonWebViewController *systemMessageVc = [[HXCommonWebViewController alloc] init];
-    systemMessageVc.cuntomTitle = messageModel.MessageTitle;
-    systemMessageVc.urlString = messageModel.redirectURL;
-    systemMessageVc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:systemMessageVc animated:YES];
+    HXMessageObject *messageModel = self.messageList[indexPath.section];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:messageModel.redirectURL]];
+   
+//    HXCommonWebViewController *systemMessageVc = [[HXCommonWebViewController alloc] init];
+//    systemMessageVc.cuntomTitle = messageModel.MessageTitle;
+//    systemMessageVc.urlString = messageModel.redirectURL;
+//    systemMessageVc.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:systemMessageVc animated:YES];
+    
 }
 
 

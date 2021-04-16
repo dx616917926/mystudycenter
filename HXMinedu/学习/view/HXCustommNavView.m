@@ -47,6 +47,7 @@
 }
 
 -(void)setSelectVersionModel:(HXVersionModel *)selectVersionModel{
+    self.firstImageView.hidden = self.secondImageView.hidden = NO;
     _selectVersionModel = selectVersionModel;
     self.firstLabel.text = HXSafeString(selectVersionModel.versionName);
     [selectVersionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -56,6 +57,7 @@
             if (![HXCommonUtil isNull:obj.bkSchool]) {
                 self.addresstBtn.hidden = NO;
                 [self.addresstBtn setTitle:HXSafeString(obj.bkSchool) forState:UIControlStateNormal];
+                [self.addresstBtn setImage:[UIImage imageNamed:@"school_icon"] forState:UIControlStateNormal];
             }else{
                 self.addresstBtn.hidden = YES;
             }
@@ -175,6 +177,7 @@
     if (!_firstImageView) {
         _firstImageView = [[UIImageView alloc] init];
         _firstImageView.image = [UIImage imageNamed:@"white_triangle"];
+        _firstImageView.hidden = YES;
     }
     return _firstImageView;
 }
@@ -205,6 +208,7 @@
     if (!_secondImageView) {
         _secondImageView = [[UIImageView alloc] init];
         _secondImageView.image = [UIImage imageNamed:@"white_triangle"];
+        _secondImageView.hidden = YES;
     }
     return _secondImageView;
 }
@@ -215,7 +219,6 @@
         _detailLabel = [[UILabel alloc] init];
         _detailLabel.textColor = [UIColor whiteColor];
         _detailLabel.font = [UIFont systemFontOfSize:12];
-        
     }
     return _detailLabel;
 }
@@ -228,7 +231,7 @@
         _addresstBtn.userInteractionEnabled = NO;
         _addresstBtn.titleLabel.font = [UIFont systemFontOfSize:10];
         [_addresstBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_addresstBtn setImage:[UIImage imageNamed:@"school_icon"] forState:UIControlStateNormal];
+       
     }
     return _addresstBtn;
 }

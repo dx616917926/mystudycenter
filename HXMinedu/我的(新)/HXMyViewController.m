@@ -49,11 +49,17 @@
     // Do any additional setup after loading the view.
     //UI
     [self createUI];
-    
-    
-    
     self.isFirst = YES;
+    //登录成功的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginInSuccess) name:LOGINSUCCESS object:nil];
     
+}
+
+-(void)loginInSuccess{
+    //获取学生信息和考生信息
+    [self getStuInfo];
+    //获取学生专业
+    [self geMajorList];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -66,8 +72,6 @@
         [self geMajorList];
     }
 }
-
-
 
 #pragma mark - 数据请求
 //获取学生信息和考生信息
@@ -181,7 +185,7 @@
             
         }
             break;
-        case 4://设置
+        case 4://通用设置
         {
             HXSetViewController *setVc = [[HXSetViewController alloc] init];
             setVc.hidesBottomBarWhenPushed = YES;
@@ -455,7 +459,7 @@
     if (!_bottomContainerView) {
         _bottomContainerView = [[UIView alloc] init];
         _bottomContainerView.backgroundColor = [UIColor whiteColor];
-        NSArray *titles = @[@"缴费明细",@"报名表单",@"图片信息确认",@"关于我们",@"设置"];
+        NSArray *titles = @[@"缴费明细",@"报名表单",@"图片信息确认",@"关于我们",@"通用设置"];
         NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"infconfirm_icon",@"aboutme_icon",@"setting_icon"];
         for (int i = 0; i<titles.count; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];

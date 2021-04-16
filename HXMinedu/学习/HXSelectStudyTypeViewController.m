@@ -116,7 +116,7 @@
         ///使用刚进来时的初始数据
         [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             HXVersionModel *model = obj;
-            if (model.type == self.leftFirstSelectModel.type) {
+            if (model.type == self.leftFirstSelectModel.type && model.versionId == self.leftFirstSelectModel.versionId) {
                 model.isSelected = YES;
                 ///重置二级选中
                 [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

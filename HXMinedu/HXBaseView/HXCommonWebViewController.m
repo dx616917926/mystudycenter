@@ -202,8 +202,8 @@ static NSString * const kFunctionName      =   @"callFunctionName";
 #pragma mark - lazyLoad
 - (UIProgressView *)progressView{
     if (!_progressView) {
-        _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight-2, kScreenWidth, 2)];
-        _progressView.tintColor = COLOR_WITH_ALPHA(0x4BA4FE, 1);
+        _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight-1, kScreenWidth, 1)];
+        _progressView.tintColor = COLOR_WITH_ALPHA(0x4BA4FE, 0.3);
         [_progressView setTrackTintColor:[UIColor clearColor]];
     }
     return _progressView;

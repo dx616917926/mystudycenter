@@ -32,7 +32,7 @@
     [self addSubview:self.contentLabel];
     
     self.titleLabel.sd_layout
-    .leftEqualToView(self)
+    .leftSpaceToView(self, 15)
     .topSpaceToView(self, 0)
     .heightIs(16)
     .widthIs(50);
@@ -40,7 +40,7 @@
     self.contentLabel.sd_layout
     .topEqualToView(self.titleLabel)
     .leftSpaceToView(self.titleLabel, 5)
-    .rightSpaceToView(self, 0)
+    .rightSpaceToView(self, 5)
     .autoHeightRatio(0);
     [self.contentLabel setMaxNumberOfLinesToShow:2];
 }
