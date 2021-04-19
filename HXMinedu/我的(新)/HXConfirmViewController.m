@@ -53,7 +53,7 @@
 -(void)createUI{
    
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.sc_navigationBar.title = @"准考证确认";
+    self.sc_navigationBar.title = self.pictureInfoModel.fileTypeName;
     
     [self.view addSubview:self.mainScrollView];
     [self.mainScrollView addSubview:self.topImageView];

@@ -106,7 +106,9 @@
 //        [self.navigationController pushViewController:aboutUsVc animated:YES];
         
         [self.view showLoadingWithMessage:@"清除缓存中……"];
-        [[SDImageCache sharedImageCache] clearDisk];
+        [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+            
+        }];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"showPrivacyPolicyAlert"];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         NSFileManager * fileManager = [NSFileManager defaultManager];

@@ -9,7 +9,7 @@ target 'HXMinedu' do
   pod 'hpple', '~> 0.2.0'
   pod 'Masonry', '1.1.0'
   pod 'MJRefresh', '3.1.14.1'
-  pod 'SDWebImage', '~> 3.8.3'
+  pod 'SDWebImage', '~> 5.0.0'
   
   pod 'MMLayout', '0.1.0'
   pod 'FMDB', '~> 2.6.2'
@@ -17,5 +17,6 @@ target 'HXMinedu' do
   pod 'MJExtension', '3.2.4'
   pod 'HXViewHUD', '~> 0.2.0'
   pod 'SDAutoLayout', '~> 2.2.1'
+  pod 'SDCycleScrollView','>= 1.82'
 
 end

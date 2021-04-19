@@ -224,6 +224,8 @@
 		04940E99261D8E6600C3E8E4 /* HXStudyReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04940E98261D8E6600C3E8E4 /* HXStudyReportViewController.m */; };
 		04940E9C261DA00F00C3E8E4 /* HXStudyReportTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04940E9B261DA00F00C3E8E4 /* HXStudyReportTableHeaderView.m */; };
 		04940E9F261DBB4200C3E8E4 /* HXStudyReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04940E9E261DBB4200C3E8E4 /* HXStudyReportCell.m */; };
+		0497C521262D316000C096FD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0497C520262D316000C096FD /* Security.framework */; };
+		0497C523262D317700C096FD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0497C522262D317700C096FD /* CoreGraphics.framework */; };
 		049D9818261401D1009A6B5D /* HXCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D9817261401D1009A6B5D /* HXCourseCell.m */; };
 		049D981B26140A6C009A6B5D /* HXGradientProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D981A26140A6C009A6B5D /* HXGradientProgressView.m */; };
 		04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */; };
@@ -698,6 +700,9 @@
 		04940E9B261DA00F00C3E8E4 /* HXStudyReportTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudyReportTableHeaderView.m; sourceTree = "<group>"; };
 		04940E9D261DBB4200C3E8E4 /* HXStudyReportCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudyReportCell.h; sourceTree = "<group>"; };
 		04940E9E261DBB4200C3E8E4 /* HXStudyReportCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudyReportCell.m; sourceTree = "<group>"; };
+		0497C520262D316000C096FD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0497C522262D317700C096FD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0497C525262D36F100C096FD /* HXMinedu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HXMinedu.entitlements; sourceTree = "<group>"; };
 		049D9816261401D1009A6B5D /* HXCourseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXCourseCell.h; sourceTree = "<group>"; };
 		049D9817261401D1009A6B5D /* HXCourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCourseCell.m; sourceTree = "<group>"; };
 		049D981926140A6C009A6B5D /* HXGradientProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXGradientProgressView.h; sourceTree = "<group>"; };
@@ -814,7 +819,9 @@
 				043F49AF260836AF006E304D /* TXMoviePlayer.framework in Frameworks */,
 				04D7939F254FA07700BCB358 /* UMCommonLog.framework in Frameworks */,
 				04D793A2254FA07700BCB358 /* UMCommon.framework in Frameworks */,
+				0497C523262D317700C096FD /* CoreGraphics.framework in Frameworks */,
 				5402E7E5284CAF80DC24B23E /* Pods_HXMinedu.framework in Frameworks */,
+				0497C521262D316000C096FD /* Security.framework in Frameworks */,
 				04D793A1254FA07700BCB358 /* UTDID.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -987,6 +994,7 @@
 		0449A311254BFE92001A28D5 /* HXMinedu */ = {
 			isa = PBXGroup;
 			children = (
+				0497C525262D36F100C096FD /* HXMinedu.entitlements */,
 				04913357260D845A00055D3D /* 我的(新) */,
 				04913356260D843200055D3D /* 直播(新) */,
 				04913355260D842200055D3D /* 教务 */,
@@ -1966,6 +1974,8 @@
 		08BC7DB449F0590380C365E1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0497C522262D317700C096FD /* CoreGraphics.framework */,
+				0497C520262D316000C096FD /* Security.framework */,
 				4A568469A6B6F55B5712E3B2 /* Pods_HXMinedu.framework */,
 			);
 			name = Frameworks;
@@ -2509,6 +2519,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development: Shuo Li (55J4Q86345)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
@@ -2541,6 +2552,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Huaxia Dadi Long-distance Education Network Service Co., Ltd.";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;

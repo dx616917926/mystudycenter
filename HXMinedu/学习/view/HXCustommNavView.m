@@ -9,11 +9,11 @@
 
 @interface HXCustommNavView ()
 
-@property(nonatomic,strong) UIControl *firstControl;///成人高考
-@property(nonatomic,strong) UILabel *firstLabel;
-@property(nonatomic,strong) UIImageView *firstImageView;
-
-@property(nonatomic,strong) UILabel *detailLabel;///专升本
+//@property(nonatomic,strong) UIControl *firstControl;///成人高考
+//@property(nonatomic,strong) UILabel *firstLabel;
+//@property(nonatomic,strong) UIImageView *firstImageView;
+//
+//@property(nonatomic,strong) UILabel *detailLabel;///专升本
 
 
 @property(nonatomic,strong) UIControl *secondControl;///汉语言文学
@@ -47,12 +47,10 @@
 }
 
 -(void)setSelectVersionModel:(HXVersionModel *)selectVersionModel{
-    self.firstImageView.hidden = self.secondImageView.hidden = NO;
     _selectVersionModel = selectVersionModel;
-    self.firstLabel.text = HXSafeString(selectVersionModel.versionName);
+    self.secondImageView.hidden = NO;
     [selectVersionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.isSelected) {
-            self.detailLabel.text = HXSafeString(obj.educationName);
             self.secondLabel.text = HXSafeString(obj.majorName);
             if (![HXCommonUtil isNull:obj.bkSchool]) {
                 self.addresstBtn.hidden = NO;
@@ -81,19 +79,19 @@
 #pragma mark - UI
 - (void)createUI{
     
-    [self sd_addSubviews:@[self.firstControl,self.secondControl]];
+    [self addSubview:self.secondControl];
     
     self.secondControl.sd_layout
-    .centerXEqualToView(self)
+    .leftSpaceToView(self, _kpw(23))
+    .rightSpaceToView(self, _kpw(23))
     .topSpaceToView(self, 0)
-    .widthIs(kScreenWidth/3)
     .bottomEqualToView(self);
     
     self.secondLabel.sd_layout
     .centerXEqualToView(self.secondControl).offset(-4)
     .topEqualToView(self.secondControl)
     .heightIs(25);
-    [self.secondLabel setSingleLineAutoResizeWithMaxWidth:_kpw(kScreenWidth/3-10)];
+    [self.secondLabel setSingleLineAutoResizeWithMaxWidth:_kpw(kScreenWidth-50)];
     
     self.secondImageView.sd_layout
     .leftSpaceToView(self.secondLabel, 3)
@@ -105,13 +103,13 @@
     .centerXEqualToView(self.secondControl)
     .bottomEqualToView(self.secondControl)
     .heightIs(17)
-    .widthIs(kScreenWidth/3);
+    .widthRatioToView(self.secondLabel, 1);
     
     self.addresstBtn.titleLabel.sd_layout
     .centerYEqualToView(self.addresstBtn)
     .centerXEqualToView(self.addresstBtn).offset(8)
     .heightRatioToView(self.addresstBtn, 1);
-    [self.addresstBtn.titleLabel setSingleLineAutoResizeWithMaxWidth:(kScreenWidth/3-15)];
+    [self.addresstBtn.titleLabel setSingleLineAutoResizeWithMaxWidth:(kScreenWidth-70)];
     
     self.addresstBtn.imageView.sd_layout
     .rightSpaceToView(self.addresstBtn.titleLabel, 4)
@@ -120,30 +118,30 @@
     .heightEqualToWidth();
     
     
-    self.firstControl.sd_layout
-    .topSpaceToView(self, 0)
-    .leftSpaceToView(self, 16)
-    .widthIs(kScreenWidth/3)
-    .bottomEqualToView(self);
-    
-    
-    self.firstLabel.sd_layout
-    .leftEqualToView(self.firstControl)
-    .topEqualToView(self.firstControl)
-    .heightIs(25);
-    [self.firstLabel setSingleLineAutoResizeWithMaxWidth:_kpw(kScreenWidth/3-10)];
-    
-    self.firstImageView.sd_layout
-    .leftSpaceToView(self.firstLabel, 3)
-    .bottomEqualToView(self.firstLabel).offset(-5)
-    .widthIs(6)
-    .heightEqualToWidth();
-    
-    self.detailLabel.sd_layout
-    .leftEqualToView(self.firstControl)
-    .bottomEqualToView(self.firstControl).offset(-2)
-    .widthRatioToView(self.firstControl, 1)
-    .heightIs(17);
+//    self.firstControl.sd_layout
+//    .topSpaceToView(self, 0)
+//    .leftSpaceToView(self, 16)
+//    .widthIs(kScreenWidth/3)
+//    .bottomEqualToView(self);
+//
+//
+//    self.firstLabel.sd_layout
+//    .leftEqualToView(self.firstControl)
+//    .topEqualToView(self.firstControl)
+//    .heightIs(25);
+//    [self.firstLabel setSingleLineAutoResizeWithMaxWidth:_kpw(kScreenWidth/3-10)];
+//
+//    self.firstImageView.sd_layout
+//    .leftSpaceToView(self.firstLabel, 3)
+//    .bottomEqualToView(self.firstLabel).offset(-5)
+//    .widthIs(6)
+//    .heightEqualToWidth();
+//
+//    self.detailLabel.sd_layout
+//    .leftEqualToView(self.firstControl)
+//    .bottomEqualToView(self.firstControl).offset(-2)
+//    .widthRatioToView(self.firstControl, 1)
+//    .heightIs(17);
     
    
     
@@ -152,35 +150,44 @@
 
 #pragma mark - lazyload
 
--(UIControl *)firstControl{
-    if (!_firstControl) {
-        _firstControl = [[UIControl alloc] init];
-        [_firstControl addSubview:self.firstLabel];
-        [_firstControl addSubview:self.firstImageView];
-        [_firstControl addSubview:self.detailLabel];
-        [_firstControl addTarget:self action:@selector(selectType:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _firstControl;
-}
+//-(UIControl *)firstControl{
+//    if (!_firstControl) {
+//        _firstControl = [[UIControl alloc] init];
+//        [_firstControl addSubview:self.firstLabel];
+//        [_firstControl addSubview:self.firstImageView];
+//        [_firstControl addSubview:self.detailLabel];
+//        [_firstControl addTarget:self action:@selector(selectType:) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _firstControl;
+//}
+//
+//-(UILabel *)firstLabel{
+//    if (!_firstLabel) {
+//        _firstLabel = [[UILabel alloc] init];
+//        _firstLabel.font = [UIFont boldSystemFontOfSize:16];
+//        _firstLabel.textColor = [UIColor whiteColor];
+//        _firstLabel.numberOfLines = 1;
+//    }
+//    return _firstLabel;
+//}
+//
+//-(UIImageView *)firstImageView{
+//    if (!_firstImageView) {
+//        _firstImageView = [[UIImageView alloc] init];
+//        _firstImageView.image = [UIImage imageNamed:@"white_triangle"];
+//        _firstImageView.hidden = YES;
+//    }
+//    return _firstImageView;
+//}
 
--(UILabel *)firstLabel{
-    if (!_firstLabel) {
-        _firstLabel = [[UILabel alloc] init];
-        _firstLabel.font = [UIFont boldSystemFontOfSize:16];
-        _firstLabel.textColor = [UIColor whiteColor];
-        _firstLabel.numberOfLines = 1;
-    }
-    return _firstLabel;
-}
-
--(UIImageView *)firstImageView{
-    if (!_firstImageView) {
-        _firstImageView = [[UIImageView alloc] init];
-        _firstImageView.image = [UIImage imageNamed:@"white_triangle"];
-        _firstImageView.hidden = YES;
-    }
-    return _firstImageView;
-}
+//-(UILabel *)detailLabel{
+//    if (!_detailLabel) {
+//        _detailLabel = [[UILabel alloc] init];
+//        _detailLabel.textColor = [UIColor whiteColor];
+//        _detailLabel.font = [UIFont systemFontOfSize:12];
+//    }
+//    return _detailLabel;
+//}
 
 -(UIControl *)secondControl{
     if (!_secondControl) {
@@ -214,14 +221,7 @@
 }
 
 
--(UILabel *)detailLabel{
-    if (!_detailLabel) {
-        _detailLabel = [[UILabel alloc] init];
-        _detailLabel.textColor = [UIColor whiteColor];
-        _detailLabel.font = [UIFont systemFontOfSize:12];
-    }
-    return _detailLabel;
-}
+
 
 
 

@@ -68,7 +68,7 @@
     self.blueDotView.sd_cornerRadiusFromHeightRatio = @0.5;
     
     self.timeLabel.sd_layout
-    .centerYEqualToView(self.blueDotView).offset(2)
+    .centerYEqualToView(self.blueDotView).offset(0)
     .leftSpaceToView(self.blueDotView, 10)
     .heightIs(20)
     .widthIs(_kpw(130));
