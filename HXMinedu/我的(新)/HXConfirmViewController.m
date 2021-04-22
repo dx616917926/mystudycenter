@@ -6,7 +6,8 @@
 //
 
 #import "HXConfirmViewController.h"
-#import "UIImageView+WebCache.h"
+#import "SDWebImage.h"
+
 @interface HXConfirmViewController ()
 @property(nonatomic,strong) UIScrollView *mainScrollView;
 @property(nonatomic,strong) UIImageView *topImageView;

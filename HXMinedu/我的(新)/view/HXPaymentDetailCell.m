@@ -8,7 +8,7 @@
 #import "HXPaymentDetailCell.h"
 
 @interface HXPaymentDetailCell ()
-@property(nonatomic,strong) UIView *topLine;
+@property(nonatomic,strong) UIView *bottomLine;
 @property(nonatomic,strong) UILabel *paymentNameLabel;
 @property(nonatomic,strong) UILabel *priceLabel;//单价
 @property(nonatomic,strong) UILabel *numLabel;//数目
@@ -39,34 +39,42 @@
     return self;
 }
 
+-(void)setPaymentDetailModel:(HXPaymentDetailModel *)paymentDetailModel{
+    _paymentDetailModel = paymentDetailModel;
+    self.paymentNameLabel.text = HXSafeString(paymentDetailModel.feeType_Name);
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.fee];
+    self.numLabel.text = HXSafeString(paymentDetailModel.feeYearName);;
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.payMoney];
+    
+}
+
 -(void)createUI{
-    [self addSubview:self.topLine];
+    [self addSubview:self.bottomLine];
     [self addSubview:self.paymentNameLabel];
     [self addSubview:self.priceLabel];
     [self addSubview:self.numLabel];
-    [self addSubview:self.originalPriceLabel];
     [self addSubview:self.totalPriceLabel];
     
-    self.topLine.sd_layout
-    .topEqualToView(self)
+    self.bottomLine.sd_layout
+    .bottomEqualToView(self)
     .leftSpaceToView(self, _kpw(23))
     .rightSpaceToView(self, _kpw(23))
     .heightIs(1);
     
     self.paymentNameLabel.sd_layout
-    .leftEqualToView(self.topLine).offset(8)
-    .topSpaceToView(self.topLine, 17)
-    .heightIs(20);
-    [self.paymentNameLabel setSingleLineAutoResizeWithMaxWidth:150];
+    .leftEqualToView(self.bottomLine).offset(8)
+    .topSpaceToView(self, 17)
+    .autoHeightRatio(0);
+    [self.paymentNameLabel setSingleLineAutoResizeWithMaxWidth:200];
     
     self.numLabel.sd_layout
-    .topSpaceToView(self.topLine, 30)
-    .rightEqualToView(self.topLine).offset(-8)
+    .topSpaceToView(self, 31)
+    .rightEqualToView(self.bottomLine).offset(-8)
     .heightIs(17);
     [self.numLabel setSingleLineAutoResizeWithMaxWidth:80];
     
     self.priceLabel.sd_layout
-    .topSpaceToView(self.topLine, 26)
+    .topSpaceToView(self, 26)
     .leftSpaceToView(self.paymentNameLabel, 14)
     .rightSpaceToView(self.numLabel, 14)
     .heightIs(22);
@@ -87,12 +95,12 @@
 
 #pragma mark - lazyLoad
 
--(UIView *)topLine{
-    if (!_topLine) {
-        _topLine = [[UIView alloc] init];
-        _topLine.backgroundColor = COLOR_WITH_ALPHA(0x979797, 0.4);
+-(UIView *)bottomLine{
+    if (!_bottomLine) {
+        _bottomLine = [[UIView alloc] init];
+        _bottomLine.backgroundColor = COLOR_WITH_ALPHA(0x979797, 0.5);
     }
-    return _topLine;
+    return _bottomLine;
 }
 
 -(UILabel *)paymentNameLabel{
@@ -101,7 +109,8 @@
         _paymentNameLabel.textAlignment = NSTextAlignmentLeft;
         _paymentNameLabel.font = HXFont(14);
         _paymentNameLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _paymentNameLabel.text = @"培训学费";
+        _paymentNameLabel.numberOfLines = 2;
+
     }
     return _paymentNameLabel;
 }
@@ -112,7 +121,7 @@
         _priceLabel.textAlignment = NSTextAlignmentRight;
         _priceLabel.font = HXFont(14);
         _priceLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _priceLabel.text = @"¥2400.00";
+
     }
     return _priceLabel;
 }
@@ -123,7 +132,7 @@
         _numLabel.textAlignment = NSTextAlignmentRight;
         _numLabel.font = HXFont(12);
         _numLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
-        _numLabel.text = @"x2.5年";
+
     }
     return _numLabel;
 }
@@ -146,9 +155,9 @@
     if (!_totalPriceLabel) {
         _totalPriceLabel = [[UILabel alloc] init];
         _totalPriceLabel.textAlignment = NSTextAlignmentRight;
-        _totalPriceLabel.font = HXFont(12);
+        _totalPriceLabel.font = HXBoldFont(12);
         _totalPriceLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
-        _totalPriceLabel.text = @"¥5800.00";
+        
     }
     return _totalPriceLabel;
 }

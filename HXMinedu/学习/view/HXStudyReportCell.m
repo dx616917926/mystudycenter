@@ -72,7 +72,7 @@
             self.gradientProgressView.progress = (courseDetailModel.yzTopic*1.0/(courseDetailModel.yzTopic+courseDetailModel.wzTopic));
         }
        
-    }else if (self.cellType == HXPingShiZuoYeType) {
+    }else if (self.cellType == HXPingShiZuoYeType|self.cellType == HXQiMoKaoShiType) {
         [self.deFenBtn setTitle:[HXSafeString(courseDetailModel.score) stringByAppendingString:@"分"] forState:UIControlStateNormal];
         self.totalLabel.text = [NSString stringWithFormat:@"%ld分",(long)(courseDetailModel.totalScore)];
         if ([courseDetailModel.score isEqualToString:@"暂无成绩"]) {
@@ -99,6 +99,7 @@
             break;
         case HXZhiShiDianPingType:
         case HXPingShiZuoYeType:
+        case HXQiMoKaoShiType:
         {
             self.deFenBtn.hidden  = NO;
             self.learnTimeLabel.hidden = YES;

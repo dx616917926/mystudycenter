@@ -65,6 +65,6 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 // 根据高度度适配字体大小
 #define _kpAdaptationHeightFont(__font_) ([[UIScreen mainScreen].bounds.size.height * (__font_) / 667.0)
 
-
+#define  HXUserDefaults  [NSUserDefaults standardUserDefaults] 
 
 #endif /* HXDefines_h */

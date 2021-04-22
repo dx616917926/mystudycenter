@@ -16,6 +16,8 @@
 #import "HXRecordCell.h"
 #import "HXStudentInfoModel.h"
 #import "HXMajorModel.h"
+#import "HXBannerLogoModel.h"
+#import "SDWebImage.h"
 #import "MJRefresh.h"
 
 @interface HXMyViewController ()<HXCycleScrollViewDelegate, HXCycleScrollViewDataSource>
@@ -33,7 +35,7 @@
 @property(nonatomic,strong) HXCycleScrollView *cycleScrollView;
 @property(nonatomic,strong) UIView *bottomContainerView;
 @property(nonatomic,strong) NSMutableArray *bottomBtns;
-@property(nonatomic,strong) UIImageView *logoViewImagView;
+@property(nonatomic,strong) UIImageView *logoViewImageView;
 
 @property(nonatomic,strong) HXStudentInfoModel*stuInfoModel;
 @property(nonatomic,strong) NSArray *majorList;
@@ -71,6 +73,8 @@
         //获取学生专业
         [self geMajorList];
     }
+    [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString([HXPublicParamTool sharedInstance].jiGouLogoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
+    
 }
 
 #pragma mark - 数据请求
@@ -110,12 +114,40 @@
     }];
 }
 
+//获取Banner和Logo
+-(void)getBannerAndLogo{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"type":@(selectMajorModel.type),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_BannerAndLogo withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXBannerLogoModel *model = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [HXPublicParamTool sharedInstance].jiGouLogoUrl = HXSafeString(model.logoUrl);
+            [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(model.logoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
+        }else{
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
+        }
+    } failure:^(NSError * _Nonnull error) {
+    
+    }];
+}
+
 ///下拉刷新
 -(void)loadNewData{
     //获取学生信息和考生信息
     [self getStuInfo];
     //获取学生专业
     [self geMajorList];
+    //没有数据获取
+    if ([HXCommonUtil isNull:[HXPublicParamTool sharedInstance].jiGouLogoUrl]) {
+        [self getBannerAndLogo];
+    }
 }
 
 
@@ -134,7 +166,7 @@
 }
 -(void)refreshMajorUI{
     [self.cycleScrollView reloadData];
-    if (self.majorList.count>1) {
+    if (self.majorList.count>2) {
         [self.cycleScrollView scrollToItemAtIndex:2 animated:NO];
     }
 }
@@ -218,7 +250,7 @@
  
     [self.mainScrollView addSubview:self.cycleScrollView];
     [self.mainScrollView addSubview:self.bottomContainerView];
-    [self.mainScrollView addSubview:self.logoViewImagView];
+    [self.mainScrollView addSubview:self.logoViewImageView];
     
     self.mainScrollView.sd_layout
     .topEqualToView(self.view)
@@ -308,13 +340,14 @@
     [self.bottomContainerView setupAutoMarginFlowItems:self.bottomBtns withPerRowItemsCount:3 itemWidth:100 verticalMargin:20 verticalEdgeInset:20 horizontalEdgeInset:10];
     self.bottomContainerView.sd_cornerRadius = @10;
     
-    self.logoViewImagView.sd_layout
+    self.logoViewImageView.sd_layout
     .topSpaceToView(self.bottomContainerView, 25)
     .centerXEqualToView(self.mainScrollView)
-    .widthIs(148)
+    .leftEqualToView(self.mainScrollView)
+    .rightEqualToView(self.mainScrollView)
     .heightIs(48);
     
-    [self.mainScrollView setupAutoContentSizeWithBottomView:self.logoViewImagView bottomMargin:30];
+    [self.mainScrollView setupAutoContentSizeWithBottomView:self.logoViewImageView bottomMargin:30];
     
     // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
@@ -484,12 +517,12 @@
     return _bottomBtns;;
 }
 
--(UIImageView *)logoViewImagView{
-    if (!_logoViewImagView) {
-        _logoViewImagView = [[UIImageView alloc] init];
-        _logoViewImagView.image = [UIImage imageNamed:@"xuexi_logo"];
+-(UIImageView *)logoViewImageView{
+    if (!_logoViewImageView) {
+        _logoViewImageView = [[UIImageView alloc] init];
+        _logoViewImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
-    return _logoViewImagView;
+    return _logoViewImageView;
 }
 
 

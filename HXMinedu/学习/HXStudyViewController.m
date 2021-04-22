@@ -15,10 +15,13 @@
 #import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXCustommNavView.h"
 #import "HXCourseLearnCell.h"
+#import "HXStudyCourseCell.h"
 #import "HXTeachPlanHeaderView.h"
 #import "HXStudyTableHeaderView.h"
+#import "HXStudyGuideView.h"
 #import "HXCourseModel.h"
-
+#import "HXBannerLogoModel.h"
+#import "SDWebImage.h"
 
 @interface HXStudyViewController ()<UITableViewDelegate,UITableViewDataSource,HXStudyTableHeaderViewDelegate,HXCourseLearnCellDelegate>
 
@@ -28,12 +31,25 @@
 
 @property(strong,nonatomic) UITableView *mainTableView;
 @property(strong,nonatomic) HXStudyTableHeaderView *studyTableHeaderView;
+
+@property(strong,nonatomic) UIView *lastLearnView;
+@property(strong,nonatomic) UIView *todayView;
+@property(strong,nonatomic) UIView *yesterdayView;
+
+@property(strong,nonatomic) UIView *studyTableFooterView;
+@property(strong,nonatomic) UIImageView *logoImageView;
+
+@property(strong,nonatomic) HXStudyGuideView *studyGuideView;
+
 //课程数组
 @property (nonatomic, strong) NSArray *courseList;
-
-
 ///是否有分组头
 @property(assign,nonatomic) BOOL isHaveHeader;
+
+//bannerLogo模型
+@property (nonatomic, strong) HXBannerLogoModel *bannerLogoModel;
+
+
 
 
 @end
@@ -54,9 +70,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //解决viewWillAppear时出现时轮播图卡在一半的问题，在控制器viewWillAppear时调用此方法
+    [self.studyTableHeaderView.bannerView adjustWhenControllerViewWillAppera];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
+    //引导视图
+    if (![HXUserDefaults boolForKey:@"ShowStudyGuideView"]) {
+        [self.studyGuideView show];
+        [HXUserDefaults setBool:YES forKey:@"ShowStudyGuideView"];
+        [HXUserDefaults synchronize];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -131,7 +158,36 @@
         if (success) {
             self.courseList = [HXCourseModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             [self.mainTableView reloadData];
-           
+        }else{
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
+        }
+    } failure:^(NSError * _Nonnull error) {
+    
+    }];
+}
+
+//获取Banner和Logo
+-(void)getBannerAndLogo{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"type":@(selectMajorModel.type),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_BannerAndLogo withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.bannerLogoModel = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [HXPublicParamTool sharedInstance].jiGouLogoUrl = HXSafeString(self.bannerLogoModel.logoUrl);
+            //刷新banner数据和底部logo
+            NSMutableArray *imageURLStringsGroup = [NSMutableArray array];
+            [self.bannerLogoModel.bannerList enumerateObjectsUsingBlock:^(HXBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [imageURLStringsGroup addObject:HXSafeString(obj.titleLink)];
+            }];
+            self.studyTableHeaderView.bannerView.imageURLStringsGroup = imageURLStringsGroup;
+            [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.bannerLogoModel.logoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
@@ -149,12 +205,14 @@
 -(void)refreshNavBarData{
     //筛选出选中类型
     [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        HXVersionModel *model = obj;
-        if (model.isSelected) {
-            self.custommNavView.selectVersionModel = model;
-            [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXVersionModel *versionModel = obj;
+        if (versionModel.isSelected) {
+            self.custommNavView.selectVersionModel = versionModel;
+            [versionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if (obj.isSelected) {
                     [HXPublicParamTool sharedInstance].selectMajorModel = obj;
+                    NSString *title = [NSString stringWithFormat:@"%@  %@",versionModel.versionName,obj.educationName];
+                    [self.studyTableHeaderView.versionBtn setTitle:title forState:UIControlStateNormal];
                     *stop = YES;
                     return;
                 }
@@ -162,9 +220,14 @@
             *stop = YES;
             return;;
         }
+        
     }];
+    
+   
     //获取教学计划列表
     [self getCourseList];
+    //获取Banner和Logo
+    [self getBannerAndLogo];
 }
 
 #pragma mark - HXStudyTableHeaderViewDelegate
@@ -179,6 +242,8 @@
         [self.navigationController pushViewController:systemNotificationVc animated:YES];
     }else if(flag == 2){//直播
         [self.tabBarController setSelectedIndex:2];
+    }else if(flag == 3){//切换类型
+        [self  selectStudyType];
     }
     
 }
@@ -222,46 +287,88 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return  self.courseList.count;
+    if (section == 0) {
+        return  self.courseList.count;
+    }else if (section == 1) {
+        return  2;
+    }else{
+        return  4;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0) {
+        HXCourseModel *courseModel = self.courseList[indexPath.row];
+        CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                             model:courseModel keyPath:@"courseModel"
+                                                         cellClass:([HXCourseLearnCell class])
+                                                  contentViewWidth:kScreenWidth];
+        return rowHeight;
+    }else{
+        return 160;
+    }
+    return 0;
     
-    HXCourseModel *courseModel = self.courseList[indexPath.row];
-    CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
-                                                         model:courseModel keyPath:@"courseModel"
-                                                     cellClass:([HXCourseLearnCell class])
-                                              contentViewWidth:kScreenWidth];
-    return rowHeight;
 
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 0.01;
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section == 1) {
+        return self.todayView;
+    }else if(section == 2){
+        return self.yesterdayView;
+    }else{
+        return nil;
+    }
+}
+
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+//    if (section == 0) {
+//        return self.lastLearnView;
+//    }
+//    return nil;
+//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    if (section == 0) {
+        return  0.01;
+    }else{
+        return  40;
+    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section == 0) {
+        return 0.01;
+    }
     return 0.01;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *courseLearnCellIdentifier = @"HXCourseLearnCellIdentifier";
-    HXCourseLearnCell *cell = [tableView dequeueReusableCellWithIdentifier:courseLearnCellIdentifier];
-    if (!cell) {
-        cell = [[HXCourseLearnCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:courseLearnCellIdentifier];
+    if (indexPath.section == 0) {
+        static NSString *courseLearnCellIdentifier = @"HXCourseLearnCellIdentifier";
+        HXCourseLearnCell *cell = [tableView dequeueReusableCellWithIdentifier:courseLearnCellIdentifier];
+        if (!cell) {
+            cell = [[HXCourseLearnCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:courseLearnCellIdentifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.delegate = self;
+        [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+        HXCourseModel *courseModel = self.courseList[indexPath.row];
+        cell.courseModel = courseModel;
+        return cell;
+    }else{
+        static NSString *studyCourseCellIdentifier = @"HXStudyCourseCellIdentifier";
+        HXStudyCourseCell *cell = [tableView dequeueReusableCellWithIdentifier:studyCourseCellIdentifier];
+        if (!cell) {
+            cell = [[HXStudyCourseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:studyCourseCellIdentifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.delegate = self;
-    [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
-    HXCourseModel *courseModel = self.courseList[indexPath.row];
-    cell.courseModel = courseModel;
-    return cell;
-    
-    
 }
 
 #pragma mark - UI
@@ -282,6 +389,7 @@
     header.automaticallyChangeAlpha = YES;
      //设置header
     self.mainTableView.mj_header = header;
+    
     
 }
 
@@ -318,6 +426,7 @@
         _mainTableView.scrollIndicatorInsets = _mainTableView.contentInset;
         _mainTableView.showsVerticalScrollIndicator = NO;
         _mainTableView.tableHeaderView = self.studyTableHeaderView;
+        _mainTableView.tableFooterView = self.studyTableFooterView;
     }
     return _mainTableView;
 }
@@ -329,6 +438,88 @@
     }
     return _studyTableHeaderView;
 }
+
+-(UIView *)studyTableFooterView{
+    if (!_studyTableFooterView) {
+        _studyTableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
+        [_studyTableFooterView addSubview:self.logoImageView];
+        self.logoImageView.sd_layout
+        .centerYEqualToView(_studyTableFooterView)
+        .centerXEqualToView(_studyTableFooterView)
+        .widthIs(kScreenWidth)
+        .heightIs(48);
+    }
+    return _studyTableFooterView;
+}
+
+-(UIImageView *)logoImageView{
+    if (!_logoImageView) {
+        _logoImageView = [[UIImageView alloc] init];
+        _logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    return _logoImageView;
+}
+
+- (UIView *)lastLearnView{
+    if (!_lastLearnView) {
+        _lastLearnView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        UILabel *label = [[UILabel alloc] init];
+        label.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        [_lastLearnView addSubview:label];
+        label.sd_layout
+        .centerYEqualToView(_lastLearnView)
+        .leftSpaceToView(_lastLearnView, _kpw(23))
+        .rightSpaceToView(_lastLearnView, _kpw(23))
+        .heightIs(25);
+        label.font = HXBoldFont(18);
+        label.text = @"上次学到哪";
+    }
+    return _lastLearnView;
+}
+
+- (UIView *)todayView{
+    if (!_todayView) {
+        _todayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        UILabel *label = [[UILabel alloc] init];
+        label.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        [_todayView addSubview:label];
+        label.sd_layout
+        .centerYEqualToView(_todayView)
+        .leftSpaceToView(_todayView, _kpw(23))
+        .rightSpaceToView(_todayView, _kpw(23))
+        .heightIs(22);
+        label.font = HXFont(16);
+        label.text = @"今天";
+    }
+    return _todayView;
+}
+
+- (UIView *)yesterdayView{
+    if (!_yesterdayView) {
+        _yesterdayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        UILabel *label = [[UILabel alloc] init];
+        label.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        [_yesterdayView addSubview:label];
+        label.sd_layout
+        .centerYEqualToView(_yesterdayView)
+        .leftSpaceToView(_yesterdayView, _kpw(23))
+        .rightSpaceToView(_yesterdayView, _kpw(23))
+        .heightIs(22);
+        label.font = HXFont(16);
+        label.text = @"昨天";
+    }
+    return _yesterdayView;
+}
+
+-(HXStudyGuideView *)studyGuideView{
+    if (!_studyGuideView) {
+        [self.studyTableHeaderView.versionBtn updateLayout];
+        CGRect rect = [self.studyTableHeaderView convertRect:self.studyTableHeaderView.versionBtn.frame toView:[UIApplication sharedApplication].keyWindow];
+        _studyGuideView = [[HXStudyGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds WithRect:rect];
+    }
+    return _studyGuideView;
+}
+
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]  removeObserver:self];

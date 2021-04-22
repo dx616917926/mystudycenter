@@ -13,7 +13,8 @@
     return @{
         @"kjxxCourseList" : @"t_kjxxCourseList_app",
         @"zscpCourseList" : @"t_zscpCourseList_app",
-        @"pszyCourseList" : @"t_pszyCourseList_app"
+        @"pszyCourseList" : @"t_pszyCourseList_app",
+        @"qmcjCourseList" : @"t_qmcjCourseList_app"
         
     };
 }
@@ -23,7 +24,8 @@
     return @{
              @"kjxxCourseList" : @"HXCourseDetailModel",
              @"zscpCourseList" : @"HXCourseDetailModel",
-             @"pszyCourseList" : @"HXCourseDetailModel"
+             @"pszyCourseList" : @"HXCourseDetailModel",
+             @"qmcjCourseList" : @"HXCourseDetailModel"
              };
 }
 @end

@@ -7,12 +7,15 @@
 
 #import "HXStudyTableHeaderView.h"
 
-@interface HXStudyTableHeaderView ()
+
+@interface HXStudyTableHeaderView ()<SDCycleScrollViewDelegate>
+
 @property(nonatomic,strong) UIImageView *studyReportImageView;
 @property(nonatomic,strong) UIView *containerView;
 @property(nonatomic,strong) UIButton *noticeBtn;
 @property(nonatomic,strong) UIButton *liveBroadcastBtn;
 @property(nonatomic,strong) UILabel *courseLearnLabel;
+
 
 @end
 
@@ -50,75 +53,109 @@
 
 #pragma mark - UI
 -(void)createUI{
-    [self addSubview:self.studyReportImageView];
+   
     [self addSubview:self.containerView];
     [self.containerView addSubview:self.noticeBtn];
     [self.containerView addSubview:self.liveBroadcastBtn];
+    [self addSubview:self.bannerView];
+    [self addSubview:self.studyReportImageView];
+    [self addSubview:self.versionBtn];
     [self addSubview:self.courseLearnLabel];
     
-    self.studyReportImageView.sd_layout
+    
+    self.containerView.sd_layout
     .topSpaceToView(self, 16)
     .leftSpaceToView(self, _kpw(23))
     .rightSpaceToView(self, _kpw(23))
-    .heightIs(104);
-    self.studyReportImageView.sd_cornerRadius = @12;
-    
-    self.containerView.sd_layout
-    .topSpaceToView(self.studyReportImageView, 16)
-    .leftEqualToView(self)
-    .rightEqualToView(self)
-    .heightIs(44);
+    .heightIs(50);
     
     self.noticeBtn.sd_layout
     .centerYEqualToView(self.containerView)
-    .leftSpaceToView(self.containerView, _kpw(35))
-    .widthIs(_kpw(102))
-    .heightIs(44);
+    .leftSpaceToView(self.containerView, 0)
+    .widthIs(_kpw(152))
+    .heightRatioToView(self.containerView, 1);
     self.noticeBtn.layer.cornerRadius = 6;
     
     self.noticeBtn.imageView.sd_layout
     .centerYEqualToView(self.noticeBtn)
-    .leftSpaceToView(self.noticeBtn, 10)
+    .leftSpaceToView(self.noticeBtn, _kpw(38))
     .widthIs(28)
     .heightEqualToWidth();
     [self.noticeBtn.imageView updateLayout];
     
     self.noticeBtn.titleLabel.sd_layout
     .centerYEqualToView(self.noticeBtn)
-    .leftSpaceToView(self.noticeBtn.imageView, 14)
+    .leftSpaceToView(self.noticeBtn.imageView, 12)
     .rightSpaceToView(self.noticeBtn, 10)
     .heightRatioToView(self.noticeBtn, 1);
     
     self.liveBroadcastBtn.sd_layout
     .centerYEqualToView(self.noticeBtn)
-    .leftSpaceToView(self.noticeBtn, _kpw(24))
+    .rightSpaceToView(self.containerView, 0)
     .widthRatioToView(self.noticeBtn, 1)
     .heightRatioToView(self.noticeBtn, 1);
     self.liveBroadcastBtn.layer.cornerRadius = 6;
     
     self.liveBroadcastBtn.imageView.sd_layout
     .centerYEqualToView(self.liveBroadcastBtn)
-    .leftSpaceToView(self.liveBroadcastBtn, 10)
+    .leftSpaceToView(self.liveBroadcastBtn, _kpw(38))
     .widthIs(28)
     .heightEqualToWidth();
 
     self.liveBroadcastBtn.titleLabel.sd_layout
     .centerYEqualToView(self.liveBroadcastBtn)
-    .leftSpaceToView(self.liveBroadcastBtn.imageView, 14)
+    .leftSpaceToView(self.liveBroadcastBtn.imageView, 12)
     .rightSpaceToView(self.liveBroadcastBtn, 10)
     .heightRatioToView(self.liveBroadcastBtn, 1);
     
-//    [self.containerView setupAutoMarginFlowItems:@[self.noticeBtn,self.liveBroadcastBtn] withPerRowItemsCount:3 itemWidth:_kpw(88) verticalMargin:0 verticalEdgeInset:0 horizontalEdgeInset:_kpw(35)];
+    ///广告栏
+    self.bannerView.sd_layout
+    .topSpaceToView(self.containerView, 16)
+    .centerXEqualToView(self)
+    .widthIs(floorf(kScreenWidth-_kpw(23)*2))
+    .heightIs(floorf((kScreenWidth-_kpw(23)*2)*141/345));
+    self.bannerView.sd_cornerRadius = @8;
+
+    
+    self.studyReportImageView.sd_layout
+    .topSpaceToView(self.bannerView, 16)
+    .leftEqualToView(self.containerView)
+    .rightEqualToView(self.containerView)
+    .heightIs(104);
+    self.studyReportImageView.sd_cornerRadius = @12;
+    
     
     self.courseLearnLabel.sd_layout
-    .topSpaceToView(self.containerView, 16)
-    .leftEqualToView(self.studyReportImageView)
-    .rightEqualToView(self.studyReportImageView)
+    .topSpaceToView(self.studyReportImageView, 16)
+    .leftEqualToView(self.containerView)
     .heightIs(22);
+    [self.courseLearnLabel setSingleLineAutoResizeWithMaxWidth:100];
+    
+    self.versionBtn.sd_layout
+    .centerYEqualToView(self.courseLearnLabel)
+    .leftSpaceToView(self.courseLearnLabel, 16)
+    .rightSpaceToView(self, _kpw(23))
+    .heightIs(22);
+    
+    self.versionBtn.imageView.sd_layout
+    .centerYEqualToView(self.versionBtn)
+    .rightSpaceToView(self.versionBtn, 0)
+    .widthIs(16)
+    .heightEqualToWidth();
+
+    self.versionBtn.titleLabel.sd_layout
+    .centerYEqualToView(self.versionBtn)
+    .rightSpaceToView(self.versionBtn.imageView, 5)
+    .leftSpaceToView(self.versionBtn, 5)
+    .heightRatioToView(self.versionBtn, 1);
+    
     
     [self setupAutoHeightWithBottomView:self.courseLearnLabel bottomMargin:16];
     
-
+    //主动调用刷新布局
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    
 }
 
 #pragma mark - lazyLoad
@@ -131,6 +168,21 @@
         [_studyReportImageView addGestureRecognizer:tap];
     }
     return _studyReportImageView;
+}
+
+-(SDCycleScrollView *)bannerView{
+    if (!_bannerView) {
+        _bannerView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectZero delegate:self placeholderImage:nil];
+        _bannerView.backgroundColor = COLOR_WITH_ALPHA(0xEFEFEF, 1);
+        _bannerView.showPageControl = YES;
+        _bannerView.pageControlDotSize = CGSizeMake(8, 8);
+        _bannerView.infiniteLoop = YES;
+        _bannerView.autoScrollTimeInterval = 3.0f;
+        _bannerView.bannerImageViewContentMode = UIViewContentModeScaleToFill;
+        _bannerView.pageControlStyle = SDCycleScrollViewPageContolStyleAnimated;
+       
+    }   
+    return _bannerView;
 }
 
 -(UIView *)containerView{
@@ -191,6 +243,17 @@
     return _courseLearnLabel;;
 }
 
-
+-(UIButton *)versionBtn{
+    if (!_versionBtn) {
+        _versionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _versionBtn.tag = 9003;
+        _versionBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+        _versionBtn.titleLabel.font = HXBoldFont(_kpAdaptationWidthFont(12));
+        [_versionBtn setImage:[UIImage imageNamed:@"arrow_blue"] forState:UIControlStateNormal];
+        [_versionBtn setTitleColor: COLOR_WITH_ALPHA(0x4BA4FE, 1) forState:UIControlStateNormal];
+        [_versionBtn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _versionBtn;
+}
 
 @end
