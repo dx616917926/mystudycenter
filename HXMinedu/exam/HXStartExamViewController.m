@@ -1254,7 +1254,7 @@
             HXQuestionGroup *gmodel = [qGroups objectAtIndex:i];
             //绘制题目的标题
             
-            UILabel *qTitle = [[UILabel alloc]initWithFrame:CGRectMake(itemMargin,scrollerHeight, 280, 40)];
+            UILabel *qTitle = [[UILabel alloc]initWithFrame:CGRectMake(itemMargin,scrollerHeight, scroller.frame.size.width-itemMargin*2, 40)];
             
             qTitle.text = [NSString stringWithFormat:@"%d.%@",i+1,gmodel.title];
             
@@ -1345,25 +1345,33 @@
                             qbtn.info = q3Info;
                             
                             //判断是考试 还是查看试卷
+                            [qbtn setTitle:q3Info.label forState:UIControlStateNormal];
                             
                             if (_isEnterExam) {
-                                [qbtn setTitle:[NSString stringWithFormat:@"( %d )",i3+1]forState:UIControlStateNormal];
                                 if ([self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",q3Info._id]] != nil) {
                                     [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img3"] forState:UIControlStateNormal];
                                     [qbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                                 }else{
                                     [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img4"] forState:UIControlStateNormal];
-                                    [qbtn setTitleColor:[UIColor colorWithRed:0.54 green:0.54 blue:0.54 alpha:1] forState:UIControlStateNormal];//@"#8A8A8A"
+                                    [qbtn setTitleColor:[UIColor colorWithRed:0.38 green:0.64 blue:0.97 alpha:1.00] forState:UIControlStateNormal];//@"#62a4f7"
                                 }
                                 
                             }else{
                                 
-                                if ([[[self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",q3Info._id]]objectForKey:@"right"] boolValue]) {
-                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img5"] forState:UIControlStateNormal];
+                                NSDictionary *answer = [self.userAnswers objectForKey:[NSString stringWithFormat:@"%d",q3Info._id]];
+                                if (answer) {
+                                    
                                     [qbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                                }else{
-                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img6"] forState:UIControlStateNormal];
-                                    [qbtn setTitleColor:[UIColor colorWithRed:0.54 green:0.54 blue:0.54 alpha:1] forState:UIControlStateNormal];//@"#8A8A8A"
+                                    if ([[answer objectForKey:@"right"] boolValue]) {
+                                        [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img5"] forState:UIControlStateNormal];
+                                    }else{
+                                        [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img6"] forState:UIControlStateNormal];
+                                    }
+                                    
+                                }else
+                                {
+                                    [qbtn setBackgroundImage:[UIImage imageNamed:@"exam_img4"] forState:UIControlStateNormal];
+                                    [qbtn setTitleColor:[UIColor colorWithRed:0.38 green:0.64 blue:0.97 alpha:1.00] forState:UIControlStateNormal];//@"#62a4f7"
                                 }
                             }
                             
@@ -2299,8 +2307,6 @@
             HXQuestionInfo * sub = [self parseQuestionInfo:[elQuestions objectAtIndex:i]];
             sub.position = i;
             sub.parent = question;
-            NSString * label = sub.label;
-            sub.label = [NSString stringWithFormat:@"(%@)",[label substringToIndex:[label rangeOfString:@"." options:NSBackwardsSearch].location +2]];
             [subs addObject:sub];
         }
         question.subs = subs;
