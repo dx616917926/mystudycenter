@@ -49,28 +49,38 @@
 -(void)setCourseDetailModel:(HXCourseDetailModel *)courseDetailModel{
     _courseDetailModel = courseDetailModel;
     self.courseLabel.text = HXSafeString(courseDetailModel.courseName);
-    courseDetailModel.yzTopic = 2;
-    courseDetailModel.wzTopic = 8;
-    courseDetailModel.learnTime = 120;
-    courseDetailModel.learnDuration = 1 + arc4random()%120;
-    courseDetailModel.totalScore = 100;
-    courseDetailModel.score = [NSString stringWithFormat:@"%u",(1 + arc4random()%100)];
+
     
     if (self.cellType == HXKeJianXueXiType) {
-        self.totalLabel.text = [NSString stringWithFormat:@"%ld分钟",courseDetailModel.learnTime];
-        NSString *needStr = [NSString stringWithFormat:@"%ld",courseDetailModel.learnDuration];
-        NSString *content = [NSString stringWithFormat:@"已学 %ld 分钟",courseDetailModel.learnDuration];
+        self.totalLabel.text = [NSString stringWithFormat:@"%ld分钟",(long)courseDetailModel.learnTime];
+        NSString *needStr = [NSString stringWithFormat:@"%ld",(long)courseDetailModel.learnDuration];
+        NSString *content = [NSString stringWithFormat:@"已学 %ld 分钟",(long)courseDetailModel.learnDuration];
         self.learnTimeLabel.attributedText = [HXCommonUtil getAttributedStringWith:needStr needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x5699FF, 1)} content:content defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xAFAFAF, 1)}];
-        self.gradientProgressView.progress = (courseDetailModel.learnDuration*1.0/courseDetailModel.learnTime);
+        if (courseDetailModel.learnTime == 0) {
+            self.gradientProgressView.progress = 0;
+        }else{
+            self.gradientProgressView.progress = (courseDetailModel.learnDuration*1.0/courseDetailModel.learnTime);
+        }
+        
     }else if (self.cellType == HXZhiShiDianPingType) {
-        NSString *score = [NSString stringWithFormat:@"%ld分",(courseDetailModel.totalScore * courseDetailModel.yzTopic)];
+        NSString *score = [NSString stringWithFormat:@"%ld分",(long)(courseDetailModel.totalScore)];
         [self.deFenBtn setTitle:score forState:UIControlStateNormal];
-        self.totalLabel.text = [NSString stringWithFormat:@"%ld题",(courseDetailModel.yzTopic + courseDetailModel.wzTopic)];
-        self.gradientProgressView.progress = (courseDetailModel.yzTopic*1.0/(courseDetailModel.yzTopic+courseDetailModel.wzTopic));
-    }else if (self.cellType == HXPingShiZuoYeType) {
+        self.totalLabel.text = [NSString stringWithFormat:@"%ld题",(long)(courseDetailModel.yzTopic + courseDetailModel.wzTopic)];
+        if (courseDetailModel.yzTopic == 0 && courseDetailModel.wzTopic == 0) {
+            self.gradientProgressView.progress = 0;
+        }else{
+            self.gradientProgressView.progress = (courseDetailModel.yzTopic*1.0/(courseDetailModel.yzTopic+courseDetailModel.wzTopic));
+        }
+       
+    }else if (self.cellType == HXPingShiZuoYeType|self.cellType == HXQiMoKaoShiType) {
         [self.deFenBtn setTitle:[HXSafeString(courseDetailModel.score) stringByAppendingString:@"分"] forState:UIControlStateNormal];
-        self.totalLabel.text = [NSString stringWithFormat:@"%ld分",(courseDetailModel.totalScore)];
-        self.gradientProgressView.progress = ([courseDetailModel.score integerValue]*1.0/courseDetailModel.totalScore);
+        self.totalLabel.text = [NSString stringWithFormat:@"%ld分",(long)(courseDetailModel.totalScore)];
+        if ([courseDetailModel.score isEqualToString:@"暂无成绩"]) {
+            self.gradientProgressView.progress = 0;
+        }else{
+            self.gradientProgressView.progress = ([courseDetailModel.score integerValue]*1.0/courseDetailModel.totalScore);
+        }
+        
     }
     
 }
@@ -89,6 +99,7 @@
             break;
         case HXZhiShiDianPingType:
         case HXPingShiZuoYeType:
+        case HXQiMoKaoShiType:
         {
             self.deFenBtn.hidden  = NO;
             self.learnTimeLabel.hidden = YES;

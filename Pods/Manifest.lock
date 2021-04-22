@@ -27,9 +27,11 @@ PODS:
   - MJRefresh (3.1.14.1)
   - MMLayout (0.1.0)
   - SDAutoLayout (2.2.1)
-  - SDWebImage (3.8.3):
-    - SDWebImage/Core (= 3.8.3)
-  - SDWebImage/Core (3.8.3)
+  - SDCycleScrollView (1.82):
+    - SDWebImage (>= 5.0.0)
+  - SDWebImage (5.0.6):
+    - SDWebImage/Core (= 5.0.6)
+  - SDWebImage/Core (5.0.6)
   - WebViewJavascriptBridge (5.1.2)
 
 DEPENDENCIES:
@@ -43,7 +45,8 @@ DEPENDENCIES:
   - MJRefresh (= 3.1.14.1)
   - MMLayout (= 0.1.0)
   - SDAutoLayout (~> 2.2.1)
-  - SDWebImage (~> 3.8.3)
+  - SDCycleScrollView (>= 1.82)
+  - SDWebImage (~> 5.0.0)
   - WebViewJavascriptBridge (~> 5.1.2)
 
 SPEC REPOS:
@@ -55,12 +58,13 @@ SPEC REPOS:
     - Masonry
     - MJRefresh
     - MMLayout
-    - SDWebImage
     - WebViewJavascriptBridge
   trunk:
     - HXViewHUD
     - MJExtension
     - SDAutoLayout
+    - SDCycleScrollView
+    - SDWebImage
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
@@ -73,9 +77,10 @@ SPEC CHECKSUMS:
   MJRefresh: 238e6a37e2dba12160ee3b79f6d2a2b26abcab42
   MMLayout: 7caa6fe2ebfd018ec49ab3ac2409b454c3687995
   SDAutoLayout: 8bf6b3bbc8b01f775d4defbb4fda2ace805461be
-  SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
+  SDCycleScrollView: a0d74c3384caa72bdfc81470bdbc8c14b3e1fbcf
+  SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   WebViewJavascriptBridge: f99dac16105500a570a12b0b03e6bc46501eeb00
 
-PODFILE CHECKSUM: b534d2453860ec3e69ef288606db6495c36df25f
+PODFILE CHECKSUM: d05b9623d8d2953fed35dd781219a44c1b5f8501
 
 COCOAPODS: 1.10.1

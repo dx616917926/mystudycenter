@@ -72,7 +72,7 @@
     [self.mingyanImageView addSubview:self.mingyanLabel];
     [self.bigBackGroundView addSubview:self.threeContainerView];
     
-    NSArray *titles = @[@"学习课件",@"知识测评",@"平时作业"];
+    NSArray *titles = @[@"学习课件",@"平时作业",@"期末考试"];
     [self.threeControls removeAllObjects];
     for (int i = 0; i<titles.count; i++) {
         UIControl *control = [[UIControl alloc] init];
@@ -233,31 +233,34 @@
     self.generateTimeLabel.text = HXSafeString(studyReportModel.buildTime);
     self.keywordLabel.text =  HXSafeString(studyReportModel.keyWords);
     self.nameLabel.text = HXSafeString(studyReportModel.name);
-    [self.tagBtn1 setTitle:HXSafeString(studyReportModel.mark1) forState:UIControlStateNormal];
-    [self.tagBtn2 setTitle:HXSafeString(studyReportModel.mark2)forState:UIControlStateNormal];
-    [self.tagBtn1 updateLayout];
-    [self.tagBtn2 updateLayout];
-    //生成渐变色
-    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    gradientLayer.bounds = self.tagBtn1.bounds;
-    gradientLayer.startPoint = CGPointMake(0, 0.5);
-    gradientLayer.endPoint = CGPointMake(1, 0.5);
-    gradientLayer.anchorPoint = CGPointMake(0, 0);
-    NSArray *colorArr = @[(id)COLOR_WITH_ALPHA(0xFF9234, 1).CGColor,(id)COLOR_WITH_ALPHA(0xFFC134, 1).CGColor];
-    gradientLayer.colors = colorArr;
-    [self.tagBtn1.layer insertSublayer:gradientLayer below:self.tagBtn1.titleLabel.layer];
-    
-    CAGradientLayer *gradientLayer2 = [CAGradientLayer layer];
-    gradientLayer2.bounds = self.tagBtn2.bounds;
-    gradientLayer2.startPoint = CGPointMake(0, 0.5);
-    gradientLayer2.endPoint = CGPointMake(1, 0.5);
-    gradientLayer2.anchorPoint = CGPointMake(0, 0);
-    NSArray *colorArr2 = @[(id)COLOR_WITH_ALPHA(0xFF87B3, 1).CGColor,(id)COLOR_WITH_ALPHA(0xFFB1F6, 1).CGColor];
-    gradientLayer2.colors = colorArr2;
-    [self.tagBtn2.layer insertSublayer:gradientLayer2 below:self.tagBtn2.titleLabel.layer];
+    if (![HXCommonUtil isNull:studyReportModel.mark1]) {
+        [self.tagBtn1 setTitle:HXSafeString(studyReportModel.mark1) forState:UIControlStateNormal];
+        [self.tagBtn1 updateLayout];
+        //生成渐变色
+        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+        gradientLayer.bounds = self.tagBtn1.bounds;
+        gradientLayer.startPoint = CGPointMake(0, 0.5);
+        gradientLayer.endPoint = CGPointMake(1, 0.5);
+        gradientLayer.anchorPoint = CGPointMake(0, 0);
+        NSArray *colorArr = @[(id)COLOR_WITH_ALPHA(0xFF9234, 1).CGColor,(id)COLOR_WITH_ALPHA(0xFFC134, 1).CGColor];
+        gradientLayer.colors = colorArr;
+        [self.tagBtn1.layer insertSublayer:gradientLayer below:self.tagBtn1.titleLabel.layer];
+    }
+   
+    if (![HXCommonUtil isNull:studyReportModel.mark2]) {
+        [self.tagBtn2 setTitle:HXSafeString(studyReportModel.mark2)forState:UIControlStateNormal];
+        [self.tagBtn2 updateLayout];
+        CAGradientLayer *gradientLayer2 = [CAGradientLayer layer];
+        gradientLayer2.bounds = self.tagBtn2.bounds;
+        gradientLayer2.startPoint = CGPointMake(0, 0.5);
+        gradientLayer2.endPoint = CGPointMake(1, 0.5);
+        gradientLayer2.anchorPoint = CGPointMake(0, 0);
+        NSArray *colorArr2 = @[(id)COLOR_WITH_ALPHA(0xFF87B3, 1).CGColor,(id)COLOR_WITH_ALPHA(0xFFB1F6, 1).CGColor];
+        gradientLayer2.colors = colorArr2;
+        [self.tagBtn2.layer insertSublayer:gradientLayer2 below:self.tagBtn2.titleLabel.layer];
+    }
     
     self.mingyanLabel.text = HXSafeString(studyReportModel.remarks);
-    
     
     for (int i = 0;i < self.threeControls.count;i++) {
         UIControl *control = self.threeControls[i];
@@ -266,19 +269,19 @@
             NSString *content = [NSString stringWithFormat:@"共 %@ 分钟",studyReportModel.kjxx];
             topLabel.attributedText = [HXCommonUtil getAttributedStringWith:studyReportModel.kjxx needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xFF781C, 1)} content:content defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xAFAFAF, 1)}];
         }else if(i == 1){
-            if ([studyReportModel.zscp isEqualToString:@"暂无成绩"]) {
-                topLabel.text = @"暂无成绩";
-            }else{
-                NSString *content = [NSString stringWithFormat:@"最高 %@ 分",studyReportModel.zscp];
-                topLabel.attributedText = [HXCommonUtil getAttributedStringWith:studyReportModel.zscp needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xFF781C, 1)} content:content defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xAFAFAF, 1)}];
-            }
-            
-        }else if(i == 2){
-            if ([studyReportModel.zscp isEqualToString:@"暂无成绩"]) {
+            if ([studyReportModel.pszy isEqualToString:@"暂无成绩"]) {
                 topLabel.text = @"暂无成绩";
             }else{
                 NSString *content = [NSString stringWithFormat:@"最高 %@ 分",studyReportModel.pszy];
                 topLabel.attributedText = [HXCommonUtil getAttributedStringWith:studyReportModel.pszy needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xFF781C, 1)} content:content defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xAFAFAF, 1)}];
+            }
+            
+        }else if(i == 2){
+            if ([studyReportModel.qmcj isEqualToString:@"暂无成绩"]) {
+                topLabel.text = @"暂无成绩";
+            }else{
+                NSString *content = [NSString stringWithFormat:@"最高 %@ 分",studyReportModel.qmcj];
+                topLabel.attributedText = [HXCommonUtil getAttributedStringWith:studyReportModel.qmcj needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xFF781C, 1)} content:content defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0xAFAFAF, 1)}];
             }
             
         }

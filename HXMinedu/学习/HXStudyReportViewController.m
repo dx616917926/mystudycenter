@@ -10,13 +10,14 @@
 #import "HXStudyReportHeaderView.h"
 #import "HXStudyReportCell.h"
 #import "HXStudyReportModel.h"
+#import "HXNoDataTipView.h"
 
 @interface HXStudyReportViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic) NSMutableArray *sectionArray;
 @property(strong,nonatomic) UITableView *mainTableView;
 @property(strong,nonatomic) HXStudyReportTableHeaderView *studyReportTableHeaderView;
 @property(strong,nonatomic) HXStudyReportModel *studyReportModel;
-
+@property(strong,nonatomic) HXNoDataTipView *noDataTipView;
 @end
 
 @implementation HXStudyReportViewController
@@ -40,8 +41,9 @@
         @"major_id":HXSafeString(selectMajorModel.major_id),
         @"type":@(selectMajorModel.type)
     };
+    [self.view showLoading];
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_LearnReport  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-        
+        [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.studyReportModel = [HXStudyReportModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
@@ -50,7 +52,7 @@
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
-        
+        [self.view hideLoading];
     }];
 }
 
@@ -64,14 +66,24 @@
     if (self.studyReportModel.kjxxCourseList.count>0) {
         [self.sectionArray addObject:@{@"sectionTitle":@"课件学习",@"sectionImageName":@"kejianxuexi_icon",@"cellType":@(HXKeJianXueXiType),@"list":self.studyReportModel.kjxxCourseList}];
     }
-    if (self.studyReportModel.zscpCourseList.count>0) {
-        [self.sectionArray addObject:@{@"sectionTitle":@"知识测评",@"sectionImageName":@"zhishidianping_icon",@"cellType":@(HXZhiShiDianPingType),@"list":self.studyReportModel.zscpCourseList}];
-    }
+//    if (self.studyReportModel.zscpCourseList.count>0) {
+//        [self.sectionArray addObject:@{@"sectionTitle":@"知识测评",@"sectionImageName":@"zhishidianping_icon",@"cellType":@(HXZhiShiDianPingType),@"list":self.studyReportModel.zscpCourseList}];
+//    }
     if (self.studyReportModel.pszyCourseList.count>0) {
         [self.sectionArray addObject:@{@"sectionTitle":@"平时作业",@"sectionImageName":@"pinshizuoye_icon",@"cellType":@(HXPingShiZuoYeType),@"list":self.studyReportModel.pszyCourseList}];
     }
+    if (self.studyReportModel.qmcjCourseList.count>0) {
+        [self.sectionArray addObject:@{@"sectionTitle":@"期末考试",@"sectionImageName":@"zhishidianping_icon",@"cellType":@(HXQiMoKaoShiType),@"list":self.studyReportModel.qmcjCourseList}];
+    }
     
     [self.mainTableView reloadData];
+    
+    //无数据
+    if (self.studyReportModel.kjxxCourseList.count == 0&&self.studyReportModel.pszyCourseList.count == 0&&self.studyReportModel.qmcjCourseList.count == 0) {
+        [self.view addSubview:self.noDataTipView];
+    }else{
+        [self.noDataTipView removeFromSuperview];
+    }
     
 }
 
@@ -196,6 +208,14 @@
         _studyReportTableHeaderView = [[HXStudyReportTableHeaderView alloc] initWithFrame:CGRectZero];
     }
     return _studyReportTableHeaderView;
+}
+
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight)];
+        _noDataTipView.tipTitle = @"暂无数据~";
+    }
+    return _noDataTipView;
 }
 
 /*

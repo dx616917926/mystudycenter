@@ -11,6 +11,7 @@ typedef enum : NSUInteger {
     HXKeJianXueXiType = 1,
     HXZhiShiDianPingType = 2,
     HXPingShiZuoYeType = 3,
+    HXQiMoKaoShiType = 4,
 } HXStudyReportCellType;
 
 typedef enum : NSUInteger {

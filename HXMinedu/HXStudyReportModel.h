@@ -30,12 +30,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *zscp;
 //平时作业 最高分
 @property(nonatomic, copy) NSString *pszy;
+//期末考试 最高分
+@property(nonatomic, copy) NSString *qmcj;
 //课件学习数组
 @property(nonatomic, strong) NSArray<HXCourseDetailModel *> *kjxxCourseList;
 //知识点测评数组
 @property(nonatomic, strong) NSArray<HXCourseDetailModel *> *zscpCourseList;
 //平时作业数组
 @property(nonatomic, strong) NSArray<HXCourseDetailModel *> *pszyCourseList;
+//期末考试数组
+@property(nonatomic, strong) NSArray<HXCourseDetailModel *> *qmcjCourseList;
 
 @end
 

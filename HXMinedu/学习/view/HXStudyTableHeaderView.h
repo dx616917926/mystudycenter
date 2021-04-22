@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SDCycleScrollView.h"
 
 @protocol HXStudyTableHeaderViewDelegate <NSObject>
 //flag:  0、学习报告    1、公告     2、直播
@@ -15,6 +16,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXStudyTableHeaderView : UIView
+///banner广告条
+@property (nonatomic,strong) SDCycleScrollView *bannerView;
+@property (nonatomic,strong) UIButton *versionBtn;
 
 @property(nonatomic,weak) id<HXStudyTableHeaderViewDelegate> delegate;
 

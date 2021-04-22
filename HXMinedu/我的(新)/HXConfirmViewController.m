@@ -6,6 +6,7 @@
 //
 
 #import "HXConfirmViewController.h"
+#import "SDWebImage.h"
 
 @interface HXConfirmViewController ()
 @property(nonatomic,strong) UIScrollView *mainScrollView;
@@ -40,6 +41,7 @@
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
+            self.topConfirmBtn.hidden  = YES;
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
@@ -52,7 +54,7 @@
 -(void)createUI{
    
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.sc_navigationBar.title = @"准考证确认";
+    self.sc_navigationBar.title = self.pictureInfoModel.fileTypeName;
     
     [self.view addSubview:self.mainScrollView];
     [self.mainScrollView addSubview:self.topImageView];
@@ -100,10 +102,17 @@
         self.topConfirmBtn.hidden  = NO;
     }
     
+    [self.topImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.pictureInfoModel.imgurl)] placeholderImage:[UIImage imageNamed:@"uploaddash"]];
+    
 }
 
 -(void)setPictureInfoModel:(HXPictureInfoModel *)pictureInfoModel{
     _pictureInfoModel = pictureInfoModel;
+
+//#ifdef DEBUG
+//    pictureInfoModel.imgurl = @"https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201312%2F03%2F165526ophx4l6c6ll3cnpl.jpg&refer=http%3A%2F%2Fattach.bbs.miui.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1620976710&t=566f7981b25825ceea5fe566812f05be";
+//#endif
+    
 }
 
 
@@ -119,7 +128,9 @@
 -(UIImageView *)topImageView{
     if (!_topImageView) {
         _topImageView = [[UIImageView alloc] init];
+        _topImageView.clipsToBounds = YES;
         _topImageView.image = [UIImage imageNamed:@"uploaddash"];
+        _topImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _topImageView;
 }
@@ -140,7 +151,9 @@
 -(UIImageView *)bottomImageView{
     if (!_bottomImageView) {
         _bottomImageView = [[UIImageView alloc] init];
+        _bottomImageView.clipsToBounds = YES;
         _bottomImageView.image = [UIImage imageNamed:@"uploaddash"];
+        _bottomImageView.contentMode = UIViewContentModeScaleAspectFit;
         _bottomImageView.hidden = YES;
     }
     return _bottomImageView;

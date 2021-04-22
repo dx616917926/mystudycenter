@@ -48,6 +48,7 @@
 #pragma mark - Event
 
 -(void)downLoad:(UIButton *)sender{
+    
     if ([HXCommonUtil isNull:self.downLoadUrl]) {
         [self.view showTostWithMessage:@"资源无效"];
         return;

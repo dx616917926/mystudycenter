@@ -9,6 +9,7 @@
 #import "HXLeftCell.h"
 #import "HXRightCollectionViewCell.h"
 #import "HXRightSectionHeadView.h"
+#import "HXSelectStudyTypeGuideView.h"
 
 @interface HXSelectStudyTypeViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDataSource,UICollectionViewDelegate>
 @property(nonatomic,strong) UIView *bigNavBackGroundView;
@@ -18,6 +19,8 @@
 @property(nonatomic,strong) UITableView *leftTableView;
 @property(nonatomic,strong) UIView *leftShadowView;
 @property(nonatomic,strong) UICollectionView *rightCollectionView;
+
+@property(nonatomic,strong) HXSelectStudyTypeGuideView *selectStudyTypeGuideView;
 
 @property(nonatomic,strong)  HXVersionModel *leftFirstSelectModel;//记录左侧刚进来时次选择
 @property(nonatomic,strong)  HXMajorModel*rightFirstSelectModel;//记录右侧侧刚进来时次选择
@@ -39,6 +42,16 @@
     [self handleData];
     
     
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //引导视图
+    if (![HXUserDefaults boolForKey:@"ShowSelectStudyTypeGuideView"]) {
+        [self.selectStudyTypeGuideView show];
+        [HXUserDefaults setBool:YES forKey:@"ShowSelectStudyTypeGuideView"];
+        [HXUserDefaults synchronize];
+    }
 }
 
 -(void)handleData{
@@ -87,7 +100,7 @@
         ///刷新选中的
         [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             HXVersionModel *model = obj;
-            if (model.type == self.leftSelectModel.type) {
+            if (model.type == self.leftSelectModel.type && model.versionId == self.leftSelectModel.versionId) {
                 model.isSelected = YES;
                 ///重置二级选中
                 [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -116,7 +129,7 @@
         ///使用刚进来时的初始数据
         [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             HXVersionModel *model = obj;
-            if (model.type == self.leftFirstSelectModel.type) {
+            if (model.type == self.leftFirstSelectModel.type && model.versionId == self.leftFirstSelectModel.versionId) {
                 model.isSelected = YES;
                 ///重置二级选中
                 [model.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -178,7 +191,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList[indexPath.row];
-    if (model.type == self.leftSelectModel.type) {
+    if (model.type == self.leftSelectModel.type && model.versionId == self.leftSelectModel.versionId) {
         return;
     }
     //刷新右侧数据
@@ -399,5 +412,11 @@
     return _rightCollectionView;;
 }
 
+-(HXSelectStudyTypeGuideView *)selectStudyTypeGuideView{
+    if (!_selectStudyTypeGuideView) {
+        _selectStudyTypeGuideView = [[HXSelectStudyTypeGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    }
+    return _selectStudyTypeGuideView;
+}
 
 @end

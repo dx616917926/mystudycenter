@@ -72,7 +72,7 @@
 ///显示配置
 -(XLPageViewControllerConfig *)config{
     XLPageViewControllerConfig *config = [XLPageViewControllerConfig defaultConfig];
-    config.titleViewBackgroundColor = [UIColor whiteColor];
+    config.titleViewBackgroundColor =COLOR_WITH_ALPHA(0xF5F6FA, 1);
     config.titleViewHeight = 58;
     config.titleSpace = _kpw(20);
     config.titleViewInset = UIEdgeInsetsMake(0, _kpw(24), 0, _kpw(24));

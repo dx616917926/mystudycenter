@@ -37,6 +37,7 @@
 
 -(void)createUI{
     [self addSubview:self.titleLabel];
+    [self addSubview:self.detailLabel];
     [self addSubview:self.arrowImageView];
     [self addSubview:self.bottomLine];
     
@@ -49,14 +50,21 @@
     self.titleLabel.sd_layout
     .centerYEqualToView(self)
     .leftEqualToView(self.bottomLine).offset(2)
-    .rightEqualToView(self.bottomLine).offset(-2)
+    .widthIs(150)
     .heightIs(22);
+    
     
     self.arrowImageView.sd_layout
     .centerYEqualToView(self)
     .rightEqualToView(self.bottomLine).offset(-5)
     .widthIs(14)
     .heightIs(14);
+    
+    self.detailLabel.sd_layout
+    .centerYEqualToView(self)
+    .leftSpaceToView(self.titleLabel, 5)
+    .rightSpaceToView(self.arrowImageView, 10)
+    .heightIs(17);
     
 }
 
@@ -68,6 +76,16 @@
         _titleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
     }
     return _titleLabel;;
+}
+
+-(UILabel *)detailLabel{
+    if (!_detailLabel) {
+        _detailLabel = [[UILabel alloc] init];
+        _detailLabel.textAlignment = NSTextAlignmentRight;
+        _detailLabel.font = HXFont(12);
+        _detailLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+    }
+    return _detailLabel;
 }
 
 -(UIImageView *)arrowImageView{

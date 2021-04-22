@@ -64,6 +64,15 @@ NS_ASSUME_NONNULL_BEGIN
 //获取学习报告
 #define HXPOST_Get_LearnReport                             @"/MD/StuInfo/getLearnReport"
 
+//获取Banner和Logo
+#define HXPOST_Get_BannerAndLogo                            @"/MD/StuInfo/getBannerAndLogo"
+
+//获取应缴和未缴明细
+#define HXPOST_Get_PayableAndUnpaidDetails                           @"/MD/StuPayInfo/getPayableAndUnpaidDetails"
+
+//获取已缴明细
+#define HXPOST_Get_PaidDetails                           @"/MD/StuPayInfo/getPaidDetails"
+
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

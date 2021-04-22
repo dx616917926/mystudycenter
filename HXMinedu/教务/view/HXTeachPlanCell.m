@@ -51,7 +51,7 @@
     
     self.courseNameLabel.text = HXSafeString(teachCourseModel.courseName);
     self.codeNameLabel.text = HXSafeString(teachCourseModel.courseCode);
-    self.creditNumLabel.text = [NSString stringWithFormat:@"%@分",HXSafeString(teachCourseModel.coursePoint)];
+    self.creditNumLabel.text = [NSString stringWithFormat:@"%@学分",HXSafeString(teachCourseModel.coursePoint)];
     
     if (teachCourseModel.isShowCheckLookName==1) {//显示统考
         self.tongkaoLabel.sd_layout

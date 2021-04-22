@@ -83,7 +83,7 @@
         self.selectDateHeaderView.hidden = NO;
         [self.noDataTipView removeFromSuperview];
     }
-    NSString *examDate = [NSString stringWithFormat:@"%@考期",self.selectExamDateModel.examDate];
+    NSString *examDate = [NSString stringWithFormat:@"%@",self.selectExamDateModel.examDate];
     [self.selectDateHeaderView.selectDateBtn setTitle:examDate forState:UIControlStateNormal];
     [self.mainTableView reloadData];
 }

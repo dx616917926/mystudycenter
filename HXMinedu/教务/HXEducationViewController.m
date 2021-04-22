@@ -205,7 +205,7 @@
 }
 
 - (void)pageViewController:(XLPageViewController *)pageViewController didSelectedAtIndex:(NSInteger)index {
-    NSLog(@"切换到");
+   
 }
 
 

@@ -80,6 +80,7 @@
 //报考类型数组
 @property (nonatomic, strong) NSArray *versionList;
 @property (nonatomic, strong) HXMajorModel *selectMajorModel;
+@property (nonatomic, strong) NSString *jiGouLogoUrl;
 
 //退出登录
 - (void)logOut;
