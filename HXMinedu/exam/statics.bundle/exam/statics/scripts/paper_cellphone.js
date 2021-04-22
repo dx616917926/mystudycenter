@@ -68,7 +68,7 @@
 					 var li=$('<li></li>');
                      li.append($('<input></input>').attr('type','hidden').attr('name','filePath').val(imageName));
                                                           
-                     li.append($('<img id="'+qId+'" src="'+baseUrl+'\/exam\/student\/exam\/question\/attaches\/upload\/file\/01\/filePath?__id='+imageName+'"/>').on('click',function(){
+                     li.append($('<img id="'+qId+'" src="'+baseUrl+'\/student\/exam\/question\/attaches\/upload\/file\/01\/filePath?__id='+imageName+'"/>').on('click',function(){
                                                                              bridgeNew.callHandler('viewAttachImage', {'src': $(this).attr('src'),'qId': $(this).attr('id')}, function(response){})
                                                                             }));
                    
@@ -160,11 +160,11 @@
                              var __id=tmps[0],__name=(tmps.length>1?tmps[1]:tmps[0]);
  
                              if(!!__id.match(/.jpg|.jpeg|.png|.gif/gi)){
-                                 content.append($('<img data-id="'+qid+'" src="'+baseUrl+'\/exam\/student\/exam\/question\/attaches\/upload\/file\/'+qid+'\/filePath?__id='+__id+'"/>').on('click',function(){
+                                 content.append($('<img data-id="'+qid+'" src="'+baseUrl+'\/student\/exam\/question\/attaches\/upload\/file\/'+qid+'\/filePath?__id='+__id+'"/>').on('click',function(){
                                                                                                                                                                        bridge.callHandler('viewAttachImage', {'src': $(this).attr('src'),'qId': $(this).data('id')}, function(response){})
                                                                }));
                              }else{
-                                 var download=$('<a style="display:block;" href="javascript:void(0)" data-id="'+__id+'" data-url="'+baseUrl+'\/exam\/student\/exam\/question\/attaches\/upload\/file\/'+qid.substr(2)+'\/filePath?__id='+__id+'">'+__name+'</a>');
+                                 var download=$('<a style="display:block;" href="javascript:void(0)" data-id="'+__id+'" data-url="'+baseUrl+'\/student\/exam\/question\/attaches\/upload\/file\/'+qid.substr(2)+'\/filePath?__id='+__id+'">'+__name+'</a>');
                                  download.click(function(){
                                                 bridge.callHandler('downloadAttachFile', {'url': $(this).data('url'),'text':$(this).text()}, function(response){})
                                                 });
