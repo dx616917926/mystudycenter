@@ -14,8 +14,9 @@
 //默认主题
 #define Default_Theme HXThemeBlue  //蓝色
 
-//#define     BaseUrl      @"https://testmd.hlw-study.com"
+//#define     KHX_URL_MAIN      @"https://testmd.hlw-study.com"
 
+#define     KP_SERVER_KEY         @"_KHX_URL_MAIN__"
 
 #pragma mark- ——————————————————--——————————— APP版本定义Begain ———--——————————————————————————
 
@@ -25,44 +26,36 @@
 #define     kHXDevelopMDEdition     2     //开发MD版本
 #define     kHXChangeEdition        100   //支持切换服务器
 
-#define      kHXAPPEdition          kHXChangeEdition
+#define     kHXAPPEdition          kHXChangeEdition
 
 #if (kHXAPPEdition == kHXChangeEdition)
 #define    kHXCanChangeServer       1   //长按切换登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试
 #endif
 
-//默认域名
-#if TARGET_IPHONE_SIMULATOR//模拟器
-#define     ReleaseServer        @"http://demo.hlw-study.com"
-#define     DevelopOPServer      @"http://testop.edu-cj.com"
-#define     DevelopMDServer      @"http://testmd.hlw-study.com"
-#else//真机
-#define     ReleasServer         @"https://demo.hlw-study.com"
-#define     DevelopOPServer      @"https://testop.edu-cj.com"
-#define     DevelopMDServer      @"https://testmd.hlw-study.com"
-#endif
-
-
-#define     KP_SERVER_KEY         @"_KHX_URL_MAIN__"
+//域名定义
+#define     kHXReleasServer         @"https://demo.hlw-study.com"
+#define     kHXDevelopOPServer      @"https://testop.edu-cj.com"
+#define     kHXDevelopMDServer      @"https://testmd.hlw-study.com"
 
 #if kHXCanChangeServer
-
-#define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? DevelopOPServer : KHXUserDefaultsForValue(KP_SERVER_KEY))
-
+#define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? kHXDevelopOPServer : KHXUserDefaultsForValue(KP_SERVER_KEY))
 #endif
 
 
-#if (kHXAPPEdition == kHXReleaseEdition)// 线上生产环境服务器地址
-#  define     KHX_URL_MAIN      ReleasServer
-#elif (kKPAPPEditio == kHXDevelopOPEdition)
-#  define     KHX_URL_MAIN      DevelopOPServer
-#elif (kKPAPPEdition == kHXDevelopMDEdition)
-#  define     KHX_URL_MAIN      DevelopMDServer
+#if (kHXAPPEdition == kHXReleaseEdition)
+#   define     KHX_URL_MAIN      kHXReleasServer  // 正式环境服务器地址
+static BOOL PRODUCTIONMODE  =   YES;             //APNs 证书类型，NO开发证书，YES生产证书
+#elif (kHXAPPEdition == kHXDevelopOPEdition)
+#   define     KHX_URL_MAIN      kHXDevelopOPServer
+static BOOL PRODUCTIONMODE  =   NO;
+#elif (kHXAPPEdition == kHXDevelopMDEdition)
+#   define     KHX_URL_MAIN      kHXDevelopMDServer
+static BOOL PRODUCTIONMODE  =   NO;
 #else
-#  define     KHX_URL_MAIN      kHXChangeServer
+#   define     KHX_URL_MAIN      kHXChangeServer
+static BOOL  PRODUCTIONMODE  =  NO;
 #endif
 
-#pragma mark- ——————————————————--——————————— APP版本定义End ———--——————————————————————————
 
 
 //更新地址

@@ -129,8 +129,8 @@
 
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text = @"434181199202062254";//@"211203199901020308"  @"430621199908080707"   @"222214199809090909"
-    loginView.userNameTextField.text =@"434181199202062254"; //
+    loginView.passWordTextField.text = @"231452198810263326";//@"211203199901020308"  @"430621199908080707"   @"222214199809090909"
+    loginView.userNameTextField.text =@"231452198810263326"; //
 #endif
 }
 
@@ -251,18 +251,18 @@
     if (longPress.state == UIGestureRecognizerStateBegan) {
         UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"服务器切换" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         [controller addAction:[UIAlertAction actionWithTitle:@"正式服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [HXUserDefaults setObject:ReleasServer forKey:KP_SERVER_KEY];
+            [HXUserDefaults setObject:kHXReleasServer forKey:KP_SERVER_KEY];
             
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
     
         }]];
         [controller addAction:[UIAlertAction actionWithTitle:@"TestOP测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [HXUserDefaults setObject:DevelopOPServer forKey:KP_SERVER_KEY];
+            [HXUserDefaults setObject:kHXDevelopOPServer forKey:KP_SERVER_KEY];
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
            
         }]];
         [controller addAction:[UIAlertAction actionWithTitle:@"TestMD测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [HXUserDefaults setObject:DevelopMDServer forKey:KP_SERVER_KEY];
+            [HXUserDefaults setObject:kHXDevelopMDServer forKey:KP_SERVER_KEY];
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
            
         }]];
