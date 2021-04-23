@@ -42,6 +42,10 @@
         if (success) {
             [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
             self.topConfirmBtn.hidden  = YES;
+            ///通知外部刷新
+            if (self.refreshInforBlock) {
+                self.refreshInforBlock();
+            }
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }

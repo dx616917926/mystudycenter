@@ -8,8 +8,10 @@
 #import "HXPaymentDtailChildViewController.h"
 #import "HXPaymentDetailCell.h"
 #import "HXPaidDetailCell.h"
+#import "HXUnPaidDetailCell.h"
 #import "HXNoDataTipView.h"
 #import "HXPaymentModel.h"
+#import "MJRefresh.h"
 
 @interface HXPaymentDtailChildViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -44,17 +46,29 @@
     }
 }
 
+#pragma mark - 下拉刷新
+-(void)loadNewData{
+    if (self.flag == 2) {
+        //获取已缴明细
+        [self getPaidDetails];
+    }else{
+        //获取应缴和未缴明细
+        [self getPayableAndUnpaidDetails];
+    }
+}
+
 #pragma mark -  获取应缴和未缴明细
 -(void)getPayableAndUnpaidDetails{
     HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
         @"version_id":HXSafeString(selectMajorModel.versionId),
         @"major_id":HXSafeString(selectMajorModel.major_id),
+        @"type":@(selectMajorModel.type),
         @"payStatus":(self.flag == 1?@"-1":@"1"),
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PayableAndUnpaidDetails withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-
+        [self.mainTableView.mj_header endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             //刷新数据
@@ -80,7 +94,7 @@
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
-    
+        [self.mainTableView.mj_header endRefreshing];
     }];
 }
 
@@ -90,10 +104,11 @@
     NSDictionary *dic = @{
         @"version_id":HXSafeString(selectMajorModel.versionId),
         @"major_id":HXSafeString(selectMajorModel.major_id),
+        @"type":@(selectMajorModel.type),
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PaidDetails withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-
+        [self.mainTableView.mj_header endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.paidDetailsList = [HXPaymentDetailModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
@@ -107,13 +122,18 @@
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
-    
+        [self.mainTableView.mj_header endRefreshing];
     }];
 }
 
 #pragma mark - 布局子视图
 -(void)createUI{
     [self.view addSubview:self.mainTableView];
+    
+    // 下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    header.automaticallyChangeAlpha = YES;
+    self.mainTableView.mj_header = header;
     
     if (self.flag == 1 || self.flag == 3) {
         self.mainTableView.tableFooterView = self.paymentDtailTableFooterView;
@@ -165,31 +185,36 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (self.flag == 2) {
-        return 244;
-    }else{
+        return 184;
+    }else if(self.flag ==1){
         return 92;
+    }else{
+        return 51;
     }
 }
 
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (self.flag == 1||self.flag == 3) {
+    if (self.flag == 1) {
         static NSString *paymentDetailCellIdentifier = @"HXPaymentDetailCellIdentifier";
         HXPaymentDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:paymentDetailCellIdentifier];
         if (!cell) {
             cell = [[HXPaymentDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:paymentDetailCellIdentifier];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        HXPaymentDetailModel *paymentDetailModel;
-        if (self.flag == 1) {
-            paymentDetailModel = self.yinJiaopaymentModel.payableAndUnpaidDetailsInfoList[indexPath.row];
-        }else{
-            paymentDetailModel = self.weiJiaopaymentModel.payableAndUnpaidDetailsInfoList[indexPath.row];
-        }
+        HXPaymentDetailModel *paymentDetailModel = self.yinJiaopaymentModel.payableAndUnpaidDetailsInfoList[indexPath.row];
         cell.paymentDetailModel = paymentDetailModel;
         return cell;
+    }else if (self.flag == 3){
+        static NSString *unPaidDetailCellIdentifier = @"HXUnPaidDetailCellIdentifier";
+        HXUnPaidDetailCell *unPaidCell = [tableView dequeueReusableCellWithIdentifier:unPaidDetailCellIdentifier];
+        if (!unPaidCell) {
+            unPaidCell = [[HXUnPaidDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:unPaidDetailCellIdentifier];
+        }
+        unPaidCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        HXPaymentDetailModel *paymentDetailModel = self.weiJiaopaymentModel.payableAndUnpaidDetailsInfoList[indexPath.row];
+        unPaidCell.paymentDetailModel = paymentDetailModel;
+        return unPaidCell;
     }else{
         static NSString *paidDetailCellIdentifier = @"HXPaidDetailCellIdentifier";
         HXPaidDetailCell *paidCell = [tableView dequeueReusableCellWithIdentifier:paidDetailCellIdentifier];

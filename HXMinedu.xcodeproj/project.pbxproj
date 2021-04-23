@@ -12,6 +12,7 @@
 		040581BC255156AF0022A300 /* HXResetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 040581BA255156AF0022A300 /* HXResetTableViewCell.m */; };
 		040581BD255156AF0022A300 /* HXResetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040581BB255156AF0022A300 /* HXResetTableViewCell.xib */; };
 		04060A40255548FF00133FB3 /* CustomIOSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */; };
+		040A96A8263144FA0061481C /* HXUnPaidDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 040A96A7263144FA0061481C /* HXUnPaidDetailCell.m */; };
 		040B03B02554EA2800E977E2 /* HXSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03AF2554EA2800E977E2 /* HXSettingViewController.m */; };
 		040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B03B525552C7400E977E2 /* HXCheckUpdateTool.m */; };
 		04146062262FCCA70065B76B /* HXBannerLogoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04146061262FCCA70065B76B /* HXBannerLogoModel.m */; };
@@ -318,6 +319,8 @@
 		040581BB255156AF0022A300 /* HXResetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXResetTableViewCell.xib; sourceTree = "<group>"; };
 		04060A3E255548FF00133FB3 /* CustomIOSAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOSAlertView.h; sourceTree = "<group>"; };
 		04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOSAlertView.m; sourceTree = "<group>"; };
+		040A96A6263144FA0061481C /* HXUnPaidDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXUnPaidDetailCell.h; sourceTree = "<group>"; };
+		040A96A7263144FA0061481C /* HXUnPaidDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXUnPaidDetailCell.m; sourceTree = "<group>"; };
 		040B03AE2554EA2800E977E2 /* HXSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSettingViewController.h; sourceTree = "<group>"; };
 		040B03AF2554EA2800E977E2 /* HXSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSettingViewController.m; sourceTree = "<group>"; };
 		040B03B425552C7400E977E2 /* HXCheckUpdateTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCheckUpdateTool.h; sourceTree = "<group>"; };
@@ -938,6 +941,8 @@
 				046F25B1261ED7A200E394C3 /* HXPaymentDetailCell.m */,
 				04146066262FFF2A0065B76B /* HXPaidDetailCell.h */,
 				04146067262FFF2A0065B76B /* HXPaidDetailCell.m */,
+				040A96A6263144FA0061481C /* HXUnPaidDetailCell.h */,
+				040A96A7263144FA0061481C /* HXUnPaidDetailCell.m */,
 				046F25B9261F030100E394C3 /* HXSetCell.h */,
 				046F25BA261F030100E394C3 /* HXSetCell.m */,
 				04687703261FF66000DA03C8 /* HXInfoConfirmCell.h */,
@@ -2347,6 +2352,7 @@
 				041FE0E026147B0600696D5C /* HXTeachPlanHeaderView.m in Sources */,
 				0449A314254BFE92001A28D5 /* AppDelegate.m in Sources */,
 				04CB3C0F25906A500042A682 /* HXLiveDetailViewController.m in Sources */,
+				040A96A8263144FA0061481C /* HXUnPaidDetailCell.m in Sources */,
 				0449A4C3254C11F6001A28D5 /* DOUSimpleHTTPRequest.m in Sources */,
 				0449A4C6254C11F6001A28D5 /* DOUAudioSpatialAnalyzer.m in Sources */,
 				0449A537254C11F6001A28D5 /* RSSelectionLayer.m in Sources */,

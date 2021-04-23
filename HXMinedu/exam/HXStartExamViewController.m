@@ -24,6 +24,7 @@
 #import "UIImageView+AFNetworking.h"
 #import <UMCommon/MobClick.h>
 
+
 @interface HXStartExamViewController ()<HXPainterViewControllerDelegate,XHImageViewerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
     
     UIView *menuView;//目录视图 点击目录出现 再次点击消失
@@ -2102,7 +2103,7 @@
         decisionHandler(WKNavigationActionPolicyAllow);
         return;
         
-    }else if ([url isEqualToString:BaseUrl]) {
+    }else if ([url isEqualToString:KHX_URL_MAIN]) {
         decisionHandler(WKNavigationActionPolicyAllow);
         return;
         

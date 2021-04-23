@@ -15,12 +15,16 @@
     static HXBaseURLSessionManager *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:[NSURL URLWithString:BaseUrl]];
+        _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:[NSURL URLWithString:KHX_URL_MAIN]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.requestSerializer.timeoutInterval = 10;
        
     });
     
+#if kHXCanChangeServer
+    //手动设置baseUrl
+    [_sharedClient setValue:[NSURL URLWithString:KHX_URL_MAIN] forKey:NSStringFromSelector(@selector(baseURL))];
+#endif
     return _sharedClient;
 }
 
@@ -52,6 +56,9 @@
     
     [client POST:HXPOST_LOGIN parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         
+        NSLog(@"请求地址:%@",task.currentRequest.URL);
+        NSLog(@"请求参数:%@",parameters);
+        
         BOOL Success = [dictionary boolValueForKey:@"Success"];
         
         if (Success) {
@@ -70,6 +77,9 @@
         }
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"请求地址:%@",task.currentRequest.URL);
+        NSLog(@"请求参数:%@",parameters);
         NSLog(@"获取personId失败！");
         failure(error.localizedDescription);
     }];
@@ -82,12 +92,14 @@
 {
 
     HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
-    
+
     NSMutableDictionary * parameters = [client commonParameters];
     
     [parameters addEntriesFromDictionary:nsDic];
     
     [client GET:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+        NSLog(@"请求地址:%@",task.currentRequest.URL);
+        NSLog(@"请求参数:%@",parameters);
         if(dictionary)
         {
             if ([[dictionary stringValueForKey:@"Message"] isEqualToString:@"您的口令已经过期，请重新登录！"]) {
@@ -103,6 +115,8 @@
             failure(nil);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"请求地址:%@",task.currentRequest.URL);
+        NSLog(@"请求参数:%@",parameters);
         NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
         if (response.statusCode == 401) {
             failure(nil);
@@ -123,10 +137,12 @@
     HXBaseURLSessionManager * client = [HXBaseURLSessionManager sharedClient];
     
     NSMutableDictionary * parameters = [client commonParameters];
-    
     [parameters addEntriesFromDictionary:nsDic];
     
     [client POST:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+        
+        NSLog(@"请求地址:%@",task.currentRequest.URL);
+        NSLog(@"请求参数:%@",parameters);
         ///回到主线程
         dispatch_async(dispatch_get_main_queue(), ^{
             if(dictionary){
@@ -144,6 +160,10 @@
         });
       
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"请求地址:%@",task.currentRequest.URL);
+        NSLog(@"请求参数:%@",parameters);
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
             if (response.statusCode == 401) {

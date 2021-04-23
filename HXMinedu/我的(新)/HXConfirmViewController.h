@@ -7,11 +7,16 @@
 
 #import "HXBaseViewController.h"
 #import "HXPictureInfoModel.h"
+
+typedef void(^RefreshInforBlock)(void);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXConfirmViewController : HXBaseViewController
 
 @property(nonatomic,strong) HXPictureInfoModel *pictureInfoModel;
+//刷新外部数据
+@property(nonatomic,copy) RefreshInforBlock refreshInforBlock;
 
 @end
 

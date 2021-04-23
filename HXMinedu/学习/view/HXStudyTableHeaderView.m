@@ -178,7 +178,7 @@
         _bannerView.pageControlDotSize = CGSizeMake(8, 8);
         _bannerView.infiniteLoop = YES;
         _bannerView.autoScrollTimeInterval = 3.0f;
-        _bannerView.bannerImageViewContentMode = UIViewContentModeScaleToFill;
+        _bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
         _bannerView.pageControlStyle = SDCycleScrollViewPageContolStyleAnimated;
        
     }   

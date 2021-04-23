@@ -74,6 +74,8 @@
     login_icon.userInteractionEnabled = YES;
     [mainView addSubview:login_icon];
     
+
+    
     [login_icon mas_makeConstraints:^(MASConstraintMaker *make) {
         //
         make.centerX.equalTo(self.view);
@@ -107,15 +109,28 @@
         make.height.mas_equalTo(28);
     }];
     
-    //双击显示版本号
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppVersion)];
-    doubleTap.numberOfTapsRequired = 2;
-    [login_icon addGestureRecognizer:doubleTap];
+//    //双击显示版本号
+//    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppVersion)];
+//    doubleTap.numberOfTapsRequired = 2;
+//    [login_icon addGestureRecognizer:doubleTap];
+    
+#ifdef kHXCanChangeServer
+        ///长按切换
+        UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeEnvironment:)];
+        press.minimumPressDuration = 0.6;
+        [login_icon addGestureRecognizer:press];
+        //双击自定义输入
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(customEditServer:)];
+        doubleTap.numberOfTapsRequired = 2;
+        [login_icon addGestureRecognizer:doubleTap];
+        
+        [doubleTap requireGestureRecognizerToFail:press];
+#endif
 
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text = @"430621199908080707";//@"430621199804054256";
-    loginView.userNameTextField.text = @"430621199908080707"; //@"430621199804054256";
+    loginView.passWordTextField.text = @"434181199202062254";//@"211203199901020308"  @"430621199908080707"   @"222214199809090909"
+    loginView.userNameTextField.text =@"434181199202062254"; //
 #endif
 }
 
@@ -175,6 +190,7 @@
 }
 
 -(void)login{
+    NSLog(@"服务器地址: %@", KHX_URL_MAIN);
     __weak __typeof(self)weakSelf = self;
     [self.view showLoadingWithMessage:@"登录中…"];
     [HXBaseURLSessionManager doLoginWithUserName:loginView.userNameTextField.text andPassword:loginView.passWordTextField.text success:^(NSString * _Nonnull personId) {
@@ -225,6 +241,68 @@
 {
     return UIStatusBarStyleDefault;
 }
+
+#pragma mark - 点击切换域名
+
+#ifdef kHXCanChangeServer
+
+- (void)changeEnvironment:(UILongPressGestureRecognizer*)longPress{
+    
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"服务器切换" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        [controller addAction:[UIAlertAction actionWithTitle:@"正式服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [HXUserDefaults setObject:ReleasServer forKey:KP_SERVER_KEY];
+            
+            NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
+    
+        }]];
+        [controller addAction:[UIAlertAction actionWithTitle:@"TestOP测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [HXUserDefaults setObject:DevelopOPServer forKey:KP_SERVER_KEY];
+            NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
+           
+        }]];
+        [controller addAction:[UIAlertAction actionWithTitle:@"TestMD测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [HXUserDefaults setObject:DevelopMDServer forKey:KP_SERVER_KEY];
+            NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
+           
+        }]];
+        [controller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }]];
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+}
+
+- (void)customEditServer:(UITapGestureRecognizer *)tap {
+    
+    __block UITextField *_textfield;
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"输入服务器地址" message:@"编辑IP地址即可" preferredStyle:UIAlertControllerStyleAlert];
+    [controller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        _textfield = textField;
+        _textfield.text = KHX_URL_MAIN;
+    }];
+    [controller addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString *url = [NSString stringWithFormat:@"%@",_textfield.text];
+        [HXUserDefaults setObject:url forKey:KP_SERVER_KEY];
+        NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
+    }]];
+    
+    [controller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
+///注销登录
+- (void)presentToLogin {
+    [[HXPublicParamTool sharedInstance] logOut];
+}
+
+#endif
+
+
+
 /*
 #pragma mark - Navigation
 

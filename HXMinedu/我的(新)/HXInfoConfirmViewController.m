@@ -94,6 +94,11 @@
     }
     HXConfirmViewController *confirmVc = [[HXConfirmViewController alloc] init];
     confirmVc.pictureInfoModel = pictureInfoModel;
+    WeakSelf(weakSelf)
+    confirmVc.refreshInforBlock = ^{
+        //重新拉取服务器数据
+        [weakSelf getStudentFile];
+    };
     [self.navigationController pushViewController:confirmVc animated:YES];
 }
 

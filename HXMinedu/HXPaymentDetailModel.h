@@ -12,10 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HXPaymentDetailModel : NSObject
 //名称
 @property(nonatomic, copy) NSString *feeType_Name;
-//已缴费金额
-@property(nonatomic, assign) float payMoney;
 //总费用
 @property(nonatomic, assign) float fee;
+//单价
+@property(nonatomic, assign) float avgfee;
+//已缴费金额
+@property(nonatomic, assign) float payMoney;
 //未缴费金额
 @property(nonatomic, assign) float notPay;
 //数量

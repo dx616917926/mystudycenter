@@ -22,6 +22,17 @@
     }
     return NO;
 }
+
+/**
+ 字符串转码
+ */
++(NSString *)stringEncoding:(NSString *)str{
+    if ([HXCommonUtil isNull:str]) {
+        return @"";
+    }
+    return  [str stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+}
+
 /**
  属性化文字
  @param needString             需要属性化的文字

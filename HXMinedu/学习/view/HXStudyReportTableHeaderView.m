@@ -72,7 +72,7 @@
     [self.mingyanImageView addSubview:self.mingyanLabel];
     [self.bigBackGroundView addSubview:self.threeContainerView];
     
-    NSArray *titles = @[@"学习课件",@"平时作业",@"期末考试"];
+    NSArray *titles = @[@"课件学习",@"平时作业",@"期末考试"];
     [self.threeControls removeAllObjects];
     for (int i = 0; i<titles.count; i++) {
         UIControl *control = [[UIControl alloc] init];

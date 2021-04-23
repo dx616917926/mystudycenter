@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong) UIImage *tipImage;
 @property(nonatomic,strong) NSString *tipTitle;
-
+@property(nonatomic,assign) NSInteger tipImageViewOffset;
 
 @end
 

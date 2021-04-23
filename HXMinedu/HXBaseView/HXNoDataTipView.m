@@ -19,6 +19,7 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = COLOR_WITH_ALPHA(0xFCFCFC, 1);
+        self.clipsToBounds = YES;
         self.tipTitle = @"暂无数据~";
         self.tipImage = [UIImage imageNamed:@"nodata_icon"];
         [self createUI];
@@ -34,6 +35,11 @@
 
 -(void)setTipTitle:(NSString *)tipTitle{
     self.tipLabel.text = tipTitle;
+}
+
+-(void)setTipImageViewOffset:(NSInteger)tipImageViewOffset{
+    _tipImageViewOffset = tipImageViewOffset;
+    self.tipImageView.sd_layout.topSpaceToView(self, _kpw(tipImageViewOffset));
 }
 
 #pragma mark - UI

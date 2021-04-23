@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isNull:(id)obj;
 
 /**
+ 字符串转码
+ */
++(NSString *)stringEncoding:(NSString *)str;
+
+/**
  属性化文字
  @param needString             需要属性化的文字
  @param needAttributedDic      添加的属性

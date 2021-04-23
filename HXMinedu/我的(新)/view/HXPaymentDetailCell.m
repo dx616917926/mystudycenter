@@ -42,9 +42,9 @@
 -(void)setPaymentDetailModel:(HXPaymentDetailModel *)paymentDetailModel{
     _paymentDetailModel = paymentDetailModel;
     self.paymentNameLabel.text = HXSafeString(paymentDetailModel.feeType_Name);
-    self.priceLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.fee];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.avgfee];
     self.numLabel.text = HXSafeString(paymentDetailModel.feeYearName);;
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.payMoney];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.fee];
     
 }
 

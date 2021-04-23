@@ -41,6 +41,8 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 
 #pragma mark - 新版新定义的常用宏
 
+
+
 ///弱引用和强引用
 #define WeakSelf(weakSelf)      __weak __typeof(&*self)     weakSelf  = self;
 #define StrongSelf(strongSelf)  __strong __typeof(&*self)   strongSelf = weakSelf;
@@ -65,6 +67,13 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 // 根据高度度适配字体大小
 #define _kpAdaptationHeightFont(__font_) ([[UIScreen mainScreen].bounds.size.height * (__font_) / 667.0)
 
-#define  HXUserDefaults  [NSUserDefaults standardUserDefaults] 
+#define  HXUserDefaults  [NSUserDefaults standardUserDefaults]
+
+#ifndef KHXUserDefaultsForValue
+#define KHXUserDefaultsForValue(___key_) ({   \
+    NSString *__value_ = [HXUserDefaults valueForKey:___key_];   \
+    __value_ ? __value_ : @""; \
+})
+#endif
 
 #endif /* HXDefines_h */

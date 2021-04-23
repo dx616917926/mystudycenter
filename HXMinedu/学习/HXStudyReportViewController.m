@@ -73,7 +73,7 @@
         [self.sectionArray addObject:@{@"sectionTitle":@"平时作业",@"sectionImageName":@"pinshizuoye_icon",@"cellType":@(HXPingShiZuoYeType),@"list":self.studyReportModel.pszyCourseList}];
     }
     if (self.studyReportModel.qmcjCourseList.count>0) {
-        [self.sectionArray addObject:@{@"sectionTitle":@"期末考试",@"sectionImageName":@"zhishidianping_icon",@"cellType":@(HXQiMoKaoShiType),@"list":self.studyReportModel.qmcjCourseList}];
+        [self.sectionArray addObject:@{@"sectionTitle":@"期末考试",@"sectionImageName":@"qimokaoshi_icon",@"cellType":@(HXQiMoKaoShiType),@"list":self.studyReportModel.qmcjCourseList}];
     }
     
     [self.mainTableView reloadData];

@@ -59,6 +59,8 @@
     HXExamSessionManager * client = [HXExamSessionManager sharedClient];
     
     [client GET:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+        NSLog(@"考试部分请求地址:%@",task.currentRequest.URL);
+        NSLog(@"考试部分请求参数:%@",parameters);
         if(dictionary)
         {
             success(dictionary);
@@ -67,6 +69,8 @@
             failure(nil);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"考试部分请求地址:%@",task.currentRequest.URL);
+        NSLog(@"考试部分请求参数:%@",parameters);
         failure(error);
     }];
 }
@@ -79,6 +83,8 @@
     HXExamSessionManager * client = [HXExamSessionManager sharedClient];
     
     [client POST:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
+        NSLog(@"考试部分请求地址:%@",task.currentRequest.URL);
+        NSLog(@"考试部分请求参数:%@",parameters);
         if(dictionary)
         {
             success(dictionary);
@@ -87,6 +93,8 @@
             failure(nil);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"考试部分请求地址:%@",task.currentRequest.URL);
+        NSLog(@"考试部分请求参数:%@",parameters);
         failure(error);
     }];
 }

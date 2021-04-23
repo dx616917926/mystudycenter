@@ -171,7 +171,7 @@
 -(HXNoDataTipView *)noDataTipView{
     if (!_noDataTipView) {
         _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kNavigationBarHeight-kTabBarHeight-58)];
-        _noDataTipView.tipTitle = @"暂无成绩~";
+        _noDataTipView.tipTitle = @"暂无考试成绩~";
     }
     return _noDataTipView;
 }

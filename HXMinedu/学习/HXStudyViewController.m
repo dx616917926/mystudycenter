@@ -19,6 +19,7 @@
 #import "HXTeachPlanHeaderView.h"
 #import "HXStudyTableHeaderView.h"
 #import "HXStudyGuideView.h"
+#import "HXNoDataTipView.h"
 #import "HXCourseModel.h"
 #import "HXBannerLogoModel.h"
 #import "SDWebImage.h"
@@ -37,6 +38,7 @@
 @property(strong,nonatomic) UIView *yesterdayView;
 
 @property(strong,nonatomic) UIView *studyTableFooterView;
+@property(strong,nonatomic) HXNoDataTipView *noDataTipView;
 @property(strong,nonatomic) UIImageView *logoImageView;
 
 @property(strong,nonatomic) HXStudyGuideView *studyGuideView;
@@ -157,6 +159,12 @@
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.courseList = [HXCourseModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (self.courseList.count == 0) {
+                self.noDataTipView.sd_layout.heightIs(_kpw(280));
+            }else{
+                self.noDataTipView.sd_layout.heightIs(0);
+            }
+            [self.noDataTipView updateLayout];
             [self.mainTableView reloadData];
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
@@ -184,10 +192,11 @@
             //刷新banner数据和底部logo
             NSMutableArray *imageURLStringsGroup = [NSMutableArray array];
             [self.bannerLogoModel.bannerList enumerateObjectsUsingBlock:^(HXBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [imageURLStringsGroup addObject:HXSafeString(obj.titleLink)];
+                NSString *encodeStr = [HXCommonUtil stringEncoding:HXSafeString(obj.titleLink)];
+                [imageURLStringsGroup addObject:encodeStr];
             }];
             self.studyTableHeaderView.bannerView.imageURLStringsGroup = imageURLStringsGroup;
-            [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.bannerLogoModel.logoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
+            [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:HXSafeString(self.bannerLogoModel.logoUrl)]] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
         }else{
             [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
@@ -441,15 +450,37 @@
 
 -(UIView *)studyTableFooterView{
     if (!_studyTableFooterView) {
-        _studyTableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
+        _studyTableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        _studyTableFooterView.clipsToBounds = YES;
+        [_studyTableFooterView addSubview:self.noDataTipView];
         [_studyTableFooterView addSubview:self.logoImageView];
+        
+        self.noDataTipView.sd_layout
+        .topEqualToView(_studyTableFooterView)
+        .leftEqualToView(_studyTableFooterView)
+        .rightEqualToView(_studyTableFooterView)
+        .heightIs(0);
+        
         self.logoImageView.sd_layout
-        .centerYEqualToView(_studyTableFooterView)
+        .topSpaceToView(self.noDataTipView, 10)
         .centerXEqualToView(_studyTableFooterView)
         .widthIs(kScreenWidth)
         .heightIs(48);
+
+        [_studyTableFooterView setupAutoHeightWithBottomView:self.logoImageView bottomMargin:30];
+     
     }
     return _studyTableFooterView;
+}
+
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:CGRectZero];
+        _noDataTipView.backgroundColor = [UIColor whiteColor];
+        _noDataTipView.tipTitle = @"暂无数据~";
+        _noDataTipView.tipImageViewOffset = 10;
+    }
+    return _noDataTipView;
 }
 
 -(UIImageView *)logoImageView{
