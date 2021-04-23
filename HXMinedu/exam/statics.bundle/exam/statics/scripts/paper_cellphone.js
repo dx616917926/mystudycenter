@@ -147,7 +147,7 @@
 		});
 	};
  
-	function __showAnswerAttaches(keys,txtAnswerObj,baseUrl){
+	function __showAnswerAttaches(keys,txtAnswerObj,baseUrl,userExamId){
          var bridge=window.__RTE;
          if(!!keys){
                  var qid=keys,question=$('#q_'+qid),questionAnswer=$('.ui-question-textarea',question),value=txtAnswerObj;
@@ -160,11 +160,11 @@
                              var __id=tmps[0],__name=(tmps.length>1?tmps[1]:tmps[0]);
  
                              if(!!__id.match(/.jpg|.jpeg|.png|.gif/gi)){
-                                 content.append($('<img data-id="'+qid+'" src="'+baseUrl+'\/student\/exam\/question\/attaches\/upload\/file\/'+qid+'\/filePath?__id='+__id+'"/>').on('click',function(){
+                                 content.append($('<img data-id="'+qid+'" src="'+baseUrl+'\/student\/exam\/question\/attaches\/upload\/file\/'+qid+'\/filePath?__id='+__id+'&__userExamId='+userExamId+'"/>').on('click',function(){
                                                                                                                                                                        bridge.callHandler('viewAttachImage', {'src': $(this).attr('src'),'qId': $(this).data('id')}, function(response){})
                                                                }));
                              }else{
-                                 var download=$('<a style="display:block;" href="javascript:void(0)" data-id="'+__id+'" data-url="'+baseUrl+'\/student\/exam\/question\/attaches\/upload\/file\/'+qid.substr(2)+'\/filePath?__id='+__id+'">'+__name+'</a>');
+                                 var download=$('<a style="display:block;" href="javascript:void(0)" data-id="'+__id+'" data-url="'+baseUrl+'\/student\/exam\/question\/attaches\/upload\/file\/'+qid.substr(2)+'\/filePath?__id='+__id+'&__userExamId='+userExamId+'">'+__name+'</a>');
                                  download.click(function(){
                                                 bridge.callHandler('downloadAttachFile', {'url': $(this).data('url'),'text':$(this).text()}, function(response){})
                                                 });
@@ -209,7 +209,7 @@
                }
             }
             if(q.hasClass('ui-question-3')&& ua){
-               __showAnswerAttaches(qid,ua.file,ua.baseurl);
+               __showAnswerAttaches(qid,ua.file,ua.baseurl,ua.userExamId);
             }
         })
 
@@ -238,7 +238,7 @@
                initUserAnswer(q, ua.answer ,true);
            }
            if(q.hasClass('ui-question-3')&& ua){
-               __showAnswerAttaches(qid,ua.file,ua.baseurl);
+               __showAnswerAttaches(qid,ua.file,ua.baseurl,ua.userExamId);
            }
         })
 	};	

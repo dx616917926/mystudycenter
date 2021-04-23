@@ -353,6 +353,19 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+///试卷id
+- (NSString *)userExamId {
+    
+    if (!_isEnterExam) {
+        //查看试卷
+        return [self.userExam stringValueForKey:@"id"];
+    }else
+    {
+        //考试
+        return [self.userExam stringValueForKey:@"userExamId"];
+    }
+}
+
 /**
  *  @author wangxuanao, 15-11-10 16:11:53
  *
@@ -921,7 +934,7 @@
         {
             NSDictionary * dic = [weakSelf.userAnswers objectForKey:[data objectForKey:@"qid"]];
             if (dic != nil) {
-                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":self.examBasePath});
+                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":self.examBasePath,@"userExamId":[self userExamId]});
             }else
             {
                 responseCallback(@"");
@@ -964,6 +977,10 @@
         
         NSRange range = [src rangeOfString:@"?__id="];
         weakSelf.tempFileName = [src substringFromIndex:range.location+range.length];
+        NSRange range2 = [weakSelf.tempFileName rangeOfString:@"&"];
+        if (range2.location != NSNotFound) {
+            weakSelf.tempFileName = [weakSelf.tempFileName substringToIndex:range2.location];
+        }
         
         NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@",src]];
         
@@ -1103,7 +1120,7 @@
         {
             NSDictionary * dic = [weakSelf.userAnswers objectForKey:[data objectForKey:@"qid"]];
             if (dic != nil) {
-                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":self.examBasePath});
+                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":self.examBasePath,@"userExamId":[self userExamId]});
             }else
             {
                 responseCallback(@"");
@@ -1140,13 +1157,16 @@
     
     [_bridge2 registerHandler:@"viewAttachImage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //
-        
         weakSelf.bridgeCurrent = weakSelf.bridge2;
         
         NSString * src = [data objectForKey:@"src"];
         
         NSRange range = [src rangeOfString:@"?__id="];
         weakSelf.tempFileName = [src substringFromIndex:range.location+range.length];
+        NSRange range2 = [weakSelf.tempFileName rangeOfString:@"&"];
+        if (range2.location != NSNotFound) {
+            weakSelf.tempFileName = [weakSelf.tempFileName substringToIndex:range2.location];
+        }
         
         NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@",src]];
         
