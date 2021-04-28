@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) BOOL showLanguageButton;
 @property(nonatomic, strong) NSString *Message;
 @property(nonatomic, strong) NSString *ImgUrl;
+///类型
+@property(nonatomic, strong) NSString *ExamCourseType;
 
 @end
 

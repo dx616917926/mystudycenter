@@ -5,6 +5,9 @@ ${PODS_ROOT}/AliPlayerSDK_iOS/alivcffmpeg.framework
 ${PODS_ROOT}/AliPlayerSDK_iOS/AlivcConan.framework
 ${PODS_ROOT}/AliPlayerSDK_iOS/AliyunMediaDownloader.framework
 ${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework
+${BUILT_PRODUCTS_DIR}/GKCover/GKCover.framework
+${BUILT_PRODUCTS_DIR}/GKPhotoBrowser/GKPhotoBrowser.framework
+${BUILT_PRODUCTS_DIR}/HXPhotoPicker/HXPhotoPicker.framework
 ${BUILT_PRODUCTS_DIR}/HXViewHUD/HXViewHUD.framework
 ${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework
 ${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework

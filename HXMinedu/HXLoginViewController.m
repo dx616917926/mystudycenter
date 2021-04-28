@@ -129,8 +129,8 @@
 
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text = @"231452198810263326";//@"211203199901020308"  @"430621199908080707"   @"222214199809090909"
-    loginView.userNameTextField.text =@"231452198810263326"; //
+    loginView.passWordTextField.text = @"430621199908080707";//@"211203199901020308"  @"430621199908080707"   @"222214199809090909" @"430381200306190101"
+    loginView.userNameTextField.text = @"430621199908080707";
 #endif
 }
 
@@ -171,21 +171,7 @@
         return;
     }
     
-    
-//    ///获取token
-//    __weak __typeof(self)weakSelf = self;
-//    [HXBaseURLSessionManager getDataWithNSString:@"http://yapi.edu-edu.com/mock/71/api/ApiLogin/Login"  withDictionary:@{@"UserName":loginView.userNameTextField.text,@"Password":loginView.passWordTextField.text} success:^(NSDictionary * _Nonnull dictionary) {
-//        NSLog(@"%@",dictionary);
-//        [HXPublicParamTool sharedInstance].token = [dictionary objectForKey:@"Token"];
-//        [weakSelf login];
-//    } failure:^(NSError * _Nonnull error) {
-//        [weakSelf.view showErrorWithMessage:@"登陆失败"];
-//    }];
-//
-    
     [self login];
-    
-    
     
 }
 
@@ -263,6 +249,11 @@
         }]];
         [controller addAction:[UIAlertAction actionWithTitle:@"TestMD测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [HXUserDefaults setObject:kHXDevelopMDServer forKey:KP_SERVER_KEY];
+            NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
+           
+        }]];
+        [controller addAction:[UIAlertAction actionWithTitle:@"LWJ主机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [HXUserDefaults setObject:kHXDevelopLWJEServer forKey:KP_SERVER_KEY];
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
            
         }]];

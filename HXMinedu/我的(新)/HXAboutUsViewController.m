@@ -47,8 +47,9 @@
 }
 
 -(void)lookPrivacy:(UIButton *)sender{
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://demo.hlw-study.com/OP.Enroll/EnrollOP/mbPayMWEB?sid=MjY4NA==&rmb=MTAw&aid=MQ=="]];
     HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-    webViewVC.urlString = [HXPublicParamTool sharedInstance].privacyUrl;
+    webViewVC.urlString = @"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx20180115115052bedf091fba0369993002&package=2975002856";//[HXPublicParamTool sharedInstance].privacyUrl;
     webViewVC.cuntomTitle = @"隐私协议";
     [self.navigationController pushViewController:webViewVC animated:YES];
 }
@@ -68,6 +69,8 @@
     [self.view addSubview:self.copyrightLabel];
     
     
+   
+   
     self.logeImageView.sd_layout
     .centerXEqualToView(self.view)
     .topSpaceToView(self.view, kNavigationBarHeight+_kph(80))

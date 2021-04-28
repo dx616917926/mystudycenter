@@ -172,14 +172,70 @@ static NSString * const kFunctionName      =   @"callFunctionName";
     
 }
 
-// 在收到响应后，决定是否跳转
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
+//// 在收到响应后，决定是否跳转
+//- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
+//    NSLog(@"urlScheme:%@",navigationResponse.response.URL.scheme);
+//    NSLog(@"%@",navigationResponse.response.URL.absoluteString);
+//    //允许跳转
+//    decisionHandler(WKNavigationResponsePolicyAllow);
+//    //不允许跳转
+//    //decisionHandler(WKNavigationResponsePolicyCancel);
+//
+//
+//}
+
+-(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
+    NSLog(@"urlScheme:%@",navigationAction.request.URL.scheme);
+    NSLog(@"urlStr:%@",navigationAction.request.URL.absoluteString);
     
-    NSLog(@"%@",navigationResponse.response.URL.absoluteString);
-    //允许跳转
-    decisionHandler(WKNavigationResponsePolicyAllow);
-    //不允许跳转
-    //decisionHandler(WKNavigationResponsePolicyCancel);
+    //先判断一下，找到需要跳转的再做处理
+    if ([navigationAction.request.URL.scheme isEqualToString:@"alipay"]) {
+        //  1.以？号来切割字符串
+        NSArray * urlBaseArr = [navigationAction.request.URL.absoluteString componentsSeparatedByString:@"?"];
+        NSString * urlBaseStr = urlBaseArr.firstObject;
+        NSString * urlNeedDecode = urlBaseArr.lastObject;
+        //  2.将截取以后的Str，做一下解码，方便我们处理数据
+        NSMutableString * afterDecodeStr = [NSMutableString stringWithString:[HXCommonUtil strDecodedString:urlNeedDecode]];
+        //  3.替换里面的默认Scheme为自己的Scheme
+        NSString * afterHandleStr = [afterDecodeStr stringByReplacingOccurrencesOfString:@"alipays" withString:@"www.edu-edu.com"];
+        //  4.然后把处理后的，和最开始切割的做下拼接，就得到了最终的字符串
+        NSString * finalStr = [NSString stringWithFormat:@"%@?%@",urlBaseStr, [HXCommonUtil  stringEncoding:afterHandleStr]];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            //  判断一下，是否安装了支付宝APP（也就是看看能不能打开这个URL）
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:finalStr]]) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:finalStr]];
+            }
+        });
+        
+        //  2.这里告诉页面不走了 -_-
+        decisionHandler(WKNavigationActionPolicyCancel);
+    }else if([navigationAction.request.URL.absoluteString rangeOfString:@"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?"].location != NSNotFound){
+        //设置redirect_url，如果存在redirect_url，那么需要替换redirect_url对应的值（替换内容为，自已公司支付的网页域名）
+        NSString *absoluteUrl  = @"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?";
+        NSString *redirect_url = @"&redirect_url=www.edu-edu.com";
+        NSString *newUrl = [NSString stringWithFormat:@"%@%@",absoluteUrl,redirect_url];
+        //字符串进行替换，让回调之后返回自己的app
+        newUrl = [newUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        NSLog(@"newUrl - - - - - - %@",newUrl);
+        NSDictionary *headers = [navigationAction.request allHTTPHeaderFields];
+        BOOL hasReferer = [headers objectForKey:@"Referer"]!=nil;
+        if (hasReferer) {
+            decisionHandler(WKNavigationActionPolicyAllow);
+        } else {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:newUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+                    [request setHTTPMethod:@"GET"];
+                    [request setValue:@"www.edu-edu.com://" forHTTPHeaderField: @"Referer"];
+                    [self.webView loadRequest:request];
+                });
+            });
+            decisionHandler(WKNavigationActionPolicyCancel);
+        }
+    }else{
+        decisionHandler(WKNavigationActionPolicyAllow);
+    }
+    
 }
 
 
@@ -215,7 +271,7 @@ static NSString * const kFunctionName      =   @"callFunctionName";
     @try {
         [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
     } @catch (NSException *exception) {
-
+        
     }
 }
 

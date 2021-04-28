@@ -58,6 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 //学生确认图片信息
 #define HXPOST_UpdateStudentStatu                                @"/MD/StuInfo/UpdateStudentstatus"
 
+//上传图片信息
+#define HXPOST_UpdateStudentFile                               @"/MD/StuInfo/uploadStudentFile"
+
 //获取隐私协议
 #define HXPOST_Get_PrivacyUrl                                @"/MD/StuInfo/getPrivacyUrl"
 

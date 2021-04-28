@@ -13,7 +13,8 @@
 {
     return @{
         @"fileId" : @"id",
-        @"fileTypeName" : @"fileType_name"        
+        @"fileTypeName" : @"fileType_name",
+        @"fileTypeId" : @"fileType_id" 
     };
 }
 

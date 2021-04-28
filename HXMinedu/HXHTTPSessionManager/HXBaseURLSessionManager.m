@@ -102,30 +102,23 @@
         NSLog(@"请求参数:%@",parameters);
         if(dictionary)
         {
-            if ([[dictionary stringValueForKey:@"Message"] isEqualToString:@"您的口令已经过期，请重新登录！"]) {
+            if ([[dictionary stringValueForKey:@"StatusCode"] isEqualToString:@"1000"]) {//StatusCode 1000登录失败，1001登录成功
                 failure(nil);
-                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"您的口令已经过期，请重新登录！" completionBlock:^{
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:[dictionary stringValueForKey:@"Message"] completionBlock:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
                 }];
                 return;
             }
             success(dictionary);
-        }else
-        {
+        }else{
             failure(nil);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"请求地址:%@",task.currentRequest.URL);
         NSLog(@"请求参数:%@",parameters);
         NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
-        if (response.statusCode == 401) {
-            failure(nil);
-            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
-            }];
-        }else{
-            failure(error);
-        }
+        NSLog(@"接口错误信息%@",response);
+        failure(error);
     }];
 }
 
@@ -144,37 +137,25 @@
         NSLog(@"请求地址:%@",task.currentRequest.URL);
         NSLog(@"请求参数:%@",parameters);
         ///回到主线程
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(dictionary){
-                if ([[dictionary stringValueForKey:@"Message"] isEqualToString:@"您的口令已经过期，请重新登录！"]) {
-                    failure(nil);
-                    [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"您的口令已经过期，请重新登录！" completionBlock:^{
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
-                    }];
-                    return;
-                }
-                success(dictionary);
-            }else{
+        if(dictionary){
+            if ([[dictionary stringValueForKey:@"StatusCode"] isEqualToString:@"1000"]) {
                 failure(nil);
-            }
-        });
-      
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"请求地址:%@",task.currentRequest.URL);
-        NSLog(@"请求参数:%@",parameters);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
-            if (response.statusCode == 401) {
-                failure(nil);
-                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:@"授权过期，请重新登录！" completionBlock:^{
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:[dictionary stringValueForKey:@"Message"] completionBlock:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
                 }];
-            }else{
-                failure(error);
+                return;
             }
-        });
+            success(dictionary);
+        }else{
+            failure(nil);
+        }
+      
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"请求地址:%@",task.currentRequest.URL);
+        NSLog(@"请求参数:%@",parameters);
+        NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
+        NSLog(@"接口错误信息%@",response);
+        failure(error);
     }];
 }
 

@@ -262,26 +262,58 @@
     switch (type) {
         case HXKeJianXueXiClickType://课件学习
         {
-            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-            if (@available(iOS 13.0, *)) {
-                playerVC.barStyle = UIStatusBarStyleDarkContent;
-            } else {
+            if ([item.Type isEqualToString:@"1"]) {
+                //课件学习模块
+                TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                if (@available(iOS 13.0, *)) {
+                    playerVC.barStyle = UIStatusBarStyleDarkContent;
+                } else {
+                    playerVC.barStyle = UIStatusBarStyleDefault;
+                }
+                playerVC.cws_param = item.cws_param;
                 playerVC.barStyle = UIStatusBarStyleDefault;
+                playerVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:playerVC animated:YES];
+                
+            }else if ([item.Type isEqualToString:@"2"]) {
+                //考试模块
+                HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
+                listVC.authorizeUrl = item.ExamUrl;
+                listVC.title = item.ModuleName;
+                listVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:listVC animated:YES];
+            }else{
+                [self.view showTostWithMessage:@"暂不支持此模块"];
             }
-            playerVC.cws_param = item.cws_param;
-            playerVC.barStyle = UIStatusBarStyleDefault;
-            playerVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:playerVC animated:YES];
+           
         }
             break;
         case HXPingShiZuoYeClickType://平时作业
         case HXQiMoKaoShiClickType://期末考试
         {
-            HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
-            listVC.authorizeUrl = item.ExamUrl;
-            listVC.title = item.ModuleName;
-            listVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:listVC animated:YES];
+            if ([item.Type isEqualToString:@"1"]) {
+                //课件学习模块
+                TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                if (@available(iOS 13.0, *)) {
+                    playerVC.barStyle = UIStatusBarStyleDarkContent;
+                } else {
+                    playerVC.barStyle = UIStatusBarStyleDefault;
+                }
+                playerVC.cws_param = item.cws_param;
+                playerVC.barStyle = UIStatusBarStyleDefault;
+                playerVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:playerVC animated:YES];
+                
+            }else if ([item.Type isEqualToString:@"2"]) {
+                //考试模块
+                HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
+                listVC.authorizeUrl = item.ExamUrl;
+                listVC.title = item.ModuleName;
+                listVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:listVC animated:YES];
+            }else{
+                [self.view showTostWithMessage:@"暂不支持此模块"];
+            }
         }
             break;
             

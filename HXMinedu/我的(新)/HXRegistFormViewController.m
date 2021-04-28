@@ -62,32 +62,33 @@
     NSURL *URL = [NSURL URLWithString:self.downLoadUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     NSString *fileName = [self.downLoadUrl lastPathComponent]; //获取文件名称
-    //判断是否存在
-        if ([self isFileExist:fileName]) {
-            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-            NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
-            self.fileURL = url;
-            [self presentViewController:self.QLController animated:YES completion:nil];
-            //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url
-            [self.QLController refreshCurrentPreviewItem];
-        } else {
-            [self.view showLoadingWithMessage:@"正在下载..."];
-            //下载文件
-            NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress){
-                
-            } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-                NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
-                return url;
-            } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                [self.view hideLoading];
-                self.fileURL = filePath;
-                [self presentViewController:self.QLController animated:YES completion:nil];
-                //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url
-                [self.QLController refreshCurrentPreviewItem];
-            }];
-            [downloadTask resume];
-        }
+//    //判断是否存在
+//        if ([self isFileExist:fileName]) {
+//            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+//            NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
+//            self.fileURL = url;
+//            [self presentViewController:self.QLController animated:YES completion:nil];
+//            //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url
+//            [self.QLController refreshCurrentPreviewItem];
+//        } else {
+//
+//        }
+    [self.view showLoadingWithMessage:@"正在下载..."];
+    //下载文件
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress){
+        
+    } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
+        return url;
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        [self.view hideLoading];
+        self.fileURL = filePath;
+        [self presentViewController:self.QLController animated:YES completion:nil];
+        //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url
+        [self.QLController refreshCurrentPreviewItem];
+    }];
+    [downloadTask resume];
 }
 
 // 判断文件是否已经在沙盒中存在，1:存在 0:不存在

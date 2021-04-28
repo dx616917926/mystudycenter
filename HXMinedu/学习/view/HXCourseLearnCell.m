@@ -81,15 +81,15 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [btn setTitle:HXSafeString(item.ModuleName) forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
-            if ([item.ModuleName isEqualToString:@"课件学习"]) {
+            if ([item.ExamCourseType isEqualToString:@"1"]) {//课件学习
                 btn.tag = 7777;
                 [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFE664B, 1)];
                 [btn setImage:[UIImage imageNamed:@"kejian_icon"] forState:UIControlStateNormal];
-            }else if ([item.ModuleName isEqualToString:@"平时作业"]) {
+            }else if ([item.ExamCourseType isEqualToString:@"2"]) {//平时作业
                 btn.tag = 8888;
                 [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFEC44B, 1)];
                 [btn setImage:[UIImage imageNamed:@"pingshi_icon"] forState:UIControlStateNormal];
-            }else{
+            }else{//期末考试
                 btn.tag = 9999;
                 [btn setBackgroundColor:COLOR_WITH_ALPHA(0x4B74FE, 1)];
                 [btn setImage:[UIImage imageNamed:@"qimo_icon"] forState:UIControlStateNormal];

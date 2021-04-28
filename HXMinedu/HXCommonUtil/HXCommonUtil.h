@@ -19,9 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isNull:(id)obj;
 
 /**
- 字符串转码
+ 字符串编码
  */
-+(NSString *)stringEncoding:(NSString *)str;
++ (NSString *)stringEncoding:(NSString *)str;
+/**
+ 字符串解码
+ */
++ (NSString*)strDecodedString:(NSString*)str;
 
 /**
  属性化文字
@@ -32,6 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
  @return 属性化文字
  */
 + (NSMutableAttributedString *)getAttributedStringWith:(NSString *)needString needAttributed:(NSDictionary *)needAttributedDic content:(NSString *)content defaultAttributed:(NSDictionary *)defaultAttributedDic;
+
+/**
+ 图片质量压缩到某一范围内，如果后面用到多，可以抽成分类或者工具类,这里压缩递减比二分的运行时间长，二分可以限制下限。
+ */
++(UIImage *)compressImageSize:(UIImage *)image toByte:(NSUInteger)maxLength;
+
 @end
 
 NS_ASSUME_NONNULL_END

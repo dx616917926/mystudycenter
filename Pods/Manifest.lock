@@ -20,7 +20,17 @@ PODS:
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
+  - GKCover (2.6.0)
+  - GKPhotoBrowser (2.1.9):
+    - GKPhotoBrowser/SD (= 2.1.9)
+  - GKPhotoBrowser/Core (2.1.9)
+  - GKPhotoBrowser/SD (2.1.9):
+    - GKPhotoBrowser/Core
+    - SDWebImage (~> 5.0)
   - hpple (0.2.0)
+  - HXPhotoPicker (3.1.9):
+    - HXPhotoPicker/Default (= 3.1.9)
+  - HXPhotoPicker/Default (3.1.9)
   - HXViewHUD (0.2.0)
   - Masonry (1.1.0)
   - MJExtension (3.2.4)
@@ -29,16 +39,19 @@ PODS:
   - SDAutoLayout (2.2.1)
   - SDCycleScrollView (1.82):
     - SDWebImage (>= 5.0.0)
-  - SDWebImage (5.0.6):
-    - SDWebImage/Core (= 5.0.6)
-  - SDWebImage/Core (5.0.6)
+  - SDWebImage (5.10.4):
+    - SDWebImage/Core (= 5.10.4)
+  - SDWebImage/Core (5.10.4)
   - WebViewJavascriptBridge (5.1.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0.1)
   - AliPlayerSDK_iOS (= 4.7.5)
   - FMDB (~> 2.6.2)
+  - GKCover (~> 2.6.0)
+  - GKPhotoBrowser (~> 2.1.9)
   - hpple (~> 0.2.0)
+  - HXPhotoPicker (~> 3.1.9)
   - HXViewHUD (~> 0.2.0)
   - Masonry (= 1.1.0)
   - MJExtension (= 3.2.4)
@@ -46,7 +59,7 @@ DEPENDENCIES:
   - MMLayout (= 0.1.0)
   - SDAutoLayout (~> 2.2.1)
   - SDCycleScrollView (>= 1.82)
-  - SDWebImage (~> 5.0.0)
+  - SDWebImage (~> 5.10.0)
   - WebViewJavascriptBridge (~> 5.1.2)
 
 SPEC REPOS:
@@ -60,6 +73,9 @@ SPEC REPOS:
     - MMLayout
     - WebViewJavascriptBridge
   trunk:
+    - GKCover
+    - GKPhotoBrowser
+    - HXPhotoPicker
     - HXViewHUD
     - MJExtension
     - SDAutoLayout
@@ -70,7 +86,10 @@ SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   AliPlayerSDK_iOS: 0c290a7f2fd22693c22270262234a587211593d6
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  GKCover: deebd6a5c0caf85e00f7fa5e3b57ccb110e030ec
+  GKPhotoBrowser: c45231edd9ec79f031c412c646af46419d997c97
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
+  HXPhotoPicker: e1816ff27f17c3926f6e83aebbb9f4b329324f0b
   HXViewHUD: d27c1e93a43ad9c07924f582c4b3826f1032394f
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 88e0900751b6cac8de1cf724ca9838a0b28d5acb
@@ -78,9 +97,9 @@ SPEC CHECKSUMS:
   MMLayout: 7caa6fe2ebfd018ec49ab3ac2409b454c3687995
   SDAutoLayout: 8bf6b3bbc8b01f775d4defbb4fda2ace805461be
   SDCycleScrollView: a0d74c3384caa72bdfc81470bdbc8c14b3e1fbcf
-  SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
+  SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   WebViewJavascriptBridge: f99dac16105500a570a12b0b03e6bc46501eeb00
 
-PODFILE CHECKSUM: d05b9623d8d2953fed35dd781219a44c1b5f8501
+PODFILE CHECKSUM: 62e124ccdd38ac2fd823f2235e4e9f97f4c352c5
 
 COCOAPODS: 1.10.1

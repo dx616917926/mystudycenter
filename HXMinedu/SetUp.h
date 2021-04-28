@@ -24,7 +24,8 @@
 #define     kHXReleaseEdition       0     //生产版本
 #define     kHXDevelopOPEdition     1     //开发OP版本
 #define     kHXDevelopMDEdition     2     //开发MD版本
-#define     kHXChangeEdition        100   //支持切换服务器
+#define     kHXDevelopLWJEdition    3     //李文军主机
+#define     kHXChangeEdition        100   //支持切换服务器(长按切换登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试)
 
 #define     kHXAPPEdition          kHXChangeEdition
 
@@ -36,6 +37,7 @@
 #define     kHXReleasServer         @"https://demo.hlw-study.com"
 #define     kHXDevelopOPServer      @"https://testop.edu-cj.com"
 #define     kHXDevelopMDServer      @"https://testmd.hlw-study.com"
+#define     kHXDevelopLWJEServer    @"http://192.168.1.131:85" //李文军主机
 
 #if kHXCanChangeServer
 #define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? kHXDevelopOPServer : KHXUserDefaultsForValue(KP_SERVER_KEY))
@@ -50,6 +52,9 @@ static BOOL PRODUCTIONMODE  =   YES;             //APNs 证书类型，NO开发�
 static BOOL PRODUCTIONMODE  =   NO;
 #elif (kHXAPPEdition == kHXDevelopMDEdition)
 #   define     KHX_URL_MAIN      kHXDevelopMDServer
+static BOOL PRODUCTIONMODE  =   NO;
+#elif (kHXAPPEdition == kHXDevelopLWJEdition)
+#   define     KHX_URL_MAIN      kHXDevelopLWJEServer
 static BOOL PRODUCTIONMODE  =   NO;
 #else
 #   define     KHX_URL_MAIN      kHXChangeServer
