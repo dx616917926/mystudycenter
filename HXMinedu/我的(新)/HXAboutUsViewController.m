@@ -47,9 +47,9 @@
 }
 
 -(void)lookPrivacy:(UIButton *)sender{
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://demo.hlw-study.com/OP.Enroll/EnrollOP/mbPayMWEB?sid=MjY4NA==&rmb=MTAw&aid=MQ=="]];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: 
     HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-    webViewVC.urlString = @"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx20180115115052bedf091fba0369993002&package=2975002856";//[HXPublicParamTool sharedInstance].privacyUrl;
+    webViewVC.urlString = [HXPublicParamTool sharedInstance].privacyUrl;
     webViewVC.cuntomTitle = @"隐私协议";
     [self.navigationController pushViewController:webViewVC animated:YES];
 }

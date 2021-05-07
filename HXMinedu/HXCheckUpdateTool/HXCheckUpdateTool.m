@@ -16,6 +16,8 @@
 @property(nonatomic, assign) BOOL forceUpgrade;
 @property(nonatomic, strong) CustomIOSAlertView *myAlertView;
 
+@property(nonatomic, assign) BOOL ishow;//正在展示
+
 @end
 
 @implementation HXCheckUpdateTool
@@ -38,15 +40,13 @@
  */
 - (void)checkUpdate {
     
-    if (!donotCheckVersionAgain) {
+    if (!donotCheckVersionAgain&&!self.ishow) {
+        self.ishow = YES;
         [self checkUpdateWithInController:nil];        
     }
 }
 
 - (void)checkUpdateWithInController:(UIViewController *)viewController {
-    
-    [viewController.view showLoading];
-    
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -63,13 +63,12 @@
         //
     } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         if (error) {
+            self.ishow = NO;
             [viewController.view showErrorWithMessage:@"检查版本更新失败！"];
         } else {
             NSLog(@"%@ %@", response, responseObject);
-            
             NSDictionary * rightDic = responseObject;
-            NSDictionary *localDic =[[NSBundle mainBundle] infoDictionary];
-            NSString *localVersion =[localDic objectForKey:@"CFBundleShortVersionString"];
+            NSString *localVersion = APP_BUILDVERSION;
             NSString * newVersion = [rightDic objectForKey:@"version"];
             NSString * newVersionLabel = [rightDic objectForKey:@"versionLabel"];
             NSArray *features = [rightDic objectForKey:@"features"];
@@ -91,27 +90,25 @@
             
             NSLog(@"\n当前版本:%@\n服务器版本:%@\n更新日志:%@",localVersion,newVersion,featureStr);
 
-            if ([newVersion doubleValue] > [localVersion doubleValue]) {
-                [viewController.view hideLoading];
-                
+            if ([newVersion intValue] > [localVersion intValue]) {
                 self.hasNewVersion = YES;
                 self.updateUrl = [rightDic stringValueForKey:@"updateUrl"];
                 //弹提示框
                 self.myAlertView = [[CustomIOSAlertView alloc]init];
                 self.myAlertView.containerView = [self createViewWith:newVersionLabel andWithFeatures:featureStr AndWithFeatureCount:features.count];
-
+                WeakSelf(weakSelf);
                 //判断是否是强制更新
-                if (![isForce isEqualToString:@"1"]) {
+                if ([isForce isEqualToString:@"1"]) {
                     
                     [self.myAlertView setButtonTitles:[NSMutableArray arrayWithObjects:@"立即更新",nil]];
                     [self.myAlertView show];
                     
                     __weak NSString *updateStr = self.updateUrl;
                     [self.myAlertView setOnButtonTouchUpInside:^(CustomIOSAlertView *alertView, int buttonIndex) {
-                        
+                        weakSelf.ishow = NO;
                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateStr]];
                     }];
-
+                    
                 }else{
                     
                     [self.myAlertView setButtonTitles:[NSMutableArray arrayWithObjects:@"暂不",@"立即更新",nil]];
@@ -119,6 +116,7 @@
                     
                     __weak NSString *updateStr = self.updateUrl ;
                     [self.myAlertView setOnButtonTouchUpInside:^(CustomIOSAlertView *alertView, int buttonIndex) {
+                        weakSelf.ishow = NO;
                         if (buttonIndex == 0)
                         {
                             [alertView close];
@@ -133,6 +131,7 @@
                     }];
                 }
             }else{
+                self.ishow = NO;
                 self.hasNewVersion = NO;
                 [viewController.view showSuccessWithMessage:@"已经是最新版本"];
             }

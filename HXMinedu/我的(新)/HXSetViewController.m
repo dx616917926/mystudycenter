@@ -106,6 +106,7 @@
 //        [self.navigationController pushViewController:aboutUsVc animated:YES];
         
         [self.view showLoadingWithMessage:@"清除缓存中……"];
+        //删除sdwebimage的缓存
         [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
             
         }];
@@ -151,6 +152,8 @@
     .bottomSpaceToView(self.logOutBtn, 30);
     
 }
+
+
 
 #pragma mark - lazyLoad
 -(UITableView *)mainTableView{

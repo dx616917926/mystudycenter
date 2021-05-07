@@ -8,10 +8,25 @@
 #import "HXUnPaidDetailCell.h"
 
 @interface HXUnPaidDetailCell ()
-
-@property(nonatomic,strong) UIView *bottomLine;
+@property(nonatomic,strong) UIImageView *bigTopGroundImageView;
 @property(nonatomic,strong) UILabel *paymentNameLabel;
-@property(nonatomic,strong) UILabel *upPaidLabel;//未付金额
+@property(nonatomic,strong) UILabel *paymentStateLabel;
+@property(nonatomic,strong) UIImageView *divisionLine;
+
+//支付金额
+@property(nonatomic,strong) UILabel *paymentAmountLabel;
+@property(nonatomic,strong) UILabel *paymentAmountContentLabel;
+//订单编号
+@property(nonatomic,strong) UILabel *orderNumberLabel;
+@property(nonatomic,strong) UILabel *orderNumberContentLabel;
+//订单时间
+@property(nonatomic,strong) UILabel *orderTimeLabel;
+@property(nonatomic,strong) UILabel *orderTimeContentLabel;
+
+
+@property(nonatomic,strong) UIImageView *smallBottomImageView;
+@property(nonatomic,strong) UIButton *checkBtn;
+
 
 @end
 
@@ -31,6 +46,8 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.contentView.backgroundColor = [UIColor clearColor];
         [self createUI];
     }
     return self;
@@ -38,68 +55,245 @@
 
 -(void)setPaymentDetailModel:(HXPaymentDetailModel *)paymentDetailModel{
     _paymentDetailModel = paymentDetailModel;
-    self.paymentNameLabel.text = HXSafeString(paymentDetailModel.feeType_Name);
-    self.upPaidLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.notPay];
+    self.paymentNameLabel.text = HXSafeString(paymentDetailModel.feeType_Names);
+    self.paymentAmountContentLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.fee];
+    self.orderNumberContentLabel.text = HXSafeString(paymentDetailModel.orderNum);
+    self.orderTimeContentLabel.text = HXSafeString(paymentDetailModel.createDate);
+    
 }
 
--(void)createUI{
-    [self addSubview:self.bottomLine];
-    [self addSubview:self.paymentNameLabel];
-    [self addSubview:self.upPaidLabel];
 
+#pragma mark - UI
+-(void)createUI{
+    [self.contentView addSubview:self.bigTopGroundImageView];
+    [self.bigTopGroundImageView addSubview:self.paymentNameLabel];
+    [self.bigTopGroundImageView addSubview:self.paymentAmountLabel];
+    [self.bigTopGroundImageView addSubview:self.paymentStateLabel];
+    [self.bigTopGroundImageView addSubview:self.divisionLine];
+    [self.bigTopGroundImageView addSubview:self.paymentAmountContentLabel];
+    [self.bigTopGroundImageView addSubview:self.orderNumberLabel];
+    [self.bigTopGroundImageView addSubview:self.orderNumberContentLabel];
+    [self.bigTopGroundImageView addSubview:self.orderTimeLabel];
+    [self.bigTopGroundImageView addSubview:self.orderTimeContentLabel];
     
-    self.bottomLine.sd_layout
-    .bottomEqualToView(self)
-    .leftSpaceToView(self, _kpw(23))
-    .rightSpaceToView(self, _kpw(23))
-    .heightIs(1);
+    [self.contentView addSubview:self.smallBottomImageView];
+    [self.smallBottomImageView addSubview:self.checkBtn];
+    
+    self.bigTopGroundImageView.sd_layout
+    .topEqualToView(self.contentView)
+    .leftSpaceToView(self.contentView, 10)
+    .rightSpaceToView(self.contentView, 10)
+    .heightIs(186);
+    
+    self.paymentStateLabel.sd_layout
+    .topSpaceToView(self.bigTopGroundImageView , 24)
+    .rightSpaceToView(self.bigTopGroundImageView , _kpw(14))
+    .heightIs(22);
+    [self.paymentStateLabel setSingleLineAutoResizeWithMaxWidth:120];
     
     self.paymentNameLabel.sd_layout
-    .leftEqualToView(self.bottomLine).offset(8)
-    .centerYEqualToView(self)
-    .heightIs(20);
-    [self.paymentNameLabel setSingleLineAutoResizeWithMaxWidth:200];
-   
-    self.upPaidLabel.sd_layout
-    .centerYEqualToView(self)
-    .rightEqualToView(self.bottomLine).offset(-8)
+    .topSpaceToView(self.bigTopGroundImageView , 24)
+    .leftSpaceToView(self.bigTopGroundImageView , _kpw(14))
+    .rightSpaceToView(self.paymentStateLabel , _kpw(14))
     .heightIs(22);
-    [self.upPaidLabel setSingleLineAutoResizeWithMaxWidth:150];
+    
+    self.divisionLine.sd_layout
+    .topSpaceToView(self.bigTopGroundImageView, 62)
+    .leftSpaceToView(self.bigTopGroundImageView, _kpw(14))
+    .rightSpaceToView(self.bigTopGroundImageView, _kpw(14))
+    .heightIs(1);
+    
+    
+    self.paymentAmountLabel.sd_layout
+    .topSpaceToView(self.divisionLine, 16)
+    .leftSpaceToView(self.bigTopGroundImageView, _kpw(22))
+    .widthIs(100)
+    .heightIs(20);
+    
+    self.paymentAmountContentLabel.sd_layout
+    .centerYEqualToView(self.paymentAmountLabel)
+    .leftSpaceToView(self.paymentAmountLabel, 5)
+    .rightSpaceToView(self.bigTopGroundImageView, _kpw(22))
+    .heightIs(20);
+    
+    self.orderNumberLabel.sd_layout
+    .topSpaceToView(self.paymentAmountLabel, 10)
+    .leftEqualToView(self.paymentAmountLabel)
+    .rightEqualToView(self.paymentAmountLabel)
+    .heightIs(20);
+    
+    self.orderNumberContentLabel.sd_layout
+    .centerYEqualToView(self.orderNumberLabel)
+    .leftEqualToView(self.paymentAmountContentLabel)
+    .rightEqualToView(self.paymentAmountContentLabel)
+    .heightIs(20);
+    
+    self.orderTimeLabel.sd_layout
+    .topSpaceToView(self.orderNumberLabel, 10)
+    .leftEqualToView(self.paymentAmountLabel)
+    .rightEqualToView(self.paymentAmountLabel)
+    .heightIs(20);
+    
+    self.orderTimeContentLabel.sd_layout
+    .centerYEqualToView(self.orderTimeLabel)
+    .leftEqualToView(self.paymentAmountContentLabel)
+    .rightEqualToView(self.paymentAmountContentLabel)
+    .heightIs(20);
+    
+    
+    
+    self.smallBottomImageView.sd_layout
+    .topSpaceToView(self.bigTopGroundImageView, 0)
+    .leftSpaceToView(self.contentView, 10)
+    .rightSpaceToView(self.contentView, 10)
+    .heightIs(64);
+    
+    
+   
+    self.checkBtn.sd_layout
+    .centerYEqualToView(self.smallBottomImageView)
+    .rightSpaceToView(self.smallBottomImageView, _kpw(22));
+    [self.checkBtn setupAutoSizeWithHorizontalPadding:20 buttonHeight:36];
+    self.checkBtn.sd_cornerRadiusFromHeightRatio = @0.5;
+    
     
 }
 
 #pragma mark - lazyLoad
 
--(UIView *)bottomLine{
-    if (!_bottomLine) {
-        _bottomLine = [[UIView alloc] init];
-        _bottomLine.backgroundColor = COLOR_WITH_ALPHA(0x979797, 0.5);
+-(UIImageView *)bigTopGroundImageView{
+    if (!_bigTopGroundImageView) {
+        _bigTopGroundImageView = [[UIImageView alloc] init];
+        _bigTopGroundImageView.contentMode = UIViewContentModeScaleToFill;
+        _bigTopGroundImageView.clipsToBounds = YES;
+        _bigTopGroundImageView.backgroundColor = [UIColor clearColor];
+        _bigTopGroundImageView.image = [UIImage resizedImageWithName:@"bigtop"];
     }
-    return _bottomLine;
+    return _bigTopGroundImageView;
 }
+
 
 -(UILabel *)paymentNameLabel{
     if (!_paymentNameLabel) {
         _paymentNameLabel = [[UILabel alloc] init];
+        _paymentNameLabel.textColor = COLOR_WITH_ALPHA(0xFE664B, 1);
+        _paymentNameLabel.font = HXBoldFont(16);
         _paymentNameLabel.textAlignment = NSTextAlignmentLeft;
-        _paymentNameLabel.font = HXFont(14);
-        _paymentNameLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _paymentNameLabel.numberOfLines = 2;
-
+        _paymentNameLabel.numberOfLines = 1;
     }
     return _paymentNameLabel;
 }
 
+-(UILabel *)paymentStateLabel{
+    if (!_paymentStateLabel) {
+        _paymentStateLabel = [[UILabel alloc] init];
+        _paymentStateLabel.textColor = COLOR_WITH_ALPHA(0xFE664B, 1);
+        _paymentStateLabel.font = HXBoldFont(16);
+        _paymentStateLabel.textAlignment = NSTextAlignmentRight;
+        _paymentStateLabel.clipsToBounds = YES;
+        _paymentStateLabel.text = @"待付款";
+    }
+    return _paymentStateLabel;
+}
 
--(UILabel *)upPaidLabel{
-    if (!_upPaidLabel) {
-        _upPaidLabel = [[UILabel alloc] init];
-        _upPaidLabel.textAlignment = NSTextAlignmentRight;
-        _upPaidLabel.font = HXBoldFont(14);
-        _upPaidLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+
+-(UIImageView *)divisionLine{
+    if (!_divisionLine) {
+        _divisionLine = [[UIImageView alloc] init];
+        _divisionLine.image = [UIImage imageNamed:@"xidashline"];
+    }
+    return _divisionLine;
+}
+
+-(UILabel *)paymentAmountLabel{
+    if (!_paymentAmountLabel) {
+        _paymentAmountLabel = [[UILabel alloc] init];
+        _paymentAmountLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        _paymentAmountLabel.font = HXFont(14);
+        _paymentAmountLabel.textAlignment = NSTextAlignmentLeft;
+        _paymentAmountLabel.text = @"应缴金额：";
+    }
+    return _paymentAmountLabel;
+}
+
+-(UILabel *)paymentAmountContentLabel{
+    if (!_paymentAmountContentLabel) {
+        _paymentAmountContentLabel = [[UILabel alloc] init];
+        _paymentAmountContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _paymentAmountContentLabel.font = HXFont(14);
+        _paymentAmountContentLabel.textAlignment = NSTextAlignmentRight;
         
     }
-    return _upPaidLabel;
+    return _paymentAmountContentLabel;
+}
+
+-(UILabel *)orderNumberLabel{
+    if (!_orderNumberLabel) {
+        _orderNumberLabel = [[UILabel alloc] init];
+        _orderNumberLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        _orderNumberLabel.font = HXFont(14);
+        _orderNumberLabel.textAlignment = NSTextAlignmentLeft;
+        _orderNumberLabel.text = @"订单编号：";
+    }
+    return _orderNumberLabel;
+}
+
+-(UILabel *)orderNumberContentLabel{
+    if (!_orderNumberContentLabel) {
+        _orderNumberContentLabel = [[UILabel alloc] init];
+        _orderNumberContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _orderNumberContentLabel.font = HXFont(14);
+        _orderNumberContentLabel.textAlignment = NSTextAlignmentRight;
+        
+    }
+    return _orderNumberContentLabel;
+}
+
+-(UILabel *)orderTimeLabel{
+    if (!_orderTimeLabel) {
+        _orderTimeLabel = [[UILabel alloc] init];
+        _orderTimeLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        _orderTimeLabel.font = HXFont(14);
+        _orderTimeLabel.textAlignment = NSTextAlignmentLeft;
+        _orderTimeLabel.text = @"订单时间：";
+    }
+    return _orderTimeLabel;
+}
+
+-(UILabel *)orderTimeContentLabel{
+    if (!_orderTimeContentLabel) {
+        _orderTimeContentLabel = [[UILabel alloc] init];
+        _orderTimeContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _orderTimeContentLabel.font = HXFont(14);
+        _orderTimeContentLabel.textAlignment = NSTextAlignmentRight;
+        
+    }
+    return _orderTimeContentLabel;
+}
+
+
+
+-(UIImageView *)smallBottomImageView{
+    if (!_smallBottomImageView) {
+        _smallBottomImageView = [[UIImageView alloc] init];
+        _smallBottomImageView.image = [UIImage resizedImageWithName:@"smallbottom"];
+        _smallBottomImageView.contentMode = UIViewContentModeScaleToFill;
+        _smallBottomImageView.clipsToBounds = YES;
+        _smallBottomImageView.backgroundColor = [UIColor clearColor];
+    }
+    return _smallBottomImageView;
+}
+
+
+-(UIButton *)checkBtn{
+    if (!_checkBtn) {
+        _checkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _checkBtn.backgroundColor = COLOR_WITH_ALPHA(0xFE664B, 1);
+        _checkBtn .titleLabel.font = HXFont(14);
+        [_checkBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_checkBtn setTitle:@"确认并支付" forState:UIControlStateNormal];
+    }
+    return _checkBtn;
 }
 
 @end

@@ -26,6 +26,7 @@
 
 @property(nonatomic,strong) HXPhotoManager *photoManager;
 
+
 @end
 
 @implementation HXConfirmViewController

@@ -10,13 +10,15 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXPaymentDetailModel : NSObject
+//订单合成名称
+@property(nonatomic, copy) NSString *feeType_Names;
 //名称
 @property(nonatomic, copy) NSString *feeType_Name;
-//总费用
+//应缴
 @property(nonatomic, assign) float fee;
 //单价
 @property(nonatomic, assign) float avgfee;
-//已缴费金额
+//实缴
 @property(nonatomic, assign) float payMoney;
 //未缴费金额
 @property(nonatomic, assign) float notPay;
@@ -26,6 +28,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *orderNum;
 //支付时间
 @property(nonatomic, copy) NSString *feeDate;
+//订单时间
+@property(nonatomic, copy) NSString *createDate;
+//订单类型  -1已支付待确认  1-已完成  0-未完成
+@property(nonatomic, assign) NSInteger orderStatus;
+//收据凭证url
+@property(nonatomic, copy) NSString *receiptUrl;
+//交易凭证url
+@property(nonatomic, copy) NSString *proofUrl;
 
 @end
 

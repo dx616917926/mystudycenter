@@ -35,8 +35,14 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define IsIOS14 ({BOOL isIOS14 = NO; if(@available(iOS 14.0, *)){isIOS14 = YES;}(isIOS14);})
 
-//当前版本号
-#define kCurrentVersion ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"])
+///App名称
+#define    APP_NAME          ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"])
+///App版本
+#define    APP_VERSION       ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"])
+///APP build版本
+#define    APP_BUILDVERSION  ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"])
+///操作系统
+#define    kPlatformName     @"ios"
 
 
 #pragma mark - 新版新定义的常用宏

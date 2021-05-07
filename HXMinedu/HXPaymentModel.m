@@ -11,15 +11,37 @@
 + (NSDictionary *)mj_replacedKeyFromPropertyName
 {
     return @{
-        @"payableAndUnpaidDetailsInfoList" : @"t_PayableAndUnpaidDetailsInfoList_app"
-        
+        @"payableDetailsInfos" : @"t_PayableDetailsInfo_app",
+        @"paidDetailsInfos"    : @"t_PaidDetailsInfo_app"
     };
 }
 
-+ (NSDictionary *)mj_objectClassInArray
-{
++ (NSDictionary *)mj_objectClassInArray{
     return @{
-             @"payableAndUnpaidDetailsInfoList" : @"HXPaymentDetailModel"
-             };
+             @"payableDetailsInfos" : @"HXPaymentDetailsInfoModel",
+             @"paidDetailsInfos" : @"HXPaymentDetailsInfoModel"
+            };
 }
+
+-(NSArray<HXPaymentDetailsInfoModel *> *)payableTypeList{
+    NSMutableArray *modeArray = [NSMutableArray array];
+    [self.payableDetailsInfos enumerateObjectsUsingBlock:^(HXPaymentDetailsInfoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.payableDetailsInfoList.count>0) {
+            [modeArray addObject:obj];
+        }
+    }];
+    return modeArray;
+}
+
+-(NSArray<HXPaymentDetailsInfoModel *> *)paidDetailsTypeList{
+    NSMutableArray *modeArray = [NSMutableArray array];
+    [self.paidDetailsInfos enumerateObjectsUsingBlock:^(HXPaymentDetailsInfoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.paidDetailsOrderInfoList.count>0) {
+            [modeArray addObject:obj];
+        }
+    }];
+    return modeArray;
+}
+
+
 @end

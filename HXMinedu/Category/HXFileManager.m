@@ -38,7 +38,7 @@
     return [manager fileExistsAtPath:path];
 }
 
-+ (void)calculateSizeWithCompletionBlock:(HXFileManagerCalculateSizeBlock)completionBlock {
+	+ (void)calculateSizeWithCompletionBlock:(HXFileManagerCalculateSizeBlock)completionBlock {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     

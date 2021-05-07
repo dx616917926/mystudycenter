@@ -14,7 +14,6 @@
 //默认主题
 #define Default_Theme HXThemeBlue  //蓝色
 
-//#define     KHX_URL_MAIN      @"https://testmd.hlw-study.com"
 
 #define     KP_SERVER_KEY         @"_KHX_URL_MAIN__"
 
@@ -40,7 +39,7 @@
 #define     kHXDevelopLWJEServer    @"http://192.168.1.131:85" //李文军主机
 
 #if kHXCanChangeServer
-#define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? kHXDevelopOPServer : KHXUserDefaultsForValue(KP_SERVER_KEY))
+#define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? kHXDevelopLWJEServer : KHXUserDefaultsForValue(KP_SERVER_KEY))
 #endif
 
 

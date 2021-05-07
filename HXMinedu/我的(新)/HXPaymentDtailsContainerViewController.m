@@ -59,7 +59,7 @@
 
 ///初始化子视图控制器
 - (void)initPageViewController {
-    self.titles = @[@"应缴明细",@"已缴明细",@"未缴明细"];
+    self.titles = @[@"应缴明细",@"全部订单"];
     self.pageViewController = [[XLPageViewController alloc] initWithConfig:self.config];
     self.pageViewController.bounces = NO;
     self.pageViewController.view.frame = CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight);

@@ -242,7 +242,7 @@
         _creditNumLabel.transform = CGAffineTransformMakeRotation(M_PI/5.45);
         _creditNumLabel.transform = CGAffineTransformTranslate(_creditNumLabel.transform ,0, -23);
     }
-    return _creditNumLabel;;
+    return _creditNumLabel;
 }
 
 

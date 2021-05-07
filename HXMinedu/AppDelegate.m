@@ -132,7 +132,7 @@
         NSString * urlNeedJsonStr = url.absoluteString;
         NSArray * afterComStr = [urlNeedJsonStr componentsSeparatedByString:@"?"];
         //  这个decode方法，在上面找哈
-        NSString * lastStr = [self URLDecodedString:afterComStr.lastObject];
+        NSString * lastStr = [HXCommonUtil strDecodedString:afterComStr.lastObject];
         //  这个lastStr，其实是一个jsonStr，转一下，就看到了数据
         NSDictionary * resultDict = [self  dictionaryWithJsonString:lastStr];
         //  和支付宝SDK的返回结果一次，这个ResultStatus，就是我们要的数据
@@ -151,30 +151,22 @@
     return YES;
 }
 
--  (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString
-{
+-  (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString{
     if (jsonString == nil) {
         return nil;
     }
-    
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *err;
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
-    if(err)
-    {
+    if(err){
         NSLog(@"json解析失败：%@",err);
         return nil;
     }
     return dic;
 }
 
-- (NSString*)URLDecodedString:(NSString*)str {
-    NSString *decodedString=(__bridge_transfer NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL, (__bridge CFStringRef)str, CFSTR(""), CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-    
-    return decodedString;
-}
 
 
 @end

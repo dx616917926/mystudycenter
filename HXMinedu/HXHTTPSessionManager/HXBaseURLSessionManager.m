@@ -7,6 +7,7 @@
 //
 
 #import "HXBaseURLSessionManager.h"
+#import "HXCheckUpdateTool.h"
 
 @implementation HXBaseURLSessionManager
 
@@ -17,6 +18,9 @@
     dispatch_once(&onceToken, ^{
         _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:[NSURL URLWithString:KHX_URL_MAIN]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
+        //请求头设置
+        NSString *version = [NSString stringWithFormat:@"%@_%@",kPlatformName,APP_BUILDVERSION];
+        [_sharedClient.requestSerializer  setValue:version forHTTPHeaderField:@"Version"];
         _sharedClient.requestSerializer.timeoutInterval = 10;
        
     });
@@ -42,12 +46,6 @@
                    failure : (void (^)(NSString *message))failure
 {
     HXBaseURLSessionManager *client = [HXBaseURLSessionManager sharedClient];
-//    NSString *token = [HXPublicParamTool sharedInstance].token;
-//    if (token) {
-//        [client.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
-//    }
-    
-
     NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
     
     [parameters setObject:userName forKey:@"username"];
@@ -58,21 +56,24 @@
         
         NSLog(@"请求地址:%@",task.currentRequest.URL);
         NSLog(@"请求参数:%@",parameters);
-        
-        BOOL Success = [dictionary boolValueForKey:@"Success"];
-        
-        if (Success) {
-            
+        if(dictionary){
+            NSString*statusCode = [dictionary stringValueForKey:@"StatusCode"];
+            NSString*message = [dictionary stringValueForKey:@"Message"];
+            if ([statusCode isEqualToString:@"1000"]) {//StatusCode 1000登录失败，1001登录成功
+                failure(nil);
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                }];
+            }else if([statusCode isEqualToString:@"999"]){//999 强制更新
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
+                    [[HXCheckUpdateTool sharedInstance] checkUpdate];
+                }];
+            }
             NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
-            
             NSString *personId = [data stringValueForKey:@"personId"];
-            
             [HXPublicParamTool sharedInstance].personId = personId;
-            
             success(personId);
-            
-        }else
-        {
+        }else{
             failure([dictionary stringValueForKey:@"Message"]);
         }
 
@@ -100,14 +101,19 @@
     [client GET:actionUrlStr parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dictionary) {
         NSLog(@"请求地址:%@",task.currentRequest.URL);
         NSLog(@"请求参数:%@",parameters);
-        if(dictionary)
-        {
-            if ([[dictionary stringValueForKey:@"StatusCode"] isEqualToString:@"1000"]) {//StatusCode 1000登录失败，1001登录成功
+        if(dictionary){
+            NSString*statusCode = [dictionary stringValueForKey:@"StatusCode"];
+            NSString*message = [dictionary stringValueForKey:@"Message"];
+            if ([statusCode isEqualToString:@"1000"]) {//StatusCode 1000登录失败，1001登录成功
                 failure(nil);
-                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:[dictionary stringValueForKey:@"Message"] completionBlock:^{
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
                 }];
-                return;
+            }else if([statusCode isEqualToString:@"999"]){//999 强制更新
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
+                    [[HXCheckUpdateTool sharedInstance] checkUpdate];
+                }];
+
             }
             success(dictionary);
         }else{
@@ -136,14 +142,19 @@
         
         NSLog(@"请求地址:%@",task.currentRequest.URL);
         NSLog(@"请求参数:%@",parameters);
+        NSString*statusCode = [dictionary stringValueForKey:@"StatusCode"];
+        NSString*message = [dictionary stringValueForKey:@"Message"];
         ///回到主线程
         if(dictionary){
-            if ([[dictionary stringValueForKey:@"StatusCode"] isEqualToString:@"1000"]) {
+            if ([statusCode isEqualToString:@"1000"]) {
                 failure(nil);
-                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:[dictionary stringValueForKey:@"Message"] completionBlock:^{
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
                 }];
-                return;
+            }else if([statusCode isEqualToString:@"999"]){//强制更新
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
+                    [[HXCheckUpdateTool sharedInstance] checkUpdate];
+                }];
             }
             success(dictionary);
         }else{
@@ -166,8 +177,7 @@
         BOOL Success = [dictionary boolValueForKey:@"Success"];
         if (Success) {
             NSLog(@"退出登录成功！");
-        }else
-        {
+        }else{
             NSLog(@"退出登录失败！");
         }
     } failure:^(NSError * _Nonnull error) {

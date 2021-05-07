@@ -129,18 +129,14 @@
 
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text = @"430621199908080707";//@"211203199901020308"  @"430621199908080707"   @"222214199809090909" @"430381200306190101"
-    loginView.userNameTextField.text = @"430621199908080707";
+    loginView.passWordTextField.text = @"411261199001013331";//@"430625199608090909"  @"430621199908080707"   @"222214199809090909" @"430381200306190101"
+    loginView.userNameTextField.text = @"411261199001013331";
 #endif
 }
 
 - (void)showAppVersion {
     // app版本
-    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    NSString *app_BundleVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
-    app_Version = [NSString stringWithFormat:@"当前版本：v%@ (%@)",app_Version,app_BundleVersion];
-    
+    NSString *app_Version = [NSString stringWithFormat:@"当前版本：v%@ (%@)",APP_VERSION,APP_BUILDVERSION];
     _versionLabel.text = app_Version;
 }
 

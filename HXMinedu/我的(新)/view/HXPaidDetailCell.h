@@ -9,9 +9,16 @@
 #import "HXPaymentDetailModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
+@class HXPaidDetailCell;
+@protocol HXPaidDetailCellDelegate <NSObject>
+///查看凭证
+-(void)paidDetailCell:(HXPaidDetailCell *)cell checkVoucher:(NSString *)receiptUrl orderStatus:(NSInteger)orderStatus;
+
+@end
 
 @interface HXPaidDetailCell : UITableViewCell
 
+@property(nonatomic,weak) id<HXPaidDetailCellDelegate> delegate;
 @property(nonatomic,strong) HXPaymentDetailModel *paymentDetailModel;
 
 @end

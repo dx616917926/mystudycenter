@@ -118,11 +118,8 @@
     switch (indexPath.row) {
         case 0:{
             cell.textLabel.text = @"检查更新";
-            NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-            
             // app版本
-            NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-            app_Version = [NSString stringWithFormat:@"v%@",app_Version];
+            NSString *app_Version = [NSString stringWithFormat:@"v%@",APP_VERSION];
             cell.detailTextLabel.text = app_Version;
         }
            break;

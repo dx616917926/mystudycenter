@@ -70,11 +70,20 @@ NS_ASSUME_NONNULL_BEGIN
 //获取Banner和Logo
 #define HXPOST_Get_BannerAndLogo                            @"/MD/StuInfo/getBannerAndLogo"
 
-//获取应缴和未缴明细
-#define HXPOST_Get_PayableAndUnpaidDetails                           @"/MD/StuPayInfo/getPayableAndUnpaidDetails"
+//获取应缴明细
+#define HXPOST_Get_PayableDetails                          @"/MD/StuPayInfo/getPayableDetails"
 
 //获取已缴明细
 #define HXPOST_Get_PaidDetails                           @"/MD/StuPayInfo/getPaidDetails"
+
+//获取已缴明细
+#define HXPOST_Get_PaidDetailsInfo                          @"/MD/StuPayInfo/getPaidDetailsInfo"
+
+//获取已缴明细
+#define HXPOST_Get_ConfirmOrder                          @"/MD/StuPayInfo/ConfirmOrder"
+
+//获取已缴明细
+#define HXPOST_UploadProofFile                          @"/MD/StuPayInfo/uploadProofFile"
 
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager

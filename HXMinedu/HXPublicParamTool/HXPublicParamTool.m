@@ -208,7 +208,6 @@
     [self.userDefault removeObjectForKey:@"code"];
     [self.userDefault removeObjectForKey:@"userId"];
     [self.userDefault removeObjectForKey:@"currentYear"];
-    [HXUserDefaults removeObjectForKey:KP_SERVER_KEY];
     [self.userDefault synchronize];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"" object:nil];
