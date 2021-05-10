@@ -31,6 +31,8 @@
 			</array>
 		</dict>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string></string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
@@ -63,6 +65,8 @@
 	<string>保存图片到相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>访问相册</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>此标识符将用于向您发送个性化广告</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

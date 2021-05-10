@@ -115,16 +115,15 @@
 
 #pragma mark - EVent
 -(void)pushPaymentVC:(UIButton *)sender{
-    if (self.paidDetailsInfoModel.payMode_id != 2) {//扫码支付
+    if (self.paidDetailsInfoModel.payMode_id == 2) {//扫码支付
         HXScanCodePaymentViewController *vc = [[HXScanCodePaymentViewController alloc] init];
         vc.orderNum = self.paidDetailsInfoModel.orderNum;
         [self.navigationController pushViewController:vc animated:YES];
     }else{//银联支付
 //        @"https://demo.hlw-study.com/OP.Enroll/EnrollOP/mbPayMWEB?sid=MjY4NA==&rmb=MTAw&aid=MQ==";
-//            @"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx20180115115052bedf091fba0369993002&package=2975002856";
+//        @"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx20180115115052bedf091fba0369993002&package=2975002856";
         HXCommonWebViewController * vc = [[HXCommonWebViewController alloc] init];
         vc.urlString = self.paidDetailsInfoModel.payUrl;
-//
         [self.navigationController pushViewController:vc animated:YES];
     }
     
@@ -173,15 +172,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     HXPaymentDetailsInfoModel *paymentDetailsInfoModel = self.paidDetailsInfoModel.paidDetailsTypeList[indexPath.section];
+    return 90+paymentDetailsInfoModel.paidDetailsOrderInfoList.count*40;
 //    CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
 //                                                         model:paymentDetailsInfoModel keyPath:@"paymentDetailsInfoModel"
 //                                                     cellClass:([HXYingJiaoCell class])
 //                                              contentViewWidth:kScreenWidth];
-//
-//
-//    return rowHeight;
-    
-    return 90+paymentDetailsInfoModel.paidDetailsOrderInfoList.count*40;
+
+
+
 }
 
 

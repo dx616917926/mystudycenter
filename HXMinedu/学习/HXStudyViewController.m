@@ -20,6 +20,7 @@
 #import "HXStudyTableHeaderView.h"
 #import "HXStudyGuideView.h"
 #import "HXNoDataTipView.h"
+#import "HXCourseLearnRecordModel.h"
 #import "HXCourseModel.h"
 #import "HXBannerLogoModel.h"
 #import "SDWebImage.h"
@@ -43,8 +44,11 @@
 
 @property(strong,nonatomic) HXStudyGuideView *studyGuideView;
 
+@property(strong,nonatomic) HXKJCXXCourseListModel *kjxxCourseListtModel;
 //课程数组
 @property (nonatomic, strong) NSArray *courseList;
+
+
 ///是否有分组头
 @property(assign,nonatomic) BOOL isHaveHeader;
 
@@ -158,8 +162,10 @@
 
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
-            self.courseList = [HXCourseModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
-            if (self.courseList.count == 0) {
+            HXCourseLearnRecordModel *courseLearnRecordModel = [HXCourseLearnRecordModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            self.courseList = courseLearnRecordModel.courseInfoList;
+            self.kjxxCourseListtModel = courseLearnRecordModel.kjxxCourseListModel;
+            if (self.courseList.count == 0 && self.kjxxCourseListtModel.nowadaysList.count == 0 && self.kjxxCourseListtModel.yesterdayList.count == 0) {
                 self.noDataTipView.sd_layout.heightIs(_kpw(280));
             }else{
                 self.noDataTipView.sd_layout.heightIs(0);
@@ -324,16 +330,16 @@
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
         return  self.courseList.count;
     }else if (section == 1) {
-        return  2;
+        return  self.kjxxCourseListtModel.nowadaysList.count;
     }else{
-        return  4;
+        return  self.kjxxCourseListtModel.yesterdayList.count;
     }
 }
 
@@ -355,21 +361,21 @@
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (section == 1) {
+    if (section == 1 && self.kjxxCourseListtModel.nowadaysList.count>0) {
         return self.todayView;
-    }else if(section == 2){
+    }else if(section == 2 && self.kjxxCourseListtModel.yesterdayList.count>0){
         return self.yesterdayView;
     }else{
         return nil;
     }
 }
 
-//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    if (section == 0) {
-//        return self.lastLearnView;
-//    }
-//    return nil;
-//}
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    if (section == 0 && (self.kjxxCourseListtModel.nowadaysList.count>0||self.kjxxCourseListtModel.yesterdayList.count>0) ) {
+        return self.lastLearnView;
+    }
+    return nil;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -380,8 +386,8 @@
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == 0) {
-        return 0.01;
+    if (section == 0 && (self.kjxxCourseListtModel.nowadaysList.count>0||self.kjxxCourseListtModel.yesterdayList.count>0)) {
+        return 40;
     }
     return 0.01;
 }
@@ -408,6 +414,11 @@
             cell = [[HXStudyCourseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:studyCourseCellIdentifier];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (indexPath.section == 1) {
+            cell.learnRecordModel = self.kjxxCourseListtModel.nowadaysList[indexPath.row];
+        }else{
+            cell.learnRecordModel = self.kjxxCourseListtModel.yesterdayList[indexPath.row];
+        }
         return cell;
     }
 }

@@ -334,7 +334,6 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
     if (!_bigBackgroundView) {
         _bigBackgroundView = [[UIView alloc] init];
         _bigBackgroundView.clipsToBounds = YES;
-        _bigBackgroundView.backgroundColor = COLOR_WITH_ALPHA(0xFFC258, 1);
     }
     return _bigBackgroundView;
 }
@@ -356,8 +355,6 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
         _zfbBtn.titleLabel.font = HXFont(12);
         [_zfbBtn setTitle:@"支付宝" forState:UIControlStateNormal];
         [_zfbBtn setImage:[UIImage imageNamed:@"zfb_unselect"] forState:UIControlStateNormal];
-        //        objc_setAssociatedObject(_zfbBtn, &deepBackGroundColorKey, COLOR_WITH_ALPHA(0x1677FF, 1), OBJC_ASSOCIATION_COPY_NONATOMIC);
-        //        objc_setAssociatedObject(_zfbBtn, &lightBackGroundColorKey, COLOR_WITH_ALPHA(0x7DAAFF, 1), OBJC_ASSOCIATION_COPY_NONATOMIC);
     }
     return _zfbBtn;
 }
@@ -409,7 +406,6 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
 -(UIView *)bottomView{
     if (!_bottomView) {
         _bottomView = [[UIView alloc] init];
-        _bottomView.backgroundColor = COLOR_WITH_ALPHA(0xFF8324, 1);
     }
     return _bottomView;
 }

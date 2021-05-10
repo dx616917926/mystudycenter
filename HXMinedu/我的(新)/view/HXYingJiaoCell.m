@@ -49,6 +49,7 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.clipsToBounds = YES;
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
         [self createUI];
@@ -167,6 +168,7 @@
     self.middleContainerView.sd_layout.heightIs(40*list.count);
     [self.middleContainerView updateLayout];
     
+   
 }
 
 -(void)createUI{
@@ -280,8 +282,8 @@
     .heightIs(20);
     
     ///设置cell高度自适应
-//    [self setupAutoHeightWithBottomView:self.smallBottomImageView bottomMargin:0];
-    
+    [self setupAutoHeightWithBottomView:self.smallBottomImageView bottomMargin:0];
+   
 }
 
 #pragma mark - lazyLoad

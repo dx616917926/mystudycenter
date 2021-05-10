@@ -210,7 +210,6 @@
     [self.userDefault removeObjectForKey:@"currentYear"];
     [self.userDefault synchronize];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"" object:nil];
 
 }
 

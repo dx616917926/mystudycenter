@@ -124,6 +124,7 @@
         if (success) {
             [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
             self.topUploadBtn.hidden  = YES;
+            self.pictureInfoModel.imgurl = [dictionary stringValueForKey:@"Data"];
             ///通知外部刷新
             if (self.refreshInforBlock) {
                 self.refreshInforBlock();
@@ -139,6 +140,7 @@
 
 #pragma mark - 预览大图
 -(void)tapImageView:(UITapGestureRecognizer *)ges{
+    if([HXCommonUtil isNull:self.pictureInfoModel.imgurl]) return;
     NSMutableArray *photos = [NSMutableArray new];
     GKPhoto *photo = [GKPhoto new];
     photo.url = [NSURL URLWithString:self.pictureInfoModel.imgurl];
@@ -182,7 +184,7 @@
     
     CGFloat actionSheetH  = 100 + kScreenBottomMargin;
     fromView.frame = browser.view.bounds;
-    [browser.view addSubview:fromView];
+    [[UIApplication sharedApplication].keyWindow addSubview:fromView];
     
     UIView *actionSheet = [[UIView alloc] initWithFrame:CGRectMake(0, 0, contentView.bounds.size.width, actionSheetH)];
     actionSheet.backgroundColor = [UIColor whiteColor];
@@ -230,6 +232,8 @@
 
 - (void)photoBrowser:(GKPhotoBrowser *)browser didDisappearAtIndex:(NSInteger)index {
     NSLog(@"浏览器完全消失%@", browser);
+    [self.fromView removeFromSuperview];
+    self.fromView = nil;
 }
 
 

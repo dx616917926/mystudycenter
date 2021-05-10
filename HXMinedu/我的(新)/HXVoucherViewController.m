@@ -85,7 +85,7 @@
 
 
 -(void)tapImageView:(UITapGestureRecognizer *)ges{
-    if (!self.showImageView.image) return;
+    if (![self.downLoadUrl containsString:@".jpeg"]||![self.downLoadUrl containsString:@".jpg"]||![self.downLoadUrl containsString:@".png"]) return;
     NSMutableArray *photos = [NSMutableArray new];
     GKPhoto *photo = [GKPhoto new];
     photo.url = [NSURL URLWithString:self.downLoadUrl];
@@ -157,6 +157,7 @@
     .rightSpaceToView(self.view, _kpw(20))
     .heightIs(45);
     self.downLoadBtn.sd_cornerRadius = @6;
+    [self.downLoadBtn updateLayout];
     
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
     gradientLayer.bounds = self.downLoadBtn.bounds;
@@ -169,19 +170,18 @@
     
     
     
-    if ([self.downLoadUrl hasPrefix:@".pdf"]) {
-//        self.showImageView.image = [self getImageFromPDF];
-    }else{
+    if ([self.downLoadUrl containsString:@".jpeg"]||[self.downLoadUrl containsString:@".jpg"]||[self.downLoadUrl containsString:@".png"]) {
         [self.showImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.downLoadUrl)] placeholderImage:nil];
+    }else{
+        [self.showImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"ziliao_icon"]];
     }
-    
 }
 
 -(UIImageView *)showImageView{
     if (!_showImageView) {
         _showImageView = [[UIImageView alloc] init];
         _showImageView.userInteractionEnabled = YES;
-//        _showImageView.image = [UIImage imageNamed:@"ziliao_icon"];
+        
         _showImageView.contentMode = UIViewContentModeScaleAspectFit;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
         [_showImageView addGestureRecognizer:tap];
@@ -195,7 +195,6 @@
         _downLoadBtn.titleLabel.font = HXBoldFont(18);
         [_downLoadBtn setTitle:(self.orderStatus == 1? @"下载收据凭证":@"下载交易凭证") forState:UIControlStateNormal];
         [_downLoadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _downLoadBtn.backgroundColor = COLOR_WITH_ALPHA(0x4BA4FE, 1);
         [_downLoadBtn addTarget:self action:@selector(downLoad:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _downLoadBtn;

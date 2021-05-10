@@ -70,7 +70,7 @@
                 }];
             }
             NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
-            NSString *personId = [data stringValueForKey:@"personId"];
+            NSString *personId = [data objectForKey:@"personId"];
             [HXPublicParamTool sharedInstance].personId = personId;
             success(personId);
         }else{
@@ -164,7 +164,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"请求地址:%@",task.currentRequest.URL);
         NSLog(@"请求参数:%@",parameters);
-        NSHTTPURLResponse* response = (NSHTTPURLResponse*)task.response;
+        NSHTTPURLResponse *response = (NSHTTPURLResponse*)task.response;
         NSLog(@"接口错误信息%@",response);
         failure(error);
     }];

@@ -7,6 +7,7 @@
 
 #import "HXStudyCourseCell.h"
 #import "HXGradientProgressView.h"
+#import "SDWebImage.h"
 
 @interface HXStudyCourseCell ()
 
@@ -44,6 +45,20 @@
         [self createUI];
     }
     return self;
+}
+
+-(void)setLearnRecordModel:(HXLearnRecordModel *)learnRecordModel{
+    _learnRecordModel = learnRecordModel;
+    
+    self.courseLabel.text = HXSafeString(learnRecordModel.courseName);
+    self.jingpinLabel.text = HXSafeString(learnRecordModel.mark1);
+    self.learnTimeLabel.text = [NSString stringWithFormat:@"已学：%ld分钟/%ld分钟",(long)learnRecordModel.learnDuration,(long)learnRecordModel.learnTime];
+    if (learnRecordModel.learnTime == 0) {
+        self.gradientProgressView.progress = 0;
+    }else{
+        self.gradientProgressView.progress = (learnRecordModel.learnDuration*1.0/learnRecordModel.learnTime);
+    }
+    [self.courseImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(learnRecordModel.imgUrl)] placeholderImage:nil];
 }
 
 #pragma mark - UI
@@ -103,7 +118,9 @@
     
     self.gradientProgressView.sd_layout
     .topSpaceToView(self.courseImageView, 13)
-    .leftEqualToView(self.courseImageView);
+    .leftEqualToView(self.courseImageView)
+    .widthIs(_kpw(295))
+    .heightIs(18);
     [self.gradientProgressView updateLayout];
     
     
@@ -139,7 +156,7 @@
         _courseLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _courseLabel.font = HXFont(16);
         _courseLabel.textAlignment = NSTextAlignmentLeft;
-        _courseLabel.text = @"毛泽东思想邓小平理论和三个代表";
+       
     }
     return _courseLabel;
 }
@@ -166,7 +183,6 @@
         _jingpinLabel.textColor = COLOR_WITH_ALPHA(0xffffff, 1);
         _jingpinLabel.font = HXFont(12);
         _jingpinLabel.textAlignment = NSTextAlignmentCenter;
-        _jingpinLabel.text = @"职业资格精品课";
     }
     return _jingpinLabel;
 }
@@ -177,7 +193,6 @@
         _learnTimeLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _learnTimeLabel.font = HXFont(12);
         _learnTimeLabel.textAlignment = NSTextAlignmentLeft;
-        _learnTimeLabel.text = @"已学：9分钟/159分钟";
     }
     return _learnTimeLabel;
 }

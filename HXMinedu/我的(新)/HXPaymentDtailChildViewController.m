@@ -182,13 +182,15 @@
     
      if(self.flag == 1){
         HXPaymentDetailsInfoModel *paymentDetailsInfoModel = self.yinJiaopaymentModel.payableTypeList[indexPath.section];
-        CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
-                                                             model:paymentDetailsInfoModel keyPath:@"paymentDetailsInfoModel"
-                                                         cellClass:([HXYingJiaoCell class])
-                                                  contentViewWidth:kScreenWidth];
+//        return 90+paymentDetailsInfoModel.payableDetailsInfoList.count*40;
+         CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                              model:paymentDetailsInfoModel keyPath:@"paymentDetailsInfoModel"
+                                                          cellClass:([HXYingJiaoCell class])
+                                                   contentViewWidth:kScreenWidth];
 
 
-        return rowHeight;
+         return rowHeight;
+
     }else{
         HXPaymentDetailModel *paymentDetailModel = self.paidDetailsList[indexPath.section];
         //-1已支付待确认 1-已完成 0-未完成
