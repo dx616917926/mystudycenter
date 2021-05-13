@@ -58,7 +58,7 @@
     }else{
         self.gradientProgressView.progress = (learnRecordModel.learnDuration*1.0/learnRecordModel.learnTime);
     }
-    [self.courseImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(learnRecordModel.imgUrl)] placeholderImage:nil];
+    [self.courseImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:learnRecordModel.imgUrl]] placeholderImage:nil];
 }
 
 #pragma mark - UI

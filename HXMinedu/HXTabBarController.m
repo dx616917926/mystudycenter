@@ -36,6 +36,15 @@
 
 - (void)showLogin{
     
+    //重置选择，默认选择第一个
+    if ([self.selectedViewController isKindOfClass:[HXNavigationController class]]) {
+        HXNavigationController *nav = self.selectedViewController;
+        [nav popToRootViewControllerAnimated:NO];
+        NSLog(@"%@",nav);
+        self.selectedIndex = 0;
+    }
+    
+    
     //删除用户名密码
     [[HXPublicParamTool sharedInstance] logOut];
     

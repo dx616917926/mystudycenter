@@ -42,7 +42,7 @@
 
 + (void)doLoginWithUserName:(NSString *)userName
                 andPassword:(NSString *)pwd
-                   success : (void (^)(NSString *personId))success
+                   success : (void (^)(NSDictionary* dictionary))success
                    failure : (void (^)(NSString *message))failure
 {
     HXBaseURLSessionManager *client = [HXBaseURLSessionManager sharedClient];
@@ -60,7 +60,6 @@
             NSString*statusCode = [dictionary stringValueForKey:@"StatusCode"];
             NSString*message = [dictionary stringValueForKey:@"Message"];
             if ([statusCode isEqualToString:@"1000"]) {//StatusCode 1000登录失败，1001登录成功
-                failure(nil);
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
                 }];
@@ -72,9 +71,9 @@
             NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
             NSString *personId = [data objectForKey:@"personId"];
             [HXPublicParamTool sharedInstance].personId = personId;
-            success(personId);
+            success(dictionary);
         }else{
-            failure([dictionary stringValueForKey:@"Message"]);
+            failure(nil);
         }
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -105,7 +104,6 @@
             NSString*statusCode = [dictionary stringValueForKey:@"StatusCode"];
             NSString*message = [dictionary stringValueForKey:@"Message"];
             if ([statusCode isEqualToString:@"1000"]) {//StatusCode 1000登录失败，1001登录成功
-                failure(nil);
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
                 }];
@@ -144,10 +142,9 @@
         NSLog(@"请求参数:%@",parameters);
         NSString*statusCode = [dictionary stringValueForKey:@"StatusCode"];
         NSString*message = [dictionary stringValueForKey:@"Message"];
-        ///回到主线程
+
         if(dictionary){
             if ([statusCode isEqualToString:@"1000"]) {
-                failure(nil);
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
                 }];

@@ -95,8 +95,6 @@
                 self.mainTableView.tableHeaderView = nil;
             }
             [self.mainTableView reloadData];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.mainTableView.mj_header endRefreshing];
@@ -124,8 +122,6 @@
                 [self.noDataTipView removeFromSuperview];
             }
             [self.mainTableView reloadData];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.mainTableView.mj_header endRefreshing];
@@ -182,14 +178,14 @@
     
      if(self.flag == 1){
         HXPaymentDetailsInfoModel *paymentDetailsInfoModel = self.yinJiaopaymentModel.payableTypeList[indexPath.section];
-//        return 90+paymentDetailsInfoModel.payableDetailsInfoList.count*40;
-         CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
-                                                              model:paymentDetailsInfoModel keyPath:@"paymentDetailsInfoModel"
-                                                          cellClass:([HXYingJiaoCell class])
-                                                   contentViewWidth:kScreenWidth];
-
-
-         return rowHeight;
+        return 90+paymentDetailsInfoModel.payableDetailsInfoList.count*40;
+//         CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+//                                                              model:paymentDetailsInfoModel keyPath:@"paymentDetailsInfoModel"
+//                                                          cellClass:([HXYingJiaoCell class])
+//                                                   contentViewWidth:kScreenWidth];
+//
+//
+//         return rowHeight;
 
     }else{
         HXPaymentDetailModel *paymentDetailModel = self.paidDetailsList[indexPath.section];

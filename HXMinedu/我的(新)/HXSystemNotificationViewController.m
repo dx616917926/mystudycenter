@@ -57,8 +57,6 @@
                 [self.noDataTipView removeFromSuperview];
             }
             [self.mainTableView reloadData];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.mainTableView.mj_header endRefreshing];
@@ -84,7 +82,6 @@
         }else{
             self.currentPage--;
             [self.mainTableView.mj_footer endRefreshing];
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         self.currentPage--;

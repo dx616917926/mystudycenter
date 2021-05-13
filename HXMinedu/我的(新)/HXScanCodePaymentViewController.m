@@ -9,8 +9,10 @@
 #import "HXUpLoadVoucherViewController.h"
 #import "HXScanCodePaymentModel.h"
 #import "SDWebImage.h"
+#import "GKPhotoBrowser.h"
+#import "GKCover.h"
 
-@interface HXScanCodePaymentViewController ()
+@interface HXScanCodePaymentViewController ()<GKPhotoBrowserDelegate>
 
 @property(nonatomic,strong) UIScrollView * mainScrollView;
 @property(nonatomic,strong) UILabel *paymentMoneyLabel;
@@ -34,6 +36,10 @@
 @property(nonatomic,strong) UIButton *paymentBtn;
 
 @property(nonatomic,strong) HXScanCodePaymentModel *scanCodePaymentModel;
+/** 这里用weak是防止GKPhotoBrowser被强引用，导致不能释放 */
+@property (nonatomic, weak) GKPhotoBrowser *browser;
+@property (nonatomic, weak) UIView *fromView;
+@property (nonatomic, weak) UIView *actionSheet;
 
 @end
 
@@ -68,8 +74,6 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
             //刷新数据
             self.scanCodePaymentModel = [HXScanCodePaymentModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
             [self refreshUI];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         
@@ -156,11 +160,11 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
             [btn setTitleColor:COLOR_WITH_ALPHA(0x2D2C2D, 1) forState:UIControlStateNormal];
             if ([[self.selectBtn titleForState:UIControlStateNormal] isEqualToString:@"支付宝"]) {
                 [btn setImage:[UIImage imageNamed:@"zfb_select"] forState:UIControlStateNormal];
-                [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.alipay_code)] placeholderImage:nil];
+                [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.alipay_code)] placeholderImage:nil options:SDWebImageRefreshCached];
 
             }else if ([[self.selectBtn titleForState:UIControlStateNormal] isEqualToString:@"微信"]) {
                 [btn setImage:[UIImage imageNamed:@"weixin_select"] forState:UIControlStateNormal];
-                [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.weixinpay_code)] placeholderImage:nil];
+                [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.weixinpay_code)] placeholderImage:nil options:SDWebImageRefreshCached];
             }else{
                 [btn setImage:[UIImage imageNamed:@"qita_select"] forState:UIControlStateNormal];
 
@@ -192,6 +196,120 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
         }
         
     }];
+}
+
+-(void)tapImageView:(UITapGestureRecognizer *)ges{
+    NSMutableArray *photos = [NSMutableArray new];
+    GKPhoto *photo = [GKPhoto new];
+    photo.image = self.qRCodeImageView.image;
+    photo.sourceImageView =(UIImageView *)ges.view;
+    [photos addObject:photo];
+    [self.browser resetPhotoBrowserWithPhotos:photos];
+    [self.browser showFromVC:self];
+    
+}
+
+- (void)saveBtnClick:(id)sender {
+    [GKCover hideCover];
+    GKPhotoView *photoView = self.browser.curPhotoView;
+    NSData *imageData = [photoView.imageView.image sd_imageData];
+    if (!imageData) return;
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        if (@available(iOS 9, *)) {
+            PHAssetCreationRequest *request = [PHAssetCreationRequest creationRequestForAsset];
+            [request addResourceWithType:PHAssetResourceTypePhoto data:imageData options:nil];
+            request.creationDate = [NSDate date];
+        }
+    } completionHandler:^(BOOL success, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (success) {
+                [[UIApplication sharedApplication].keyWindow showTostWithMessage:@"图片保存成功"];
+            } else if (error) {
+                [[UIApplication sharedApplication].keyWindow showTostWithMessage:@"图片保存失败"];
+            }
+        });
+    }];
+}
+
+
+- (void)cancelBtnClick:(id)sender {
+    [GKCover hideCover];
+}
+
+
+#pragma mark - <GKPhotoBrowserDelegate>
+- (void)photoBrowser:(GKPhotoBrowser *)browser longPressWithIndex:(NSInteger)index {
+    
+    if (self.fromView) return;
+    if (browser.currentOrientation == UIDeviceOrientationPortraitUpsideDown) return;
+    
+    UIView *contentView = browser.contentView;
+    
+    UIView *fromView = [UIView new];
+    fromView.backgroundColor = [UIColor clearColor];
+    self.fromView = fromView;
+    
+    CGFloat actionSheetH  = 100 + kScreenBottomMargin;
+    fromView.frame = browser.view.bounds;
+    [[UIApplication sharedApplication].keyWindow addSubview:fromView];
+    
+    UIView *actionSheet = [[UIView alloc] initWithFrame:CGRectMake(0, 0, contentView.bounds.size.width, actionSheetH)];
+    actionSheet.backgroundColor = [UIColor whiteColor];
+    self.actionSheet = actionSheet;
+    
+    
+    UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, actionSheet.width, 50)];
+    [saveBtn setTitle:@"保存图片" forState:UIControlStateNormal];
+    [saveBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [saveBtn addTarget:self action:@selector(saveBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    saveBtn.backgroundColor = [UIColor whiteColor];
+    [actionSheet addSubview:saveBtn];
+    
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 50, actionSheet.width, 50)];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn addTarget:self action:@selector(cancelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    cancelBtn.backgroundColor = [UIColor whiteColor];
+    [actionSheet addSubview:cancelBtn];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, actionSheet.width, 0.5)];
+    lineView.backgroundColor = COLOR_WITH_ALPHA(0x979797, 1);
+    [actionSheet addSubview:lineView];
+    
+    
+    [GKCover coverFrom:fromView
+           contentView:actionSheet
+                 style:GKCoverStyleTranslucent
+             showStyle:GKCoverShowStyleBottom
+         showAnimStyle:GKCoverShowAnimStyleBottom
+         hideAnimStyle:GKCoverHideAnimStyleBottom
+              notClick:NO
+             showBlock:nil
+             hideBlock:^{
+        [self.fromView removeFromSuperview];
+        self.fromView = nil;
+    }];
+}
+
+
+
+- (void)photoBrowser:(GKPhotoBrowser *)browser onDeciceChangedWithIndex:(NSInteger)index isLandscape:(BOOL)isLandscape {
+    [GKCover hideCover];
+}
+
+- (void)photoBrowser:(GKPhotoBrowser *)browser didDisappearAtIndex:(NSInteger)index {
+    NSLog(@"浏览器完全消失%@", browser);
+    [self.fromView removeFromSuperview];
+    self.fromView = nil;
+}
+
+
+
+
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
 }
 
 #pragma mark - UI
@@ -292,6 +410,24 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
 
 
 #pragma mark - LazyLoad
+-(GKPhotoBrowser *)browser{
+    if (!_browser) {
+        _browser = [GKPhotoBrowser photoBrowserWithPhotos:[NSArray array] currentIndex:0];
+        _browser.showStyle = GKPhotoBrowserShowStyleZoom;        // 缩放显示
+        _browser.hideStyle = GKPhotoBrowserHideStyleZoomScale;   // 缩放隐藏
+        _browser.loadStyle = GKPhotoBrowserLoadStyleIndeterminateMask; // 不明确的加载方式带阴影
+        _browser.maxZoomScale = 5.0f;
+        _browser.doubleZoomScale = 2.0f;
+        _browser.isAdaptiveSafeArea = YES;
+        _browser.hidesCountLabel = YES;
+        _browser.pageControl.hidden = YES;
+        _browser.isScreenRotateDisabled = YES;
+        _browser.isHideSourceView = NO;
+        _browser.delegate = self;
+        
+    }
+    return _browser;
+}
 -(NSMutableArray *)btnArray{
     if (!_btnArray) {
         _btnArray = [NSMutableArray array];
@@ -399,6 +535,9 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
     if (!_qRCodeImageView) {
         _qRCodeImageView = [[UIImageView alloc] init];
         _qRCodeImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _qRCodeImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
+        [_qRCodeImageView addGestureRecognizer:tap];
     }
     return _qRCodeImageView;
 }

@@ -146,10 +146,9 @@
             
             [self.view hideLoading];
             
-        }else
-        {
+        }else{
             [self setRequestFiledView];
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
+
         }
         
         //结束刷新状态

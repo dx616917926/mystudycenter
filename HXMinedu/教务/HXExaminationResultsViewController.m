@@ -51,8 +51,6 @@
             self.selectExamDateModel = self.examDateList.firstObject;
             self.selectExamDateModel.isSelected = YES;
             [self refreshUI];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
     

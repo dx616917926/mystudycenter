@@ -282,7 +282,7 @@
     .heightIs(20);
     
     ///设置cell高度自适应
-    [self setupAutoHeightWithBottomView:self.smallBottomImageView bottomMargin:0];
+//    [self setupAutoHeightWithBottomView:self.smallBottomImageView bottomMargin:0];
    
 }
 

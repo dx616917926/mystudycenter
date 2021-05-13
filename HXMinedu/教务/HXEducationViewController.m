@@ -79,9 +79,8 @@
             majorModel.isSelected = YES;
             ///刷新导航数据
             [self refreshNavBarData];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
+        
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];
     }];
@@ -102,8 +101,6 @@
             self.courseTypeList = [HXCourseTypeModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             ///初始化子视图控制器
             [self initPageViewController];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];

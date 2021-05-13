@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSInteger learnTime;
 //已学时间
 @property(nonatomic, assign) NSInteger learnDuration;
+//新课件系统的参数
+@property(nonatomic, strong) NSDictionary *cws_param;
 
 @end
 

@@ -208,6 +208,7 @@
     [self.userDefault removeObjectForKey:@"code"];
     [self.userDefault removeObjectForKey:@"userId"];
     [self.userDefault removeObjectForKey:@"currentYear"];
+    
     [self.userDefault synchronize];
     
 

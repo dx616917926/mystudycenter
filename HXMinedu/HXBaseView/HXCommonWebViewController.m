@@ -204,6 +204,8 @@ static NSString * const kFunctionName      =   @"callFunctionName";
             //  判断一下，是否安装了支付宝APP（也就是看看能不能打开这个URL）
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:finalStr]]) {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:finalStr]];
+            }else{
+                [self.view showTostWithMessage:@"未安装支付宝APP"];
             }
         });
         

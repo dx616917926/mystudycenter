@@ -85,14 +85,16 @@
 
 
 -(void)tapImageView:(UITapGestureRecognizer *)ges{
-    if (![self.downLoadUrl containsString:@".jpeg"]||![self.downLoadUrl containsString:@".jpg"]||![self.downLoadUrl containsString:@".png"]) return;
-    NSMutableArray *photos = [NSMutableArray new];
-    GKPhoto *photo = [GKPhoto new];
-    photo.url = [NSURL URLWithString:self.downLoadUrl];
-    photo.sourceImageView =(UIImageView *)ges.view;
-    [photos addObject:photo];
-    [self.browser resetPhotoBrowserWithPhotos:photos];
-    [self.browser showFromVC:self];
+    if ([self.downLoadUrl containsString:@".jpeg"]||[self.downLoadUrl containsString:@".jpg"]||[self.downLoadUrl containsString:@".png"]){
+        NSMutableArray *photos = [NSMutableArray new];
+        GKPhoto *photo = [GKPhoto new];
+        photo.url = [NSURL URLWithString:self.downLoadUrl];
+        photo.sourceImageView =(UIImageView *)ges.view;
+        [photos addObject:photo];
+        [self.browser resetPhotoBrowserWithPhotos:photos];
+        [self.browser showFromVC:self];
+    }
+    
 }
 
 -(GKPhotoBrowser *)browser{
@@ -127,8 +129,6 @@
         if (success) {
             self.downLoadUrl = [dictionary objectForKey:@"Data"];
             
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         

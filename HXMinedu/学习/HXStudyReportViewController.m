@@ -48,8 +48,6 @@
         if (success) {
             self.studyReportModel = [HXStudyReportModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
             [self refreshUI];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];

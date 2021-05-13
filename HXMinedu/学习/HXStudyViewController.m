@@ -123,12 +123,61 @@
 #pragma mark - 网络请求
 //获取报考类型专业列表
 -(void)getVersionandMajorList{
+    [self.mainTableView setContentOffset:CGPointZero animated:NO];
     [self.view showLoading];
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_Version_Major_List withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
         [self.mainTableView.mj_header endRefreshing];
         [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
+            
+            //            if ([HXPublicParamTool sharedInstance].versionList.count>0) {//原来有值
+            //                //保持原来选中的
+            //                __block HXVersionModel *selectVersionModel;
+            //                __block HXMajorModel *selectMajorModel;
+            //                [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            //                    HXVersionModel *versionModel = obj;
+            //                    if (versionModel.isSelected) {
+            //                        selectVersionModel = versionModel;
+            //                        [versionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            //                            if (obj.isSelected) {
+            //                                selectMajorModel = obj;
+            //                                *stop = YES;
+            //                                return;
+            //                            }
+            //                        }];
+            //                        *stop = YES;
+            //                        return;
+            //                    }
+            //                }];
+            //                //重新赋值
+            //                [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            //                [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            //                    HXVersionModel *versionModel = obj;
+            //                    if ([versionModel.versionId isEqualToString:selectVersionModel.versionId]&&[versionModel.versionName isEqualToString:selectVersionModel.versionName]&&versionModel.type==selectVersionModel.type) {
+            //                        versionModel.isSelected = YES;
+            //                        [versionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            //                            if ([obj.major_id isEqualToString:selectMajorModel.major_id]&&[obj.versionId isEqualToString:selectMajorModel.versionId]&&obj.type==selectMajorModel.type) {
+            //                                obj.isSelected = YES;
+            //                                *stop = YES;
+            //                                return;
+            //                            }
+            //                        }];
+            //                        *stop = YES;
+            //                        return;
+            //                    }
+            //                }];
+            //            }else{
+            //                //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
+            //                [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            //                ///默认选择第一个
+            //                HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList.firstObject;
+            //                model.isSelected = YES;
+            //                HXMajorModel *majorModel = model.majorList.firstObject;
+            //                majorModel.isSelected = YES;
+            //            }
+            
+            
             //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
             [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             ///默认选择第一个
@@ -140,8 +189,6 @@
             [self refreshNavBarData];
             ///发出<<报考类型专业改变>>通知
             [[NSNotificationCenter defaultCenter] postNotificationName:VersionAndMajorChangeNotification object:self];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.mainTableView.mj_header endRefreshing];
@@ -159,7 +206,7 @@
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_Course_List withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-
+        
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             HXCourseLearnRecordModel *courseLearnRecordModel = [HXCourseLearnRecordModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
@@ -172,11 +219,9 @@
             }
             [self.noDataTipView updateLayout];
             [self.mainTableView reloadData];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
-    
+        
     }];
 }
 
@@ -190,7 +235,7 @@
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_BannerAndLogo withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-
+        
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.bannerLogoModel = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
@@ -202,14 +247,28 @@
                 [imageURLStringsGroup addObject:encodeStr];
             }];
             self.studyTableHeaderView.bannerView.imageURLStringsGroup = imageURLStringsGroup;
-            [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:HXSafeString(self.bannerLogoModel.logoUrl)]] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
+            [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:self.bannerLogoModel.logoUrl]] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
         }
+        
     } failure:^(NSError * _Nonnull error) {
         
     }];
 }
+
+//获取登录状态
+-(void)getLoginStatus:(void (^)(BOOL status))finishBlock{
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetLoginStatus withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            finishBlock(YES);
+        }else{
+            finishBlock(NO);
+        }
+    } failure:^(NSError * _Nonnull error) {
+        finishBlock(NO);
+    }];
+}
+
 
 #pragma mark -  下拉刷新,重新获取报考类型专业列表
 -(void)pullDownRefrsh{
@@ -238,7 +297,7 @@
         
     }];
     
-   
+    
     //获取教学计划列表
     [self getCourseList];
     //获取Banner和Logo
@@ -269,17 +328,22 @@
         case HXKeJianXueXiClickType://课件学习
         {
             if ([item.Type isEqualToString:@"1"]) {
-                //课件学习模块
-                TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                if (@available(iOS 13.0, *)) {
-                    playerVC.barStyle = UIStatusBarStyleDarkContent;
-                } else {
-                    playerVC.barStyle = UIStatusBarStyleDefault;
-                }
-                playerVC.cws_param = item.cws_param;
-                playerVC.barStyle = UIStatusBarStyleDefault;
-                playerVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:playerVC animated:YES];
+                //课件学习模块,先判断登陆状态
+                [self getLoginStatus:^(BOOL status) {
+                    if (status) {
+                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                        if (@available(iOS 13.0, *)) {
+                            playerVC.barStyle = UIStatusBarStyleDarkContent;
+                        } else {
+                            playerVC.barStyle = UIStatusBarStyleDefault;
+                        }
+                        playerVC.cws_param = item.cws_param;
+                        playerVC.barStyle = UIStatusBarStyleDefault;
+                        playerVC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:playerVC animated:YES];
+                    }
+                }];
+                
                 
             }else if ([item.Type isEqualToString:@"2"]) {
                 //考试模块
@@ -291,24 +355,29 @@
             }else{
                 [self.view showTostWithMessage:@"暂不支持此模块"];
             }
-           
+            
         }
             break;
         case HXPingShiZuoYeClickType://平时作业
         case HXQiMoKaoShiClickType://期末考试
         {
             if ([item.Type isEqualToString:@"1"]) {
-                //课件学习模块
-                TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                if (@available(iOS 13.0, *)) {
-                    playerVC.barStyle = UIStatusBarStyleDarkContent;
-                } else {
-                    playerVC.barStyle = UIStatusBarStyleDefault;
-                }
-                playerVC.cws_param = item.cws_param;
-                playerVC.barStyle = UIStatusBarStyleDefault;
-                playerVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:playerVC animated:YES];
+                //课件学习模块,先判断登陆状态
+                [self getLoginStatus:^(BOOL status) {
+                    if (status) {
+                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                        if (@available(iOS 13.0, *)) {
+                            playerVC.barStyle = UIStatusBarStyleDarkContent;
+                        } else {
+                            playerVC.barStyle = UIStatusBarStyleDefault;
+                        }
+                        playerVC.cws_param = item.cws_param;
+                        playerVC.barStyle = UIStatusBarStyleDefault;
+                        playerVC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:playerVC animated:YES];
+                    }
+                }];
+                
                 
             }else if ([item.Type isEqualToString:@"2"]) {
                 //考试模块
@@ -348,16 +417,16 @@
     if (indexPath.section == 0) {
         HXCourseModel *courseModel = self.courseList[indexPath.row];
         CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
-                                                             model:courseModel keyPath:@"courseModel"
-                                                         cellClass:([HXCourseLearnCell class])
-                                                  contentViewWidth:kScreenWidth];
+                                                        model:courseModel keyPath:@"courseModel"
+                                                    cellClass:([HXCourseLearnCell class])
+                                             contentViewWidth:kScreenWidth];
         return rowHeight;
     }else{
         return 160;
     }
     return 0;
     
-
+    
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -379,10 +448,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    if (section == 0) {
-        return  0.01;
+    if (section == 1 && self.kjxxCourseListtModel.nowadaysList.count>0) {
+        return 40;
+    }else if(section == 2 && self.kjxxCourseListtModel.yesterdayList.count>0){
+        return 40;
     }else{
-        return  40;
+        return 0.01;
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -423,6 +494,35 @@
     }
 }
 
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //课件学习模块,先判断登陆状态
+    [self getLoginStatus:^(BOOL status) {
+        if (status) {
+            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+            if (@available(iOS 13.0, *)) {
+                playerVC.barStyle = UIStatusBarStyleDarkContent;
+            } else {
+                playerVC.barStyle = UIStatusBarStyleDefault;
+            }
+            playerVC.barStyle = UIStatusBarStyleDefault;
+            playerVC.hidesBottomBarWhenPushed = YES;
+            if (indexPath.section == 1) {
+                HXLearnRecordModel *learnRecordModel = self.kjxxCourseListtModel.nowadaysList[indexPath.row];
+                if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
+                playerVC.cws_param = learnRecordModel.cws_param;
+                [self.navigationController pushViewController:playerVC animated:YES];
+            }else if(indexPath.section == 2){
+                HXLearnRecordModel *learnRecordModel = self.kjxxCourseListtModel.yesterdayList[indexPath.row];
+                if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
+                playerVC.cws_param = learnRecordModel.cws_param;
+                [self.navigationController pushViewController:playerVC animated:YES];
+            }
+        }
+    }];
+}
+
 #pragma mark - UI
 -(void)createUI{
     self.sc_navigationBar.leftBarButtonItem = nil;
@@ -439,7 +539,7 @@
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
     // 设置自动切换透明度(在导航栏下面自动隐藏)
     header.automaticallyChangeAlpha = YES;
-     //设置header
+    //设置header
     self.mainTableView.mj_header = header;
     
     
@@ -509,9 +609,9 @@
         .centerXEqualToView(_studyTableFooterView)
         .widthIs(kScreenWidth)
         .heightIs(48);
-
+        
         [_studyTableFooterView setupAutoHeightWithBottomView:self.logoImageView bottomMargin:30];
-     
+        
     }
     return _studyTableFooterView;
 }
@@ -600,13 +700,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

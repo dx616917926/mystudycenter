@@ -85,6 +85,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取已缴明细
 #define HXPOST_UploadProofFile                          @"/MD/StuPayInfo/uploadProofFile"
 
+//获取登录状态
+#define HXPOST_GetLoginStatus                          @"/MD/LoginInfo/getLoginStatus"
+
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 
@@ -100,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)doLoginWithUserName:(NSString *)userName
                 andPassword:(NSString *)pwd
-                    success:(void (^)(NSString *personId))success
+                    success:(void (^)(NSDictionary* dictionary))success
                     failure:(void (^)(NSString *messsage))failure;
 
 /**

@@ -86,9 +86,6 @@
             NSDictionary *dic = [[dictionary objectForKey:@"Data"] firstObject];
             self.stuInfoModel = [HXStudentInfoModel mj_objectWithKeyValues:dic];
             [self refreTopHeaderUI];
-            
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         
@@ -105,8 +102,6 @@
         if (success) {
             self.majorList = [HXMajorModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             [self refreshMajorUI];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.mainScrollView.mj_header endRefreshing];
@@ -130,8 +125,6 @@
             HXBannerLogoModel *model = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
             [HXPublicParamTool sharedInstance].jiGouLogoUrl = HXSafeString(model.logoUrl);
             [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(model.logoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
     

@@ -38,11 +38,9 @@
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [HXPublicParamTool sharedInstance].privacyUrl = HXSafeString([dictionary objectForKey:@"Data"]);
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
-       
+        
     }];
 }
 
@@ -57,7 +55,7 @@
     }
     
     [self.view addSubview:mainView];
-
+    
     CGFloat margin = 10;
     //小尺寸屏幕适配
     CGFloat offset = 0;
@@ -74,7 +72,7 @@
     login_icon.userInteractionEnabled = YES;
     [mainView addSubview:login_icon];
     
-
+    
     
     [login_icon mas_makeConstraints:^(MASConstraintMaker *make) {
         //
@@ -109,28 +107,43 @@
         make.height.mas_equalTo(28);
     }];
     
-//    //双击显示版本号
-//    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppVersion)];
-//    doubleTap.numberOfTapsRequired = 2;
-//    [login_icon addGestureRecognizer:doubleTap];
+    //    //双击显示版本号
+    //    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppVersion)];
+    //    doubleTap.numberOfTapsRequired = 2;
+    //    [login_icon addGestureRecognizer:doubleTap];
     
 #ifdef kHXCanChangeServer
-        ///长按切换
-        UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeEnvironment:)];
-        press.minimumPressDuration = 0.6;
-        [login_icon addGestureRecognizer:press];
-        //双击自定义输入
-        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(customEditServer:)];
-        doubleTap.numberOfTapsRequired = 2;
-        [login_icon addGestureRecognizer:doubleTap];
-        
-        [doubleTap requireGestureRecognizerToFail:press];
+    ///长按切换
+    UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeEnvironment:)];
+    press.minimumPressDuration = 0.6;
+    [login_icon addGestureRecognizer:press];
+    //双击自定义输入
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(customEditServer:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [login_icon addGestureRecognizer:doubleTap];
+    
+    [doubleTap requireGestureRecognizerToFail:press];
+    
+    UILabel *tiplabel = [[UILabel alloc] init];
+    tiplabel.text = @"如果想切换环境，请长按Logo切换，便于开发调试！";
+    tiplabel.font = HXFont(12);
+    tiplabel.textColor = [UIColor redColor];
+    tiplabel.textAlignment = NSTextAlignmentCenter;
+    [mainView addSubview:tiplabel];
+    
+    [tiplabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(mainView);
+        make.top.equalTo(login_icon.mas_bottom).offset(5);
+        make.left.equalTo(mainView);
+        make.right.equalTo(mainView);
+        make.height.mas_equalTo(20);
+    }];
 #endif
-
+    
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text = @"430621199908080707";//@"430625199608090909"  @"430621199908080707"   @"411261199001013331" @"430381200306190101"
-    loginView.userNameTextField.text = @"430621199908080707";
+    loginView.passWordTextField.text =  @"430621199908080707";// @"430718199210109002";  @"430621199908080707"   @"411261199001013331" @"222211199504070707" @"430381200306190101"
+    loginView.userNameTextField.text =  @"430621199908080707";
 #endif
 }
 
@@ -175,25 +188,24 @@
     NSLog(@"服务器地址: %@", KHX_URL_MAIN);
     __weak __typeof(self)weakSelf = self;
     [self.view showLoadingWithMessage:@"登录中…"];
-    [HXBaseURLSessionManager doLoginWithUserName:loginView.userNameTextField.text andPassword:loginView.passWordTextField.text success:^(NSString * _Nonnull personId) {
-        //
-        NSLog(@"登录成功！");
+    [HXBaseURLSessionManager doLoginWithUserName:loginView.userNameTextField.text andPassword:loginView.passWordTextField.text success:^(NSDictionary * _Nonnull dictionary) {
         
-        [HXPublicParamTool sharedInstance].isLogin = YES;
-        
-        [weakSelf.view showSuccessWithMessage:@"登录成功!"];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            //发送登录成功的通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:LOGINSUCCESS object:nil];
-            
-            [self dismissViewControllerAnimated:YES completion:^{
-            }];
-            
-            [[[UIApplication sharedApplication].delegate window] setRootViewController:[(AppDelegate*)[UIApplication sharedApplication].delegate tabBarController]];
-        });
-        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            [HXPublicParamTool sharedInstance].isLogin = YES;
+            [weakSelf.view showSuccessWithMessage:@"登录成功!"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.view hideLoading];
+                //发送登录成功的通知
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOGINSUCCESS object:nil];
+                [weakSelf dismissViewControllerAnimated:YES completion:^{
+                }];
+
+                [[[UIApplication sharedApplication].delegate window] setRootViewController:[(AppDelegate*)[UIApplication sharedApplication].delegate tabBarController]];
+            });
+        }else{
+            [self.view hideLoading];
+        }
     } failure:^(NSString * _Nonnull messsage) {
         //
         [weakSelf.view showErrorWithMessage:messsage];
@@ -207,8 +219,8 @@
 }
 
 - (void)privacyPolicyButtonClick {
-   
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_PrivacyPolicy_URL]];
+    
+    //    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_PrivacyPolicy_URL]];
     HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
     webViewVC.urlString = [HXPublicParamTool sharedInstance].privacyUrl;
     webViewVC.cuntomTitle = @"隐私协议";
@@ -236,22 +248,22 @@
             [HXUserDefaults setObject:kHXReleasServer forKey:KP_SERVER_KEY];
             
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
-    
+            
         }]];
         [controller addAction:[UIAlertAction actionWithTitle:@"TestOP测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [HXUserDefaults setObject:kHXDevelopOPServer forKey:KP_SERVER_KEY];
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
-           
+            
         }]];
         [controller addAction:[UIAlertAction actionWithTitle:@"TestMD测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [HXUserDefaults setObject:kHXDevelopMDServer forKey:KP_SERVER_KEY];
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
-           
+            
         }]];
         [controller addAction:[UIAlertAction actionWithTitle:@"LWJ主机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [HXUserDefaults setObject:kHXDevelopLWJEServer forKey:KP_SERVER_KEY];
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
-           
+            
         }]];
         [controller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             
@@ -291,13 +303,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

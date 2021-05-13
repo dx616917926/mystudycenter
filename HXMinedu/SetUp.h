@@ -39,7 +39,7 @@
 #define     kHXDevelopLWJEServer    @"http://192.168.1.131:85" //李文军主机
 
 #if kHXCanChangeServer
-#define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? kHXDevelopOPServer : KHXUserDefaultsForValue(KP_SERVER_KEY))
+#define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? kHXDevelopMDServer : KHXUserDefaultsForValue(KP_SERVER_KEY))
 #endif
 
 

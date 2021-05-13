@@ -140,8 +140,6 @@
                     return;;
                 }
             }];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];

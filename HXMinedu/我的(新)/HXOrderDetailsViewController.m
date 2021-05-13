@@ -86,8 +86,6 @@
             //刷新数据
             self.paidDetailsInfoModel = [HXPaymentModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
             [self refreshUI];
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.mainTableView.mj_header endRefreshing];
@@ -120,8 +118,6 @@
         vc.orderNum = self.paidDetailsInfoModel.orderNum;
         [self.navigationController pushViewController:vc animated:YES];
     }else{//银联支付
-//        @"https://demo.hlw-study.com/OP.Enroll/EnrollOP/mbPayMWEB?sid=MjY4NA==&rmb=MTAw&aid=MQ==";
-//        @"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx20180115115052bedf091fba0369993002&package=2975002856";
         HXCommonWebViewController * vc = [[HXCommonWebViewController alloc] init];
         vc.urlString = self.paidDetailsInfoModel.payUrl;
         [self.navigationController pushViewController:vc animated:YES];

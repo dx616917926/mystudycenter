@@ -178,10 +178,7 @@
             {
                 [self createNoneContentView];
             }
-        }else
-        {
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
-            
+        }else{
             [self createNetworkErrorView];
         }
         //结束刷新状态

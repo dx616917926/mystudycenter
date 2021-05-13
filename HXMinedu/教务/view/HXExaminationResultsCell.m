@@ -39,9 +39,14 @@
 -(void)setExamDateCourseScoreModel:(HXExamDateCourseScoreModel *)examDateCourseScoreModel{
     _examDateCourseScoreModel = examDateCourseScoreModel;
     self.examTitleLabel.text = HXSafeString(examDateCourseScoreModel.courseName);
-    self.scoreLabel.text = HXSafeString(examDateCourseScoreModel.finalScore);
-    [self.resultBtn setTitle:(examDateCourseScoreModel.IsPass==1?@"通过":@"未通过") forState:UIControlStateNormal];
-    [self.resultBtn setImage:(examDateCourseScoreModel.IsPass==1?[UIImage imageNamed:@"success_icon"]:[UIImage imageNamed:@"fail_icon"]) forState:UIControlStateNormal];
+    self.scoreLabel.text = [examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?@"":HXSafeString(examDateCourseScoreModel.finalScore);
+    if (examDateCourseScoreModel.IsPass == 1) {
+        [self.resultBtn setTitle:@"通过" forState:UIControlStateNormal];
+        [self.resultBtn setImage:[UIImage imageNamed:@"success_icon"] forState:UIControlStateNormal];
+    }else{
+        [self.resultBtn setTitle:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?@"暂无成绩":@"未通过") forState:UIControlStateNormal];
+        [self.resultBtn setImage:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?[UIImage imageNamed:@"fail_icon"]:[UIImage imageNamed:@"fail_icon"]) forState:UIControlStateNormal];
+    }
     self.bigBackGroundView.backgroundColor = (examDateCourseScoreModel.IsPass==1?COLOR_WITH_ALPHA(0xF3FFFA, 1):COLOR_WITH_ALPHA(0xFFF8FA, 1));
 }
 

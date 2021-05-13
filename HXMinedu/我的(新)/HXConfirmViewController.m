@@ -98,8 +98,6 @@
             if (self.refreshInforBlock) {
                 self.refreshInforBlock();
             }
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         
@@ -129,8 +127,6 @@
             if (self.refreshInforBlock) {
                 self.refreshInforBlock();
             }
-        }else{
-            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];
@@ -206,7 +202,7 @@
     [actionSheet addSubview:cancelBtn];
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, actionSheet.width, 0.5)];
-    lineView.backgroundColor = [UIColor grayColor];
+    lineView.backgroundColor = COLOR_WITH_ALPHA(0x979797, 1);
     [actionSheet addSubview:lineView];
     
     
@@ -321,7 +317,7 @@
     }
     
     
-    [self.topImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.pictureInfoModel.imgurl)] placeholderImage:[UIImage imageNamed:@"uploaddash"]];
+    [self.topImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.pictureInfoModel.imgurl)] placeholderImage:[UIImage imageNamed:@"uploaddash"] options:SDWebImageRefreshCached];
     
 }
 
