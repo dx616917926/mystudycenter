@@ -142,7 +142,7 @@
 -(UIImageView *)courseImageView{
     if (!_courseImageView) {
         _courseImageView = [[UIImageView alloc] init];
-        _courseImageView.backgroundColor = COLOR_WITH_ALPHA(0x4BA4FE, 1);
+        _courseImageView.backgroundColor = COLOR_WITH_ALPHA(0xEFEFEF, 1);
         _courseImageView.clipsToBounds = YES;
         _courseImageView.contentMode = UIViewContentModeScaleAspectFill;
     }

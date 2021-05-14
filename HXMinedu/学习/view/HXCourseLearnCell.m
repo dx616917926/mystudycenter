@@ -7,10 +7,17 @@
 
 #import "HXCourseLearnCell.h"
 #import <objc/runtime.h>
+#import "SDWebImage.h"
+
 @interface HXCourseLearnCell ()
 @property(nonatomic,strong) UIView *shadowBackgroundView;
 @property(nonatomic,strong) UIView *bigBackgroundView;
+@property(nonatomic,strong) UIImageView *courseImageView;
 @property(nonatomic,strong) UILabel *courseNameLabel;
+
+@property(nonatomic,strong) UIImageView *courseTypeImageView;
+@property(nonatomic,strong) UILabel *courseTypeLabel;
+
 @property(nonatomic,strong) UIView *containerView;
 
 
@@ -60,7 +67,22 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
 
 -(void)setCourseModel:(HXCourseModel *)courseModel{
     _courseModel = courseModel;
+    [self.courseImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:courseModel.imageURL]] placeholderImage:nil];
     self.courseNameLabel.text = HXSafeString(courseModel.courseName);
+    
+    //5001-必修 5002-选修 以外其它
+    if (courseModel.courseType_id == 5001) {
+        self.courseTypeImageView.image = [UIImage imageNamed:@"bixiuke"];
+        self.courseTypeLabel.text = @"必修课";
+    }else if (courseModel.courseType_id == 5002) {
+        self.courseTypeImageView.image = [UIImage imageNamed:@"xuanxiuke"];
+        self.courseTypeLabel.text = @"选修课";
+    }else{
+        self.courseTypeImageView.image = [UIImage imageNamed:@"qitake"];
+        self.courseTypeLabel.text = @"其它";
+    }
+    
+    
     [self.containerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         //移除关联对象
         objc_removeAssociatedObjects(obj);
@@ -83,15 +105,15 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
             [btn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
             if ([item.ExamCourseType isEqualToString:@"1"]) {//课件学习
                 btn.tag = 7777;
-                [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFE664B, 1)];
+                [btn setBackgroundColor:COLOR_WITH_ALPHA(0x5699FF, 1)];
                 [btn setImage:[UIImage imageNamed:@"kejian_icon"] forState:UIControlStateNormal];
             }else if ([item.ExamCourseType isEqualToString:@"2"]) {//平时作业
                 btn.tag = 8888;
-                [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFEC44B, 1)];
+                [btn setBackgroundColor:COLOR_WITH_ALPHA(0x4DC656, 1)];
                 [btn setImage:[UIImage imageNamed:@"pingshi_icon"] forState:UIControlStateNormal];
             }else{//期末考试
                 btn.tag = 9999;
-                [btn setBackgroundColor:COLOR_WITH_ALPHA(0x4B74FE, 1)];
+                [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFAC639, 1)];
                 [btn setImage:[UIImage imageNamed:@"qimo_icon"] forState:UIControlStateNormal];
             }
             
@@ -123,7 +145,13 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
 -(void)createUI{
     [self.contentView addSubview:self.shadowBackgroundView];
     [self.contentView addSubview:self.bigBackgroundView];
+    [self.bigBackgroundView addSubview:self.courseImageView];
+    [self.bigBackgroundView addSubview:self.courseTypeImageView];
+    [self.courseTypeImageView addSubview:self.courseTypeLabel];
     [self.bigBackgroundView addSubview:self.courseNameLabel];
+//    [self.bigBackgroundView addSubview:self.crownImageView];
+//    [self.bigBackgroundView addSubview:self.rectangleImageView];
+//    [self.rectangleImageView addSubview:self.jingpinLabel];
     [self.bigBackgroundView addSubview:self.containerView];
    
 
@@ -134,14 +162,29 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
     .rightSpaceToView(self.contentView, _kpw(23));
     self.bigBackgroundView.sd_cornerRadius = @5;
     
+    self.courseImageView.sd_layout
+    .topSpaceToView(self.bigBackgroundView, 20)
+    .leftSpaceToView(self.bigBackgroundView, 20)
+    .widthIs(_kpw(130))
+    .heightIs(_kpw(83));
+    self.courseImageView.sd_cornerRadius = @4;
+    
+    self.courseTypeImageView.sd_layout
+    .topEqualToView(self.bigBackgroundView)
+    .rightEqualToView(self.bigBackgroundView)
+    .widthIs(60)
+    .heightIs(40);
+    
     self.courseNameLabel.sd_layout
-    .leftSpaceToView(self.bigBackgroundView, _kpw(28))
-    .rightSpaceToView(self.bigBackgroundView, _kpw(28))
-    .topSpaceToView(self.bigBackgroundView, 18)
-    .heightIs(22);
+    .topEqualToView(self.courseImageView).offset(8)
+    .leftSpaceToView(self.courseImageView, 24)
+    .rightSpaceToView(self.bigBackgroundView, 30)
+    .autoHeightRatio(0);
+    [self.courseNameLabel setMaxNumberOfLinesToShow:2];
+    
     
     self.containerView.sd_layout
-    .topSpaceToView(self.courseNameLabel, 16)
+    .topSpaceToView(self.courseImageView, 12)
     .leftEqualToView(self.bigBackgroundView)
     .rightEqualToView(self.bigBackgroundView)
     .heightIs(46);
@@ -181,16 +224,53 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
     return _bigBackgroundView;
 }
 
+-(UIImageView *)courseImageView{
+    if (!_courseImageView) {
+        _courseImageView = [[UIImageView alloc] init];
+        _courseImageView.backgroundColor = COLOR_WITH_ALPHA(0xEFEFEF, 1);
+        _courseImageView.clipsToBounds = YES;
+        _courseImageView.contentMode = UIViewContentModeScaleAspectFill;
+    }
+    return _courseImageView;;
+}
+
+-(UIImageView *)courseTypeImageView{
+    if (!_courseTypeImageView) {
+        _courseTypeImageView = [[UIImageView alloc] init];
+        
+    }
+    return _courseTypeImageView;
+}
+
+-(UILabel *)courseTypeLabel{
+    if (!_courseTypeLabel) {
+        _courseTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 16,60, 20)];
+        _courseTypeLabel.textColor = COLOR_WITH_ALPHA(0xffffff, 1);
+        _courseTypeLabel.textAlignment = NSTextAlignmentCenter;
+        _courseTypeLabel.font = HXFont(12);
+        _courseTypeLabel.backgroundColor = [UIColor clearColor];
+        _courseTypeLabel.transform = CGAffineTransformMakeRotation(M_PI/5.45);
+        _courseTypeLabel.transform = CGAffineTransformTranslate(_courseTypeLabel.transform ,0, -14);
+        
+    }
+    return _courseTypeLabel;
+}
 
 -(UILabel *)courseNameLabel{
     if (!_courseNameLabel) {
         _courseNameLabel = [[UILabel alloc] init];
-        _courseNameLabel.textColor = COLOR_WITH_ALPHA(0x4BA4FE, 1);
-        _courseNameLabel.font = [UIFont boldSystemFontOfSize:16];
+        _courseNameLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _courseNameLabel.numberOfLines = 2;
+        _courseNameLabel.font = HXFont(16);
         
     }
     return _courseNameLabel;;
 }
+
+
+
+
+
 
 -(UIView *)containerView{
     if (!_containerView) {

@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *ModleCode;            //期末代码
 @property(nonatomic, strong) NSString *StemCode;             //课件来源
 @property(nonatomic, strong) NSString *imageURL;             //课件图片
+@property(nonatomic, strong) NSString *mark1;             //课件标记
+@property(nonatomic, assign) NSInteger courseType_id;     //5001-必修 5002-选修 以外其它
 @property(nonatomic, strong) NSString *kcDM;                 //课程性质代码
 @property(nonatomic, strong) NSString *yxDM;                 //主考院校代码
 @property(nonatomic, strong) NSString *ExamDate;             //考期

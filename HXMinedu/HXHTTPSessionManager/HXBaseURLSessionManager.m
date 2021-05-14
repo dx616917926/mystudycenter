@@ -67,6 +67,8 @@
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[HXCheckUpdateTool sharedInstance] checkUpdate];
                 }];
+            }else if(![dictionary boolValueForKey:@"Success"] ){
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message];
             }
             NSDictionary *data = [dictionary dictionaryValueForKey:@"Data"];
             NSString *personId = [data objectForKey:@"personId"];
@@ -112,6 +114,8 @@
                     [[HXCheckUpdateTool sharedInstance] checkUpdate];
                 }];
 
+            }else if(![dictionary boolValueForKey:@"Success"] ){
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message];
             }
             success(dictionary);
         }else{
@@ -152,6 +156,8 @@
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[HXCheckUpdateTool sharedInstance] checkUpdate];
                 }];
+            }else if(![dictionary boolValueForKey:@"Success"] ){
+                [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message];
             }
             success(dictionary);
         }else{

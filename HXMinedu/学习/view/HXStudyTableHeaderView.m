@@ -121,8 +121,8 @@
     .topSpaceToView(self.bannerView, 16)
     .leftEqualToView(self.containerView)
     .rightEqualToView(self.containerView)
-    .heightIs(104);
-    self.studyReportImageView.sd_cornerRadius = @12;
+    .heightIs((kScreenWidth-_kpw(23)*2)*0.353);
+    
     
     
     self.courseLearnLabel.sd_layout
@@ -164,6 +164,7 @@
         _studyReportImageView = [[UIImageView alloc] init];
         _studyReportImageView.userInteractionEnabled = YES;
         _studyReportImageView.image = [UIImage imageNamed:@"baogaobanner"];
+        _studyReportImageView.contentMode = UIViewContentModeScaleAspectFit;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushStudyReport:)];
         [_studyReportImageView addGestureRecognizer:tap];
     }

@@ -39,15 +39,17 @@
 -(void)setExamDateCourseScoreModel:(HXExamDateCourseScoreModel *)examDateCourseScoreModel{
     _examDateCourseScoreModel = examDateCourseScoreModel;
     self.examTitleLabel.text = HXSafeString(examDateCourseScoreModel.courseName);
-    self.scoreLabel.text = [examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?@"":HXSafeString(examDateCourseScoreModel.finalScore);
+    self.scoreLabel.text = [examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?@"":[HXSafeString(examDateCourseScoreModel.finalScore) stringByAppendingString:@"分"];
     if (examDateCourseScoreModel.IsPass == 1) {
         [self.resultBtn setTitle:@"通过" forState:UIControlStateNormal];
         [self.resultBtn setImage:[UIImage imageNamed:@"success_icon"] forState:UIControlStateNormal];
+        self.bigBackGroundView.backgroundColor = COLOR_WITH_ALPHA(0xF3FFFA, 1);
     }else{
         [self.resultBtn setTitle:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?@"暂无成绩":@"未通过") forState:UIControlStateNormal];
-        [self.resultBtn setImage:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?[UIImage imageNamed:@"fail_icon"]:[UIImage imageNamed:@"fail_icon"]) forState:UIControlStateNormal];
+        [self.resultBtn setImage:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?[UIImage imageNamed:@"clock_icon"]:[UIImage imageNamed:@"fail_icon"]) forState:UIControlStateNormal];
+        self.bigBackGroundView.backgroundColor = ([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?COLOR_WITH_ALPHA(0xFFF7EA, 1):COLOR_WITH_ALPHA(0xFFF8FA, 1));
     }
-    self.bigBackGroundView.backgroundColor = (examDateCourseScoreModel.IsPass==1?COLOR_WITH_ALPHA(0xF3FFFA, 1):COLOR_WITH_ALPHA(0xFFF8FA, 1));
+   
 }
 
 #pragma mark - UI
@@ -60,37 +62,37 @@
     self.bigBackGroundView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(5, _kpw(23), 5, _kpw(23)));
     self.bigBackGroundView.layer.cornerRadius = 5;
     
-    self.examTitleLabel.sd_layout
-    .leftSpaceToView(self.bigBackGroundView, _kpw(28))
-    .centerYEqualToView(self.bigBackGroundView)
-    .widthRatioToView(self.bigBackGroundView, 0.45)
-    .autoHeightRatio(0);
-    [self.examTitleLabel setMaxNumberOfLinesToShow:2];
-    
-    
-    self.scoreLabel.sd_layout
-    .centerYEqualToView(self.bigBackGroundView)
-    .leftSpaceToView(self.examTitleLabel, 20)
-    .heightIs(22);
-    [self.scoreLabel setSingleLineAutoResizeWithMaxWidth:80];
-    
+
     self.resultBtn.sd_layout
     .centerYEqualToView(self.bigBackGroundView)
-    .leftSpaceToView(self.scoreLabel, 20)
+    .widthIs(90)
     .heightIs(40)
-    .rightSpaceToView(self.bigBackGroundView, _kpw(5));
+    .rightSpaceToView(self.bigBackGroundView, _kpw(10));
     
     self.resultBtn.imageView.sd_layout
     .centerYEqualToView(self.resultBtn)
     .leftEqualToView(self.resultBtn)
-    .widthIs(25)
+    .widthIs(15)
     .heightEqualToWidth();
     
     self.resultBtn.titleLabel.sd_layout
     .centerYEqualToView(self.resultBtn)
-    .leftSpaceToView(self.resultBtn.imageView,10)
-    .rightSpaceToView(self.resultBtn, 5)
+    .leftSpaceToView(self.resultBtn.imageView,8)
+    .rightEqualToView(self.resultBtn)
     .heightIs(20);
+    
+    self.scoreLabel.sd_layout
+    .centerYEqualToView(self.bigBackGroundView)
+    .rightSpaceToView(self.resultBtn, 10)
+    .heightIs(22);
+    [self.scoreLabel setSingleLineAutoResizeWithMaxWidth:80];
+    
+    self.examTitleLabel.sd_layout
+    .leftSpaceToView(self.bigBackGroundView, _kpw(28))
+    .centerYEqualToView(self.bigBackGroundView)
+    .rightSpaceToView(self.scoreLabel, 20)
+    .autoHeightRatio(0);
+    [self.examTitleLabel setMaxNumberOfLinesToShow:2];
     
 }
 

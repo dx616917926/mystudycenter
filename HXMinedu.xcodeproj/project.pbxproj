@@ -1461,12 +1461,12 @@
 		0449A48F254C11F5001A28D5 /* HXAudioManager */ = {
 			isa = PBXGroup;
 			children = (
-				0449A490254C11F6001A28D5 /* Track.m */,
-				0449A491254C11F6001A28D5 /* HXAudioManager.m */,
 				0449A492254C11F6001A28D5 /* but_audio_pause.png */,
 				0449A493254C11F6001A28D5 /* but_audio_play.png */,
-				0449A494254C11F6001A28D5 /* Track.h */,
 				0449A495254C11F6001A28D5 /* HXAudioManager.h */,
+				0449A491254C11F6001A28D5 /* HXAudioManager.m */,
+				0449A494254C11F6001A28D5 /* Track.h */,
+				0449A490254C11F6001A28D5 /* Track.m */,
 			);
 			path = HXAudioManager;
 			sourceTree = "<group>";
@@ -2636,7 +2636,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development: Shuo Li (55J4Q86345)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2652,7 +2652,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读developer";
@@ -2670,7 +2670,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Huaxia Dadi Long-distance Education Network Service Co., Ltd.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2686,7 +2686,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读";
