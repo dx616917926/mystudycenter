@@ -12,8 +12,9 @@
 #import "HXLoginViewController.h"
 #import "HXIntroViewManager.h"
 #import "HXCheckUpdateTool.h"
+#import "WXApi.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<WXApiDelegate>
 
 @end
 
@@ -24,8 +25,8 @@
     // Override point for customization after application launch.
     
     [self firstEnterHandle];
-    
-    [self setUMengTrack];
+    //第三方配置
+    [self thirdPartyConfiguration];
     
     //检查更新
     [self checkAppUpdate];
@@ -33,13 +34,10 @@
     return YES;
 }
 
-/**
- *  @author wangxuanao
- *
- *  友盟统计分析
- */
-- (void)setUMengTrack {
+#pragma mark -第三方配置
+- (void)thirdPartyConfiguration {
     
+    ///友盟配置
     [UMConfigure initWithAppkey:APPKEY channel:@"fir"];
     [UMConfigure setEncryptEnabled:YES];
     
@@ -50,6 +48,28 @@
     //正式环境
     [UMConfigure setLogEnabled:NO];
 #endif
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //微信配置
+#ifdef DEBUG
+        //在register之前打开log, 后续可以根据log排查问题
+        [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
+            NSLog(@"WeChatSDK: %@", log);
+        }];
+#endif
+        //向微信注册
+        [WXApi registerApp:kHXWechatOpenKey universalLink:UNIVERSAL_LINK];
+        
+        if (!PRODUCTIONMODE) {
+            //调用自检函数,仅用于新接入SDK时调试使用，请勿在正式环境的调用
+            [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+                NSLog(@"自检函数:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
+            }];
+        }
+        
+    });
+    
+    
 }
 
 /// 检查更新
@@ -125,8 +145,11 @@
 }
 
 
+
+
+#pragma mark - <UIApplicationDelegate>
+//低于iOS 13版本，微信处理通用链接，会走此回调
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
-    
     
     if ([url.host isEqualToString:@"safepay"]) {//  判断一下这个host，safepay就是支付宝的
         NSString * urlNeedJsonStr = url.absoluteString;
@@ -146,10 +169,118 @@
     }else if ([url.absoluteString rangeOfString:@"www.edu-edu.com"].location != NSNotFound) {//微信支付
         //此处发送通知，哪里需要接受通知处理，哪里就接受
         [[NSNotificationCenter defaultCenter] postNotificationName:@"WeChatH5PayNotification" object:url.absoluteString];
+    }else if ([url.scheme rangeOfString:kHXWechatOpenKey].length!=0) {////低于iOS 13版本，这里处理通用链接回调
+        NSLog(@"再次跳回。。。");
+        return [WXApi handleOpenURL:url delegate:self];
     }
     
     return YES;
 }
+
+//iOS 13以上版本，微信处理通用链接，会走此回调
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable
+                                                                                                                                 restorableObjects))restorationHandler {
+    
+    if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
+        NSURL *webUrl = userActivity.webpageURL;
+        NSLog(@"continueUserActivity:%@",webUrl);
+    }
+    
+    //处理通用链接
+    //当APP被UniversalLink调起后，
+    BOOL ret = [WXApi handleOpenUniversalLink:userActivity delegate:self];
+    NSLog(@"处理微信通过Universal Link启动App时传递的数据:%d",ret);
+    return ret;
+}
+
+
+#pragma mark - <WXApiDelegate>
+//收到一个来自微信的请求，异步处理完成后必须调用sendResp发送处理结果给微信。
+- (void)onReq:(BaseReq*)req
+{
+    NSLog(@"微信请求App提供内容onReq:%@",req);
+    if([req isKindOfClass:[GetMessageFromWXReq class]])
+    {
+        // 微信请求App提供内容， 需要app提供内容后使用sendRsp返回
+        //        NSString *strTitle = [NSString stringWithFormat:@"微信请求App提供内容"];
+        //        NSString *strMsg = @"微信请求App提供内容，App要调用sendResp:GetMessageFromWXResp返回给微信";
+    }
+    else if([req isKindOfClass:[ShowMessageFromWXReq class]])
+    {
+        ShowMessageFromWXReq* temp = (ShowMessageFromWXReq*)req;
+        WXMediaMessage *msg = temp.message;
+        
+        //显示微信传过来的内容
+        WXAppExtendObject *obj = msg.mediaObject;
+        
+        NSString *strTitle = [NSString stringWithFormat:@"微信请求App显示内容"];
+        NSString *strMsg = [NSString stringWithFormat:@"标题：%@ \n内容：%@ \n附带信息：%@ \n缩略图:%lu bytes\n\n", msg.title, msg.description, obj.extInfo, (unsigned long)msg.thumbData.length];
+        NSLog(@"%@ %@",strTitle,strMsg);
+    }
+    else if([req isKindOfClass:[LaunchFromWXReq class]])
+    {
+        //从微信启动App
+        NSString *strTitle = [NSString stringWithFormat:@"从微信启动"];
+        NSString *strMsg = @"这是从微信启动的消息";
+        NSLog(@"%@ %@",strTitle,strMsg);
+    }
+}
+
+//收到一个来自微信的处理结果。调用一次sendReq后会收到onResp。
+- (void)onResp:(BaseResp *)resp {
+    /*
+     enum  WXErrCode {
+     WXSuccess           = 0,    成功
+     WXErrCodeCommon     = -1,  普通错误类型
+     WXErrCodeUserCancel = -2,    用户点击取消并返回
+     WXErrCodeSentFail   = -3,   发送失败
+     WXErrCodeAuthDeny   = -4,    授权失败
+     WXErrCodeUnsupport  = -5,   微信不支持
+     };
+     */
+    //微信支付的类
+    if([resp isKindOfClass:[PayResp class]]){
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        NSString *strMsg,*strTitle = [NSString stringWithFormat:@"支付结果"];
+        if (resp.errCode == 0) {
+            strMsg = @"支付结果：成功！";
+            NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+            
+        }else{
+            strMsg = [NSString stringWithFormat:@"支付结果：失败！"];
+            NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+            
+        }
+        
+    }
+    
+    //微信登录的类
+    if([resp isKindOfClass:[SendAuthResp class]]){
+        if (resp.errCode == 0) {  //成功。
+            //这里处理回调的方法 。 通过代理吧对应的登录消息传送过去。
+            
+        }else{ //失败
+            NSLog(@"error %@",resp.errStr);
+            
+        }
+    }
+    
+    //微信分享的类
+    if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+        //微信分享 微信回应给第三方应用程序的类
+        SendMessageToWXResp *response = (SendMessageToWXResp *)resp;
+        NSLog(@"error code %d  error msg %@  lang %@   country %@",response.errCode,response.errStr,response.lang,response.country);
+        if (resp.errCode == 0) {//成功。
+            //这里处理回调的方法
+            
+        }else{ //失败
+            
+        }
+    }
+}
+
+
+
 
 -  (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString{
     if (jsonString == nil) {

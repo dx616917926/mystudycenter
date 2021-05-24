@@ -37,6 +37,7 @@ static char const * const kNaviBarAnimate = "kNaviBarAnimate";
 - (void)sc_setNavigationBarBackgroundAlpha:(CGFloat)alpha{
     //仅仅改变了背景色
     self.sc_navigationBar.backgroundAlpha = alpha;
+    
 }
 
 - (void)sc_setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {

@@ -94,7 +94,7 @@
                 self.hasNewVersion = YES;
                 self.updateUrl = [rightDic stringValueForKey:@"updateUrl"];
                 //弹提示框
-                self.myAlertView = [[CustomIOSAlertView alloc]init];
+                self.myAlertView = [[CustomIOSAlertView alloc] init];
                 self.myAlertView.containerView = [self createViewWith:newVersionLabel andWithFeatures:featureStr AndWithFeatureCount:features.count];
                 WeakSelf(weakSelf);
                 //判断是否是强制更新
@@ -171,7 +171,7 @@
     
     //更新详细
     UILabel *featureLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, contentLabel.bottom-5, 270, 30*count)];
-    featureLabel.textAlignment = NSTextAlignmentLeft;
+    featureLabel.textAlignment = NSTextAlignmentCenter;
     featureLabel.font = [UIFont systemFontOfSize:14];
     featureLabel.numberOfLines = 0;
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:featureStr];

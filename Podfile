@@ -21,5 +21,9 @@ target 'HXMinedu' do
   pod 'HXPhotoPicker', '~> 3.1.9'
   pod 'GKPhotoBrowser', '~> 2.1.9'
   pod 'GKCover', '~> 2.6.0'
+  pod 'YNPageViewController', '~> 0.2.6'
+  pod 'WMZBanner', '~> 1.2.0'
+  
+  pod 'WechatOpenSDK', '~> 1.8.7.1'
   
 end

@@ -12,15 +12,15 @@
 #import "HXAboutUsViewController.h"
 #import "HXSetViewController.h"
 #import "HXSystemNotificationViewController.h"
-#import "HXCycleScrollView.h"
 #import "HXRecordCell.h"
 #import "HXStudentInfoModel.h"
 #import "HXMajorModel.h"
 #import "HXBannerLogoModel.h"
 #import "SDWebImage.h"
 #import "MJRefresh.h"
+#import "WMZBannerView.h"
 
-@interface HXMyViewController ()<HXCycleScrollViewDelegate, HXCycleScrollViewDataSource>
+@interface HXMyViewController ()
 
 @property(nonatomic,strong) UIScrollView *mainScrollView;
 
@@ -31,8 +31,9 @@
 @property(nonatomic,strong) UIButton *collectInfoBtn;
 @property(nonatomic,strong) UIButton *messageBtn;
 
+@property(nonatomic,strong)  WMZBannerView *bannerView;
+@property(nonatomic,strong)  WMZBannerParam *bannerParam;
 
-@property(nonatomic,strong) HXCycleScrollView *cycleScrollView;
 @property(nonatomic,strong) UIView *bottomContainerView;
 @property(nonatomic,strong) NSMutableArray *bottomBtns;
 @property(nonatomic,strong) UIImageView *logoViewImageView;
@@ -158,10 +159,8 @@
     
 }
 -(void)refreshMajorUI{
-    [self.cycleScrollView reloadData];
-    if (self.majorList.count>2) {
-        [self.cycleScrollView scrollToItemAtIndex:2 animated:NO];
-    }
+    self.bannerParam.wDataSet(self.majorList);
+    [self.bannerView updateUI];
 }
 
 
@@ -241,7 +240,7 @@
     [self.topView addSubview:self.collectInfoBtn];
     [self.topView addSubview:self.messageBtn];
  
-    [self.mainScrollView addSubview:self.cycleScrollView];
+    [self.mainScrollView addSubview:self.bannerView];
     [self.mainScrollView addSubview:self.bottomContainerView];
     [self.mainScrollView addSubview:self.logoViewImageView];
     
@@ -303,14 +302,14 @@
         
     
     
-    self.cycleScrollView.sd_layout
+    self.bannerView.sd_layout
     .topSpaceToView(self.mainScrollView, 160)
     .leftEqualToView(self.mainScrollView)
     .rightEqualToView(self.mainScrollView)
     .heightIs(200);
     
     self.bottomContainerView.sd_layout
-    .topSpaceToView(self.cycleScrollView, 15)
+    .topSpaceToView(self.bannerView, 15)
     .leftSpaceToView(self.mainScrollView, _kpw(25))
     .rightSpaceToView(self.mainScrollView, _kpw(25));
     
@@ -353,34 +352,9 @@
     
 }
 
-#pragma mark -- HXCycleScrollView DataSource
-- (NSInteger)numberOfItemsInCycleScrollView:(HXCycleScrollView *)cycleScrollView {
-    return self.majorList.count;
-}
 
-- (UICollectionViewCell *)cycleScrollView:(HXCycleScrollView *)cycleScrollView cellForItemAtIndex:(NSInteger)index {
-    HXRecordCell *cell = [cycleScrollView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HXRecordCell class]) forIndex:index];
-    HXMajorModel *majorModel = self.majorList[index];
-    cell.majorModel = majorModel;
-    return cell;
-}
 
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
-    CGFloat offset = _kpw(5);
-    for (UITabBarItem *item in self.tabBarController.tabBar.items) {
-        if ([item.title isEqualToString:@"我的"]) {
-            item.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
-            item.titlePositionAdjustment = UIOffsetMake(0, 100);
-        }else{
-            if ([item.title isEqualToString:@"我的"]){
-                item.titlePositionAdjustment = UIOffsetMake(0, -100);
-            }
-            item.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-            item.titlePositionAdjustment = UIOffsetMake(0, 0);
-        }
-    }
 
-}
 
 #pragma mark - lazyLoad
 -(UIScrollView *)mainScrollView{
@@ -461,22 +435,45 @@
 
 
 
-
--(HXCycleScrollView *)cycleScrollView{
-    if (!_cycleScrollView) {
-        _cycleScrollView = [[HXCycleScrollView alloc] initWithFrame:CGRectZero shouldInfiniteLoop:YES];
+-(WMZBannerView *)bannerView{
+    if (!_bannerView) {
+        WMZBannerParam *param =
+        BannerParam()
+        //自定义视图必传
+        .wMyCellClassNameSet(@"HXRecordCell")
+        .wMyCellSet(^UICollectionViewCell *(NSIndexPath *indexPath, UICollectionView *collectionView, id model, UIImageView *bgImageView,NSArray*dataArr) {
+                   //自定义视图
+            HXRecordCell *cell = (HXRecordCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HXRecordCell class]) forIndexPath:indexPath];
+            HXMajorModel *majorModel = model;
+            cell.majorModel = majorModel;
+            return cell;
+        })
+        .wFrameSet(CGRectMake(0, 0, kScreenWidth, 200))
+        //关闭pageControl
+        .wHideBannerControlSet(YES)
+         //开启缩放
+         .wScaleSet(YES)
+         ///缩放系数
+         .wScaleFactorSet(0.1)
+        //自定义item的大小
+        .wItemSizeSet(CGSizeMake(kScreenWidth-46,180))
+        //固定移动的距离
+        .wContentOffsetXSet(0.5)
+         //自动滚动
+        .wAutoScrollSet(NO)
+        //cell动画的位置
+        .wPositionSet(BannerCellPositionCenter)
+         //循环
+         .wRepeatSet(NO)
+        //整体左右间距 让最后一个可以居中
+        .wSectionInsetSet(UIEdgeInsetsMake(0,23, 0,23))
+        //间距
+        .wLineSpacingSet(10);
+        self.bannerParam = param;
+       _bannerView = [[WMZBannerView alloc] initConfigureWithModel:param];
         
-        self.automaticallyAdjustsScrollViewInsets = NO;
-        _cycleScrollView.delegate = self;
-        _cycleScrollView.dataSource = self;
-        _cycleScrollView.hidesPageControl = YES; // 隐藏默认的 pageControl
-        _cycleScrollView.autoScroll = NO; // 关闭自动滚动
-        _cycleScrollView.itemZoomScale = 0.95;
-        _cycleScrollView.itemSpacing = 5.0f; // 设置 cell 间距
-        _cycleScrollView.itemSize = CGSizeMake(kScreenWidth - 60.0f,180); // 设置 cell 大小
-        [_cycleScrollView registerCellClass:[HXRecordCell class] forCellWithReuseIdentifier:NSStringFromClass([HXRecordCell class])];
     }
-    return _cycleScrollView;;
+    return _bannerView;
 }
 
 -(UIView *)bottomContainerView{

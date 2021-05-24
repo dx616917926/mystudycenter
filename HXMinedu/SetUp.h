@@ -11,6 +11,10 @@
 //友盟统计appkey
 #define APPKEY @"5f9f69ea45b2b751a920c0d1"
 
+//微信授权
+#define kHXWechatOpenKey            @"wx4f5db3101ba7caf2"    
+#define UNIVERSAL_LINK              @"https://xsjy.hlw-study.com/minedu/"
+
 //默认主题
 #define Default_Theme HXThemeBlue  //蓝色
 
@@ -26,7 +30,7 @@
 #define     kHXDevelopLWJEdition    3     //李文军主机
 #define     kHXChangeEdition        100   //支持切换服务器(长按登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试)
 
-#define     kHXAPPEdition          kHXChangeEdition
+#define     kHXAPPEdition          kHXReleaseEdition
 
 #if (kHXAPPEdition == kHXChangeEdition)
 #define    kHXCanChangeServer       1   //长按切换登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试

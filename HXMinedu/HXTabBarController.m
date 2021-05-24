@@ -6,6 +6,7 @@
 //
 
 #import "HXTabBarController.h"
+#import "HXHomePageViewController.h"
 #import "HXStudyViewController.h"
 #import "HXMyCourseViewController.h"
 #import "HXLiveViewController.h"
@@ -73,6 +74,13 @@
     [self setViewControllers:self.rootArray];
     
     //学习
+    HXHomePageViewController *homePage = [HXHomePageViewController new];
+    HXNavigationController *homePageNav = [[HXNavigationController alloc] initWithRootViewController:homePage];
+    homePageNav.tabBarItem.title = @"首页";
+    homePageNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_0"];
+    homePageNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_0"];
+    
+    //学习
     HXStudyViewController *study = [HXStudyViewController new];
     HXNavigationController *studyNav = [[HXNavigationController alloc] initWithRootViewController:study];
     studyNav.tabBarItem.title = @"学习";
@@ -107,7 +115,7 @@
     homeNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_4"];
     homeNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelectImage_4"];
 
-    [self.rootArray addObjectsFromArray:@[studyNav,educationNav,liveNav,homeNav]];
+    [self.rootArray addObjectsFromArray:@[homePageNav,studyNav,educationNav,liveNav,homeNav]];
     [self setViewControllers:self.rootArray];
     
     [self.tabBar setTintColor:kNavigationBarColor];
@@ -120,18 +128,18 @@
 #pragma mark - <UITabBarControllerDelegate>
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
         CGFloat offset = _kpw(5)+(IS_iPhoneX?3:0);
-        if (tabBarController.selectedIndex != 3) {
+        if ([tabBarController.selectedViewController.tabBarItem.title isEqualToString:@"我的"]) {
             for (UITabBarItem *item in self.tabBar.items) {
                 if ([item.title isEqualToString:@"我的"]) {
-                    item.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-                    item.titlePositionAdjustment = UIOffsetMake(0, 0);
+                    item.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
+                    item.titlePositionAdjustment = UIOffsetMake(0, 100);
                 }
             }
         }else{
             for (UITabBarItem *item in self.tabBar.items) {
                 if ([item.title isEqualToString:@"我的"]) {
-                    item.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
-                    item.titlePositionAdjustment = UIOffsetMake(0, 100);
+                    item.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+                    item.titlePositionAdjustment = UIOffsetMake(0, 0);
                 }
             }
         }

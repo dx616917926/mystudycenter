@@ -43,6 +43,10 @@ PODS:
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
   - WebViewJavascriptBridge (5.1.2)
+  - WechatOpenSDK (1.8.7.1)
+  - WMZBanner (1.2.0):
+    - SDWebImage
+  - YNPageViewController (0.2.6)
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0.1)
@@ -61,6 +65,9 @@ DEPENDENCIES:
   - SDCycleScrollView (>= 1.82)
   - SDWebImage (~> 5.10.0)
   - WebViewJavascriptBridge (~> 5.1.2)
+  - WechatOpenSDK (~> 1.8.7.1)
+  - WMZBanner (~> 1.2.0)
+  - YNPageViewController (~> 0.2.6)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -81,6 +88,9 @@ SPEC REPOS:
     - SDAutoLayout
     - SDCycleScrollView
     - SDWebImage
+    - WechatOpenSDK
+    - WMZBanner
+    - YNPageViewController
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
@@ -99,7 +109,10 @@ SPEC CHECKSUMS:
   SDCycleScrollView: a0d74c3384caa72bdfc81470bdbc8c14b3e1fbcf
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   WebViewJavascriptBridge: f99dac16105500a570a12b0b03e6bc46501eeb00
+  WechatOpenSDK: 6a4d1436c15b3b5fe2a0bd383f3046010186da44
+  WMZBanner: 42d02896dc7a67a4d7a2ebe1ef5b7a79f8d2c540
+  YNPageViewController: 33040d429adf0b415d4449ffeec848d8339934ea
 
-PODFILE CHECKSUM: 62e124ccdd38ac2fd823f2235e4e9f97f4c352c5
+PODFILE CHECKSUM: 347dcbcc0e118b536001db37b63733b68a4e0a33
 
 COCOAPODS: 1.10.1

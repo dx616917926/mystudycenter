@@ -47,11 +47,13 @@
 }
 
 -(void)lookPrivacy:(UIButton *)sender{
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: 
+
     HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-    webViewVC.urlString = [HXPublicParamTool sharedInstance].privacyUrl;
+    webViewVC.urlString = @"https://pay.sinojy.cn/sltf-outside/inter/orderQRUrl?pay_no=20210520134908306051259162";//[HXPublicParamTool sharedInstance].privacyUrl;
     webViewVC.cuntomTitle = @"隐私协议";
     [self.navigationController pushViewController:webViewVC animated:YES];
+    
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://pay.sinojy.cn/sltf-outside/inter/orderQRUrl?pay_no=20210520134908306051259162"]];
 }
 
 #pragma mark - UI

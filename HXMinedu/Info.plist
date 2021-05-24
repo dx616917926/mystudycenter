@@ -40,6 +40,16 @@
 				<string>www.edu-edu.com</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>weixinshare</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wx4f5db3101ba7caf2</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>

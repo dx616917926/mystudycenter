@@ -1,0 +1,6 @@
+framework module YNPageViewController {
+  umbrella header "YNPageViewController-umbrella.h"
+
+  export *
+  module * { export * }
+}
