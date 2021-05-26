@@ -6,12 +6,14 @@
 //
 
 #import "HXHomePageChildViewController.h"
+#import "HXCommonWebViewController.h"
 #import "UIViewController+YNPageExtend.h"
 #import "HXHomePageGuideCell.h"
 #import "MJRefresh.h"
 
 @interface HXHomePageChildViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSArray *titleArray;
 @end
 /// 开启刷新头部高度
 #define kOpenRefreshHeaderViewHeight 0
@@ -68,7 +70,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 4;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -87,12 +89,27 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+    webViewVC.urlString = self.h5Url;
+    webViewVC.cuntomTitle = self.titleArray[self.count-1];
+    webViewVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webViewVC animated:YES];
+}
+
 #pragma mark - lazyload
 -(NSMutableArray *)dataArray{
     if (!_dataArray) {
         _dataArray = [NSMutableArray array];
     }
     return _dataArray;
+}
+-(NSArray *)titleArray{
+    if (!_titleArray) {
+        _titleArray = @[@"成考报考指南",@"自考指南",@"国开指南",@"网教指南",@"职业资格精品课程"];
+    }
+    return _titleArray;
 }
 - (UITableView *)tableView {
     if (!_tableView) {

@@ -49,26 +49,24 @@
     [UMConfigure setLogEnabled:NO];
 #endif
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //微信配置
+#if 0
+    //微信配置
 #ifdef DEBUG
-        //在register之前打开log, 后续可以根据log排查问题
-        [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
-            NSLog(@"WeChatSDK: %@", log);
-        }];
+    //在register之前打开log, 后续可以根据log排查问题
+    [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
+        NSLog(@"WeChatSDK: %@", log);
+    }];
 #endif
-        //向微信注册
-        [WXApi registerApp:kHXWechatOpenKey universalLink:UNIVERSAL_LINK];
-        
-        if (!PRODUCTIONMODE) {
-            //调用自检函数,仅用于新接入SDK时调试使用，请勿在正式环境的调用
-            [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
-                NSLog(@"自检函数:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
-            }];
-        }
-        
-    });
+    //向微信注册
+    [WXApi registerApp:kHXWechatOpenKey universalLink:UNIVERSAL_LINK];
     
+    if (!PRODUCTIONMODE) {
+        //调用自检函数,仅用于新接入SDK时调试使用，请勿在正式环境的调用
+        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+            NSLog(@"自检函数:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
+        }];
+    }
+#endif
     
 }
 

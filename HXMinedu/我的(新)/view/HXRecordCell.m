@@ -145,8 +145,8 @@
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         layout.minimumLineSpacing = 0;
         layout.minimumInteritemSpacing = 0;
-        layout.sectionInset = UIEdgeInsetsMake(0, 25, 0, 25);
-        float width = floorf((kScreenWidth-130)/2);
+        layout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
+        float width = floorf((kScreenWidth-86)/2);
         layout.itemSize = CGSizeMake(width,35);
         _infoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _infoCollectionView.backgroundColor = [UIColor clearColor];

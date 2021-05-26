@@ -88,6 +88,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取登录状态
 #define HXPOST_GetLoginStatus                          @"/MD/LoginInfo/getLoginStatus"
 
+//获取班主任信息
+#define HXPOST_GetHeadTeacherList                          @"/MD/StuInfo/getHeadTeacherList"
+
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

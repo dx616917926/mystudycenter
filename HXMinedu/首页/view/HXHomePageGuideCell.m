@@ -212,10 +212,12 @@
 -(UIButton *)checkBtn{
     if (!_checkBtn) {
         _checkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _checkBtn.userInteractionEnabled = NO;
         _checkBtn.titleLabel.font = HXFont(16);
         _checkBtn.backgroundColor = COLOR_WITH_ALPHA(0x4da0ff, 1);
         [_checkBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_checkBtn setTitle:@"立即查看" forState:UIControlStateNormal];
+        
     }
     return _checkBtn;
 }

@@ -9,9 +9,13 @@
 #import "HXNavigationBar.h"
 
 @interface HXNavigationBar ()
+//底部线条
 @property (nonatomic, strong) UIView *lineView;
+//标题
 @property (nonatomic, strong, readwrite) UILabel *titleLabel;
+//背景图片
 @property (nonatomic, strong, readwrite) UIImageView *imageView;
+//阴影
 @property (nonatomic, strong, readwrite) UIView *shadowView;
 
 @end

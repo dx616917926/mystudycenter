@@ -11,6 +11,7 @@
 #import "HXInfoConfirmViewController.h"
 #import "HXAboutUsViewController.h"
 #import "HXSetViewController.h"
+#import "HXHeadMasterViewController.h"
 #import "HXSystemNotificationViewController.h"
 #import "HXRecordCell.h"
 #import "HXStudentInfoModel.h"
@@ -194,14 +195,21 @@
             [self.navigationController pushViewController:registFormVc animated:YES];
         }
             break;
-        case 2://图片信息
+        case 2://班主任
+        {
+            HXHeadMasterViewController *headMasterVc = [[HXHeadMasterViewController alloc] init];
+            headMasterVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:headMasterVc animated:YES];
+        }
+            break;
+        case 3://图片信息
         {
             HXInfoConfirmViewController *infoConfirmVc = [[HXInfoConfirmViewController alloc] init];
             infoConfirmVc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:infoConfirmVc animated:YES];
         }
             break;
-        case 3://关于我们
+        case 4://关于我们
         {
             HXAboutUsViewController *aboutUsVc = [[HXAboutUsViewController alloc] init];
             aboutUsVc.hidesBottomBarWhenPushed = YES;
@@ -209,7 +217,7 @@
             
         }
             break;
-        case 4://通用设置
+        case 5://通用设置
         {
             HXSetViewController *setVc = [[HXSetViewController alloc] init];
             setVc.hidesBottomBarWhenPushed = YES;
@@ -334,7 +342,6 @@
     
     self.logoViewImageView.sd_layout
     .topSpaceToView(self.bottomContainerView, 25)
-    .centerXEqualToView(self.mainScrollView)
     .leftEqualToView(self.mainScrollView)
     .rightEqualToView(self.mainScrollView)
     .heightIs(48);
@@ -480,8 +487,8 @@
     if (!_bottomContainerView) {
         _bottomContainerView = [[UIView alloc] init];
         _bottomContainerView.backgroundColor = [UIColor whiteColor];
-        NSArray *titles = @[@"缴费明细",@"报名表单",@"图片信息确认",@"关于我们",@"通用设置"];
-        NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"infconfirm_icon",@"aboutme_icon",@"setting_icon"];
+        NSArray *titles = @[@"缴费明细",@"报名表单",@"班主任",@"图片信息确认",@"关于我们",@"通用设置"];
+        NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"headmaster_icon",@"infconfirm_icon",@"aboutme_icon",@"setting_icon"];
         for (int i = 0; i<titles.count; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;

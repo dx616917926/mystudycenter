@@ -29,6 +29,8 @@
 		041A54F0263BB3080049C2EC /* HXVoucherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A54EF263BB3080049C2EC /* HXVoucherViewController.m */; };
 		041ABDD125AE8A590094CCFA /* exam.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041ABDD025AE8A590094CCFA /* exam.xcassets */; };
 		041C4B5A2657806D00D82DB8 /* HXShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C4B592657806D00D82DB8 /* HXShareManager.m */; };
+		041E42F3265CEF1B00E7F160 /* HXHeadMasterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041E42F2265CEF1B00E7F160 /* HXHeadMasterCell.m */; };
+		041E42F6265CF47800E7F160 /* HXHeadMasterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 041E42F5265CF47800E7F160 /* HXHeadMasterModel.m */; };
 		041EDEF12654DD3E00B11455 /* HXHomeBannnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041EDEF02654DD3E00B11455 /* HXHomeBannnerCell.m */; };
 		041FE0C626145A1C00696D5C /* HXSelectStudyTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041FE0C526145A1C00696D5C /* HXSelectStudyTypeViewController.m */; };
 		041FE0C926146F3000696D5C /* HXLeftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041FE0C826146F3000696D5C /* HXLeftCell.m */; };
@@ -306,6 +308,7 @@
 		04FD3D5F25AD732F00E157EA /* HXExamListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D5D25AD732F00E157EA /* HXExamListCell.m */; };
 		04FD3D6025AD732F00E157EA /* HXExamListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FD3D5E25AD732F00E157EA /* HXExamListCell.xib */; };
 		04FD3D6425ADAADA00E157EA /* NSDate+HXDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD3D6325ADAADA00E157EA /* NSDate+HXDate.m */; };
+		04FEF9EF265B976D003500C1 /* HXHeadMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEF9EE265B976D003500C1 /* HXHeadMasterViewController.m */; };
 		5402E7E5284CAF80DC24B23E /* Pods_HXMinedu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A568469A6B6F55B5712E3B2 /* Pods_HXMinedu.framework */; };
 /* End PBXBuildFile section */
 
@@ -366,6 +369,10 @@
 		041ABDD025AE8A590094CCFA /* exam.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = exam.xcassets; sourceTree = "<group>"; };
 		041C4B582657806D00D82DB8 /* HXShareManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXShareManager.h; sourceTree = "<group>"; };
 		041C4B592657806D00D82DB8 /* HXShareManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXShareManager.m; sourceTree = "<group>"; };
+		041E42F1265CEF1B00E7F160 /* HXHeadMasterCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHeadMasterCell.h; sourceTree = "<group>"; };
+		041E42F2265CEF1B00E7F160 /* HXHeadMasterCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHeadMasterCell.m; sourceTree = "<group>"; };
+		041E42F4265CF47800E7F160 /* HXHeadMasterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHeadMasterModel.h; sourceTree = "<group>"; };
+		041E42F5265CF47800E7F160 /* HXHeadMasterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHeadMasterModel.m; sourceTree = "<group>"; };
 		041EDEEF2654DD3E00B11455 /* HXHomeBannnerCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeBannnerCell.h; sourceTree = "<group>"; };
 		041EDEF02654DD3E00B11455 /* HXHomeBannnerCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeBannnerCell.m; sourceTree = "<group>"; };
 		041FE0C426145A1C00696D5C /* HXSelectStudyTypeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSelectStudyTypeViewController.h; sourceTree = "<group>"; };
@@ -875,6 +882,8 @@
 		04FD3D5E25AD732F00E157EA /* HXExamListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXExamListCell.xib; sourceTree = "<group>"; };
 		04FD3D6225ADAADA00E157EA /* NSDate+HXDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HXDate.h"; sourceTree = "<group>"; };
 		04FD3D6325ADAADA00E157EA /* NSDate+HXDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HXDate.m"; sourceTree = "<group>"; };
+		04FEF9ED265B976D003500C1 /* HXHeadMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHeadMasterViewController.h; sourceTree = "<group>"; };
+		04FEF9EE265B976D003500C1 /* HXHeadMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHeadMasterViewController.m; sourceTree = "<group>"; };
 		4A568469A6B6F55B5712E3B2 /* Pods_HXMinedu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HXMinedu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B88037C381274CBD39A47D2 /* Pods-HXMinedu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HXMinedu.debug.xcconfig"; path = "Target Support Files/Pods-HXMinedu/Pods-HXMinedu.debug.xcconfig"; sourceTree = "<group>"; };
 		9032E1C9431FA19C752B3773 /* Pods-HXMinedu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HXMinedu.release.xcconfig"; path = "Target Support Files/Pods-HXMinedu/Pods-HXMinedu.release.xcconfig"; sourceTree = "<group>"; };
@@ -1025,6 +1034,8 @@
 				04EF93632623F02800B3723F /* HXMyNewsCell.m */,
 				04EF93682623F6B500B3723F /* HXSystemNotificationCell.h */,
 				04EF93692623F6B500B3723F /* HXSystemNotificationCell.m */,
+				041E42F1265CEF1B00E7F160 /* HXHeadMasterCell.h */,
+				041E42F2265CEF1B00E7F160 /* HXHeadMasterCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -1256,8 +1267,8 @@
 		0449A3A8254C11F4001A28D5 /* HXVerificationCodeView */ = {
 			isa = PBXGroup;
 			children = (
-				0449A3A9254C11F4001A28D5 /* HXVerificationCodeView.m */,
 				0449A3AA254C11F4001A28D5 /* HXVerificationCodeView.h */,
+				0449A3A9254C11F4001A28D5 /* HXVerificationCodeView.m */,
 			);
 			path = HXVerificationCodeView;
 			sourceTree = "<group>";
@@ -1527,15 +1538,15 @@
 		0449A499254C11F6001A28D5 /* QRCodeReaderViewController */ = {
 			isa = PBXGroup;
 			children = (
-				0449A49A254C11F6001A28D5 /* QRCodeReaderView.h */,
 				0449A49B254C11F6001A28D5 /* light_green@2x.png */,
-				0449A49C254C11F6001A28D5 /* QRCodeReaderDelegate.h */,
-				0449A49D254C11F6001A28D5 /* UIImage+QRCode.h */,
 				0449A49E254C11F6001A28D5 /* QRCodeReader.h */,
-				0449A49F254C11F6001A28D5 /* QRCodeReaderViewController.m */,
+				0449A4A2254C11F6001A28D5 /* QRCodeReader.m */,
+				0449A49C254C11F6001A28D5 /* QRCodeReaderDelegate.h */,
+				0449A49A254C11F6001A28D5 /* QRCodeReaderView.h */,
 				0449A4A0254C11F6001A28D5 /* QRCodeReaderView.m */,
 				0449A4A1254C11F6001A28D5 /* QRCodeReaderViewController.h */,
-				0449A4A2254C11F6001A28D5 /* QRCodeReader.m */,
+				0449A49F254C11F6001A28D5 /* QRCodeReaderViewController.m */,
+				0449A49D254C11F6001A28D5 /* UIImage+QRCode.h */,
 				0449A4A3254C11F6001A28D5 /* UIImage+QRCode.m */,
 			);
 			path = QRCodeReaderViewController;
@@ -1791,6 +1802,8 @@
 				04687707261FFC8A00DA03C8 /* HXConfirmViewController.m */,
 				046F25B6261EFFBE00E394C3 /* HXSetViewController.h */,
 				046F25B7261EFFBE00E394C3 /* HXSetViewController.m */,
+				04FEF9ED265B976D003500C1 /* HXHeadMasterViewController.h */,
+				04FEF9EE265B976D003500C1 /* HXHeadMasterViewController.m */,
 				04EF935F2623EF4600B3723F /* HXMyNewsViewController.h */,
 				04EF93602623EF4600B3723F /* HXMyNewsViewController.m */,
 				04EF93652623F5FE00B3723F /* HXSystemNotificationViewController.h */,
@@ -1918,6 +1931,8 @@
 				0414606D2630199D0065B76B /* HXPaymentDetailModel.m */,
 				0442C88F2643D3AC00E8148A /* HXScanCodePaymentModel.h */,
 				0442C8902643D3AC00E8148A /* HXScanCodePaymentModel.m */,
+				041E42F4265CF47800E7F160 /* HXHeadMasterModel.h */,
+				041E42F5265CF47800E7F160 /* HXHeadMasterModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2338,6 +2353,7 @@
 				0449A545254C11F6001A28D5 /* HXAudioManager.m in Sources */,
 				044824F725A5642F00A8942C /* NSString+HXString.m in Sources */,
 				049D9818261401D1009A6B5D /* HXCourseCell.m in Sources */,
+				041E42F6265CF47800E7F160 /* HXHeadMasterModel.m in Sources */,
 				04172F6426537185008D1C85 /* HXHomePageViewController.m in Sources */,
 				04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */,
 				0449A54E254C11F6001A28D5 /* EXTScope.m in Sources */,
@@ -2375,6 +2391,7 @@
 				0449A4DA254C11F6001A28D5 /* XHImageViewer.m in Sources */,
 				04940E96261D5E7700C3E8E4 /* HXRecordInfoCell.m in Sources */,
 				0404ED8F26565D1F0001AA6A /* HXHomePageShareViewController.m in Sources */,
+				04FEF9EF265B976D003500C1 /* HXHeadMasterViewController.m in Sources */,
 				046F25B5261EF6D300E394C3 /* HXRegistFormViewController.m in Sources */,
 				04FD3D5A25AD72C100E157EA /* HXExam.m in Sources */,
 				04D793B5254FA5C400BCB358 /* AnswerObject.m in Sources */,
@@ -2427,6 +2444,7 @@
 				0449A536254C11F6001A28D5 /* TestColorViewController.m in Sources */,
 				0449A539254C11F6001A28D5 /* ACEDrawingTools.m in Sources */,
 				0449A4D3254C11F6001A28D5 /* HXVerificationCodeView.m in Sources */,
+				041E42F3265CEF1B00E7F160 /* HXHeadMasterCell.m in Sources */,
 				0449A531254C11F6001A28D5 /* ANImageBitmapRep.m in Sources */,
 				046EF0472611821800A0B790 /* XLPageTitleCell.m in Sources */,
 				042F51F22648DAF4000F13C8 /* HXLearnRecordModel.m in Sources */,
