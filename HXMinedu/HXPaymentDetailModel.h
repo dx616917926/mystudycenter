@@ -10,6 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXPaymentDetailModel : NSObject
+//标题
+@property(nonatomic, copy) NSString *title;
 //订单合成名称
 @property(nonatomic, copy) NSString *feeType_Names;
 //名称

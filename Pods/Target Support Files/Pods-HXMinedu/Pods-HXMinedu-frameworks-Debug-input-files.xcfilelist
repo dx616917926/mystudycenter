@@ -9,6 +9,7 @@ ${BUILT_PRODUCTS_DIR}/GKCover/GKCover.framework
 ${BUILT_PRODUCTS_DIR}/GKPhotoBrowser/GKPhotoBrowser.framework
 ${BUILT_PRODUCTS_DIR}/HXPhotoPicker/HXPhotoPicker.framework
 ${BUILT_PRODUCTS_DIR}/HXViewHUD/HXViewHUD.framework
+${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework
 ${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework
 ${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
 ${BUILT_PRODUCTS_DIR}/MMLayout/MMLayout.framework
@@ -18,5 +19,6 @@ ${BUILT_PRODUCTS_DIR}/SDCycleScrollView/SDCycleScrollView.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
 ${BUILT_PRODUCTS_DIR}/WMZBanner/WMZBanner.framework
 ${BUILT_PRODUCTS_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework
+${BUILT_PRODUCTS_DIR}/YBPopupMenu/YBPopupMenu.framework
 ${BUILT_PRODUCTS_DIR}/YNPageViewController/YNPageViewController.framework
 ${BUILT_PRODUCTS_DIR}/hpple/hpple.framework

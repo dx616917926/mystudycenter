@@ -12,6 +12,7 @@
 #import "HXLoginViewController.h"
 #import "HXIntroViewManager.h"
 #import "HXCheckUpdateTool.h"
+#import "IQKeyboardManager.h"
 #import "WXApi.h"
 
 @interface AppDelegate ()<WXApiDelegate>
@@ -67,6 +68,13 @@
         }];
     }
 #endif
+    
+    ///键盘（IQKeyboardManager）全局管理，针对键盘遮挡问题
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.enableAutoToolbar = NO;///是否显示键盘上方工具条
+    manager.shouldResignOnTouchOutside = YES;///是否点击空白区域收起键盘
+    manager.keyboardDistanceFromTextField = IS_iPhoneX?30:20;/// 键盘距离文本输入框距离
     
 }
 

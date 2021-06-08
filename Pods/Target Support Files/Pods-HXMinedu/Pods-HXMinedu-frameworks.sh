@@ -185,6 +185,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/GKPhotoBrowser/GKPhotoBrowser.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HXPhotoPicker/HXPhotoPicker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HXViewHUD/HXViewHUD.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MMLayout/MMLayout.framework"
@@ -194,6 +195,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/WMZBanner/WMZBanner.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/YBPopupMenu/YBPopupMenu.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/YNPageViewController/YNPageViewController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/hpple/hpple.framework"
 fi
@@ -208,6 +210,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/GKPhotoBrowser/GKPhotoBrowser.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HXPhotoPicker/HXPhotoPicker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HXViewHUD/HXViewHUD.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MMLayout/MMLayout.framework"
@@ -217,6 +220,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/WMZBanner/WMZBanner.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/YBPopupMenu/YBPopupMenu.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/YNPageViewController/YNPageViewController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/hpple/hpple.framework"
 fi

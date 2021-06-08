@@ -8,6 +8,7 @@
 #import "HXPaymentDtailChildViewController.h"
 #import "HXOrderDetailsViewController.h"
 #import "HXVoucherViewController.h"
+#import "HXYinJiaoHeaderView.h"
 #import "HXPaymentDetailCell.h"
 #import "HXYingJiaoCell.h"
 #import "HXPaidDetailCell.h"
@@ -20,21 +21,11 @@
 @interface HXPaymentDtailChildViewController ()<UITableViewDelegate,UITableViewDataSource,HXPaidDetailCellDelegate>
 
 @property(strong,nonatomic) UITableView *mainTableView;
-@property(strong,nonatomic) UIView *paymentDtailTableHeaderView;
-@property(strong,nonatomic) UIView *bigContainerView;
-@property(nonatomic,strong) UILabel *yingJiaoLabel;//应缴合计
-@property(nonatomic,strong) UILabel *yingJiaoMoneyLabel;
-@property(nonatomic,strong) UILabel *shiJiaoLabel;//实缴合计
-@property(nonatomic,strong) UILabel *shiJiaoMoneyLabel;
-
 @property(nonatomic,strong) HXNoDataTipView *noDataTipView;
-
-//应缴模型
-@property(nonatomic,strong) HXPaymentModel *yinJiaopaymentModel;
-
+///应缴明细数组
+@property(nonatomic,strong) NSArray *yinJiaoDetailsList;
 ///全部订单数组
 @property(nonatomic,strong) NSArray *paidDetailsList;
-
 
 @end
 
@@ -69,30 +60,16 @@
 
 #pragma mark -  获取应缴明细
 -(void)getPayableDetails{
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
-    NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id),
-        @"type":@(selectMajorModel.type),
-    };
-    
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PayableDetails withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PayableDetails withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
         [self.mainTableView.mj_header endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             //刷新数据
-            self.yinJiaopaymentModel = [HXPaymentModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
-            self.yingJiaoMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",self.yinJiaopaymentModel.feeTotal];
-            self.shiJiaoMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",self.yinJiaopaymentModel.payMoneyTotal];
-            if (self.yinJiaopaymentModel.payableTypeList.count == 0) {
+            self.yinJiaoDetailsList = [HXPaymentModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (self.yinJiaoDetailsList.count == 0) {
                 [self.view addSubview:self.noDataTipView];
             }else{
                 [self.noDataTipView removeFromSuperview];
-            }
-            if (self.flag == 1) {
-                self.mainTableView.tableHeaderView = self.paymentDtailTableHeaderView;
-            }else{
-                self.mainTableView.tableHeaderView = nil;
             }
             [self.mainTableView reloadData];
         }
@@ -104,14 +81,9 @@
 
 #pragma mark -  获取全部订单
 -(void)getPaidDetailsList{
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
-    NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id),
-        @"type":@(selectMajorModel.type),
-    };
+    
 
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PaidDetails withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PaidDetails withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
         [self.mainTableView.mj_header endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
@@ -152,7 +124,7 @@
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (self.flag == 1){
-        return self.yinJiaopaymentModel.payableTypeList.count;
+        return self.yinJiaoDetailsList.count;
     }else{
         return self.paidDetailsList.count;
     }
@@ -160,7 +132,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+    if (self.flag == 1){
+        HXPaymentModel *paymentModel = self.yinJiaoDetailsList[section];
+        return paymentModel.payableTypeList.count;
+    }else{
+        return 1;
+    }
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
@@ -169,24 +146,40 @@
     return view;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (self.flag == 1) {
+        
+        static NSString * yinJiaoHeaderViewIdentifier = @"HXYinJiaoHeaderViewIdentifier";
+        HXYinJiaoHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:yinJiaoHeaderViewIdentifier];
+        if (!headerView) {
+            headerView = [[HXYinJiaoHeaderView alloc] initWithReuseIdentifier:yinJiaoHeaderViewIdentifier];
+        }
+        HXPaymentModel *paymentModel = self.yinJiaoDetailsList[section];
+        headerView.paymentModel = paymentModel;
+        return headerView;
+    }else{
+        return nil;
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return self.flag == 1?102:0.01;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return self.flag == 1?10:16;
 }
 
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
      if(self.flag == 1){
-        HXPaymentDetailsInfoModel *paymentDetailsInfoModel = self.yinJiaopaymentModel.payableTypeList[indexPath.section];
+        HXPaymentModel *paymentModel = self.yinJiaoDetailsList[indexPath.section];
+        HXPaymentDetailsInfoModel *paymentDetailsInfoModel = paymentModel.payableTypeList[indexPath.row];
         return 90+paymentDetailsInfoModel.payableDetailsInfoList.count*40;
-//         CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
-//                                                              model:paymentDetailsInfoModel keyPath:@"paymentDetailsInfoModel"
-//                                                          cellClass:([HXYingJiaoCell class])
-//                                                   contentViewWidth:kScreenWidth];
-//
-//
-//         return rowHeight;
-
     }else{
         HXPaymentDetailModel *paymentDetailModel = self.paidDetailsList[indexPath.section];
         //-1已支付待确认 1-已完成 0-未完成
@@ -209,7 +202,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.showType = HXYingJiaoShowType;
         [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
-        HXPaymentDetailsInfoModel *paymentDetailsInfoModel = self.yinJiaopaymentModel.payableTypeList[indexPath.section];
+        HXPaymentModel *paymentModel = self.yinJiaoDetailsList[indexPath.section];
+        HXPaymentDetailsInfoModel *paymentDetailsInfoModel = paymentModel.payableTypeList[indexPath.row];
         cell.paymentDetailsInfoModel = paymentDetailsInfoModel;
         return cell;
     }else{
@@ -263,7 +257,7 @@
 
 -(UITableView *)mainTableView{
     if (!_mainTableView) {
-        _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kNavigationBarHeight-58) style:UITableViewStylePlain];
+        _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kNavigationBarHeight-58) style:UITableViewStyleGrouped];
         _mainTableView.bounces = YES;
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
@@ -286,108 +280,6 @@
         _mainTableView.showsVerticalScrollIndicator = NO;
     }
     return _mainTableView;
-}
-
--(UIView *)paymentDtailTableHeaderView{
-    if (!_paymentDtailTableHeaderView) {
-        _paymentDtailTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 82)];
-        _paymentDtailTableHeaderView.backgroundColor = [UIColor clearColor];
-        [_paymentDtailTableHeaderView addSubview:self.bigContainerView];
-        [self.bigContainerView addSubview:self.yingJiaoLabel];
-        [self.bigContainerView addSubview:self.yingJiaoMoneyLabel];
-        UIView *line = [[UIView alloc] init];
-        line.backgroundColor = COLOR_WITH_ALPHA(0x979797, 1);
-        [self.bigContainerView addSubview:line];
-        [self.bigContainerView addSubview:self.shiJiaoLabel];
-        [self.bigContainerView addSubview:self.shiJiaoMoneyLabel];
-        
-        self.bigContainerView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(10, 10, 10, 10));
-        self.bigContainerView.sd_cornerRadius = @4;
-        
-        line.sd_layout
-        .centerXEqualToView(self.bigContainerView)
-        .centerYEqualToView(self.bigContainerView)
-        .widthIs(1)
-        .heightIs(30);
-        
-        self.yingJiaoLabel.sd_layout
-        .topSpaceToView(self.bigContainerView, 14)
-        .leftSpaceToView(self.bigContainerView, 5)
-        .rightSpaceToView(line, 5)
-        .heightIs(17);
-        
-         self.yingJiaoMoneyLabel.sd_layout
-         .topSpaceToView(self.yingJiaoLabel, 3)
-         .leftSpaceToView(self.bigContainerView, 5)
-         .rightSpaceToView(line, 5)
-         .heightIs(20);
-        
-         self.shiJiaoLabel.sd_layout
-         .centerYEqualToView(self.yingJiaoLabel)
-         .rightSpaceToView(self.bigContainerView, 5)
-         .leftSpaceToView(line, 5)
-         .heightIs(17);
-         
-          self.shiJiaoMoneyLabel.sd_layout
-          .centerYEqualToView(self.yingJiaoMoneyLabel)
-          .rightSpaceToView(self.bigContainerView, 5)
-          .leftSpaceToView(line, 5)
-          .heightIs(20);
-        
-    }
-    return _paymentDtailTableHeaderView;
-}
-
--(UIView *)bigContainerView{
-    if (!_bigContainerView) {
-        _bigContainerView = [[UIView alloc] init];
-        _bigContainerView.backgroundColor = [UIColor whiteColor];
-    }
-    return _bigContainerView;
-}
-
--(UILabel *)yingJiaoLabel{
-    if (!_yingJiaoLabel) {
-        _yingJiaoLabel = [[UILabel alloc] init];
-        _yingJiaoLabel.textAlignment = NSTextAlignmentCenter;
-        _yingJiaoLabel.font = HXFont(12);
-        _yingJiaoLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _yingJiaoLabel.text = @"应缴合计";
-    }
-    return _yingJiaoLabel;
-}
-
--(UILabel *)yingJiaoMoneyLabel{
-    if (!_yingJiaoMoneyLabel) {
-        _yingJiaoMoneyLabel = [[UILabel alloc] init];
-        _yingJiaoMoneyLabel.textAlignment = NSTextAlignmentCenter;
-        _yingJiaoMoneyLabel.font = HXFont(12);
-        _yingJiaoMoneyLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
-    }
-    return _yingJiaoMoneyLabel;
-}
-
-
-
--(UILabel *)shiJiaoLabel{
-    if (!_shiJiaoLabel) {
-        _shiJiaoLabel = [[UILabel alloc] init];
-        _shiJiaoLabel.textAlignment = NSTextAlignmentCenter;
-        _shiJiaoLabel.font = HXFont(12);
-        _shiJiaoLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _shiJiaoLabel.text = @"实缴合计";
-    }
-    return _shiJiaoLabel;
-}
-
--(UILabel *)shiJiaoMoneyLabel{
-    if (!_shiJiaoMoneyLabel) {
-        _shiJiaoMoneyLabel = [[UILabel alloc] init];
-        _shiJiaoMoneyLabel.textAlignment = NSTextAlignmentCenter;
-        _shiJiaoMoneyLabel.font = HXFont(12);
-        _shiJiaoMoneyLabel.textColor = COLOR_WITH_ALPHA(0xFE664B, 1);
-    }
-    return _shiJiaoMoneyLabel;
 }
 
 

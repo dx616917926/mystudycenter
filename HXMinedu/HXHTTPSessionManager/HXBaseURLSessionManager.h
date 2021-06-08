@@ -49,8 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 //获取学生专业
 #define HXPOST_Get_MajorL_List                                 @"/MD/StuInfo/geMajorList"
 
-//获取新生报名表单下载链接
-#define HXPOST_Get_DownPdf                                 @"/MD/StuInfo/getDownPdf"
+//获取新生报名表单下载链接V2
+#define HXPOST_Get_DownPdf                                 @"/MD/StuInfo/getDownPdfV2"
 
 //获取学生图片信息
 #define HXPOST_Get_StudentFile                                 @"/MD/StuInfo/getStudentFile"
@@ -70,20 +70,20 @@ NS_ASSUME_NONNULL_BEGIN
 //获取Banner和Logo
 #define HXPOST_Get_BannerAndLogo                            @"/MD/StuInfo/getBannerAndLogo"
 
-//获取应缴明细
-#define HXPOST_Get_PayableDetails                          @"/MD/StuPayInfo/getPayableDetails"
+//获取应缴明细V2
+#define HXPOST_Get_PayableDetails                          @"/MD/StuPayInfo/getPayableDetailsV2"
 
-//获取已缴明细
-#define HXPOST_Get_PaidDetails                           @"/MD/StuPayInfo/getPaidDetails"
+//获取已缴明细V2
+#define HXPOST_Get_PaidDetails                           @"/MD/StuPayInfo/getPaidDetailsV2"
 
-//获取已缴明细
-#define HXPOST_Get_PaidDetailsInfo                          @"/MD/StuPayInfo/getPaidDetailsInfo"
+//获取订单详情V2
+#define HXPOST_Get_PaidDetailsInfo                          @"/MD/StuPayInfo/getPaidDetailsInfoV2"
 
-//获取已缴明细
-#define HXPOST_Get_ConfirmOrder                          @"/MD/StuPayInfo/ConfirmOrder"
+//确认订单信息V2
+#define HXPOST_Get_ConfirmOrder                          @"/MD/StuPayInfo/ConfirmOrderV2"
 
-//获取已缴明细
-#define HXPOST_UploadProofFile                          @"/MD/StuPayInfo/uploadProofFile"
+//上传交易凭证V2
+#define HXPOST_UploadProofFile                          @"/MD/StuPayInfo/uploadProofFileV2"
 
 //获取登录状态
 #define HXPOST_GetLoginStatus                          @"/MD/LoginInfo/getLoginStatus"

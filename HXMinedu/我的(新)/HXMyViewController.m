@@ -13,6 +13,7 @@
 #import "HXSetViewController.h"
 #import "HXHeadMasterViewController.h"
 #import "HXSystemNotificationViewController.h"
+#import "HXYiDongAndRefundConfirmViewController.h"
 #import "HXRecordCell.h"
 #import "HXStudentInfoModel.h"
 #import "HXMajorModel.h"
@@ -35,14 +36,19 @@
 @property(nonatomic,strong)  WMZBannerView *bannerView;
 @property(nonatomic,strong)  WMZBannerParam *bannerParam;
 
-@property(nonatomic,strong) UIView *bottomContainerView;
-@property(nonatomic,strong) NSMutableArray *bottomBtns;
+@property(nonatomic,strong) UIView *middleContainerView;
+@property(nonatomic,strong) NSMutableArray *middleBtns;
 @property(nonatomic,strong) UIImageView *logoViewImageView;
 
 @property(nonatomic,strong) HXStudentInfoModel*stuInfoModel;
 @property(nonatomic,strong) NSArray *majorList;
 //第一次
 @property(nonatomic,assign) BOOL isFirst;
+
+@property(nonatomic,strong) UIView *bottomContainerView;
+@property(nonatomic,strong) UIButton *aboutUsBtn;
+@property(nonatomic,strong) UIView *line;
+@property(nonatomic,strong) UIButton *commomSetBtn;
 
 @end
 
@@ -178,7 +184,7 @@
     [self.navigationController pushViewController:systemNotificationVc animated:YES];
 }
 
--(void)handleBottomClick:(UIButton *)sender{
+-(void)handleMiddleClick:(UIButton *)sender{
     NSInteger index = sender.tag - 5000;
     switch (index) {
         case 0://缴费明细
@@ -195,21 +201,41 @@
             [self.navigationController pushViewController:registFormVc animated:YES];
         }
             break;
-        case 2://班主任
-        {
-            HXHeadMasterViewController *headMasterVc = [[HXHeadMasterViewController alloc] init];
-            headMasterVc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:headMasterVc animated:YES];
-        }
+        
             break;
-        case 3://图片信息
+        case 2://图片信息
         {
             HXInfoConfirmViewController *infoConfirmVc = [[HXInfoConfirmViewController alloc] init];
             infoConfirmVc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:infoConfirmVc animated:YES];
         }
             break;
-        case 4://关于我们
+        case 3://异动确认
+        {
+            HXYiDongAndRefundConfirmViewController *yiDongAndRefundConfirmVc = [[HXYiDongAndRefundConfirmViewController alloc] init];
+            yiDongAndRefundConfirmVc.hidesBottomBarWhenPushed = YES;
+            yiDongAndRefundConfirmVc.confirmType = HXYiDongConfirmType;
+            [self.navigationController pushViewController:yiDongAndRefundConfirmVc animated:YES];
+            
+        }
+            break;
+        case 4://退费确认
+        {
+            HXYiDongAndRefundConfirmViewController *yiDongAndRefundConfirmVc = [[HXYiDongAndRefundConfirmViewController alloc] init];
+            yiDongAndRefundConfirmVc.hidesBottomBarWhenPushed = YES;
+            yiDongAndRefundConfirmVc.confirmType = HXRefundConfirmType;
+            [self.navigationController pushViewController:yiDongAndRefundConfirmVc animated:YES];
+            
+        }
+            break;
+        case 5://班主任
+        {
+            HXHeadMasterViewController *headMasterVc = [[HXHeadMasterViewController alloc] init];
+            headMasterVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:headMasterVc animated:YES];
+        }
+            break;
+        case 6://关于我们
         {
             HXAboutUsViewController *aboutUsVc = [[HXAboutUsViewController alloc] init];
             aboutUsVc.hidesBottomBarWhenPushed = YES;
@@ -217,15 +243,13 @@
             
         }
             break;
-        case 5://通用设置
+        case 7://通用设置
         {
             HXSetViewController *setVc = [[HXSetViewController alloc] init];
             setVc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:setVc animated:YES];
-            
         }
             break;
-            
         default:
             break;
     }
@@ -236,10 +260,6 @@
 -(void)createUI{
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.sc_navigationBar.leftBarButtonItem = nil;
-    [self sc_setNavigationBarBackgroundAlpha:0];
-    [self setSc_NavigationBarAnimateInvalid:YES];
-    
     [self.view addSubview:self.mainScrollView];
     [self.mainScrollView addSubview:self.topView];
     [self.topView addSubview:self.headerImageView];
@@ -249,6 +269,7 @@
     [self.topView addSubview:self.messageBtn];
  
     [self.mainScrollView addSubview:self.bannerView];
+    [self.mainScrollView addSubview:self.middleContainerView];
     [self.mainScrollView addSubview:self.bottomContainerView];
     [self.mainScrollView addSubview:self.logoViewImageView];
     
@@ -316,12 +337,12 @@
     .rightEqualToView(self.mainScrollView)
     .heightIs(200);
     
-    self.bottomContainerView.sd_layout
+    self.middleContainerView.sd_layout
     .topSpaceToView(self.bannerView, 15)
     .leftSpaceToView(self.mainScrollView, _kpw(25))
     .rightSpaceToView(self.mainScrollView, _kpw(25));
     
-    for (UIButton *btn in self.bottomBtns) {
+    for (UIButton *btn in self.middleBtns) {
         btn.sd_layout.heightIs(90);
         btn.imageView.sd_layout
         .centerXEqualToView(btn)
@@ -337,8 +358,61 @@
     }
     
     
-    [self.bottomContainerView setupAutoMarginFlowItems:self.bottomBtns withPerRowItemsCount:3 itemWidth:100 verticalMargin:20 verticalEdgeInset:20 horizontalEdgeInset:10];
+    [self.middleContainerView setupAutoMarginFlowItems:self.middleBtns withPerRowItemsCount:3 itemWidth:100 verticalMargin:20 verticalEdgeInset:20 horizontalEdgeInset:10];
+    self.middleContainerView.sd_cornerRadius = @10;
+    
+    self.bottomContainerView.sd_layout
+    .topSpaceToView(self.middleContainerView, 15)
+    .leftSpaceToView(self.mainScrollView, _kpw(25))
+    .rightSpaceToView(self.mainScrollView, _kpw(25))
+    .heightIs(101);
     self.bottomContainerView.sd_cornerRadius = @10;
+    
+    
+    self.line.sd_layout
+    .centerYEqualToView(self.bottomContainerView)
+    .leftSpaceToView(self.bottomContainerView, 21)
+    .rightSpaceToView(self.bottomContainerView, 0)
+    .heightIs(1);
+    
+    
+    self.aboutUsBtn.sd_layout
+    .topEqualToView(self.bottomContainerView)
+    .leftEqualToView(self.bottomContainerView)
+    .rightEqualToView(self.bottomContainerView)
+    .heightIs(50);
+    
+    self.aboutUsBtn.titleLabel.sd_layout
+    .centerYEqualToView(self.aboutUsBtn)
+    .leftSpaceToView(self.aboutUsBtn, 22)
+    .widthIs(150)
+    .heightIs(22);
+    
+    self.aboutUsBtn.imageView.sd_layout
+    .centerYEqualToView(self.aboutUsBtn)
+    .rightSpaceToView(self.aboutUsBtn, 16)
+    .widthIs(16)
+    .heightEqualToWidth();
+    
+    
+    self.commomSetBtn.sd_layout
+    .bottomEqualToView(self.bottomContainerView)
+    .leftEqualToView(self.bottomContainerView)
+    .rightEqualToView(self.bottomContainerView)
+    .heightIs(50);
+    
+    self.commomSetBtn.titleLabel.sd_layout
+    .centerYEqualToView(self.commomSetBtn)
+    .leftSpaceToView(self.commomSetBtn, 22)
+    .widthIs(150)
+    .heightIs(22);
+    
+    self.commomSetBtn.imageView.sd_layout
+    .centerYEqualToView(self.commomSetBtn)
+    .rightSpaceToView(self.commomSetBtn, 16)
+    .widthIs(16)
+    .heightEqualToWidth();
+    
     
     self.logoViewImageView.sd_layout
     .topSpaceToView(self.bottomContainerView, 25)
@@ -346,7 +420,7 @@
     .rightEqualToView(self.mainScrollView)
     .heightIs(48);
     
-    [self.mainScrollView setupAutoContentSizeWithBottomView:self.logoViewImageView bottomMargin:30];
+    [self.mainScrollView setupAutoHeightWithBottomView:self.logoViewImageView bottomMargin:30];
     
     // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
@@ -483,12 +557,12 @@
     return _bannerView;
 }
 
--(UIView *)bottomContainerView{
-    if (!_bottomContainerView) {
-        _bottomContainerView = [[UIView alloc] init];
-        _bottomContainerView.backgroundColor = [UIColor whiteColor];
-        NSArray *titles = @[@"缴费明细",@"报名表单",@"班主任",@"图片信息确认",@"关于我们",@"通用设置"];
-        NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"headmaster_icon",@"infconfirm_icon",@"aboutme_icon",@"setting_icon"];
+-(UIView *)middleContainerView{
+    if (!_middleContainerView) {
+        _middleContainerView = [[UIView alloc] init];
+        _middleContainerView.backgroundColor = [UIColor whiteColor];
+        NSArray *titles = @[@"缴费明细",@"报名表单",@"图片信息确认",@"异动确认",@"退费确认",@"班主任"];
+        NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"infconfirm_icon",@"yidongconfirm_icon",@"refundconfirm_icon",@"headmaster_icon"];
         for (int i = 0; i<titles.count; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -497,19 +571,70 @@
             [btn setTitle:titles[i] forState:UIControlStateNormal];
             [btn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
             [btn setImage:[UIImage imageNamed:imageNames[i]] forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(handleBottomClick:) forControlEvents:UIControlEventTouchUpInside];
-            [_bottomContainerView addSubview:btn];
-            [self.bottomBtns addObject:btn];
+            [btn addTarget:self action:@selector(handleMiddleClick:) forControlEvents:UIControlEventTouchUpInside];
+            [_middleContainerView addSubview:btn];
+            [self.middleBtns addObject:btn];
         }
     }
-    return _bottomContainerView;;
+    return _middleContainerView;;
 }
 
--(NSMutableArray *)bottomBtns{
-    if (!_bottomBtns) {
-        _bottomBtns = [NSMutableArray array];
+-(NSMutableArray *)middleBtns{
+    if (!_middleBtns) {
+        _middleBtns = [NSMutableArray array];
     }
-    return _bottomBtns;;
+    return _middleBtns;;
+}
+
+
+
+-(UIView *)bottomContainerView{
+    if (!_bottomContainerView) {
+        _bottomContainerView = [[UIView alloc] init];
+        _bottomContainerView.backgroundColor = [UIColor whiteColor];
+        [_bottomContainerView addSubview:self.aboutUsBtn];
+        [_bottomContainerView addSubview:self.line];
+        [_bottomContainerView addSubview:self.commomSetBtn];
+    }
+    return _bottomContainerView;
+}
+
+-(UIButton *)aboutUsBtn{
+    if (!_aboutUsBtn) {
+        _aboutUsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _aboutUsBtn.tag = 5006;
+        _aboutUsBtn.titleLabel.font = HXFont(14);
+        _aboutUsBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+        [_aboutUsBtn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
+        [_aboutUsBtn setTitle:@"关于我们" forState:UIControlStateNormal];
+        [_aboutUsBtn setImage:[UIImage imageNamed:@"left_arrow"] forState:UIControlStateNormal];
+        [_aboutUsBtn addTarget:self action:@selector(handleMiddleClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    return _aboutUsBtn;
+}
+
+-(UIButton *)commomSetBtn{
+    if (!_commomSetBtn) {
+        _commomSetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _commomSetBtn.tag = 5007;
+        _commomSetBtn.titleLabel.font = HXFont(14);
+        _commomSetBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+        [_commomSetBtn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
+        [_commomSetBtn setTitle:@"通用设置" forState:UIControlStateNormal];
+        [_commomSetBtn setImage:[UIImage imageNamed:@"left_arrow"] forState:UIControlStateNormal];
+        [_commomSetBtn addTarget:self action:@selector(handleMiddleClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    return _commomSetBtn;
+}
+
+-(UIView *)line{
+    if (!_line) {
+        _line = [[UIView alloc] init];
+        _line.backgroundColor = COLOR_WITH_ALPHA(0x979797, 0.5);
+    }
+    return _line;
 }
 
 -(UIImageView *)logoViewImageView{

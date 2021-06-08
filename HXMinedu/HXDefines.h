@@ -47,6 +47,7 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 
 #pragma mark - 新版新定义的常用宏
 
+
 ///弱引用和强引用
 #define WeakSelf(weakSelf)      __weak __typeof(&*self)     weakSelf  = self;
 #define StrongSelf(strongSelf)  __strong __typeof(&*self)   strongSelf = weakSelf;

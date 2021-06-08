@@ -75,6 +75,7 @@
     
     //学习
     HXHomePageViewController *homePage = [HXHomePageViewController new];
+    homePage.sc_navigationBarHidden = YES;//隐藏导航栏
     HXNavigationController *homePageNav = [[HXNavigationController alloc] initWithRootViewController:homePage];
     homePageNav.tabBarItem.title = @"首页";
     homePageNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_0"];
@@ -110,6 +111,7 @@
 
     //我的
     HXMyViewController *home = [HXMyViewController new];
+    home.sc_navigationBarHidden = YES;//隐藏导航栏
     HXNavigationController *homeNav = [[HXNavigationController alloc] initWithRootViewController:home];
     homeNav.tabBarItem.title = @"我的";
     homeNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_4"];

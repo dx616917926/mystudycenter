@@ -42,6 +42,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 +(UIImage *)compressImageSize:(UIImage *)image toByte:(NSUInteger)maxLength;
 
+//限制UITextField输入的长度，包括汉字  一个汉字算2个字符
++(void)limitIncludeChineseTextField:(UITextField *)textField Length:(NSUInteger)kMaxLength;
+
+
+//限制UITextView输入的长度，包括汉字  一个汉字算2个字符
++(void)limitIncludeChineseTextView:(UITextView *)textview Length:(NSUInteger)kMaxLength;
+
+//判断输入的字符长度 一个汉字算2个字符
++ (NSUInteger)unicodeLengthOfString:(NSString *)text;
+
+//字符串截到对应的长度包括中文 一个汉字算2个字符
++ (NSString *)subStringIncludeChinese:(NSString *)text ToLength:(NSUInteger)length;
+
 @end
 
 NS_ASSUME_NONNULL_END

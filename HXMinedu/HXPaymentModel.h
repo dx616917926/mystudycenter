@@ -11,6 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXPaymentModel : NSObject
+///标题
+@property(nonatomic, copy) NSString *title;
+///在籍
+@property(nonatomic, copy) NSString *studentStateName;
 ///实缴合计
 @property(nonatomic, assign) float payMoneyTotal;
 ///应缴合计

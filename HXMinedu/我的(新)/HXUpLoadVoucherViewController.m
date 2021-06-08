@@ -116,12 +116,7 @@
 
 #pragma mark - 上传图片信息
 -(void)uploadStudentFile:(NSString *)encodedImageStr{
-    [self.view showLoadingWithMessage:@"正在上传..."];
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id),
-        @"type":@(selectMajorModel.type),
         @"image":HXSafeString(encodedImageStr),
         @"orderNum":HXSafeString(self.scanCodePaymentModel.orderNum)
     };

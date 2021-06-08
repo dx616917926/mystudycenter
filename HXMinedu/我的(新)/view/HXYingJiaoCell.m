@@ -383,7 +383,7 @@
 -(UIImageView *)smallBottomImageView{
     if (!_smallBottomImageView) {
         _smallBottomImageView = [[UIImageView alloc] init];
-        _smallBottomImageView.image = [UIImage resizedImageWithName:@"smallbottom"];
+        _smallBottomImageView.image = [UIImage imageNamed:@"smallbottom"];
         _smallBottomImageView.clipsToBounds = YES;
         _smallBottomImageView.backgroundColor = [UIColor clearColor];
     }

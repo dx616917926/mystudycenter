@@ -8,14 +8,16 @@
 #import "HXRegistFormViewController.h"
 #import <AFNetworking/AFNetworking.h>
 #import <QuickLook/QuickLook.h>
+#import "HXRegistFormCell.h"
+#import "HXNoDataTipView.h"
+#import "HXRegistFormModel.h"
 
-
-@interface HXRegistFormViewController ()<QLPreviewControllerDataSource>
-@property (nonatomic, strong) UIImageView *formImageView;
-@property (nonatomic, strong) UIButton *downLoadBtn;
+@interface HXRegistFormViewController ()<QLPreviewControllerDataSource,UITableViewDelegate,UITableViewDataSource,HXRegistFormCellDelegate>
+@property (nonatomic, strong) UITableView *mainTableView;
+@property(nonatomic,strong) HXNoDataTipView *noDataTipView;
+@property (nonatomic, strong) NSArray *dataList;
 
 @property (nonatomic, copy) NSString *downLoadUrl;
-
 @property (nonatomic, strong) QLPreviewController *QLController;
 @property (nonatomic, copy) NSURL *fileURL;
 
@@ -45,10 +47,44 @@
     return 1;
 }
 
-#pragma mark - Event
+#pragma mark - <UITableViewDelegate,UITableViewDataSource>
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
 
--(void)downLoad:(UIButton *)sender{
-    
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.dataList.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 162;
+
+}
+
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *registFormCellIdentifier = @"HXRegistFormCellIdentifier";
+    HXRegistFormCell *cell = [tableView dequeueReusableCellWithIdentifier:registFormCellIdentifier];
+    if (!cell) {
+        cell = [[HXRegistFormCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:registFormCellIdentifier];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delegate = self;
+    [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+    HXRegistFormModel *registFormModel = self.dataList[indexPath.row];
+    cell.registFormModel = registFormModel;
+    return cell;
+}
+
+
+
+#pragma mark - <HXRegistFormCellDelegate>
+
+-(void)registFormCell:(HXRegistFormCell *)cell downLoadUrl:(NSString *)url{
+    self.downLoadUrl = url;
     if ([HXCommonUtil isNull:self.downLoadUrl]) {
         [self.view showTostWithMessage:@"资源无效"];
         return;
@@ -103,17 +139,18 @@
 
 #pragma mark - 获取新生报名表单下载链接
 -(void)getDownPdf{
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
-    NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id)
-    };
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_DownPdf  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_DownPdf  withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
         
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
-            self.downLoadUrl = [dictionary objectForKey:@"Data"];
-            
+            self.dataList = [HXRegistFormModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];;
+            if (self.dataList.count == 0) {
+                [self.view addSubview:self.noDataTipView];
+            }else{
+                [self.noDataTipView removeFromSuperview];
+            }
+            [self.mainTableView reloadData];
         }
     } failure:^(NSError * _Nonnull error) {
         
@@ -125,54 +162,46 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.sc_navigationBar.title = @"报名表单";
-    
-    [self.view addSubview:self.formImageView];
-    [self.view addSubview:self.downLoadBtn];
-    
-    self.formImageView.sd_layout
-    .centerXEqualToView(self.view)
-    .topSpaceToView(self.view, kNavigationBarHeight+40)
-    .widthIs(176)
-    .heightIs(131);
-    
-    self.downLoadBtn.sd_layout
-    .centerXEqualToView(self.view)
-    .topSpaceToView(self.formImageView, 40)
-    .widthIs(190)
-    .heightIs(36);
-    self.downLoadBtn.sd_cornerRadius = @8;
-    
-    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    gradientLayer.bounds = self.downLoadBtn.bounds;
-    gradientLayer.startPoint = CGPointMake(0, 0.5);
-    gradientLayer.endPoint = CGPointMake(1, 0.5);
-    gradientLayer.anchorPoint = CGPointMake(0, 0);
-    NSArray *colorArr = @[(id)COLOR_WITH_ALPHA(0x4BA4FE, 1).CGColor,(id)COLOR_WITH_ALPHA(0x45EFCF, 1).CGColor];
-    gradientLayer.colors = colorArr;
-    [self.downLoadBtn.layer insertSublayer:gradientLayer below:self.downLoadBtn.titleLabel.layer];
+    [self.view addSubview:self.mainTableView];
+    self.mainTableView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(kNavigationBarHeight, 0, 0, 0));
     
 }
 
--(UIImageView *)formImageView{
-    if (!_formImageView) {
-        _formImageView = [[UIImageView alloc] init];
-        _formImageView.image = [UIImage imageNamed:@"ziliao_icon"];
+
+-(UITableView *)mainTableView{
+    if (!_mainTableView) {
+        _mainTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _mainTableView.bounces = YES;
+        _mainTableView.delegate = self;
+        _mainTableView.dataSource = self;
+        _mainTableView.backgroundColor = [UIColor whiteColor];
+        _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        if ([_mainTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+            [_mainTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        }
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        if (@available(iOS 11.0, *)) {
+            _mainTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+            _mainTableView.estimatedRowHeight = 0;
+            _mainTableView.estimatedSectionHeaderHeight = 0;
+            _mainTableView.estimatedSectionFooterHeight = 0;
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
+        _mainTableView.contentInset = UIEdgeInsetsMake(16, 0, 0, 0);
+        _mainTableView.scrollIndicatorInsets = _mainTableView.contentInset;
+        _mainTableView.showsVerticalScrollIndicator = NO;
     }
-    return _formImageView;
+    return _mainTableView;
 }
 
--(UIButton *)downLoadBtn{
-    if (!_downLoadBtn) {
-        _downLoadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _downLoadBtn.titleLabel.font = HXBoldFont(18);
-        [_downLoadBtn setTitle:@"点击下载" forState:UIControlStateNormal];
-        [_downLoadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _downLoadBtn.backgroundColor = COLOR_WITH_ALPHA(0x4BA4FE, 1);
-        [_downLoadBtn addTarget:self action:@selector(downLoad:) forControlEvents:UIControlEventTouchUpInside];
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:self.mainTableView.bounds];
+        _noDataTipView.tipTitle = @"暂无数据~";
     }
-    return _downLoadBtn;
+    return _noDataTipView;
 }
-
 
 
 @end

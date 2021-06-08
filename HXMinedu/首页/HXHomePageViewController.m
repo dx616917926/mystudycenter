@@ -14,7 +14,7 @@
 #import "WMZBannerView.h"
 #import "HXHomeBannnerCell.h"
 #import "SDWebImage.h"
-
+#import "HXBannerLogoModel.h"
 
 @interface HXHomePageViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
 //自定义导航
@@ -22,6 +22,7 @@
 //头部
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UIImageView *logoImageView;
+@property (nonatomic, strong) UILabel *logoTitleLabel;
 @property (nonatomic, strong) UIButton *dakaBtn;
 @property (nonatomic, strong) UIButton *messageBtn;
 @property(nonatomic,strong)   WMZBannerView *bannerView;
@@ -38,12 +39,19 @@
     // Do any additional setup after loading the view.
     //布局
     [self createUI];
+    
+    //获取Banner和Logo
+    [self getBannerAndLogo];
+    
+    ///监听<<报考类型专业改变>>通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBannerAndLogo) name:VersionAndMajorChangeNotification object:nil];
 }
 
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self sc_setNavigationBarHidden:YES animated:NO];
+    
+    
 }
 
 #pragma mark - Event
@@ -51,11 +59,37 @@
     HXSystemNotificationViewController *systemNotificationVc = [[HXSystemNotificationViewController alloc] init];
     systemNotificationVc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:systemNotificationVc animated:YES];
-    
-    //    HXHomePageShareViewController *systemNotificationVc = [[HXHomePageShareViewController alloc] init];
-    //    systemNotificationVc.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:systemNotificationVc animated:YES];
 }
+
+#pragma mark -  获取Banner和Logo
+-(void)getBannerAndLogo{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic;
+    if ([HXCommonUtil isNull:selectMajorModel.versionId]) {
+        dic = nil;
+    }else{
+        dic = @{
+            @"version_id":HXSafeString(selectMajorModel.versionId),
+            @"type":@(selectMajorModel.type),
+            @"major_id":HXSafeString(selectMajorModel.major_id)
+        };
+    }
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_BannerAndLogo withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXBannerLogoModel *bannerLogoModel = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            //刷新顶部部logo
+            [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:bannerLogoModel.logoIndexUrl]] placeholderImage:nil];
+        }
+        
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+
 
 #pragma mark - UI
 -(void)createUI{
@@ -187,10 +221,10 @@
         [_headerView addSubview:self.bannerView];
         
         self.logoImageView.sd_layout
-        .topSpaceToView(_headerView, kNavigationBarHeight-20)
+        .topSpaceToView(_headerView, kNavigationBarHeight-10)
         .leftSpaceToView(_headerView, 20)
-        .widthIs(148)
-        .heightIs(48);
+        .autoWidthRatio(3)
+        .heightIs(50);
         
         self.messageBtn.sd_layout
         .centerYEqualToView(self.logoImageView)
@@ -216,12 +250,22 @@
 -(UIImageView *)logoImageView{
     if (!_logoImageView) {
         _logoImageView = [[UIImageView alloc] init];
-        _logoImageView.image = [UIImage imageNamed:@"launch_logo"];
-        _logoImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _logoImageView.contentMode = UIViewContentModeScaleAspectFit;
         _logoImageView.clipsToBounds = YES;
         _logoImageView.userInteractionEnabled = YES;
     }
     return _logoImageView;;
+}
+
+-(UILabel *)logoTitleLabel{
+    if (!_logoTitleLabel) {
+        _logoTitleLabel = [[UILabel alloc] init];
+        _logoTitleLabel.textAlignment = NSTextAlignmentLeft;
+        _logoTitleLabel.font = HXBoldFont(20);
+        _logoTitleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _logoTitleLabel.text = @"首页";
+    }
+    return _logoTitleLabel;
 }
 
 -(UIButton *)messageBtn{

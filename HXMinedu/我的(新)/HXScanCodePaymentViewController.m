@@ -59,11 +59,7 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
 
 #pragma mark - 获取扫码支付数据
 -(void)confirmOrder{
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id),
-        @"type":@(selectMajorModel.type),
         @"orderNum":HXSafeString(self.orderNum),
     };
     
@@ -199,9 +195,11 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
 }
 
 -(void)tapImageView:(UITapGestureRecognizer *)ges{
+    
     NSMutableArray *photos = [NSMutableArray new];
     GKPhoto *photo = [GKPhoto new];
     photo.image = self.qRCodeImageView.image;
+    if (!photo.image) return;
     photo.sourceImageView =(UIImageView *)ges.view;
     [photos addObject:photo];
     [self.browser resetPhotoBrowserWithPhotos:photos];

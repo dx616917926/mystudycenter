@@ -9,6 +9,7 @@
 
 @interface HXUnPaidDetailCell ()
 @property(nonatomic,strong) UIImageView *bigTopGroundImageView;
+@property(nonatomic,strong) UILabel *titleLabel;
 @property(nonatomic,strong) UILabel *paymentNameLabel;
 @property(nonatomic,strong) UILabel *paymentStateLabel;
 @property(nonatomic,strong) UIImageView *divisionLine;
@@ -55,6 +56,7 @@
 
 -(void)setPaymentDetailModel:(HXPaymentDetailModel *)paymentDetailModel{
     _paymentDetailModel = paymentDetailModel;
+    self.titleLabel.text = HXSafeString(paymentDetailModel.title);
     self.paymentNameLabel.text = HXSafeString(paymentDetailModel.feeType_Names);
     self.paymentAmountContentLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.fee];
     self.orderNumberContentLabel.text = HXSafeString(paymentDetailModel.orderNum);
@@ -66,10 +68,11 @@
 #pragma mark - UI
 -(void)createUI{
     [self.contentView addSubview:self.bigTopGroundImageView];
+    [self.bigTopGroundImageView addSubview:self.titleLabel];
     [self.bigTopGroundImageView addSubview:self.paymentNameLabel];
-    [self.bigTopGroundImageView addSubview:self.paymentAmountLabel];
     [self.bigTopGroundImageView addSubview:self.paymentStateLabel];
     [self.bigTopGroundImageView addSubview:self.divisionLine];
+    [self.bigTopGroundImageView addSubview:self.paymentAmountLabel];
     [self.bigTopGroundImageView addSubview:self.paymentAmountContentLabel];
     [self.bigTopGroundImageView addSubview:self.orderNumberLabel];
     [self.bigTopGroundImageView addSubview:self.orderNumberContentLabel];
@@ -85,20 +88,26 @@
     .rightSpaceToView(self.contentView, 10)
     .heightIs(186);
     
+    self.titleLabel.sd_layout
+    .topSpaceToView(self.bigTopGroundImageView , 13)
+    .leftSpaceToView(self.bigTopGroundImageView, _kpw(22))
+    .rightSpaceToView(self.bigTopGroundImageView , _kpw(14))
+    .heightIs(17);
+    
     self.paymentStateLabel.sd_layout
-    .topSpaceToView(self.bigTopGroundImageView , 24)
+    .topSpaceToView(self.titleLabel , 8)
     .rightSpaceToView(self.bigTopGroundImageView , _kpw(14))
     .heightIs(22);
     [self.paymentStateLabel setSingleLineAutoResizeWithMaxWidth:120];
     
     self.paymentNameLabel.sd_layout
-    .topSpaceToView(self.bigTopGroundImageView , 24)
-    .leftSpaceToView(self.bigTopGroundImageView , _kpw(14))
+    .centerYEqualToView(self.paymentStateLabel)
+    .leftEqualToView(self.titleLabel)
     .rightSpaceToView(self.paymentStateLabel , _kpw(14))
     .heightIs(22);
     
     self.divisionLine.sd_layout
-    .topSpaceToView(self.bigTopGroundImageView, 62)
+    .topSpaceToView(self.bigTopGroundImageView, 70)
     .leftSpaceToView(self.bigTopGroundImageView, _kpw(14))
     .rightSpaceToView(self.bigTopGroundImageView, _kpw(14))
     .heightIs(1);
@@ -172,6 +181,17 @@
     return _bigTopGroundImageView;
 }
 
+-(UILabel *)titleLabel{
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        _titleLabel.font = HXBoldFont(12);
+        _titleLabel.textAlignment = NSTextAlignmentLeft;
+        _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        
+    }
+    return _titleLabel;
+}
 
 -(UILabel *)paymentNameLabel{
     if (!_paymentNameLabel) {
@@ -276,7 +296,7 @@
 -(UIImageView *)smallBottomImageView{
     if (!_smallBottomImageView) {
         _smallBottomImageView = [[UIImageView alloc] init];
-        _smallBottomImageView.image = [UIImage resizedImageWithName:@"smallbottom"];
+        _smallBottomImageView.image = [UIImage imageNamed:@"smallbottom"];
         _smallBottomImageView.contentMode = UIViewContentModeScaleToFill;
         _smallBottomImageView.clipsToBounds = YES;
         _smallBottomImageView.backgroundColor = [UIColor clearColor];

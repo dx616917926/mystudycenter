@@ -71,11 +71,7 @@
 
 #pragma mark -  获取订单详情
 -(void)getPaidDetailsInfo{
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id),
-        @"type":@(selectMajorModel.type),
         @"orderNum":HXSafeString(self.orderNum),
     };
     

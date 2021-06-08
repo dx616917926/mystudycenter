@@ -116,24 +116,7 @@
     return _browser;
 }
 
-#pragma mark - 获取新生报名表单下载链接
--(void)getDownPdf{
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
-    NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id)
-    };
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_DownPdf  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-        
-        BOOL success = [dictionary boolValueForKey:@"Success"];
-        if (success) {
-            self.downLoadUrl = [dictionary objectForKey:@"Data"];
-            
-        }
-    } failure:^(NSError * _Nonnull error) {
-        
-    }];
-}
+
 
 #pragma mark - UI
 -(void)createUI{
@@ -146,9 +129,9 @@
     [self.view addSubview:self.downLoadBtn];
     
     self.showImageView.sd_layout
-    .topSpaceToView(self.view, kNavigationBarHeight+20)
-    .leftSpaceToView(self.view, _kpw(20))
-    .rightSpaceToView(self.view, _kpw(20))
+    .topSpaceToView(self.view, kNavigationBarHeight+82)
+    .leftSpaceToView(self.view, _kpw(105))
+    .rightSpaceToView(self.view, _kpw(105))
     .heightIs(191);
     
     self.downLoadBtn.sd_layout
@@ -173,7 +156,7 @@
     if ([self.downLoadUrl containsString:@".jpeg"]||[self.downLoadUrl containsString:@".jpg"]||[self.downLoadUrl containsString:@".png"]) {
         [self.showImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.downLoadUrl)] placeholderImage:nil];
     }else{
-        [self.showImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"ziliao_icon"]];
+        [self.showImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"bigziliao_icon"]];
     }
 }
 

@@ -32,6 +32,7 @@ PODS:
     - HXPhotoPicker/Default (= 3.1.9)
   - HXPhotoPicker/Default (3.1.9)
   - HXViewHUD (0.2.0)
+  - IQKeyboardManager (6.5.6)
   - Masonry (1.1.0)
   - MJExtension (3.2.4)
   - MJRefresh (3.1.14.1)
@@ -46,6 +47,7 @@ PODS:
   - WechatOpenSDK (1.8.7.1)
   - WMZBanner (1.2.0):
     - SDWebImage
+  - YBPopupMenu (1.1.9)
   - YNPageViewController (0.2.6)
 
 DEPENDENCIES:
@@ -57,6 +59,7 @@ DEPENDENCIES:
   - hpple (~> 0.2.0)
   - HXPhotoPicker (~> 3.1.9)
   - HXViewHUD (~> 0.2.0)
+  - IQKeyboardManager (~> 6.5.6)
   - Masonry (= 1.1.0)
   - MJExtension (= 3.2.4)
   - MJRefresh (= 3.1.14.1)
@@ -67,6 +70,7 @@ DEPENDENCIES:
   - WebViewJavascriptBridge (~> 5.1.2)
   - WechatOpenSDK (~> 1.8.7.1)
   - WMZBanner (~> 1.2.0)
+  - YBPopupMenu (~> 1.1.9)
   - YNPageViewController (~> 0.2.6)
 
 SPEC REPOS:
@@ -84,12 +88,14 @@ SPEC REPOS:
     - GKPhotoBrowser
     - HXPhotoPicker
     - HXViewHUD
+    - IQKeyboardManager
     - MJExtension
     - SDAutoLayout
     - SDCycleScrollView
     - SDWebImage
     - WechatOpenSDK
     - WMZBanner
+    - YBPopupMenu
     - YNPageViewController
 
 SPEC CHECKSUMS:
@@ -101,6 +107,7 @@ SPEC CHECKSUMS:
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   HXPhotoPicker: e1816ff27f17c3926f6e83aebbb9f4b329324f0b
   HXViewHUD: d27c1e93a43ad9c07924f582c4b3826f1032394f
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 88e0900751b6cac8de1cf724ca9838a0b28d5acb
   MJRefresh: 238e6a37e2dba12160ee3b79f6d2a2b26abcab42
@@ -111,8 +118,9 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: f99dac16105500a570a12b0b03e6bc46501eeb00
   WechatOpenSDK: 6a4d1436c15b3b5fe2a0bd383f3046010186da44
   WMZBanner: 42d02896dc7a67a4d7a2ebe1ef5b7a79f8d2c540
+  YBPopupMenu: 3a02e89860bb0568ba477aee609bc3f25e5bd339
   YNPageViewController: 33040d429adf0b415d4449ffeec848d8339934ea
 
-PODFILE CHECKSUM: 347dcbcc0e118b536001db37b63733b68a4e0a33
+PODFILE CHECKSUM: 8d34f9d26c3840c95e492dd0313fc9aef1b67bde
 
 COCOAPODS: 1.10.1

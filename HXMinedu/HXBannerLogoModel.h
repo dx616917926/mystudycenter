@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HXBannerLogoModel : NSObject
 //logoUrl
 @property(nonatomic, copy) NSString *logoUrl;
+//首页顶部logo
+@property(nonatomic, copy) NSString *logoIndexUrl;
 //t_BannerList_app
 @property(nonatomic, strong) NSArray<HXBannerModel *> *bannerList;
 @end

@@ -315,7 +315,13 @@
         systemNotificationVc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:systemNotificationVc animated:YES];
     }else if(flag == 2){//直播
-        [self.tabBarController setSelectedIndex:2];
+        [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.title isEqualToString:@"直播"]) {
+                [self.tabBarController setSelectedIndex:idx];
+                *stop = YES;
+                return;;
+            }
+        }];
     }else if(flag == 3){//切换类型
         [self  selectStudyType];
     }
