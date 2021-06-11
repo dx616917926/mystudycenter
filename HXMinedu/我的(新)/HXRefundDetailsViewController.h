@@ -9,7 +9,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^RefundRefreshCallBack)(void);
+
 @interface HXRefundDetailsViewController : HXBaseViewController
+///退费id
+@property(nonatomic, copy) NSString *refundId;
+
+@property(nonatomic, copy) RefundRefreshCallBack refundRefreshCallBack;
+
 
 @end
 

@@ -8,13 +8,9 @@
 #import "HXRefundHeadInfoCell.h"
 
 @interface HXRefundHeadInfoCell ()
-@property(nonatomic,strong) UILabel *orderNumberTitleLabel;
-@property(nonatomic,strong) UILabel *orderNumberContentLabel;
 @property(nonatomic,strong) UILabel *typeTitleLabel;
 @property(nonatomic,strong) UILabel *typeContentLabel;
 @property(nonatomic,strong) UIButton *markBtn1;
-@property(nonatomic,strong) UIButton *markBtn2;
-@property(nonatomic,strong) UIButton *markBtn3;
 @property(nonatomic,strong) UILabel *timeTitleLabel;
 @property(nonatomic,strong) UILabel *timeContentLabel;
 @property(nonatomic,strong) UILabel *reasonsTitleLabel;
@@ -45,10 +41,66 @@
     }
     return self;
 }
+
+-(void)setStudentRefundDetailsModel:(HXStudentRefundDetailsModel *)studentRefundDetailsModel{
+    _studentRefundDetailsModel = studentRefundDetailsModel;
+    //0-待确认           1-确认无误       2-待退费  4-已退费     3-已驳回  5-已撤消
+    //0-时不显示任何标签   1-时显示审核中    2和4-时显示已通过       3和5-时不显示标签
+    switch (studentRefundDetailsModel.reviewStatus) {
+        case 0://待确认
+        {
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        case 1://确认无误
+        {
+           
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xFFF5DA, 1);
+            [self.markBtn1 setTitle:@"审核中" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0xFE664B, 1) forState:UIControlStateNormal];
+        }
+            break;
+        case 2://待退费
+        {
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"已通过" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+        }
+            break;
+        case 4://已退费
+        {
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"已通过" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+            
+        }
+            break;
+        case 3://已驳回
+        {
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        case 5://已撤消
+        {
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        default:
+            break;
+    }
+    
+   
+    self.typeContentLabel.text = HXSafeString(studentRefundDetailsModel.refundTypeName);
+    self.timeContentLabel.text = HXSafeString(studentRefundDetailsModel.createtime);
+    self.reasonsContentLabel.text = HXSafeString(studentRefundDetailsModel.why);
+}
+
 #pragma mark - UI
 -(void)createUI{
-    [self addSubview:self.orderNumberTitleLabel];
-    [self addSubview:self.orderNumberContentLabel];
+   
     [self addSubview:self.timeTitleLabel];
     [self addSubview:self.timeContentLabel];
     [self addSubview:self.typeTitleLabel];
@@ -56,24 +108,12 @@
     [self addSubview:self.reasonsTitleLabel];
     [self addSubview:self.reasonsContentLabel];
     [self addSubview:self.markBtn1];
-    [self addSubview:self.markBtn2];
-    [self addSubview:self.markBtn3];
+
     
-    self.orderNumberTitleLabel.sd_layout
+
+    self.typeTitleLabel.sd_layout
     .topSpaceToView(self, 20)
     .leftSpaceToView(self, 24)
-    .widthIs(107)
-    .heightIs(20);
-    
-    self.orderNumberContentLabel.sd_layout
-    .leftSpaceToView(self.orderNumberTitleLabel, 5)
-    .centerYEqualToView(self.orderNumberTitleLabel)
-    .rightSpaceToView(self, 24)
-    .heightIs(20);
-    
-    self.typeTitleLabel.sd_layout
-    .topSpaceToView(self.orderNumberTitleLabel, 8)
-    .leftEqualToView(self.orderNumberTitleLabel)
     .widthIs(76)
     .heightIs(20);
     
@@ -89,21 +129,10 @@
     [self.markBtn1 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
     self.markBtn1.sd_cornerRadius = @2;
     
-    self.markBtn2.sd_layout
-    .leftSpaceToView(self.markBtn1, 8)
-    .centerYEqualToView(self.typeContentLabel);
-    [self.markBtn2 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
-    self.markBtn2.sd_cornerRadius = @2;
-    
-    self.markBtn3.sd_layout
-    .leftSpaceToView(self.markBtn2, 8)
-    .centerYEqualToView(self.typeContentLabel);
-    [self.markBtn3 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
-    self.markBtn3.sd_cornerRadius = @2;
     
     self.timeTitleLabel.sd_layout
     .topSpaceToView(self.typeTitleLabel, 8)
-    .leftEqualToView(self.orderNumberTitleLabel)
+    .leftEqualToView(self.typeTitleLabel)
     .widthRatioToView(self.typeTitleLabel, 1)
     .heightRatioToView(self.typeTitleLabel, 1);
     
@@ -128,26 +157,6 @@
 }
 
 #pragma mark - lazyLoad
--(UILabel *)orderNumberTitleLabel{
-    if (!_orderNumberTitleLabel) {
-        _orderNumberTitleLabel = [[UILabel alloc] init];
-        _orderNumberTitleLabel.textAlignment = NSTextAlignmentLeft;
-        _orderNumberTitleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _orderNumberTitleLabel.font = HXFont(14);
-        _orderNumberTitleLabel.text = @"退费订单编号：";
-    }
-    return _orderNumberTitleLabel;
-}
--(UILabel *)orderNumberContentLabel{
-    if (!_orderNumberContentLabel) {
-        _orderNumberContentLabel = [[UILabel alloc] init];
-        _orderNumberContentLabel.textAlignment = NSTextAlignmentLeft;
-        _orderNumberContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _orderNumberContentLabel.font = HXBoldFont(14);
-        _orderNumberContentLabel.text = @"YD29347892";
-    }
-    return _orderNumberContentLabel;
-}
 
 -(UILabel *)typeTitleLabel{
     if (!_typeTitleLabel) {
@@ -166,7 +175,6 @@
         _typeContentLabel.textAlignment = NSTextAlignmentLeft;
         _typeContentLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
         _typeContentLabel.font = HXBoldFont(14);
-        _typeContentLabel.text = @"转学退费";
     }
     return _typeContentLabel;
 }
@@ -186,7 +194,6 @@
         _timeContentLabel.textAlignment = NSTextAlignmentLeft;
         _timeContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _timeContentLabel.font = HXBoldFont(14);
-        _timeContentLabel.text = @"2021-05-02  11:50";
     }
     return _timeContentLabel;
 }
@@ -211,7 +218,7 @@
         _reasonsContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _reasonsContentLabel.font = HXBoldFont(14);
         _reasonsContentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        _reasonsContentLabel.text = @"转学需退费";
+        
     }
     return _reasonsContentLabel;
 }
@@ -220,33 +227,9 @@
     if (!_markBtn1) {
         _markBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
         _markBtn1.titleLabel.font = HXBoldFont(12);
-        _markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
-        [_markBtn1 setTitle:@"确认无误" forState:UIControlStateNormal];
-        [_markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
     }
     return _markBtn1;
 }
 
--(UIButton *)markBtn2{
-    if (!_markBtn2) {
-        _markBtn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-        _markBtn2.titleLabel.font = HXBoldFont(12);
-        _markBtn2.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
-        [_markBtn2 setTitle:@"已通过" forState:UIControlStateNormal];
-        [_markBtn2 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
-    }
-    return _markBtn2;
-}
-
--(UIButton *)markBtn3{
-    if (!_markBtn3) {
-        _markBtn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-        _markBtn3.titleLabel.font = HXBoldFont(12);
-        _markBtn3.backgroundColor = COLOR_WITH_ALPHA(0xFFF5DA, 1);
-        [_markBtn3 setTitle:@"审核中" forState:UIControlStateNormal];
-        [_markBtn3 setTitleColor:COLOR_WITH_ALPHA(0xFE664B, 1) forState:UIControlStateNormal];
-    }
-    return _markBtn3;
-}
 
 @end

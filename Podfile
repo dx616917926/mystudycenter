@@ -10,7 +10,6 @@ target 'HXMinedu' do
   pod 'Masonry', '1.1.0'
   pod 'MJRefresh', '3.1.14.1'
   pod 'SDWebImage', '~> 5.10.0'
-  
   pod 'MMLayout', '0.1.0'
   pod 'FMDB', '~> 2.6.2'
   pod 'AliPlayerSDK_iOS', '4.7.5'

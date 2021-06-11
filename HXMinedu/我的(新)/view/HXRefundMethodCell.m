@@ -7,6 +7,7 @@
 
 #import "HXRefundMethodCell.h"
 #import "YBPopupMenu.h"
+#import "SDWebImage.h"
 
 @interface HXRefundMethodCell ()<YBPopupMenuDelegate> 
 @property(nonatomic,nonnull) UILabel *refundMethodLabel;//退费方式：
@@ -62,19 +63,31 @@
         popupMenu.delegate = self;
         popupMenu.isShowShadow = NO;
     }];
+    
 }
 
+-(void)tapImageView:(UITapGestureRecognizer *)ges{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(refundMethodCell:tapShowRefundQRCodeImageView:)]) {
+        [self.delegate refundMethodCell:self tapShowRefundQRCodeImageView:self.refundQRCodeImageView];
+    }
+}
+
+
+#pragma mark - <YBPopupMenuDelegate>
 /**
  点击事件回调
  */
 - (void)ybPopupMenu:(YBPopupMenu *)ybPopupMenu didSelectedAtIndex:(NSInteger)index{
     [self.refundMethodBtn setTitle:self.titles[index] forState:UIControlStateNormal];
     if (index == 0) {
-        self.qRCodeContainerView.hidden = NO;
-        self.unionPayContainerView.hidden = YES;
-    }else{
         self.qRCodeContainerView.hidden = YES;
         self.unionPayContainerView.hidden = NO;
+    }else{
+        self.qRCodeContainerView.hidden = NO;
+        self.unionPayContainerView.hidden = YES;
+    }
+    if (self.infoConfirmCallBack) {
+        self.infoConfirmCallBack(index+1, self.nameTextField.text, self.bankTextField.text, self.accountNumTextField.text);
     }
 }
 
@@ -84,6 +97,8 @@
     }
 }
 
+
+#pragma mark -
 -(void)textFieldTextDidChangeNotification:(NSNotification *)notif{
     UITextField *textfiled = notif.object;
     if (textfiled == self.bankTextField) {
@@ -91,6 +106,45 @@
     }else{
         [HXCommonUtil limitIncludeChineseTextField:textfiled Length:20];
     }
+    if (self.infoConfirmCallBack) {
+        self.infoConfirmCallBack(1, self.nameTextField.text, self.bankTextField.text, self.accountNumTextField.text);
+    }
+}
+
+-(void)setStudentRefundDetailsModel:(HXStudentRefundDetailsModel *)studentRefundDetailsModel{
+    ////1银联 2扫码
+    _studentRefundDetailsModel = studentRefundDetailsModel;
+    if (studentRefundDetailsModel.payMode== 1 && studentRefundDetailsModel.reviewStatus!= 0) {
+        self.refundMethodBtn.userInteractionEnabled = NO;
+        [self.refundMethodBtn setTitle:@"银联" forState:UIControlStateNormal];
+        self.unionPayContainerView.hidden = NO;
+        self.qRCodeContainerView.hidden = YES;
+        self.nameTextField.userInteractionEnabled = self.bankTextField.userInteractionEnabled = self.accountNumTextField.userInteractionEnabled = NO;
+        self.nameTextField.text = studentRefundDetailsModel.khm;
+        self.bankTextField.text = studentRefundDetailsModel.khh;
+        self.accountNumTextField.text = studentRefundDetailsModel.khsk;
+        
+    }else if (studentRefundDetailsModel.payMode== 2 && studentRefundDetailsModel.reviewStatus!= 0) {
+        self.refundMethodBtn.userInteractionEnabled = NO;
+        [self.refundMethodBtn setTitle:@"扫码" forState:UIControlStateNormal];
+        self.unionPayContainerView.hidden = YES;
+        self.uploadBtn.hidden = YES;
+        self.qRCodeContainerView.hidden = NO;
+        [self.refundQRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(studentRefundDetailsModel.skewm)] placeholderImage:nil];
+        self.refundQRCodeImageView.backgroundColor = COLOR_WITH_ALPHA(0xD8D8D8, 1);
+    }else{
+        self.refundMethodBtn.userInteractionEnabled = YES;
+        [self.refundMethodBtn setTitle:@"银联" forState:UIControlStateNormal];
+        self.unionPayContainerView.hidden = NO;
+        self.uploadBtn.hidden = NO;
+        self.qRCodeContainerView.hidden = YES;
+        self.nameTextField.userInteractionEnabled = self.bankTextField.userInteractionEnabled = self.accountNumTextField.userInteractionEnabled = YES;
+        self.refundQRCodeImageView.backgroundColor = [UIColor clearColor];
+        if (self.infoConfirmCallBack) {
+            self.infoConfirmCallBack(1, self.nameTextField.text, self.bankTextField.text, self.accountNumTextField.text);
+        }
+    }
+    
 }
 
 -(void)createUI{
@@ -209,7 +263,7 @@
 
 #pragma mark - lazyLoad
 -(NSArray *)titles{
-    return @[@"扫码",@"银联"];
+    return @[@"银联",@"扫码"];
 }
 -(UILabel *)refundMethodLabel{
     if (!_refundMethodLabel) {
@@ -231,7 +285,7 @@
         _refundMethodBtn.titleLabel.font = HXFont(14);
         [_refundMethodBtn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
         [_refundMethodBtn setImage:[UIImage imageNamed:@"down_arrow"] forState:UIControlStateNormal];
-        [_refundMethodBtn setTitle:@"扫码" forState:UIControlStateNormal];
+        
         [_refundMethodBtn addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _refundMethodBtn;
@@ -241,7 +295,7 @@
     if (!_qRCodeContainerView) {
         _qRCodeContainerView = [[UIView alloc] init];
         _qRCodeContainerView.backgroundColor = [UIColor clearColor];
-        _qRCodeContainerView.hidden = NO;
+        
     }
     return _qRCodeContainerView;
 }
@@ -260,8 +314,11 @@
 -(UIImageView *)refundQRCodeImageView{
     if (!_refundQRCodeImageView) {
         _refundQRCodeImageView = [[UIImageView alloc] init];
+        _refundQRCodeImageView.backgroundColor = COLOR_WITH_ALPHA(0xD8D8D8, 1);
         _refundQRCodeImageView.userInteractionEnabled = YES;
         _refundQRCodeImageView.clipsToBounds = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
+        [_refundQRCodeImageView addGestureRecognizer:tap];
     }
     return _refundQRCodeImageView;
 }
@@ -279,7 +336,7 @@
     if (!_unionPayContainerView) {
         _unionPayContainerView = [[UIView alloc] init];
         _unionPayContainerView.backgroundColor = [UIColor clearColor];
-        _unionPayContainerView.hidden = YES;
+        
     }
     return _unionPayContainerView;
 }

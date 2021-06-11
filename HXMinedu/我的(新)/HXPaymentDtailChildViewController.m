@@ -8,6 +8,7 @@
 #import "HXPaymentDtailChildViewController.h"
 #import "HXOrderDetailsViewController.h"
 #import "HXVoucherViewController.h"
+#import "HXHistoricalDetailsViewController.h"
 #import "HXYinJiaoHeaderView.h"
 #import "HXPaymentDetailCell.h"
 #import "HXYingJiaoCell.h"
@@ -22,6 +23,8 @@
 
 @property(strong,nonatomic) UITableView *mainTableView;
 @property(nonatomic,strong) HXNoDataTipView *noDataTipView;
+@property(nonatomic,strong) UIButton *historicalDetailsBtn;
+
 ///应缴明细数组
 @property(nonatomic,strong) NSArray *yinJiaoDetailsList;
 ///全部订单数组
@@ -45,6 +48,13 @@
     }
     //监听支付截图上传成功通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getPaidDetailsList) name:@"ZhiFuImageUploadSuccessNotification" object:nil];
+}
+
+
+#pragma mark - Event
+-(void)pushHistoricalDetailsVC:(UIButton *)sender{
+    HXHistoricalDetailsViewController *vc = [[HXHistoricalDetailsViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - 下拉刷新
@@ -103,6 +113,45 @@
 #pragma mark - 布局子视图
 -(void)createUI{
     [self.view addSubview:self.mainTableView];
+    [self.view addSubview:self.historicalDetailsBtn];
+    
+    UILabel *lable1 = [[UILabel alloc] init];
+    lable1.textAlignment = NSTextAlignmentCenter;
+    lable1.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+    lable1.font = HXFont(12);
+    lable1.text = @"历史";
+    
+    UILabel *lable2 = [[UILabel alloc] init];
+    lable2.textAlignment = NSTextAlignmentCenter;
+    lable2.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+    lable2.font = HXFont(12);
+    lable2.text = @"明细";
+    
+    [self.historicalDetailsBtn addSubview:lable1];
+    [self.historicalDetailsBtn addSubview:lable2];
+    
+    self.mainTableView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, 0, 0, 0));
+    
+    
+    self.historicalDetailsBtn.sd_layout
+    .bottomSpaceToView(self.view, 83)
+    .rightSpaceToView(self.view, 10)
+    .widthIs(55)
+    .heightEqualToWidth();
+    self.historicalDetailsBtn.layer.cornerRadius = 27.5;
+    
+    lable1.sd_layout
+    .centerXEqualToView(self.historicalDetailsBtn)
+    .centerYEqualToView(self.historicalDetailsBtn).offset(-8)
+    .heightIs(16)
+    .widthIs(40);
+    
+    lable2.sd_layout
+    .centerXEqualToView(self.historicalDetailsBtn)
+    .centerYEqualToView(self.historicalDetailsBtn).offset(8)
+    .heightIs(16)
+    .widthIs(40);
+    
     
     // 下拉刷新
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
@@ -155,6 +204,7 @@
         if (!headerView) {
             headerView = [[HXYinJiaoHeaderView alloc] initWithReuseIdentifier:yinJiaoHeaderViewIdentifier];
         }
+        headerView.headerViewType = HXYingJiaoDetailsType;
         HXPaymentModel *paymentModel = self.yinJiaoDetailsList[section];
         headerView.paymentModel = paymentModel;
         return headerView;
@@ -169,10 +219,8 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return self.flag == 1?10:16;
+    return 16;
 }
-
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -257,7 +305,7 @@
 
 -(UITableView *)mainTableView{
     if (!_mainTableView) {
-        _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-kNavigationBarHeight-58) style:UITableViewStyleGrouped];
+        _mainTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _mainTableView.bounces = YES;
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
@@ -282,7 +330,20 @@
     return _mainTableView;
 }
 
-
+-(UIButton *)historicalDetailsBtn{
+    if (!_historicalDetailsBtn) {
+        _historicalDetailsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _historicalDetailsBtn.titleLabel.font = HXFont(12);
+        _historicalDetailsBtn.backgroundColor = [UIColor whiteColor];
+        _historicalDetailsBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
+        _historicalDetailsBtn.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.15).CGColor;
+        _historicalDetailsBtn.layer.shadowOffset = CGSizeMake(0, 1);
+        _historicalDetailsBtn.layer.shadowRadius = 6;
+        _historicalDetailsBtn.layer.shadowOpacity = 1;
+        [_historicalDetailsBtn addTarget:self action:@selector(pushHistoricalDetailsVC:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _historicalDetailsBtn;
+}
 
 
 

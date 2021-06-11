@@ -6,19 +6,26 @@
 //
 
 #import <UIKit/UIKit.h>
-@class HXRefundMethodCell;
-
-
+#import "HXStudentRefundDetailsModel.h"
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^InfoConfirmCallBack)(NSInteger payMode , NSString *khm , NSString *khh, NSString *khsk);
+
+@class HXRefundMethodCell;
 @protocol HXRefundMethodCellDelegate <NSObject>
 
 -(void)refundMethodCell:(HXRefundMethodCell*)cell clickUpLoadBtn:(UIButton *)sender showRefundQRCodeImageView:(UIImageView *)refundQRCodeImageView;
+
+-(void)refundMethodCell:(HXRefundMethodCell*)cell tapShowRefundQRCodeImageView:(UIImageView *)refundQRCodeImageView;
 
 @end
 
 @interface HXRefundMethodCell : UITableViewCell
 
 @property(nonatomic,weak) id<HXRefundMethodCellDelegate> delegate;
+@property(nonatomic,strong) HXStudentRefundDetailsModel *studentRefundDetailsModel;
+
+@property(nonatomic,copy) InfoConfirmCallBack infoConfirmCallBack;
 
 @end
 

@@ -230,6 +230,7 @@ typedef void(^XLContentScollBlock)(BOOL scrollEnabled);
         self.pageVCAnimating = NO;
         return;
     }
+    
     //更新选中位置
     UIViewController *vc = self.pageVC.viewControllers.firstObject;
     _selectedIndex = [self.allTitleArr indexOfObject:vc.xl_title];
@@ -239,6 +240,7 @@ typedef void(^XLContentScollBlock)(BOOL scrollEnabled);
     [self delegateSelectedAdIndex:_selectedIndex];
     //切换中属性更新
     self.pageVCAnimating = NO;
+    
 }
 
 #pragma mark -

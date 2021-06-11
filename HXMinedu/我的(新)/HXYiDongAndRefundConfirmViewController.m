@@ -8,11 +8,14 @@
 #import "HXYiDongAndRefundConfirmViewController.h"
 #import "HXYiDongDetailsViewController.h"
 #import "HXRefundDetailsViewController.h"
-
+#import "HXStudentRefundModel.h"
+#import "HXNoDataTipView.h"
+#import "MJRefresh.h"
 @interface HXYiDongAndRefundConfirmViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *mainTableView;
-
+@property(nonatomic,strong) HXNoDataTipView *noDataTipView;
+@property (nonatomic, strong) NSArray *dataList;
 
 @end
 
@@ -23,16 +26,46 @@
     // Do any additional setup after loading the view.
     //UI
     [self createUI];
+    if (self.confirmType== HXRefundConfirmType) {
+        //获取学生退费信息
+        [self getStudentRefundList];
+    }
+   
+}
+
+#pragma mark - 获取学生退费信息
+-(void)getStudentRefundList{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStudentRefundList withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            //刷新数据
+            self.dataList = [HXStudentRefundModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (self.dataList.count == 0) {
+                [self.view addSubview:self.noDataTipView];
+            }else{
+                [self.noDataTipView removeFromSuperview];
+            }
+            [self.mainTableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_header endRefreshing];
+
+    }];
 }
 
 #pragma mark - UI
 -(void)createUI{
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.sc_navigationBar.title =(self.confirmType==0?@"异动确认":@"退费确认");
+    self.sc_navigationBar.title =(self.confirmType== HXYiDongConfirmType?@"异动确认":@"退费确认");
     [self.view addSubview:self.mainTableView];
     self.mainTableView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(kNavigationBarHeight, 0, kScreenBottomMargin, 0));
-    
+    // 下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getStudentRefundList)];
+    header.automaticallyChangeAlpha = YES;
+    self.mainTableView.mj_header = header;
 }
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
@@ -41,7 +74,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return self.dataList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -59,10 +92,8 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.confirmType = self.confirmType;
-//    cell.delegate = self;
-//    [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
-//    HXCourseModel *courseModel = self.courseList[indexPath.row];
-//    cell.courseModel = courseModel;
+    HXStudentRefundModel *studentRefundModel = self.dataList[indexPath.row];
+    cell.studentRefundModel = studentRefundModel;
     return cell;
 }
 
@@ -72,7 +103,13 @@
         HXYiDongDetailsViewController *yiDongDetailsVC = [[HXYiDongDetailsViewController alloc] init];
         [self.navigationController pushViewController:yiDongDetailsVC animated:YES];
     }else{
+        HXStudentRefundModel *studentRefundModel = self.dataList[indexPath.row];
         HXRefundDetailsViewController*refundDetailsVC = [[HXRefundDetailsViewController alloc] init];
+        refundDetailsVC.refundId = studentRefundModel.refundId;
+        //回调刷新
+        refundDetailsVC.refundRefreshCallBack = ^{
+            [self getStudentRefundList];
+        };
         [self.navigationController pushViewController:refundDetailsVC animated:YES];
     }
 }
@@ -107,6 +144,14 @@
         _mainTableView.showsVerticalScrollIndicator = NO;
     }
     return _mainTableView;
+}
+
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:self.mainTableView.bounds];
+        _noDataTipView.tipTitle = @"暂无数据~";
+    }
+    return _noDataTipView;
 }
 
 /*

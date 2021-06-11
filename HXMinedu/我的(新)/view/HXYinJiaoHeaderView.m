@@ -28,6 +28,23 @@
     }
     return self;
 }
+
+-(void)setHeaderViewType:(HXHeaderViewType)headerViewType{
+    _headerViewType = headerViewType;
+    if (headerViewType == HXYingJiaoDetailsType) {
+        self.bigContainerView.backgroundColor = [UIColor whiteColor];
+        self.stateLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
+        self.yingJiaoMoneyLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
+        self.shiJiaoMoneyLabel.textColor = COLOR_WITH_ALPHA(0xFE664B, 1);
+    }else{
+        self.bigContainerView.backgroundColor = COLOR_WITH_ALPHA(0xEFEFEF, 1);
+        self.stateLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        self.yingJiaoMoneyLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        self.yingJiaoMoneyLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+    }
+    
+}
+
 -(void)setPaymentModel:(HXPaymentModel *)paymentModel{
     _paymentModel = paymentModel;
     self.titleLabel.text = HXSafeString(paymentModel.title);
@@ -50,7 +67,7 @@
     [self.bigContainerView addSubview:self.shiJiaoMoneyLabel];
     
     self.bigContainerView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, 10, 0, 10));
-    self.bigContainerView.sd_cornerRadius = @4;
+    self.bigContainerView.sd_cornerRadius = @6;
     
     self.stateLabel.sd_layout
     .topSpaceToView(self.bigContainerView, 16)
@@ -110,7 +127,7 @@
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.font = HXBoldFont(12);
         _titleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _titleLabel.text = @"自学考试-2020-本科-湘潭大学-工商管理";
+        
     }
     return _titleLabel;
 }
@@ -121,7 +138,7 @@
         _stateLabel.textAlignment = NSTextAlignmentRight;
         _stateLabel.font = HXBoldFont(12);
         _stateLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
-        _stateLabel.text = @"在籍";
+        
     }
     return _stateLabel;
 }

@@ -7,8 +7,8 @@
 
 #import "HXBaseViewController.h"
 #import "HXPictureInfoModel.h"
-
-typedef void(^RefreshInforBlock)(void);
+//flag 1:已上传 2:已确定
+typedef void(^RefreshInforBlock)(NSInteger flag);
 
 NS_ASSUME_NONNULL_BEGIN
 

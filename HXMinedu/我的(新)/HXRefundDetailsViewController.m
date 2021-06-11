@@ -10,6 +10,7 @@
 #import "HXCostDetailsCell.h"
 #import "HXRefundMethodCell.h"
 #import "HXSuggestionCell.h"
+#import "HXReviewerSuggestionCell.h"
 #import "HXRefundVoucherCell.h"
 #import "HXToastSuggestionView.h"
 #import "HXCustomToastView.h"
@@ -17,8 +18,9 @@
 #import "SDWebImage.h"
 #import "GKPhotoBrowser.h"
 #import "UIViewController+HXExtension.h"
+#import "HXStudentRefundDetailsModel.h"
 
-@interface HXRefundDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HXRefundMethodCellDelegate>
+@interface HXRefundDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HXRefundMethodCellDelegate,HXRefundVoucherCellDelegate>
 @property(nonatomic,strong) UITableView *mainTableView;
 @property(nonatomic,strong) UIView *bottomView;
 @property(nonatomic,strong) UIView *bottomShadowView;
@@ -27,6 +29,17 @@
 /** 这里用weak是防止GKPhotoBrowser被强引用，导致不能释放 */
 @property (nonatomic, weak) GKPhotoBrowser *browser;
 @property(nonatomic,strong) HXPhotoManager *photoManager;
+
+//退费详情
+@property(nonatomic,strong) HXStudentRefundDetailsModel *studentRefundDetailsModel;
+
+//确认信息
+@property(nonatomic,assign) NSInteger payMode;
+@property(nonatomic,copy) NSString *khm;
+@property(nonatomic,copy) NSString *khh;
+@property(nonatomic,copy) NSString *khsk;
+@property(nonatomic,copy) NSString *base64Str;
+
 @end
 
 @implementation HXRefundDetailsViewController
@@ -35,40 +48,120 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self createUI];
+    // 获取学生退费详情
+    [self getStudentRefundDetailsInfo];
 }
 
+#pragma mark - 获取学生退费详情
+-(void)getStudentRefundDetailsInfo{
+    
+    NSDictionary *dic = @{
+        @"refund_id":HXSafeString(self.refundId)
+    };
+    [self.view showLoading];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStudentRefundInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.studentRefundDetailsModel = [HXStudentRefundDetailsModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [self.mainTableView reloadData];
+            if (self.studentRefundDetailsModel.reviewStatus == 0) {
+                self.bottomShadowView.hidden = self.bottomView.hidden = NO;
+            }else{
+                self.bottomShadowView.hidden = self.bottomView.hidden = YES;
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+    }];
+}
+#pragma mark - 学生退费信息确认或驳回
+-(void)loadRefundConfirmOrRejectRemark:(NSString *)remark reviewStatus:(NSInteger)reviewStatus{
+    
+    NSDictionary *dic = @{
+        @"refund_id":HXSafeString(self.refundId),
+        @"reviewStatus":@(reviewStatus),
+        @"rejectRemark":HXSafeString(remark),
+        @"payMode":@(self.payMode),
+        @"image":(self.payMode == 2?self.base64Str:@""),
+        @"khm":(self.payMode == 1?self.khm:@""),
+        @"khh":(self.payMode == 1?self.khh:@""),
+        @"khsk":(self.payMode == 1?self.khm:@"")
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStudentRefundeConfirmOrReject  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.bottomView.hidden = self.bottomShadowView.hidden = YES;
+            //刷新数据
+            [self getStudentRefundDetailsInfo];
+            
+            HXCustomToastView *toastView = [[HXCustomToastView alloc] init];
+            reviewStatus == 1?[toastView showConfirmToastHideAfter:2]:[toastView showRejectToastHideAfter:2];
+            //回调刷新列表
+            if (self.refundRefreshCallBack) {
+                self.refundRefreshCallBack();
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+        self.bottomView.hidden = self.bottomShadowView.hidden = NO;
+    }];
+
+}
 #pragma mark - Event
+
+//驳回
 -(void)reject:(UIButton *)sender{
+    
+    if(![self verificationPass]) return;
+    
     HXToastSuggestionView *toastSuggestionView = [[HXToastSuggestionView alloc] init];
     [toastSuggestionView showRejecttoastWithCallBack:^(NSString * _Nonnull cotent) {
-        [self loadRejectData];
+        [self loadRefundConfirmOrRejectRemark:cotent reviewStatus:3];
     }];
 }
 
+//确认
 -(void)confirm:(UIButton *)sender{
+    
+    if(![self verificationPass]) return;
+    
     HXToastSuggestionView *toastSuggestionView = [[HXToastSuggestionView alloc] init];
     [toastSuggestionView showConfirmToastWithCallBack:^(NSString * _Nonnull cotent) {
-        [self loadConfirmData];
+        [self loadRefundConfirmOrRejectRemark:cotent reviewStatus:1];
     }];
 }
 
-
--(void)loadRejectData{
-    HXCustomToastView *toastView = [[HXCustomToastView alloc] init];
-    [toastView showRejectToastHideAfter:2];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.bottomView.hidden = self.bottomShadowView.hidden = YES;
-    });
-    
+-(BOOL)verificationPass{
+    //1:银联  2:扫码
+    if (self.payMode == 1) {
+        if ([HXCommonUtil isNull:self.khm]) {
+            [self.view showTostWithMessage:@"请输入开户名"];
+            return  NO;
+        }
+        if ([HXCommonUtil isNull:self.khh]) {
+            [self.view showTostWithMessage:@"请输入开户行"];
+            return  NO;
+        }
+        if ([HXCommonUtil isNull:self.khsk]) {
+            [self.view showTostWithMessage:@"请输入收款账户"];
+            return  NO;
+        }
+        return YES;
+    }
+    if (self.payMode == 2) {
+        if ([HXCommonUtil isNull:self.base64Str]) {
+            [self.view showTostWithMessage:@"请添加退费二维码"];
+            return  NO;
+        }
+        return YES;
+    }
+    return YES;
 }
 
--(void)loadConfirmData{
-    HXCustomToastView *toastView = [[HXCustomToastView alloc] init];
-    [toastView showConfirmToastHideAfter:2];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.bottomView.hidden = self.bottomShadowView.hidden = YES;
-    });
-}
+
 
 #pragma mark - <HXRefundMethodCellDelegate>
 -(void)refundMethodCell:(HXRefundMethodCell *)cell clickUpLoadBtn:(UIButton *)sender showRefundQRCodeImageView:(UIImageView *)refundQRCodeImageView{
@@ -78,39 +171,35 @@
         HXPhotoModel *photoModel = allList.firstObject;
         // 因为是编辑过的照片所以直接取
         refundQRCodeImageView.image = photoModel.photoEdit.editPreviewImage;
-        NSString *encodedImageStr = [self imageChangeBase64:photoModel.photoEdit.editPreviewImage];
-        //上传图片
-//        [weakSelf uploadStudentFile:encodedImageStr];
+        weakSelf.base64Str = [self imageChangeBase64:photoModel.photoEdit.editPreviewImage];
     } cancel:nil];
 }
 
-#pragma mark - 上传图片信息
-//-(void)uploadStudentFile:(NSString *)encodedImageStr{
-//    [self.view showLoadingWithMessage:@"正在上传..."];
-//    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
-//    NSDictionary *dic = @{
-//        @"version_id":HXSafeString(selectMajorModel.versionId),
-//        @"major_id":HXSafeString(selectMajorModel.major_id),
-//        @"fileType_id":HXSafeString(self.pictureInfoModel.fileTypeId),
-//        @"image":HXSafeString(encodedImageStr)
-//    };
-//    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdateStudentFile  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-//        [self.view hideLoading];
-//        self.topConfirmBtn.userInteractionEnabled = YES;
-//        BOOL success = [dictionary boolValueForKey:@"Success"];
-//        if (success) {
-//            [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
-//            self.topUploadBtn.hidden  = YES;
-//            self.pictureInfoModel.imgurl = [dictionary stringValueForKey:@"Data"];
-//            ///通知外部刷新
-//            if (self.refreshInforBlock) {
-//                self.refreshInforBlock();
-//            }
-//        }
-//    } failure:^(NSError * _Nonnull error) {
-//        [self.view hideLoading];
-//    }];
-//}
+
+
+-(void)refundMethodCell:(HXRefundMethodCell *)cell tapShowRefundQRCodeImageView:(UIImageView *)refundQRCodeImageView{
+    if([HXCommonUtil isNull:self.studentRefundDetailsModel.skewm]) return;
+    NSMutableArray *photos = [NSMutableArray new];
+    GKPhoto *photo = [GKPhoto new];
+    photo.url = [NSURL URLWithString:self.studentRefundDetailsModel.skewm];
+    photo.sourceImageView = refundQRCodeImageView;
+    [photos addObject:photo];
+    [self.browser resetPhotoBrowserWithPhotos:photos];
+    [self.browser showFromVC:self];
+}
+
+#pragma mark - <HXRefundVoucherCellDelegate>
+- (void)refundVoucherCell:(HXRefundVoucherCell *)cell tapImageView:(UIImageView *)imageView url:(NSString *)url{
+    if([HXCommonUtil isNull:url]) return;
+    NSMutableArray *photos = [NSMutableArray new];
+    GKPhoto *photo = [GKPhoto new];
+    photo.url = [NSURL URLWithString:url];
+    photo.sourceImageView = imageView;
+    [photos addObject:photo];
+    [self.browser resetPhotoBrowserWithPhotos:photos];
+    [self.browser showFromVC:self];
+}
+    
 
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
@@ -119,29 +208,70 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+    ///0-待确认           1-确认无误       2-待退费  4-已退费     3-已驳回    5-已撤消
+    NSInteger reviewStatus = self.studentRefundDetailsModel.reviewStatus;
+    switch (reviewStatus) {
+        case 0://待确认
+            return 3;
+            break;
+        case 1://确认无误
+            return 4;
+            break;
+        case 2://已退费
+        case 4:
+            return 6;
+            break;
+        case 3://已驳回
+        case 5:
+            return 5;
+            break;
+        default:
+            break;
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.row) {
         case 0:
-            return 140;
+            return 120;
             break;
         case 1:
-            return 235;
+            {
+                HXStudentRefundDetailsModel *studentRefundDetailsModel = self.studentRefundDetailsModel;
+                CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                                model:studentRefundDetailsModel keyPath:@"studentRefundDetailsModel"
+                                                            cellClass:([HXCostDetailsCell class])
+                                                     contentViewWidth:kScreenWidth];
+                return rowHeight;
+            }
             break;
         case 2:
             return 190;
             break;
         case 3:
-            return 110;
+        {
+            HXStudentRefundDetailsModel *studentRefundDetailsModel = self.studentRefundDetailsModel;
+            CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                            model:studentRefundDetailsModel keyPath:@"studentRefundDetailsModel"
+                                                        cellClass:([HXSuggestionCell class])
+                                                 contentViewWidth:kScreenWidth];
+            return rowHeight;
+        }
             break;
         case 4:
-            return 110;
+        {
+            HXStudentRefundDetailsModel *studentRefundDetailsModel = self.studentRefundDetailsModel;
+            CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                            model:studentRefundDetailsModel keyPath:@"studentRefundDetailsModel"
+                                                        cellClass:([HXReviewerSuggestionCell class])
+                                                 contentViewWidth:kScreenWidth];
+            return rowHeight;
+        }
             break;
         case 5:
-            return 140;
+            return 200;
             break;
         default:
             return 0;
@@ -157,6 +287,7 @@
     static NSString *costDetailsCellIdentifier = @"HXCostDetailsCellIdentifier";
     static NSString *refundMethodCellIdentifier = @"HXRefundMethodCellIdentifier";
     static NSString *suggestionCellIdentifier = @"HXSuggestionCellIdentifier";
+    static NSString *reviewerSuggestionCellIdentifier = @"HXReviewerSuggestionCellIdentifier";
     static NSString *refundVoucherCellIdentifier = @"HXRefundVoucherCellIdentifier";
     switch (indexPath.row) {
         case 0:
@@ -167,6 +298,7 @@
                 cell = [[HXRefundHeadInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:refundHeadInfoCellIdentifier];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.studentRefundDetailsModel = self.studentRefundDetailsModel;
             return cell;
         }
             break;
@@ -178,6 +310,8 @@
                 cell = [[HXCostDetailsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:costDetailsCellIdentifier];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+            cell.studentRefundDetailsModel = self.studentRefundDetailsModel;
             return cell;
         }
             break;
@@ -187,8 +321,16 @@
             if (!cell) {
                 cell = [[HXRefundMethodCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:refundMethodCellIdentifier];
             }
-            cell.delegate = self;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.delegate = self;
+            cell.studentRefundDetailsModel = self.studentRefundDetailsModel;
+            WeakSelf(weakSelf);
+            cell.infoConfirmCallBack = ^(NSInteger payMode, NSString * _Nonnull khm, NSString * _Nonnull khh, NSString * _Nonnull khsk) {
+                weakSelf.payMode = payMode;
+                weakSelf.khm = khm;
+                weakSelf.khh = khh;
+                weakSelf.khsk = khsk;
+            };
             return cell;
         }
             break;
@@ -199,18 +341,24 @@
                 cell = [[HXSuggestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:suggestionCellIdentifier];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+            cell.studentRefundDetailsModel = self.studentRefundDetailsModel;
             return cell;
         }
             break;
         case 4:
         {
-            HXSuggestionCell *cell = [tableView dequeueReusableCellWithIdentifier:suggestionCellIdentifier];
+            HXReviewerSuggestionCell *cell = [tableView dequeueReusableCellWithIdentifier:reviewerSuggestionCellIdentifier];
             if (!cell) {
-                cell = [[HXSuggestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:suggestionCellIdentifier];
+                cell = [[HXReviewerSuggestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reviewerSuggestionCellIdentifier];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+            cell.studentRefundDetailsModel = self.studentRefundDetailsModel;
             return cell;
         }
+            break;
+        
             break;
         case 5:
         {
@@ -220,6 +368,8 @@
             }
 
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.delegate = self;
+            cell.studentRefundDetailsModel = self.studentRefundDetailsModel;
             return cell;
         }
             break;
@@ -378,4 +528,24 @@
     }
     return _photoManager;
 }
+
+-(GKPhotoBrowser *)browser{
+    if (!_browser) {
+        _browser = [GKPhotoBrowser photoBrowserWithPhotos:[NSArray array] currentIndex:0];
+        _browser.showStyle = GKPhotoBrowserShowStyleZoom;        // 缩放显示
+        _browser.hideStyle = GKPhotoBrowserHideStyleZoomScale;   // 缩放隐藏
+        _browser.loadStyle = GKPhotoBrowserLoadStyleIndeterminateMask; // 不明确的加载方式带阴影
+        _browser.maxZoomScale = 5.0f;
+        _browser.doubleZoomScale = 2.0f;
+        _browser.isAdaptiveSafeArea = YES;
+        _browser.hidesCountLabel = YES;
+        _browser.pageControl.hidden = YES;
+        _browser.isScreenRotateDisabled = YES;
+        _browser.isHideSourceView = NO;
+//        _browser.delegate = self;
+        
+    }
+    return _browser;
+}
+
 @end

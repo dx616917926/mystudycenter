@@ -47,60 +47,15 @@
     return self;
 }
 
--(void)createUI{
-    [self addSubview:self.dashLine1];
-    [self addSubview:self.nameLabel];
-    
-    [self addSubview:self.shadowBackgroundView];
-    [self addSubview:self.bigBackgroundView];
-    
-    [self.bigBackgroundView addSubview:self.headContainerView];
-    [self.headContainerView addSubview:self.costCategoryLabel];
-    [self.headContainerView addSubview:self.shijiaoLabel];
-    [self.headContainerView addSubview:self.refundLabel];
-    
-    [self.bigBackgroundView addSubview:self.costContainerView];
-    [self.bigBackgroundView addSubview:self.dashLine2];
-    [self.bigBackgroundView addSubview:self.totalRefundLabel];
-    
-    self.dashLine1.sd_layout
-    .topSpaceToView(self, 0)
-    .leftSpaceToView(self, 16)
-    .rightSpaceToView(self, 16)
-    .heightIs(1);
-    
-    self.nameLabel.sd_layout
-    .topSpaceToView(self.dashLine1, 12)
-    .leftSpaceToView(self, 24)
-    .rightSpaceToView(self, 24)
-    .heightIs(20);
-    
-    self.bigBackgroundView.sd_layout
-    .topSpaceToView(self.nameLabel, 12)
-    .leftSpaceToView(self, 10)
-    .rightSpaceToView(self, 10);
-    self.bigBackgroundView.sd_cornerRadius = @6;
-    
-    self.headContainerView.sd_layout
-    .topEqualToView(self.bigBackgroundView)
-    .leftEqualToView(self.bigBackgroundView)
-    .rightEqualToView(self.bigBackgroundView);
-    
-    self.costCategoryLabel.sd_layout.heightIs(48);
-    self.shijiaoLabel.sd_layout.heightIs(48);
-    self.refundLabel.sd_layout.heightIs(48);
-    
-    [self.headContainerView setupAutoWidthFlowItems:@[self.costCategoryLabel,self.shijiaoLabel,self.refundLabel] withPerRowItemsCount:3 verticalMargin:0 horizontalMargin:10 verticalEdgeInset:0 horizontalEdgeInset:30];
-    
-    self.costContainerView.sd_layout
-    .topSpaceToView(self.headContainerView, 0)
-    .leftEqualToView(self.bigBackgroundView)
-    .rightEqualToView(self.bigBackgroundView);
+-(void)setStudentRefundDetailsModel:(HXStudentRefundDetailsModel *)studentRefundDetailsModel{
+    _studentRefundDetailsModel = studentRefundDetailsModel;
+    self.nameLabel.text = [NSString stringWithFormat:@"%@  %@",HXSafeString(studentRefundDetailsModel.name),HXSafeString(studentRefundDetailsModel.personId)];
+    self.totalRefundLabel.text = [NSString stringWithFormat:@"合计退费金额：¥%.2f",studentRefundDetailsModel.refundTotal];
     
     UIView *lastView = self.costContainerView;
     ///创建条目
-    for (int i = 0; i < 2; i++) {
-
+    for (int i = 0; i < studentRefundDetailsModel.studentRefundInfoList.count; i++) {
+        HXPaymentDetailModel *paymentDetailModel = studentRefundDetailsModel.studentRefundInfoList[i];
         UIView *itemView = [[UIView alloc] init];
         itemView.backgroundColor = [UIColor clearColor];
         [self.costContainerView addSubview:itemView];
@@ -114,20 +69,20 @@
         nameLabel.textAlignment = NSTextAlignmentRight;
         nameLabel.font = HXFont(14);
         nameLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        nameLabel.text = @"代毕业信息采集";
+        nameLabel.text =HXSafeString(paymentDetailModel.feeType_Name);
         [itemView addSubview:nameLabel];
         
         UILabel *shijiaolabel = [[UILabel alloc] init];
         shijiaolabel.textAlignment = NSTextAlignmentCenter;
         shijiaolabel.font = HXFont(14);
         shijiaolabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        shijiaolabel.text = @"100.0";
+        shijiaolabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.payMoney];
         [itemView addSubview:shijiaolabel];
         
         UILabel *refundlabel = [[UILabel alloc] init];
         refundlabel.textAlignment = NSTextAlignmentCenter;
         refundlabel.font = HXFont(14);
-        refundlabel.text =  @"100.0";
+        refundlabel.text =  [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.refundMoney];
         [itemView addSubview:refundlabel];
        
         
@@ -152,11 +107,63 @@
         lastView = itemView;
     }
     
-    [self.costContainerView setupAutoHeightWithBottomView:lastView bottomMargin:5];
-    [self.costContainerView updateLayout];
+    self.costContainerView.sd_layout.heightIs(42*studentRefundDetailsModel.studentRefundInfoList.count);
+}
+
+-(void)createUI{
+    [self.contentView addSubview:self.dashLine1];
+    [self.contentView addSubview:self.nameLabel];
+    
+    [self.contentView addSubview:self.shadowBackgroundView];
+    [self.contentView addSubview:self.bigBackgroundView];
+    
+    [self.bigBackgroundView addSubview:self.headContainerView];
+    [self.headContainerView addSubview:self.costCategoryLabel];
+    [self.headContainerView addSubview:self.shijiaoLabel];
+    [self.headContainerView addSubview:self.refundLabel];
+    
+    [self.bigBackgroundView addSubview:self.costContainerView];
+    [self.bigBackgroundView addSubview:self.dashLine2];
+    [self.bigBackgroundView addSubview:self.totalRefundLabel];
+    
+    self.dashLine1.sd_layout
+    .topSpaceToView(self.contentView, 0)
+    .leftSpaceToView(self.contentView, 16)
+    .rightSpaceToView(self.contentView, 16)
+    .heightIs(1);
+    
+    self.nameLabel.sd_layout
+    .topSpaceToView(self.dashLine1, 12)
+    .leftSpaceToView(self.contentView, 24)
+    .rightSpaceToView(self.contentView, 24)
+    .heightIs(20);
+    
+    self.bigBackgroundView.sd_layout
+    .topSpaceToView(self.nameLabel, 12)
+    .leftSpaceToView(self.contentView, 10)
+    .rightSpaceToView(self.contentView, 10);
+    self.bigBackgroundView.sd_cornerRadius = @6;
+    
+    self.headContainerView.sd_layout
+    .topEqualToView(self.bigBackgroundView)
+    .leftEqualToView(self.bigBackgroundView)
+    .rightEqualToView(self.bigBackgroundView);
+    
+    self.costCategoryLabel.sd_layout.heightIs(48);
+    self.shijiaoLabel.sd_layout.heightIs(48);
+    self.refundLabel.sd_layout.heightIs(48);
+    
+    [self.headContainerView setupAutoWidthFlowItems:@[self.costCategoryLabel,self.shijiaoLabel,self.refundLabel] withPerRowItemsCount:3 verticalMargin:0 horizontalMargin:10 verticalEdgeInset:0 horizontalEdgeInset:30];
+    
+    self.costContainerView.sd_layout
+    .topSpaceToView(self.headContainerView, 0)
+    .leftEqualToView(self.bigBackgroundView)
+    .rightEqualToView(self.bigBackgroundView)
+    .heightIs(0);
+    
     
     self.dashLine2.sd_layout
-    .topSpaceToView(self.costContainerView, 0)
+    .topSpaceToView(self.costContainerView, 5)
     .leftEqualToView(self.bigBackgroundView)
     .rightEqualToView(self.bigBackgroundView)
     .heightIs(1);
@@ -196,7 +203,7 @@
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.font = HXBoldFont(14);
         _nameLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _nameLabel.text = @"李丽丽  4309551998121921788";
+       
     }
     return _nameLabel;
 }
@@ -289,7 +296,7 @@
         _totalRefundLabel.textAlignment = NSTextAlignmentRight;
         _totalRefundLabel.font = HXBoldFont(14);
         _totalRefundLabel.textColor = COLOR_WITH_ALPHA(0xFE664B, 1);
-        _totalRefundLabel.text = @"合计退费金额：¥220";
+        
     }
     return _totalRefundLabel;
 }

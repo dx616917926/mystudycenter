@@ -18,6 +18,7 @@ typedef enum : NSUInteger {
 @property(nonatomic,assign) HXCellShowType showType;
 
 @property(nonatomic,strong) HXPaymentDetailsInfoModel *paymentDetailsInfoModel;
+
 @end
 
 NS_ASSUME_NONNULL_END

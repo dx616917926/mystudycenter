@@ -10,9 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXBannerModel : NSObject
-//名称
+///名称
 @property(nonatomic, copy) NSString *title;
-//url
+///url
 @property(nonatomic, copy) NSString *titleLink;
 
 @end

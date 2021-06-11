@@ -6,10 +6,11 @@
 //
 
 #import "HXRefundVoucherCell.h"
-
+#import "SDWebimage.h"
 @interface HXRefundVoucherCell ()
 @property(nonatomic,nonnull) UILabel *refundVoucherLabel;//退费凭证：
-@property(nonatomic,nonnull) UIImageView *refundVoucherImageView;
+@property(nonatomic,nonnull) UIView *refundVoucherContainerView;
+
 
 @end
 
@@ -33,26 +34,68 @@
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
         [self createUI];
-        
     }
     return self;
 }
 
+#pragma mark - Event
+-(void)tapImageView:(UITapGestureRecognizer *)ges{
+    UIImageView *imageView = (UIImageView*)ges.view;
+    NSInteger index = imageView.tag - 5555;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(refundVoucherCell:tapImageView:url:)]) {
+        [self.delegate refundVoucherCell:self tapImageView:imageView url:self.studentRefundDetailsModel.appendixList[index]];
+    }
+}
+
+-(void)setStudentRefundDetailsModel:(HXStudentRefundDetailsModel *)studentRefundDetailsModel{
+    _studentRefundDetailsModel = studentRefundDetailsModel;
+    [self.refundVoucherContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIImageView *imageView = obj;
+        if (idx+1<= studentRefundDetailsModel.appendixList.count) {
+            imageView.hidden = NO;
+            [imageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(studentRefundDetailsModel.appendixList[idx])] placeholderImage:nil];
+        }else{
+            imageView.hidden = YES;
+        }
+    }];
+}
+
+
 -(void)createUI{
     [self addSubview:self.refundVoucherLabel];
-    [self addSubview:self.refundVoucherImageView];
+    [self addSubview:self.refundVoucherContainerView];
     
     self.refundVoucherLabel.sd_layout
-    .topSpaceToView(self, 8)
+    .topSpaceToView(self, 16)
     .leftSpaceToView(self, 24)
     .widthIs(76)
     .heightIs(20);
     
-    self.refundVoucherImageView.sd_layout
+    self.refundVoucherContainerView.sd_layout
     .topEqualToView(self.refundVoucherLabel).offset(-2)
     .leftSpaceToView(self.refundVoucherLabel, 5)
-    .widthIs(164)
-    .heightIs(100);
+    .widthIs(170)
+    .heightIs(170);
+    CGFloat width = 80;
+    CGFloat height = 80;
+    NSInteger itemCount = 2;
+    for (int i = 0; i<4; i++) {
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.tag = 5555+i;
+        imageView.backgroundColor = COLOR_WITH_ALPHA(0xD8D8D8, 1);
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
+        imageView.userInteractionEnabled = YES;
+        imageView.hidden = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
+        [imageView addGestureRecognizer:tap];
+        [self.refundVoucherContainerView addSubview:imageView];
+        imageView.sd_layout
+        .topSpaceToView(self.refundVoucherContainerView, (i/itemCount)*(height+5))
+        .leftSpaceToView(self.refundVoucherContainerView, (i%itemCount)*(width+5))
+        .widthIs(width)
+        .heightIs(height);
+    }
 }
 
 
@@ -67,13 +110,15 @@
     return _refundVoucherLabel;
 }
 
--(UIImageView *)refundVoucherImageView{
-    if (!_refundVoucherImageView) {
-        _refundVoucherImageView = [[UIImageView alloc] init];
-        _refundVoucherImageView.image = [UIImage imageNamed:@"add_pingzheng"];
+-(UIView *)refundVoucherContainerView{
+    if (!_refundVoucherContainerView) {
+        _refundVoucherContainerView = [[UIView alloc] init];
+        _refundVoucherContainerView.backgroundColor = [UIColor clearColor];
     }
-    return _refundVoucherImageView;
+    return _refundVoucherContainerView;
 }
+
+
 
 
 @end

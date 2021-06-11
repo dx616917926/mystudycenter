@@ -302,7 +302,7 @@
 -(UIImageView *)divisionLine{
     if (!_divisionLine) {
         _divisionLine = [[UIImageView alloc] init];
-        _divisionLine.image = [UIImage imageNamed:@"xidashline"];
+        _divisionLine.image = [UIImage imageNamed:@"short_dashline"];
     }
     return _divisionLine;
 }

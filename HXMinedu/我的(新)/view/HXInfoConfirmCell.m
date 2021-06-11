@@ -65,11 +65,7 @@
     .rightSpaceToView(self, _kpw(30))
     .heightIs(0.5);
     
-    self.titleLabel.sd_layout
-    .centerYEqualToView(self)
-    .leftEqualToView(self.bottomLine).offset(2)
-    .heightIs(22);
-    [self.titleLabel setSingleLineAutoResizeWithMaxWidth:150];
+    
     
     self.arrowImageView.sd_layout
     .centerYEqualToView(self)
@@ -89,7 +85,12 @@
     .heightIs(20)
     .widthEqualToHeight();
     
-    
+    self.titleLabel.sd_layout
+    .centerYEqualToView(self)
+    .leftEqualToView(self.bottomLine).offset(2)
+    .rightSpaceToView(self.stateImageView, 10)
+    .autoHeightRatio(0);
+    [self.titleLabel setMaxNumberOfLinesToShow:2];
 }
 
 -(UILabel *)titleLabel{
@@ -98,7 +99,7 @@
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.font = HXFont(16);
         _titleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        
+        _titleLabel.numberOfLines = 0;
     }
     return _titleLabel;;
 }

@@ -52,14 +52,14 @@ NS_ASSUME_NONNULL_BEGIN
 //获取新生报名表单下载链接V2
 #define HXPOST_Get_DownPdf                                 @"/MD/StuInfo/getDownPdfV2"
 
-//获取学生图片信息
-#define HXPOST_Get_StudentFile                                 @"/MD/StuInfo/getStudentFile"
+//获取学生图片信息V2
+#define HXPOST_Get_StudentFile                                 @"/MD/StuInfo/getStudentFileV2"
 
-//学生确认图片信息
-#define HXPOST_UpdateStudentStatu                                @"/MD/StuInfo/UpdateStudentstatus"
+//学生确认图片信息V2
+#define HXPOST_UpdateStudentStatu                                @"/MD/StuInfo/UpdateStudentstatusV2"
 
-//上传图片信息
-#define HXPOST_UpdateStudentFile                               @"/MD/StuInfo/uploadStudentFile"
+//上传图片信息V2
+#define HXPOST_UpdateStudentFile                               @"/MD/StuInfo/uploadStudentFileV2"
 
 //获取隐私协议
 #define HXPOST_Get_PrivacyUrl                                @"/MD/StuInfo/getPrivacyUrl"
@@ -91,6 +91,14 @@ NS_ASSUME_NONNULL_BEGIN
 //获取班主任信息
 #define HXPOST_GetHeadTeacherList                          @"/MD/StuInfo/getHeadTeacherList"
 
+//获取学生退费信息
+#define HXPOST_GetStudentRefundList                          @"/MD/StuInfo/GetStudentRefundList"
+
+//获取学生退费详情
+#define HXPOST_GetStudentRefundInfo                        @"/MD/StuInfo/GetStudentRefundInfo"
+
+//学生退费信息确认或驳回
+#define HXPOST_GetStudentRefundeConfirmOrReject            @"/MD/StuInfo/stuRefundConfirmOrReject"
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

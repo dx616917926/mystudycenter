@@ -8,7 +8,7 @@
 #import "HXToastSuggestionView.h"
 #import "IQTextView.h"
 
-@interface HXToastSuggestionView ()
+@interface HXToastSuggestionView ()<UITextViewDelegate>
 @property(nonatomic,strong) UIView *maskView;
 @property(nonatomic,strong) UIView *whiteView;
 @property(nonatomic,strong) UILabel *titleLabel;
@@ -101,6 +101,11 @@
     self.callback = callback;
 }
 
+#pragma mark - <UITextViewDelegate>
+- (void)textViewDidChange:(UITextView *)textView{
+    [HXCommonUtil limitIncludeChineseTextView:textView Length:60];
+}
+
 #pragma mark - lazyLoad
 -(UIView *)maskView{
     if (!_maskView) {
@@ -138,6 +143,7 @@
         _textView.font = HXFont(14);
         _textView.layer.borderWidth = 0.5;
         _textView.layer.borderColor = COLOR_WITH_ALPHA(0x979797, 0.5).CGColor;
+        _textView.delegate = self;
     }
     return _textView;
 }

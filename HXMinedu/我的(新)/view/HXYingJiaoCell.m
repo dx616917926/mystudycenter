@@ -364,7 +364,7 @@
 -(UIImageView *)dashLine1{
     if (!_dashLine1) {
         _dashLine1 = [[UIImageView alloc] init];
-        _dashLine1.image = [UIImage imageNamed:@"xidashline"];
+        _dashLine1.image = [UIImage imageNamed:@"short_dashline"];
     }
     return _dashLine1;
 }

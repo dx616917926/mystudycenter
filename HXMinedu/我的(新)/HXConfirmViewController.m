@@ -87,8 +87,13 @@
 
 #pragma mark - 学生确认图片信息
 -(void)confirmStudentStatu{
-    
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdateStudentStatu  withDictionary:@{@"studentFile_id":HXSafeString(self.pictureInfoModel.fileId)} success:^(NSDictionary * _Nonnull dictionary) {
+    NSDictionary *dic = @{
+        @"studentFile_id":HXSafeString(self.pictureInfoModel.fileId),
+        @"fileType_id":HXSafeString(self.pictureInfoModel.fileTypeId),
+        @"attr":@(self.pictureInfoModel.attr)
+        
+    };
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdateStudentStatu  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         self.topConfirmBtn.userInteractionEnabled = YES;
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
@@ -96,7 +101,7 @@
             self.topConfirmBtn.hidden  = YES;
             ///通知外部刷新
             if (self.refreshInforBlock) {
-                self.refreshInforBlock();
+                self.refreshInforBlock(2);
             }
         }
     } failure:^(NSError * _Nonnull error) {
@@ -108,12 +113,12 @@
 #pragma mark - 上传图片信息
 -(void)uploadStudentFile:(NSString *)encodedImageStr{
     [self.view showLoadingWithMessage:@"正在上传..."];
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id),
         @"fileType_id":HXSafeString(self.pictureInfoModel.fileTypeId),
-        @"image":HXSafeString(encodedImageStr)
+        @"image":HXSafeString(encodedImageStr),
+        @"version_id":HXSafeString(self.pictureInfoModel.version_id),
+        @"major_id":HXSafeString(self.pictureInfoModel.major_id),
+        @"attr":@(self.pictureInfoModel.attr)
     };
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdateStudentFile  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.view hideLoading];
@@ -125,7 +130,7 @@
             self.pictureInfoModel.imgurl = [dictionary stringValueForKey:@"Data"];
             ///通知外部刷新
             if (self.refreshInforBlock) {
-                self.refreshInforBlock();
+                self.refreshInforBlock(1);
             }
         }
     } failure:^(NSError * _Nonnull error) {

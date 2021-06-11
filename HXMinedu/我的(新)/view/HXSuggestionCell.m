@@ -39,6 +39,14 @@
     }
     return self;
 }
+
+
+-(void)setStudentRefundDetailsModel:(HXStudentRefundDetailsModel *)studentRefundDetailsModel{
+    _studentRefundDetailsModel = studentRefundDetailsModel;
+    self.contentLabel.text = [HXCommonUtil isNull:studentRefundDetailsModel.rejectRemark]?@"确认无误":studentRefundDetailsModel.rejectRemark;
+    self.timeLabel.text = studentRefundDetailsModel.rejectTime;
+}
+
 #pragma mark - UI
 -(void)createUI{
     [self.contentView addSubview:self.shadowBackgroundView];
@@ -46,7 +54,6 @@
     [self.bigBackgroundView addSubview:self.titleLabel];
     [self.bigBackgroundView addSubview:self.contentLabel];
     [self.bigBackgroundView addSubview:self.timeLabel];
-   
    
     self.bigBackgroundView.sd_layout
     .leftSpaceToView(self.contentView, _kpw(10))
@@ -71,10 +78,9 @@
     .leftSpaceToView(self.bigBackgroundView, 40)
     .rightSpaceToView(self.timeLabel, 10)
     .autoHeightRatio(0);
-    [self.contentLabel setMaxNumberOfLinesToShow:2];
     
     //设置bigBackgroundView自适应高度
-    [self.bigBackgroundView setupAutoHeightWithBottomView:self.contentLabel bottomMargin:24];
+    [self.bigBackgroundView setupAutoHeightWithBottomViewsArray:@[self.contentLabel,self.timeLabel] bottomMargin:24];
     
     self.shadowBackgroundView.sd_layout
     .topEqualToView(self.bigBackgroundView)
@@ -127,8 +133,7 @@
         _contentLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
         _contentLabel.font = HXBoldFont(14);
         _contentLabel.numberOfLines = 0;
-        _contentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        _contentLabel.text = @"确认无误";
+//        _contentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _contentLabel;
 }
@@ -139,7 +144,7 @@
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _timeLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
         _timeLabel.font = HXBoldFont(12);
-        _timeLabel.text = @"2021-05-12  23:59";
+        
     }
     return _timeLabel;
 }

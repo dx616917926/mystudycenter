@@ -14,9 +14,6 @@
 @property (nonatomic, strong) XLPageViewControllerConfig *config;
 @property (nonatomic, strong) XLPageViewController *pageViewController;
 @property (nonatomic, strong) NSArray *titles;
-@property(strong,nonatomic) UITableView *mainTableView;
-
-
 
 @end
 

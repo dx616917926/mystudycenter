@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HXExamDayModel : NSObject
 
-//日期
+///日期
 @property(nonatomic, copy) NSString *examDayText;
-//每日数组
+///每日数组
 @property(nonatomic, strong) NSArray<HXExamDateSignInfoModel *> *examDateSignInfoList;
 
 @end

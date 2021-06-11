@@ -17,10 +17,8 @@
 @property(nonatomic,strong) UIImageView *topDashLine;
 @property(nonatomic,strong) UILabel *typeTitleLabel;///退费类型/异动类型
 @property(nonatomic,strong) UILabel *typeContentLabel;
-
 @property(nonatomic,strong) UIButton *markBtn1;
-@property(nonatomic,strong) UIButton *markBtn2;
-@property(nonatomic,strong) UIButton *markBtn3;
+
 
 @property(nonatomic,strong) UILabel *nameAndVersinContentLabel;
 @property(nonatomic,strong) UILabel *majorContentLabel;
@@ -68,81 +66,71 @@
     self.typeTitleLabel.text = (confirmType == HXYiDongConfirmType ? @"异动类型：" : @"退费类型：");
 }
 
-//-(void)setCourseModel:(HXCourseModel *)courseModel{
-//    _courseModel = courseModel;
-//    [self.topDashLine sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:courseModel.imageURL]] placeholderImage:nil];
-//    self.courseNameLabel.text = HXSafeString(courseModel.courseName);
-//
-//    //5001-必修 5002-选修 以外其它
-//    if (courseModel.courseType_id == 5001) {
-//        self.confirmStateImageView.image = [UIImage imageNamed:@"bixiuke"];
-//        self.confirmStateLabel.text = @"必修课";
-//    }else if (courseModel.courseType_id == 5002) {
-//        self.confirmStateImageView.image = [UIImage imageNamed:@"xuanxiuke"];
-//        self.confirmStateLabel.text = @"选修课";
-//    }else{
-//        self.confirmStateImageView.image = [UIImage imageNamed:@"qitake"];
-//        self.confirmStateLabel.text = @"其它";
-//    }
-//
-//
-//    [self.markContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        //移除关联对象
-//        objc_removeAssociatedObjects(obj);
-//        [obj removeFromSuperview];
-//        obj = nil;
-//    }];
-//    if (courseModel.modules.count == 0) {
-//        self.markContainerView.sd_layout.heightIs(0);
-//    }else{
-//        self.markContainerView.sd_layout.heightIs(46);
-//        for (int i= 0; i<courseModel.modules.count; i++) {
-//            HXModelItem *item = courseModel.modules[i];
-//            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [self.markContainerView addSubview:btn];
-//            //将数据关联按钮
-//            objc_setAssociatedObject(btn, &BtnWithItemKey, item, OBJC_ASSOCIATION_RETAIN);
-//            btn.titleLabel.font = HXFont(_kpAdaptationWidthFont(10));
-//            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [btn setTitle:HXSafeString(item.ModuleName) forState:UIControlStateNormal];
-//            [btn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
-//            if ([item.ExamCourseType isEqualToString:@"1"]) {//课件学习
-//                btn.tag = 7777;
-//                [btn setBackgroundColor:COLOR_WITH_ALPHA(0x5699FF, 1)];
-//                [btn setImage:[UIImage imageNamed:@"kejian_icon"] forState:UIControlStateNormal];
-//            }else if ([item.ExamCourseType isEqualToString:@"2"]) {//平时作业
-//                btn.tag = 8888;
-//                [btn setBackgroundColor:COLOR_WITH_ALPHA(0x4DC656, 1)];
-//                [btn setImage:[UIImage imageNamed:@"pingshi_icon"] forState:UIControlStateNormal];
-//            }else{//期末考试
-//                btn.tag = 9999;
-//                [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFAC639, 1)];
-//                [btn setImage:[UIImage imageNamed:@"qimo_icon"] forState:UIControlStateNormal];
-//            }
-//
-//            btn.sd_layout
-//            .topEqualToView(self.markContainerView)
-//            .leftSpaceToView(self.markContainerView, _kpw(23)+i*(_kpw(80)+_kpw(23)))
-//            .widthIs(_kpw(80))
-//            .heightIs(30);
-//            btn.sd_cornerRadiusFromHeightRatio = @0.5;
-//
-//            btn.imageView.sd_layout
-//            .centerYEqualToView(btn)
-//            .leftSpaceToView(btn, 10)
-//            .widthIs(12)
-//            .heightEqualToWidth();
-//
-//            btn.titleLabel.sd_layout
-//            .centerYEqualToView(btn)
-//            .leftSpaceToView(btn.imageView, 5)
-//            .rightSpaceToView(btn, 10)
-//            .heightRatioToView(btn, 1);
-//        }
-//    }
-//
-//}
-
+-(void)setStudentRefundModel:(HXStudentRefundModel *)studentRefundModel{
+    _studentRefundModel = studentRefundModel;
+    //0-待确认           1-确认无误       2-待退费  4-已退费     3-已驳回  5-已撤消
+    //0-时不显示任何标签   1-时显示审核中   2和4-时显示已通过       3和5-时不显示标签
+    
+    self.goConfirmBtn.hidden = YES;
+    self.checkDetailBtn.hidden = NO;
+    switch (studentRefundModel.reviewStatus) {
+        case 0://待确认
+            
+        {   self.goConfirmBtn.hidden = NO;
+            self.checkDetailBtn.hidden = YES;
+            self.confirmStateImageView.image = [UIImage imageNamed:@"waitconfirm"];
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        case 1://确认无误
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"confirmnoerror"];
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xFFF5DA, 1);
+            [self.markBtn1 setTitle:@"审核中" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0xFE664B, 1) forState:UIControlStateNormal];
+        }
+            break;
+        case 2://待退费
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"waitrefund"];
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"已通过" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+        }
+            break;
+        case 4://已退费
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"refunded"];
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"已通过" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+            
+        }
+            break;
+        case 3://已驳回
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"rejected"];
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        case 5://已撤消
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"reversed"];
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        default:
+            break;
+    }
+    
+    self.timeContentLabel.text = HXSafeString(studentRefundModel.createtime);
+    self.typeContentLabel.text = HXSafeString(studentRefundModel.refundTypeName);
+    self.nameAndVersinContentLabel.text = HXSafeString(studentRefundModel.name);
+    self.majorContentLabel.text = HXSafeString(studentRefundModel.title);
+}
 
 #pragma mark - UI
 -(void)createUI{
@@ -155,8 +143,6 @@
     [self.bigBackgroundView addSubview:self.typeTitleLabel];
     [self.bigBackgroundView addSubview:self.typeContentLabel];
     [self.bigBackgroundView addSubview:self.markBtn1];
-    [self.bigBackgroundView addSubview:self.markBtn2];
-    [self.bigBackgroundView addSubview:self.markBtn3];
     [self.bigBackgroundView addSubview:self.nameAndVersinContentLabel];
     [self.bigBackgroundView addSubview:self.majorContentLabel];
     [self.bigBackgroundView addSubview:self.bottomDashLine];
@@ -216,18 +202,6 @@
     .centerYEqualToView(self.typeContentLabel);
     [self.markBtn1 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
     self.markBtn1.sd_cornerRadius = @2;
-    
-    self.markBtn2.sd_layout
-    .leftSpaceToView(self.markBtn1, 8)
-    .centerYEqualToView(self.typeContentLabel);
-    [self.markBtn2 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
-    self.markBtn2.sd_cornerRadius = @2;
-    
-    self.markBtn3.sd_layout
-    .leftSpaceToView(self.markBtn2, 8)
-    .centerYEqualToView(self.typeContentLabel);
-    [self.markBtn3 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
-    self.markBtn3.sd_cornerRadius = @2;
     
     self.nameAndVersinContentLabel.sd_layout
     .topSpaceToView(self.typeTitleLabel, 12)
@@ -302,7 +276,6 @@
 -(UIImageView *)confirmStateImageView{
     if (!_confirmStateImageView) {
         _confirmStateImageView = [[UIImageView alloc] init];
-        _confirmStateImageView.image = [UIImage imageNamed:@"waitconfirm"];
     }
     return _confirmStateImageView;
 }
@@ -325,7 +298,6 @@
         _timeContentLabel.textAlignment = NSTextAlignmentLeft;
         _timeContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _timeContentLabel.font = HXBoldFont(14);
-        _timeContentLabel.text = @"2021-12-24  12:20";
     }
     return _timeContentLabel;;
 }
@@ -356,7 +328,7 @@
         _typeContentLabel.textAlignment = NSTextAlignmentLeft;
         _typeContentLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
         _typeContentLabel.font = HXBoldFont(14);
-        _typeContentLabel.text = @"退学";
+        
     }
     return _typeContentLabel;;
 }
@@ -364,34 +336,12 @@
     if (!_markBtn1) {
         _markBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
         _markBtn1.titleLabel.font = HXBoldFont(12);
-        _markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
-        [_markBtn1 setTitle:@"确认无误" forState:UIControlStateNormal];
-        [_markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+        
     }
     return _markBtn1;
 }
 
--(UIButton *)markBtn2{
-    if (!_markBtn2) {
-        _markBtn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-        _markBtn2.titleLabel.font = HXBoldFont(12);
-        _markBtn2.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
-        [_markBtn2 setTitle:@"已通过" forState:UIControlStateNormal];
-        [_markBtn2 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
-    }
-    return _markBtn2;
-}
 
--(UIButton *)markBtn3{
-    if (!_markBtn3) {
-        _markBtn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-        _markBtn3.titleLabel.font = HXBoldFont(12);
-        _markBtn3.backgroundColor = COLOR_WITH_ALPHA(0xFFF5DA, 1);
-        [_markBtn3 setTitle:@"审核中" forState:UIControlStateNormal];
-        [_markBtn3 setTitleColor:COLOR_WITH_ALPHA(0xFE664B, 1) forState:UIControlStateNormal];
-    }
-    return _markBtn3;
-}
 -(UILabel *)nameAndVersinContentLabel{
     if (!_nameAndVersinContentLabel) {
         _nameAndVersinContentLabel = [[UILabel alloc] init];
@@ -399,7 +349,7 @@
         _nameAndVersinContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _nameAndVersinContentLabel.font = HXFont(14);
         _nameAndVersinContentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        _nameAndVersinContentLabel.text = @"薛志强_成人高考";
+        
     }
     return _nameAndVersinContentLabel;
 }
@@ -411,7 +361,7 @@
         _majorContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _majorContentLabel.font = HXFont(14);
         _majorContentLabel.numberOfLines = 0;
-        _majorContentLabel.text = @"2013_本科_怀化学院_中小学教育";
+       
     }
     return _majorContentLabel;
 }
@@ -434,6 +384,8 @@
         _goConfirmBtn.backgroundColor = COLOR_WITH_ALPHA(0xFF9F0A, 1);
         [_goConfirmBtn setTitle:@"去确认" forState:UIControlStateNormal];
         [_goConfirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _goConfirmBtn.hidden = YES;
+        _goConfirmBtn.userInteractionEnabled = NO;
     }
     return _goConfirmBtn;
 }
@@ -446,6 +398,7 @@
         [_checkDetailBtn setTitle:@"查看详情" forState:UIControlStateNormal];
         [_checkDetailBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _checkDetailBtn.hidden = YES;
+        _checkDetailBtn.userInteractionEnabled = NO;
     }
     return _checkDetailBtn;
 }

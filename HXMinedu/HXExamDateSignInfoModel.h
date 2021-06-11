@@ -11,9 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXExamDateSignInfoModel : NSObject
-//考试时间
+///考试时间
 @property(nonatomic, copy) NSString *examTime;
-//课程名
+///课程名
 @property(nonatomic, copy) NSString *courseName;
 
 @end

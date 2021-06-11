@@ -28,8 +28,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSInteger studentstatus;
 //备注
 @property(nonatomic, copy) NSString *remark;
+//等于2时不允许上传图片
+@property(nonatomic, assign) NSInteger attr;
+//专业ID
+@property(nonatomic, copy) NSString *major_id;
+//类别ID
+@property(nonatomic, copy) NSString *version_id;
 
-//考生号
 @end
 
 NS_ASSUME_NONNULL_END
