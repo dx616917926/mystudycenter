@@ -21,6 +21,7 @@
 //  v4.5 组件化 阿里云SDK v5.3.0
 //  v4.6 新增修改状态栏颜色参数，新支持参数控制进度条拖拽和提示点控制，默认允许拖拽，默认显示提示点。
 //  v4.7 新增加视频右上角水印图片参数 logoUrl
+//  v4.8 新增加水印参数 logoPosition（位置1--9九宫格坐标，默认在右上角）logoAlpha（透明度）logoWidth（宽度）logoHeight（高度）
 
 NS_ASSUME_NONNULL_BEGIN
 
