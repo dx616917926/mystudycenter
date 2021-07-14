@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 #import "HXStudentRefundModel.h"
+#import "HXStudentYiDongModel.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef enum : NSUInteger {
@@ -17,7 +19,10 @@ typedef enum : NSUInteger {
 @interface HXYiDongAndRefundConfirmCell : UITableViewCell
 
 @property(nonatomic,assign) HXConfirmType confirmType;
+
 @property(nonatomic,strong) HXStudentRefundModel *studentRefundModel;
+
+@property(nonatomic,strong) HXStudentYiDongModel *studentYiDongModel;
 
 @end
 

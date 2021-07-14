@@ -114,10 +114,12 @@
         HXScanCodePaymentViewController *vc = [[HXScanCodePaymentViewController alloc] init];
         vc.orderNum = self.paidDetailsInfoModel.orderNum;
         [self.navigationController pushViewController:vc animated:YES];
-    }else{//银联支付
+    }else if (self.paidDetailsInfoModel.payMode_id == 1) {//银联支付
         HXCommonWebViewController * vc = [[HXCommonWebViewController alloc] init];
         vc.urlString = self.paidDetailsInfoModel.payUrl;
         [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        [self.view showTostWithMessage:@"暂不支持该支付方式" hideAfter:2];
     }
     
 }

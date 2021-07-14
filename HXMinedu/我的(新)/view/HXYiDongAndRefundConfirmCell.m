@@ -132,6 +132,77 @@
     self.majorContentLabel.text = HXSafeString(studentRefundModel.title);
 }
 
+-(void)setStudentYiDongModel:(HXStudentYiDongModel *)studentYiDongModel{
+    
+    _studentYiDongModel = studentYiDongModel;
+    
+    ///0-待确认           1-已确认         2-审核中     3-待终审       4-已同意       5-已驳回
+    /// 015 不显示    23审核中         4已通过  
+    
+    self.goConfirmBtn.hidden = YES;
+    self.checkDetailBtn.hidden = NO;
+    switch (studentYiDongModel.reviewStatus) {
+        case 0://待确认
+            
+        {   self.goConfirmBtn.hidden = NO;
+            self.checkDetailBtn.hidden = YES;
+            self.confirmStateImageView.image = [UIImage imageNamed:@"waitconfirm"];
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        case 1://确认无误
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"confirmnoerror"];
+            self.markBtn1.hidden = YES;
+    
+        }
+            break;
+        case 2://审核中
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"shenhezhong"];
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"审核中 " forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+        }
+            break;
+        case 3://待终审
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"daizhongshen"];
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"审核中 " forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+        }
+            break;
+        case 4://已同意
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"yitongyi"];
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"已通过" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+            
+        }
+            break;
+        case 5://已驳回
+        {
+            self.confirmStateImageView.image = [UIImage imageNamed:@"rejected"];
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        default:
+            break;
+    }
+    
+    self.timeContentLabel.text = HXSafeString(studentYiDongModel.stopTypeTime);
+    self.typeContentLabel.text = HXSafeString(studentYiDongModel.stopTypeName);
+    self.nameAndVersinContentLabel.text = HXSafeString(studentYiDongModel.name);
+    self.majorContentLabel.text = HXSafeString(studentYiDongModel.title);
+}
+
+
+
 #pragma mark - UI
 -(void)createUI{
     [self.contentView addSubview:self.shadowBackgroundView];

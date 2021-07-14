@@ -27,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 ///订单详情  缴费条目数组
 @property(nonatomic, strong) NSArray<HXPaymentDetailModel *> *paidDetailsOrderInfoList;
 
+///异动详情  缴费条目数组
+@property(nonatomic, strong) NSArray<HXPaymentDetailModel *> *stopStudyByZzyAndZcpFeeInfoList;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -113,44 +113,44 @@
 #pragma mark - 布局子视图
 -(void)createUI{
     [self.view addSubview:self.mainTableView];
-    [self.view addSubview:self.historicalDetailsBtn];
-    
-    UILabel *lable1 = [[UILabel alloc] init];
-    lable1.textAlignment = NSTextAlignmentCenter;
-    lable1.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-    lable1.font = HXFont(12);
-    lable1.text = @"历史";
-    
-    UILabel *lable2 = [[UILabel alloc] init];
-    lable2.textAlignment = NSTextAlignmentCenter;
-    lable2.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-    lable2.font = HXFont(12);
-    lable2.text = @"明细";
-    
-    [self.historicalDetailsBtn addSubview:lable1];
-    [self.historicalDetailsBtn addSubview:lable2];
-    
+//    [self.view addSubview:self.historicalDetailsBtn];
+//    
+//    UILabel *lable1 = [[UILabel alloc] init];
+//    lable1.textAlignment = NSTextAlignmentCenter;
+//    lable1.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+//    lable1.font = HXFont(12);
+//    lable1.text = @"历史";
+//    
+//    UILabel *lable2 = [[UILabel alloc] init];
+//    lable2.textAlignment = NSTextAlignmentCenter;
+//    lable2.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+//    lable2.font = HXFont(12);
+//    lable2.text = @"明细";
+//    
+//    [self.historicalDetailsBtn addSubview:lable1];
+//    [self.historicalDetailsBtn addSubview:lable2];
+//    
     self.mainTableView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, 0, 0, 0));
-    
-    
-    self.historicalDetailsBtn.sd_layout
-    .bottomSpaceToView(self.view, 83)
-    .rightSpaceToView(self.view, 10)
-    .widthIs(55)
-    .heightEqualToWidth();
-    self.historicalDetailsBtn.layer.cornerRadius = 27.5;
-    
-    lable1.sd_layout
-    .centerXEqualToView(self.historicalDetailsBtn)
-    .centerYEqualToView(self.historicalDetailsBtn).offset(-8)
-    .heightIs(16)
-    .widthIs(40);
-    
-    lable2.sd_layout
-    .centerXEqualToView(self.historicalDetailsBtn)
-    .centerYEqualToView(self.historicalDetailsBtn).offset(8)
-    .heightIs(16)
-    .widthIs(40);
+//    
+//    
+//    self.historicalDetailsBtn.sd_layout
+//    .bottomSpaceToView(self.view, 83)
+//    .rightSpaceToView(self.view, 10)
+//    .widthIs(55)
+//    .heightEqualToWidth();
+//    self.historicalDetailsBtn.layer.cornerRadius = 27.5;
+//    
+//    lable1.sd_layout
+//    .centerXEqualToView(self.historicalDetailsBtn)
+//    .centerYEqualToView(self.historicalDetailsBtn).offset(-8)
+//    .heightIs(16)
+//    .widthIs(40);
+//    
+//    lable2.sd_layout
+//    .centerXEqualToView(self.historicalDetailsBtn)
+//    .centerYEqualToView(self.historicalDetailsBtn).offset(8)
+//    .heightIs(16)
+//    .widthIs(40);
     
     
     // 下拉刷新
@@ -256,7 +256,7 @@
         return cell;
     }else{
         HXPaymentDetailModel *paymentDetailModel = self.paidDetailsList[indexPath.section];
-        //订单类型  -1已支付待确认  1-已完成  0-未完成
+        //订单类型  -1已支付待确认  1-已完成  0-未完成 2-已结转
         if (paymentDetailModel.orderStatus == 0) {
             static NSString *unPaidDetailCelldentifier = @"HXUnPaidDetailCellIdentifier";
             HXUnPaidDetailCell *unPaidCell = [tableView dequeueReusableCellWithIdentifier:unPaidDetailCelldentifier];

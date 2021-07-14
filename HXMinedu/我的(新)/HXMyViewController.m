@@ -32,6 +32,7 @@
 @property(nonatomic,strong) UIButton *phoneBtn;
 @property(nonatomic,strong) UIButton *collectInfoBtn;
 @property(nonatomic,strong) UIButton *messageBtn;
+@property(nonatomic,strong) UIView *messageRedDot;
 
 @property(nonatomic,strong)  WMZBannerView *bannerView;
 @property(nonatomic,strong)  WMZBannerParam *bannerParam;
@@ -49,6 +50,8 @@
 @property(nonatomic,strong) UIButton *aboutUsBtn;
 @property(nonatomic,strong) UIView *line;
 @property(nonatomic,strong) UIButton *commomSetBtn;
+//未读消息数量
+@property(nonatomic,assign) NSInteger messageCount;
 
 @end
 
@@ -70,6 +73,12 @@
     [self getStuInfo];
     //获取学生专业
     [self geMajorList];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //请求未读消息数量
+    [self getMessageWDCount];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -149,8 +158,30 @@
     if ([HXCommonUtil isNull:[HXPublicParamTool sharedInstance].jiGouLogoUrl]) {
         [self getBannerAndLogo];
     }
+
 }
 
+#pragma mark - 请求未读消息数量
+- (void)getMessageWDCount {
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_COUNT withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            NSDictionary *data = [dictionary objectForKey:@"Data"];
+            self.messageCount = [[data stringValueForKey:@"WDCount"] integerValue];
+            self.messageRedDot.hidden = !(self.messageCount>0);
+        }else{
+            self.messageCount = 0;
+            self.messageRedDot.hidden = YES;
+        }
+        
+    } failure:^(NSError * _Nonnull error) {
+        //do nothing
+        NSLog(@"请求未读消息数量失败！");
+        self.messageRedDot.hidden = YES;
+    }];
+}
 
 
 #pragma mark - 刷新数据
@@ -216,7 +247,7 @@
             yiDongAndRefundConfirmVc.hidesBottomBarWhenPushed = YES;
             yiDongAndRefundConfirmVc.confirmType = HXYiDongConfirmType;
             [self.navigationController pushViewController:yiDongAndRefundConfirmVc animated:YES];
-            
+
         }
             break;
         case 4://退费确认
@@ -329,7 +360,12 @@
     .widthIs(60)
     .heightIs(30);
         
-    
+    self.messageRedDot.sd_layout
+    .topEqualToView(self.messageBtn)
+    .rightEqualToView(self.messageBtn).offset(-12)
+    .widthIs(8)
+    .heightEqualToWidth();
+    self.messageRedDot.sd_cornerRadiusFromHeightRatio = @0.5;
     
     self.bannerView.sd_layout
     .topSpaceToView(self.mainScrollView, 160)
@@ -509,10 +545,19 @@
         _messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_messageBtn setImage:[UIImage imageNamed:@"message_icon"] forState:UIControlStateNormal];
         [_messageBtn addTarget:self action:@selector(clickMessageBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [_messageBtn addSubview:self.messageRedDot];
     }
     return _messageBtn;
 }
 
+-(UIView *)messageRedDot{
+    if (!_messageRedDot) {
+        _messageRedDot = [[UIView alloc] init];
+        _messageRedDot.backgroundColor = [UIColor redColor];
+        _messageRedDot.hidden = YES;
+    }
+    return _messageRedDot;
+}
 
 
 

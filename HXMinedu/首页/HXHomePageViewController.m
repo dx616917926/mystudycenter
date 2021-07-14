@@ -25,11 +25,13 @@
 @property (nonatomic, strong) UILabel *logoTitleLabel;
 @property (nonatomic, strong) UIButton *dakaBtn;
 @property (nonatomic, strong) UIButton *messageBtn;
+@property(nonatomic,strong) UIView *messageRedDot;
 @property(nonatomic,strong)   WMZBannerView *bannerView;
 
 @property (nonatomic, copy) NSArray *imagesURLs;
 @property (nonatomic, copy) NSArray *h5URLs;
-
+//未读消息数量
+@property(nonatomic,assign) NSInteger messageCount;
 @end
 
 @implementation HXHomePageViewController
@@ -50,8 +52,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    
+    //获取未读消息数量
+    [self getMessageWDCount];
 }
 
 #pragma mark - Event
@@ -86,6 +88,28 @@
         
     } failure:^(NSError * _Nonnull error) {
         
+    }];
+}
+
+#pragma mark - 获取未读消息数量
+- (void)getMessageWDCount {
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_COUNT withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL Success = [dictionary boolValueForKey:@"Success"];
+        if (Success) {
+            NSDictionary *data = [dictionary objectForKey:@"Data"];
+            self.messageCount = [[data stringValueForKey:@"WDCount"] integerValue];
+            self.messageRedDot.hidden = !(self.messageCount>0);
+        }else{
+            self.messageCount = 0;
+            self.messageRedDot.hidden = YES;
+        }
+        
+    } failure:^(NSError * _Nonnull error) {
+        //do nothing
+        NSLog(@"请求未读消息数量失败！");
+        self.messageRedDot.hidden = YES;
     }];
 }
 
@@ -238,6 +262,13 @@
         .widthIs(20)
         .heightIs(20);
         
+        self.messageRedDot.sd_layout
+        .topEqualToView(self.messageBtn)
+        .rightEqualToView(self.messageBtn).offset(-12)
+        .widthIs(8)
+        .heightEqualToWidth();
+        self.messageRedDot.sd_cornerRadiusFromHeightRatio = @0.5;
+        
         self.bannerView.sd_layout
         .topSpaceToView(self.logoImageView, 20)
         .leftEqualToView(_headerView)
@@ -273,9 +304,20 @@
         _messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_messageBtn setImage:[UIImage imageNamed:@"homepage_icon_message"] forState:UIControlStateNormal];
         [_messageBtn addTarget:self action:@selector(clickMessageBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [_messageBtn addSubview:self.messageRedDot];
     }
     return _messageBtn;
 }
+
+-(UIView *)messageRedDot{
+    if (!_messageRedDot) {
+        _messageRedDot = [[UIView alloc] init];
+        _messageRedDot.backgroundColor = [UIColor redColor];
+        _messageRedDot.hidden = YES;
+    }
+    return _messageRedDot;
+}
+
 
 -(WMZBannerView *)bannerView{
     if (!_bannerView) {

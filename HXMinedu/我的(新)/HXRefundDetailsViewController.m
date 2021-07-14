@@ -21,6 +21,7 @@
 #import "HXStudentRefundDetailsModel.h"
 
 @interface HXRefundDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HXRefundMethodCellDelegate,HXRefundVoucherCellDelegate>
+
 @property(nonatomic,strong) UITableView *mainTableView;
 @property(nonatomic,strong) UIView *bottomView;
 @property(nonatomic,strong) UIView *bottomShadowView;
@@ -83,10 +84,10 @@
         @"reviewStatus":@(reviewStatus),
         @"rejectRemark":HXSafeString(remark),
         @"payMode":@(self.payMode),
-        @"image":(self.payMode == 2?self.base64Str:@""),
+        @"image":(self.payMode == 2?HXSafeString(self.base64Str):@""),
         @"khm":(self.payMode == 1?self.khm:@""),
         @"khh":(self.payMode == 1?self.khh:@""),
-        @"khsk":(self.payMode == 1?self.khm:@"")
+        @"khsk":(self.payMode == 1?self.khsk:@"")
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStudentRefundeConfirmOrReject  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
@@ -152,7 +153,7 @@
         return YES;
     }
     if (self.payMode == 2) {
-        if ([HXCommonUtil isNull:self.base64Str]) {
+        if ([HXCommonUtil isNull:self.base64Str]&&[HXCommonUtil isNull:self.studentRefundDetailsModel.skewm]) {
             [self.view showTostWithMessage:@"请添加退费二维码"];
             return  NO;
         }
@@ -160,7 +161,6 @@
     }
     return YES;
 }
-
 
 
 #pragma mark - <HXRefundMethodCellDelegate>
@@ -178,7 +178,12 @@
 
 
 -(void)refundMethodCell:(HXRefundMethodCell *)cell tapShowRefundQRCodeImageView:(UIImageView *)refundQRCodeImageView{
-    if([HXCommonUtil isNull:self.studentRefundDetailsModel.skewm]) return;
+    if([HXCommonUtil isNull:self.studentRefundDetailsModel.skewm] && self.studentRefundDetailsModel.reviewStatus != 0) {
+        return;
+    }else if(![HXCommonUtil isNull:self.studentRefundDetailsModel.skewm] && self.studentRefundDetailsModel.reviewStatus == 0){
+        [self refundMethodCell:cell clickUpLoadBtn:nil showRefundQRCodeImageView:refundQRCodeImageView];
+        return;
+    }
     NSMutableArray *photos = [NSMutableArray new];
     GKPhoto *photo = [GKPhoto new];
     photo.url = [NSURL URLWithString:self.studentRefundDetailsModel.skewm];
@@ -208,28 +213,36 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    ///0-待确认           1-确认无误       2-待退费  4-已退费     3-已驳回    5-已撤消
+    ///0-待确认           1-确认无误       2-待退费     4-已退费     3-已驳回    5-已撤消
     NSInteger reviewStatus = self.studentRefundDetailsModel.reviewStatus;
     switch (reviewStatus) {
         case 0://待确认
             return 3;
             break;
         case 1://确认无误
+        case 2://待退费
+        case 5:
             return 4;
             break;
-        case 2://已退费
-        case 4:
-            return 6;
-            break;
         case 3://已驳回
-        case 5:
-            return 5;
+        {
+            if (![HXCommonUtil isNull:self.studentRefundDetailsModel.reviewerRemark]) {
+                return 5;
+            }else{
+                return 4;
+            }
+            
+        }
+            break;
+        case 4://已退费
+            return 6;
             break;
         default:
             break;
     }
     return 0;
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -330,6 +343,7 @@
                 weakSelf.khm = khm;
                 weakSelf.khh = khh;
                 weakSelf.khsk = khsk;
+
             };
             return cell;
         }

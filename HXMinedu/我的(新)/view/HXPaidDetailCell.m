@@ -68,8 +68,8 @@
     self.paymentTimeContentLabel.text = HXSafeString(paymentDetailModel.feeDate);
     self.shijiaoMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.payMoney];
     
-    //订单类型  -1已支付待确认  1-已完成  0-未完成
-    if (paymentDetailModel.orderStatus == 1) {
+    //订单类型  -1已支付待确认  1-已完成  0-未完成   2-已结转
+    if (paymentDetailModel.orderStatus == 1) {//已完成
         self.paymentStateLabel.text = @"";
         self.paymentNameLabel.sd_layout.rightSpaceToView(self.paymentStateLabel , 0);
         self.paymentNameLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
@@ -78,7 +78,20 @@
         self.orderTimeContentLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
         self.paymentTimeContentLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
         self.shijiaoLabel.hidden = self.shijiaoMoneyLabel.hidden = self.finishImageView.hidden = NO;
+        self.finishImageView.image = [UIImage imageNamed:@"finishpayment"];
+        self.checkBtn.hidden = NO;
         [self.checkBtn setTitle:@"查看收款凭证" forState:UIControlStateNormal];
+    }else if (paymentDetailModel.orderStatus == 2) {//已结转
+        self.paymentStateLabel.text = @"";
+        self.paymentNameLabel.sd_layout.rightSpaceToView(self.paymentStateLabel , 0);
+        self.paymentNameLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        self.paymentAmountContentLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        self.orderNumberContentLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        self.orderTimeContentLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        self.paymentTimeContentLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
+        self.shijiaoLabel.hidden = self.shijiaoMoneyLabel.hidden = self.finishImageView.hidden = NO;
+        self.finishImageView.image = [UIImage imageNamed:@"yijiezhuan"];
+        self.checkBtn.hidden = YES;
     }else if (paymentDetailModel.orderStatus == -1){
         self.paymentStateLabel.text = @"已支付，待确认";
         self.paymentNameLabel.sd_layout.rightSpaceToView(self.paymentStateLabel , _kpw(14));
@@ -88,6 +101,7 @@
         self.orderTimeContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         self.paymentTimeContentLabel.textColor =COLOR_WITH_ALPHA(0x2C2C2E, 1);
         self.shijiaoLabel.hidden = self.shijiaoMoneyLabel.hidden = self.finishImageView.hidden = YES;
+        self.checkBtn.hidden = NO;
         [self.checkBtn setTitle:@"查看交易凭证" forState:UIControlStateNormal];
     }
 }
@@ -164,8 +178,8 @@
     self.finishImageView.sd_layout
     .topSpaceToView(self.divisionLine, 10)
     .centerXEqualToView(self.bigTopGroundImageView)
-    .widthIs(106)
-    .heightEqualToWidth();
+    .widthIs(139)
+    .heightIs(132);
     
     
     self.paymentAmountLabel.sd_layout

@@ -89,6 +89,25 @@
     }];
 }
 
+#pragma mark - 消息设置已读
+-(void)messageUpdate:(NSString *)message_id{
+    if (!message_id) {
+        return;
+    }
+    NSDictionary *parameters = @{@"message_id":message_id};
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_MESSAGE_UPDATE withDictionary:parameters success:^(NSDictionary *dic) {
+        BOOL Success = [dic boolValueForKey:@"Success"];
+        if (Success) {
+            NSLog(@"更新文章状态为已读！");
+        }else{
+            NSLog(@"文章标记为已读失败！");
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"文章标记为已读失败！");
+    }];
+}
+
+
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return self.messageList.count;
@@ -139,6 +158,8 @@
 //    systemMessageVc.hidesBottomBarWhenPushed = YES;
 //    [self.navigationController pushViewController:systemMessageVc animated:YES];
     
+    //消息设置已读
+    [self messageUpdate:messageModel.message_id];
 }
 
 

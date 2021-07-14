@@ -47,6 +47,13 @@
     self.timeLabel.text = studentRefundDetailsModel.reviewerTime;
 }
 
+-(void)setYiDongInfoModel:(HXYiDongInfoModel *)yiDongInfoModel{
+    _yiDongInfoModel = yiDongInfoModel;
+    self.contentLabel.text = [HXCommonUtil isNull:yiDongInfoModel.reviewerremark]?@"暂无":yiDongInfoModel.reviewerremark;
+    self.timeLabel.text = yiDongInfoModel.reviewertime;
+    
+}
+
 #pragma mark - UI
 -(void)createUI{
     [self.contentView addSubview:self.shadowBackgroundView];
@@ -100,10 +107,10 @@
     if (!_shadowBackgroundView) {
         _shadowBackgroundView = [[UIView alloc] init];
         _shadowBackgroundView.backgroundColor = [UIColor whiteColor];
-        _shadowBackgroundView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.15).CGColor;
-        _shadowBackgroundView.layer.shadowOffset = CGSizeMake(0, 2);
-        _shadowBackgroundView.layer.shadowRadius = 4;
-        _shadowBackgroundView.layer.shadowOpacity = 1;
+//        _shadowBackgroundView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.15).CGColor;
+//        _shadowBackgroundView.layer.shadowOffset = CGSizeMake(0, 2);
+//        _shadowBackgroundView.layer.shadowRadius = 4;
+//        _shadowBackgroundView.layer.shadowOpacity = 1;
     }
     return _shadowBackgroundView;
 }
@@ -113,6 +120,8 @@
         _bigBackgroundView = [[UIView alloc] init];
         _bigBackgroundView.backgroundColor = [UIColor whiteColor];
         _bigBackgroundView.clipsToBounds = YES;
+        _bigBackgroundView.layer.borderWidth = 0.5;
+        _bigBackgroundView.layer.borderColor = COLOR_WITH_ALPHA(0x979797, 0.3).CGColor;
     }
     return _bigBackgroundView;
 }

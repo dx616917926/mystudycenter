@@ -310,7 +310,8 @@
     
     if (self.pictureInfoModel.status == 0) {//0:待上传 1:已上传
         self.topConfirmBtn.hidden  = YES;
-        self.topUploadBtn.hidden  = NO;
+        ////等于2时不允许上传图片
+        self.topUploadBtn.hidden = (self.pictureInfoModel.attr == 2);
         self.topConfirmBtn.sd_layout.topSpaceToView(self.topImageView, 14).heightIs(0);
     }else{
         self.topUploadBtn.hidden = YES;

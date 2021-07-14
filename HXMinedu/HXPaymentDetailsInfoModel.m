@@ -12,7 +12,9 @@
 {
     return @{
         @"payableDetailsInfoList" : @"t_PayableDetailsInfoList_app",
-        @"paidDetailsOrderInfoList" : @"t_PaidDetailsOrderInfo_app"
+        @"paidDetailsOrderInfoList" : @"t_PaidDetailsOrderInfo_app",
+        @"stopStudyByZzyAndZcpFeeInfoList" : @"t_StopStudyByZzyAndZcpFeeInfo_app",
+       
         
     };
 }
@@ -21,7 +23,9 @@
 {
     return @{
              @"payableDetailsInfoList" : @"HXPaymentDetailModel",
-             @"paidDetailsOrderInfoList" : @"HXPaymentDetailModel"
+             @"paidDetailsOrderInfoList" : @"HXPaymentDetailModel",
+             @"stopStudyByZzyAndZcpFeeInfoList" : @"HXPaymentDetailModel",
+             
              };
 }
 @end

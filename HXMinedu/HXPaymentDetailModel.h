@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) float payMoney;
 ///退费金额（退费详情用）
 @property(nonatomic, assign) float refundMoney;
+///结转金额（异动详情用）
+@property(nonatomic, assign) float costMoney;
 ///未缴费金额
 @property(nonatomic, assign) float notPay;
 ///数量
@@ -34,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *feeDate;
 ///订单时间
 @property(nonatomic, copy) NSString *createDate;
-///订单类型  -1已支付待确认  1-已完成  0-未完成
+///订单类型  -1已支付待确认  1-已完成  0-未完成  2-已结转
 @property(nonatomic, assign) NSInteger orderStatus;
 ///收据凭证url
 @property(nonatomic, copy) NSString *receiptUrl;

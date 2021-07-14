@@ -54,7 +54,6 @@
             break;
         case 1://确认无误
         {
-           
             self.markBtn1.hidden = NO;
             self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xFFF5DA, 1);
             [self.markBtn1 setTitle:@"审核中" forState:UIControlStateNormal];
@@ -92,7 +91,6 @@
             break;
     }
     
-   
     self.typeContentLabel.text = HXSafeString(studentRefundDetailsModel.refundTypeName);
     self.timeContentLabel.text = HXSafeString(studentRefundDetailsModel.createtime);
     self.reasonsContentLabel.text = HXSafeString(studentRefundDetailsModel.why);

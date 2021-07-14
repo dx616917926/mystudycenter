@@ -9,11 +9,15 @@
 #import "HXInfoConfirmChildViewController.h"
 #import "XLPageViewController.h"
 #import "HXStudentFileModel.h"
+#import "HXNoDataTipView.h"
 
 @interface HXInfoConfirmViewController ()<XLPageViewControllerDelegate,XLPageViewControllerDataSrouce>
 @property (nonatomic, strong) XLPageViewControllerConfig *config;
 @property (nonatomic, strong) XLPageViewController *pageViewController;
 @property (nonatomic,strong)  NSMutableArray *dataList;
+
+@property (nonatomic,strong) HXNoDataTipView *noDataTipView;
+
 @end
 
 @implementation HXInfoConfirmViewController
@@ -61,6 +65,11 @@
             NSArray *data = [HXStudentFileModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             [self.dataList addObjectsFromArray:data];
             [self initPageViewController];
+            if (self.dataList.count == 0) {
+                [self.view addSubview:self.noDataTipView];
+            }else{
+                [self.noDataTipView removeFromSuperview];
+            }
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];
@@ -114,6 +123,14 @@
         _dataList = [NSMutableArray array];
     }
     return _dataList;
+}
+
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight)];
+
+    }
+    return _noDataTipView;
 }
 
 -(void)dealloc{

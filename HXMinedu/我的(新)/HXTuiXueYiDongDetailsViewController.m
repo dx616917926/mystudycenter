@@ -1,65 +1,127 @@
 //
-//  HXYiDongDetailsViewController.m
+//  HXTuiXueYiDongDetailsViewController.m
 //  HXMinedu
 //
-//  Created by mac on 2021/6/4.
+//  Created by mac on 2021/7/9.
 //
 
-#import "HXYiDongDetailsViewController.h"
+#import "HXTuiXueYiDongDetailsViewController.h"
 #import "HXYiDongHeadInfoCell.h"
 #import "HXMajorInfoCell.h"
 #import "HXSuggestionCell.h"
+#import "HXReviewerSuggestionCell.h"
 #import "HXToastSuggestionView.h"
 #import "HXCustomToastView.h"
 
-@interface HXYiDongDetailsViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HXTuiXueYiDongDetailsViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong) UITableView *mainTableView;
 @property(nonatomic,strong) UIView *bottomView;
 @property(nonatomic,strong) UIView *bottomShadowView;
 @property(nonatomic,strong) UIButton *rejectBtn;//驳回
 @property(nonatomic,strong) UIButton *confirmBtn;//确认异动
+
+
+
+//异动详情
+@property(nonatomic,strong) HXYiDongInfoModel *yiDongInfoModel;
+//专业详情
+@property(nonatomic,strong) HXMajorInfoModel *majorInfoModel;
+
 @end
 
-@implementation HXYiDongDetailsViewController
+@implementation HXTuiXueYiDongDetailsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //UI
     [self createUI];
+    //获取学生退学休学异动详情
+    [self getStopStudyByTxAndXxInfo];
 }
 
-#pragma mark - Event
--(void)reject:(UIButton *)sender{
-    HXToastSuggestionView *toastSuggestionView = [[HXToastSuggestionView alloc] init];
-    [toastSuggestionView showRejecttoastWithCallBack:^(NSString * _Nonnull cotent) {
-        [self loadRejectData];
+#pragma mark - 获取学生退学休学异动详情
+-(void)getStopStudyByTxAndXxInfo{
+    
+    NSDictionary *dic = @{
+        @"stopStudyId":HXSafeString(self.stopStudyId)
+    };
+    [self.view showLoading];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStopStudyByTxAndXxInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSDictionary *dataDic = [dictionary objectForKey:@"Data"];
+            self.yiDongInfoModel = [HXYiDongInfoModel mj_objectWithKeyValues:[dataDic objectForKey:@"t_StopStudyByTxAndXxInfo_app"]];
+            self.majorInfoModel = [HXMajorInfoModel mj_objectWithKeyValues:[dataDic objectForKey:@"t_StopStudyByTxAndXxMajorInfo_app"]];
+            [self.mainTableView reloadData];
+            ///0-待确认  1-已确认   2-审核中   3-待终审    4-已同意    5-已驳回
+            if (self.yiDongInfoModel.reviewstatus == 0) {
+                self.bottomShadowView.hidden = self.bottomView.hidden = NO;
+            }else{
+                self.bottomShadowView.hidden = self.bottomView.hidden = YES;
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
     }];
 }
 
--(void)confirm:(UIButton *)sender{
-    HXToastSuggestionView *toastSuggestionView = [[HXToastSuggestionView alloc] init];
-    [toastSuggestionView showConfirmToastWithCallBack:^(NSString * _Nonnull cotent) {
-        [self loadConfirmData];
+#pragma mark - 学生异动信息确认或驳回
+-(void)loadRefundConfirmOrRejectRemark:(NSString *)remark reviewStatus:(NSInteger)reviewStatus{
+    
+    NSDictionary *dic = @{
+        @"stopStudyId":HXSafeString(self.stopStudyId),
+        @"reviewStatus":@(reviewStatus),
+        @"rejectRemark":HXSafeString(remark),
+        @"payMode":@"",
+        @"image":@"",
+        @"khm":@"",
+        @"khh":@"",
+        @"khsk":@""
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_StuStopConfirmOrReject  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.bottomView.hidden = self.bottomShadowView.hidden = YES;
+            //刷新数据
+            [self getStopStudyByTxAndXxInfo];
+            
+            HXCustomToastView *toastView = [[HXCustomToastView alloc] init];
+            reviewStatus == 1?[toastView showConfirmToastHideAfter:2]:[toastView showRejectToastHideAfter:2];
+            //回调刷新列表
+            if (self.refundRefreshCallBack) {
+                self.refundRefreshCallBack();
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+        self.bottomView.hidden = self.bottomShadowView.hidden = NO;
     }];
-}
-
-
--(void)loadRejectData{
-    HXCustomToastView *toastView = [[HXCustomToastView alloc] init];
-    [toastView showRejectToastHideAfter:2];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.bottomView.hidden = self.bottomShadowView.hidden = YES;
-    });
     
 }
 
--(void)loadConfirmData{
-    HXCustomToastView *toastView = [[HXCustomToastView alloc] init];
-    [toastView showConfirmToastHideAfter:2];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.bottomView.hidden = self.bottomShadowView.hidden = YES;
-    });
+#pragma mark - Event
+//驳回
+-(void)reject:(UIButton *)sender{
+    HXToastSuggestionView *toastSuggestionView = [[HXToastSuggestionView alloc] init];
+    [toastSuggestionView showRejecttoastWithCallBack:^(NSString * _Nonnull cotent) {
+        [self loadRefundConfirmOrRejectRemark:cotent reviewStatus:2];
+    }];
 }
+
+//确认
+-(void)confirm:(UIButton *)sender{
+    
+    HXToastSuggestionView *toastSuggestionView = [[HXToastSuggestionView alloc] init];
+    [toastSuggestionView showConfirmToastWithCallBack:^(NSString * _Nonnull cotent) {
+        [self loadRefundConfirmOrRejectRemark:cotent reviewStatus:1];
+    }];
+}
+
+
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -67,8 +129,30 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    //0-待确认 1-已确认 2-审核中 3-待终审 4-已同意 5-已驳回
+    //reviewstatus=2和3时显示确认意见  reviewstatus=4和5时显示确认意见和审核意见  其他不显示
+    NSInteger reviewstatus = self.yiDongInfoModel.reviewstatus;
+    switch (reviewstatus) {
+        case 0:
+        case 1:
+            return 2;
+            break;
+        case 2:
+        case 3:
+            return 3;
+            break;
+        case 4:
+        case 5:
+            return 4;
+            break;
+        default:
+            return 0;
+            break;
+    }
+    
 }
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -77,80 +161,86 @@
             return 104;
             break;
         case 1:
-            return 204;
+            return 156;
             break;
         case 2:
-            return 204;
+        {
+            HXYiDongInfoModel *yiDongInfoModel = self.yiDongInfoModel;
+            CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                            model:yiDongInfoModel keyPath:@"yiDongInfoModel"
+                                                        cellClass:([HXSuggestionCell class])
+                                                 contentViewWidth:kScreenWidth];
+            return rowHeight;
+        }
             break;
         case 3:
-            return 110;
-            break;
-        case 4:
-            return 110;
+        {
+            HXYiDongInfoModel *yiDongInfoModel = self.yiDongInfoModel;
+            CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                            model:yiDongInfoModel keyPath:@"yiDongInfoModel"
+                                                        cellClass:([HXReviewerSuggestionCell class])
+                                                 contentViewWidth:kScreenWidth];
+            return rowHeight;
+        }
             break;
         default:
             return 0;
             break;
-    };
-
+    }
 }
 
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     static NSString *yiDongHeadInfoCellIdentifier = @"HXYiDongHeadInfoCellIdentifier";
     static NSString *majorInfoCellIdentifier = @"HXMajorInfoCellIdentifier";
     static NSString *suggestionCellIdentifier = @"HXSuggestionCellIdentifier";
+    static NSString *reviewerSuggestionCellIdentifier = @"HXReviewerSuggestionCellIdentifier";
+    
     switch (indexPath.row) {
         case 0:
         {
-            
             HXYiDongHeadInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:yiDongHeadInfoCellIdentifier];
             if (!cell) {
                 cell = [[HXYiDongHeadInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:yiDongHeadInfoCellIdentifier];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.yiDongInfoModel = self.yiDongInfoModel;
             return cell;
         }
             break;
         case 1:
         {
-           
             HXMajorInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:majorInfoCellIdentifier];
             if (!cell) {
                 cell = [[HXMajorInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:majorInfoCellIdentifier];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.majorInfoModel = self.majorInfoModel;
             return cell;
         }
             break;
         case 2:
         {
-            HXMajorInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:majorInfoCellIdentifier];
+            HXSuggestionCell *cell = [tableView dequeueReusableCellWithIdentifier:suggestionCellIdentifier];
             if (!cell) {
-                cell = [[HXMajorInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:majorInfoCellIdentifier];
+                cell = [[HXSuggestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:suggestionCellIdentifier];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+            cell.yiDongInfoModel = self.yiDongInfoModel;
             return cell;
         }
             break;
         case 3:
         {
-            HXSuggestionCell *cell = [tableView dequeueReusableCellWithIdentifier:suggestionCellIdentifier];
+            HXReviewerSuggestionCell *cell = [tableView dequeueReusableCellWithIdentifier:reviewerSuggestionCellIdentifier];
             if (!cell) {
-                cell = [[HXSuggestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:suggestionCellIdentifier];
+                cell = [[HXReviewerSuggestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reviewerSuggestionCellIdentifier];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell;
-        }
-            break;
-        case 4:
-        {
-            HXSuggestionCell *cell = [tableView dequeueReusableCellWithIdentifier:suggestionCellIdentifier];
-            if (!cell) {
-                cell = [[HXSuggestionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:suggestionCellIdentifier];
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+            cell.yiDongInfoModel = self.yiDongInfoModel;
             return cell;
         }
             break;
@@ -212,7 +302,10 @@
     .heightIs(44);
     self.confirmBtn
     .sd_cornerRadiusFromHeightRatio = @0.5;
+    
 }
+
+
 
 #pragma mark - lazyLoad
 -(UITableView *)mainTableView{
@@ -287,4 +380,7 @@
     }
     return _confirmBtn;
 }
+
+
 @end
+

@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *orderNum;
 ///支付方式
 @property(nonatomic, copy) NSString *alias;
-///支付类型 2-扫码    其它-银联
+///支付类型 2-扫码    1-银联  
 @property(nonatomic, assign) NSInteger payMode_id;
 ///银联支付跳转URL
 @property(nonatomic, copy) NSString *payUrl;

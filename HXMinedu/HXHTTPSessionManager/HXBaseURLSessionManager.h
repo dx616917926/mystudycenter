@@ -100,6 +100,24 @@ NS_ASSUME_NONNULL_BEGIN
 //学生退费信息确认或驳回
 #define HXPOST_GetStudentRefundeConfirmOrReject            @"/MD/StuInfo/stuRefundConfirmOrReject"
 
+//获取学生异动信息
+#define HXPOST_GetStopStudyInfoList                          @"/MD/StopStudy/GetStopStudyInfoList"
+
+//学生异动信息确认或驳回
+#define HXPOST_StuStopConfirmOrReject                          @"/MD/StopStudy/stuStopConfirmOrReject"
+
+//获取学生退学休学异动详情
+#define HXPOST_GetStopStudyByTxAndXxInfo                          @"/MD/StopStudy/GetStopStudyByTxAndXxInfo"
+
+//获取学生转专业转产品异动详情
+#define HXPOST_GetStopStudyByZzyAndZcpInfo                         @"/MD/StopStudy/GetStopStudyByZzyAndZcpInfo"
+
+//获取学生转专业转产品异动新专业详情
+#define HXPOST_GetStopStudyByZzyAndZcpNewMajorInfo                 @"/MD/StopStudy/GetStopStudyByZzyAndZcpNewMajorInfo"
+
+//获取学生已确认异动详情
+#define HXPOST_GetStopStudyConfirmedInfo                            @"/MD/StopStudy/GetStopStudyConfirmedInfo"
+
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 
 /**

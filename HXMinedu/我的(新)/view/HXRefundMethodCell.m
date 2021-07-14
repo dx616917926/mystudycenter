@@ -28,6 +28,9 @@
 
 @property(nonatomic,strong) NSArray *titles;
 
+///1银联 2扫码
+@property(nonatomic, assign) NSInteger payMode;
+
 
 @end
 
@@ -67,9 +70,14 @@
 }
 
 -(void)tapImageView:(UITapGestureRecognizer *)ges{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(refundMethodCell:tapShowRefundQRCodeImageView:)]) {
-        [self.delegate refundMethodCell:self tapShowRefundQRCodeImageView:self.refundQRCodeImageView];
+    if (self.isInitialization) {
+        [self upLoadImage:self.uploadBtn];
+    }else{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(refundMethodCell:tapShowRefundQRCodeImageView:)]) {
+            [self.delegate refundMethodCell:self tapShowRefundQRCodeImageView:self.refundQRCodeImageView];
+        }
     }
+    
 }
 
 
@@ -111,6 +119,21 @@
     }
 }
 
+#pragma mark - setter
+-(void)setIsInitialization:(BOOL)isInitialization{
+    _isInitialization = isInitialization;
+    self.payMode = 1;
+    self.refundMethodBtn.userInteractionEnabled = YES;
+    [self.refundMethodBtn setTitle:(self.payMode== 1?@"银联":@"扫码") forState:UIControlStateNormal];
+    self.unionPayContainerView.hidden = !(self.payMode== 1);
+    self.uploadBtn.hidden = !self.isInitialization;
+    self.qRCodeContainerView.hidden = YES;
+    self.refundQRCodeImageView.backgroundColor = [UIColor clearColor];
+    if (self.infoConfirmCallBack) {
+        self.infoConfirmCallBack(self.payMode, self.nameTextField.text, self.bankTextField.text, self.accountNumTextField.text);
+    }
+}
+
 -(void)setStudentRefundDetailsModel:(HXStudentRefundDetailsModel *)studentRefundDetailsModel{
     ////1银联 2扫码
     _studentRefundDetailsModel = studentRefundDetailsModel;
@@ -134,14 +157,18 @@
         self.refundQRCodeImageView.backgroundColor = COLOR_WITH_ALPHA(0xD8D8D8, 1);
     }else{
         self.refundMethodBtn.userInteractionEnabled = YES;
-        [self.refundMethodBtn setTitle:@"银联" forState:UIControlStateNormal];
-        self.unionPayContainerView.hidden = NO;
-        self.uploadBtn.hidden = NO;
-        self.qRCodeContainerView.hidden = YES;
+        [self.refundMethodBtn setTitle:(studentRefundDetailsModel.payMode== 1?@"银联":@"扫码") forState:UIControlStateNormal];
+        self.unionPayContainerView.hidden = !(studentRefundDetailsModel.payMode== 1);
+        self.uploadBtn.hidden = ![HXCommonUtil isNull:studentRefundDetailsModel.skewm];
+        self.qRCodeContainerView.hidden = !(studentRefundDetailsModel.payMode== 2);
+        self.nameTextField.text = studentRefundDetailsModel.khm;
+        self.bankTextField.text = studentRefundDetailsModel.khh;
+        self.accountNumTextField.text = studentRefundDetailsModel.khsk;
         self.nameTextField.userInteractionEnabled = self.bankTextField.userInteractionEnabled = self.accountNumTextField.userInteractionEnabled = YES;
+        [self.refundQRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(studentRefundDetailsModel.skewm)] placeholderImage:nil];
         self.refundQRCodeImageView.backgroundColor = [UIColor clearColor];
         if (self.infoConfirmCallBack) {
-            self.infoConfirmCallBack(1, self.nameTextField.text, self.bankTextField.text, self.accountNumTextField.text);
+            self.infoConfirmCallBack(studentRefundDetailsModel.payMode, self.nameTextField.text, self.bankTextField.text, self.accountNumTextField.text);
         }
     }
     
@@ -315,6 +342,7 @@
     if (!_refundQRCodeImageView) {
         _refundQRCodeImageView = [[UIImageView alloc] init];
         _refundQRCodeImageView.backgroundColor = COLOR_WITH_ALPHA(0xD8D8D8, 1);
+        _refundQRCodeImageView.contentMode  = UIViewContentModeScaleAspectFill;
         _refundQRCodeImageView.userInteractionEnabled = YES;
         _refundQRCodeImageView.clipsToBounds = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];

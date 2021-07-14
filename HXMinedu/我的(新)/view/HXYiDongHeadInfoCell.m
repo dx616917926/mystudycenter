@@ -15,8 +15,7 @@
 @property(nonatomic,strong) UILabel *reasonsTitleLabel;
 @property(nonatomic,strong) UILabel *reasonsContentLabel;
 @property(nonatomic,strong) UIButton *markBtn1;
-@property(nonatomic,strong) UIButton *markBtn2;
-@property(nonatomic,strong) UIButton *markBtn3;
+
 @end
 
 @implementation HXYiDongHeadInfoCell
@@ -41,6 +40,55 @@
     }
     return self;
 }
+
+-(void)setYiDongInfoModel:(HXYiDongInfoModel *)yiDongInfoModel{
+    
+    _yiDongInfoModel = yiDongInfoModel;
+    //0-待确认     1-已确认      2-审核中    3-待终审     4-已同意     5-已驳回
+    //23审核中 4已通过 5已驳回
+    switch (yiDongInfoModel.reviewstatus) {
+        case 0://待确认
+        case 1://已确认
+        {
+            self.markBtn1.hidden = YES;
+        }
+            break;
+    
+            break;
+        case 2://审核中
+        case 3://待终审
+        {
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"审核中" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+        }
+            break;
+        case 4://已同意
+        {
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"已通过" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+            
+        }
+            break;
+        
+        case 5://已驳回
+        {
+            self.markBtn1.hidden = YES;
+        }
+            break;
+        default:
+            break;
+    }
+    
+    self.timeContentLabel.text = HXSafeString(yiDongInfoModel.stopTypeTime);
+    self.typeContentLabel.text = HXSafeString(yiDongInfoModel.stopTypeName);
+    self.reasonsContentLabel.text =  HXSafeString(yiDongInfoModel.remark);
+    
+}
+
 #pragma mark - UI
 -(void)createUI{
     
@@ -51,8 +99,7 @@
     [self addSubview:self.reasonsTitleLabel];
     [self addSubview:self.reasonsContentLabel];
     [self addSubview:self.markBtn1];
-    [self addSubview:self.markBtn2];
-    [self addSubview:self.markBtn3];
+    
     
     self.timeTitleLabel.sd_layout
     .topSpaceToView(self, 20)
@@ -85,17 +132,6 @@
     [self.markBtn1 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
     self.markBtn1.sd_cornerRadius = @2;
     
-    self.markBtn2.sd_layout
-    .leftSpaceToView(self.markBtn1, 8)
-    .centerYEqualToView(self.typeContentLabel);
-    [self.markBtn2 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
-    self.markBtn2.sd_cornerRadius = @2;
-    
-    self.markBtn3.sd_layout
-    .leftSpaceToView(self.markBtn2, 8)
-    .centerYEqualToView(self.typeContentLabel);
-    [self.markBtn3 setupAutoSizeWithHorizontalPadding:8 buttonHeight:22];
-    self.markBtn3.sd_cornerRadius = @2;
     
     self.reasonsTitleLabel.sd_layout
     .topSpaceToView(self.typeTitleLabel, 8)
@@ -129,7 +165,7 @@
         _timeContentLabel.textAlignment = NSTextAlignmentLeft;
         _timeContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _timeContentLabel.font = HXBoldFont(14);
-        _timeContentLabel.text = @"2021-05-02  11:50";
+        
     }
     return _timeContentLabel;
 }
@@ -151,7 +187,7 @@
         _typeContentLabel.textAlignment = NSTextAlignmentLeft;
         _typeContentLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
         _typeContentLabel.font = HXBoldFont(14);
-        _typeContentLabel.text = @"退学/休学";
+       
     }
     return _typeContentLabel;
 }
@@ -174,7 +210,7 @@
         _reasonsContentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _reasonsContentLabel.font = HXBoldFont(14);
         _reasonsContentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        _reasonsContentLabel.text = @"身体原因";
+        
     }
     return _reasonsContentLabel;
 }
@@ -190,26 +226,6 @@
     return _markBtn1;
 }
 
--(UIButton *)markBtn2{
-    if (!_markBtn2) {
-        _markBtn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-        _markBtn2.titleLabel.font = HXBoldFont(12);
-        _markBtn2.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
-        [_markBtn2 setTitle:@"已通过" forState:UIControlStateNormal];
-        [_markBtn2 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
-    }
-    return _markBtn2;
-}
 
--(UIButton *)markBtn3{
-    if (!_markBtn3) {
-        _markBtn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-        _markBtn3.titleLabel.font = HXBoldFont(12);
-        _markBtn3.backgroundColor = COLOR_WITH_ALPHA(0xFFF5DA, 1);
-        [_markBtn3 setTitle:@"审核中" forState:UIControlStateNormal];
-        [_markBtn3 setTitleColor:COLOR_WITH_ALPHA(0xFE664B, 1) forState:UIControlStateNormal];
-    }
-    return _markBtn3;
-}
 
 @end

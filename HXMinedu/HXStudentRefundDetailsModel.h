@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *rejectTime;
 ///审核意见
 @property(nonatomic, copy) NSString *reviewerRemark;
+
 ///审核时间
 @property(nonatomic, copy) NSString *reviewerTime;
 ///订单详情  缴费条目数组

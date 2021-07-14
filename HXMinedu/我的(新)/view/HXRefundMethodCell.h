@@ -14,6 +14,8 @@ typedef void (^InfoConfirmCallBack)(NSInteger payMode , NSString *khm , NSString
 @class HXRefundMethodCell;
 @protocol HXRefundMethodCellDelegate <NSObject>
 
+@optional
+
 -(void)refundMethodCell:(HXRefundMethodCell*)cell clickUpLoadBtn:(UIButton *)sender showRefundQRCodeImageView:(UIImageView *)refundQRCodeImageView;
 
 -(void)refundMethodCell:(HXRefundMethodCell*)cell tapShowRefundQRCodeImageView:(UIImageView *)refundQRCodeImageView;
@@ -26,6 +28,8 @@ typedef void (^InfoConfirmCallBack)(NSInteger payMode , NSString *khm , NSString
 @property(nonatomic,strong) HXStudentRefundDetailsModel *studentRefundDetailsModel;
 
 @property(nonatomic,copy) InfoConfirmCallBack infoConfirmCallBack;
+
+@property(nonatomic,assign) BOOL isInitialization;
 
 @end
 
