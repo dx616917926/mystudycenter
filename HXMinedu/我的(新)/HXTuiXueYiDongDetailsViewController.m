@@ -6,6 +6,7 @@
 //
 
 #import "HXTuiXueYiDongDetailsViewController.h"
+#import "HXYiDongAndRefundConfirmViewController.h"
 #import "HXYiDongHeadInfoCell.h"
 #import "HXMajorInfoCell.h"
 #import "HXSuggestionCell.h"
@@ -91,10 +92,18 @@
             
             HXCustomToastView *toastView = [[HXCustomToastView alloc] init];
             reviewStatus == 1?[toastView showConfirmToastHideAfter:2]:[toastView showRejectToastHideAfter:2];
-            //回调刷新列表
-            if (self.refundRefreshCallBack) {
-                self.refundRefreshCallBack();
-            }
+            //通知异动列表刷新
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ConfirmOrRejectYiDongNotification" object:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                //返回异动列表界面
+                [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if ([obj isKindOfClass:[HXYiDongAndRefundConfirmViewController class]]) {
+                        [self.navigationController popToViewController:obj animated:YES];
+                        *stop =  YES;
+                        return;
+                    }
+                }];
+            });
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];

@@ -260,18 +260,11 @@
     .rightEqualToView(self.bigBackGroundView)
     .heightIs(0);
     
-
-    
-//    
-    
-    
     [self.bigBackGroundView setupAutoHeightWithBottomView:self.middleContainerView bottomMargin:0];
     
     ///设置cell高度自适应
     [self setupAutoHeightWithBottomView:self.bigBackGroundView bottomMargin:0];
     
-    
-   
 }
 
 #pragma mark - lazyLoad

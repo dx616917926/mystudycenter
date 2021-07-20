@@ -12,7 +12,7 @@
 @property(nonatomic,strong) UIView *topContainerView;
 @property(nonatomic,strong) UILabel *paymentNameLabel;//缴费类别
 @property(nonatomic,strong) UILabel *yingjiaoLabel;//应缴金额
-@property(nonatomic,strong) UILabel *jiezhuanLabel;//结转金额
+@property(nonatomic,strong) UILabel *shijiaoLabel;//结转金额
 @property(nonatomic,strong) UIImageView *typeImageView;//标准
 @property(nonatomic,strong) UILabel *typeLabel;
 @property(nonatomic,strong) UIImageView *dashLine1;//分割线
@@ -87,19 +87,19 @@
         nameLabel.text =HXSafeString(paymentDetailModel.feeType_Name);
         [itemView addSubview:nameLabel];
         
-        UILabel *shijiaolabel = [[UILabel alloc] init];
-        shijiaolabel.textAlignment = NSTextAlignmentCenter;
-        shijiaolabel.font = HXFont(12);
-        shijiaolabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        shijiaolabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.payMoney];
-        [itemView addSubview:shijiaolabel];
+        UILabel *yingjiaolabel = [[UILabel alloc] init];
+        yingjiaolabel.textAlignment = NSTextAlignmentCenter;
+        yingjiaolabel.font = HXFont(12);
+        yingjiaolabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        yingjiaolabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.fee];
+        [itemView addSubview:yingjiaolabel];
         
-        UILabel *jiezhuanlabel = [[UILabel alloc] init];
-        jiezhuanlabel.textAlignment = NSTextAlignmentCenter;
-        jiezhuanlabel.font = HXFont(12);
-        jiezhuanlabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
-        jiezhuanlabel.text =  [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.costMoney];
-        [itemView addSubview:jiezhuanlabel];
+        UILabel *shijiaoLabel = [[UILabel alloc] init];
+        shijiaoLabel.textAlignment = NSTextAlignmentCenter;
+        shijiaoLabel.font = HXFont(12);
+        shijiaoLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
+        shijiaoLabel.text =  [NSString stringWithFormat:@"¥%.2f",paymentDetailModel.payMoney];
+        [itemView addSubview:shijiaoLabel];
        
         nameLabel.sd_layout
         .centerYEqualToView(itemView)
@@ -107,15 +107,15 @@
         .heightIs(17)
         .widthRatioToView(itemView, 0.3);
         
-        shijiaolabel.sd_layout
+        yingjiaolabel.sd_layout
         .centerYEqualToView(itemView)
         .leftSpaceToView(nameLabel, 5)
         .heightIs(17)
         .widthRatioToView(itemView, 0.3);
         
-        jiezhuanlabel.sd_layout
+        shijiaoLabel.sd_layout
         .centerYEqualToView(itemView)
-        .leftSpaceToView(shijiaolabel, 5)
+        .leftSpaceToView(yingjiaolabel, 5)
         .heightIs(17)
         .widthRatioToView(itemView, 0.3);
         
@@ -133,7 +133,7 @@
     
     [self.topContainerView addSubview:self.paymentNameLabel];
     [self.topContainerView addSubview:self.yingjiaoLabel];
-    [self.topContainerView addSubview:self.jiezhuanLabel];
+    [self.topContainerView addSubview:self.shijiaoLabel];
     [self.topContainerView addSubview:self.typeImageView];
     [self.typeImageView addSubview:self.typeLabel];
     [self.topContainerView addSubview:self.dashLine1];
@@ -164,7 +164,7 @@
     .heightIs(17)
     .widthRatioToView(self.topContainerView, 0.3);
     
-    self.jiezhuanLabel.sd_layout
+    self.shijiaoLabel.sd_layout
     .centerYEqualToView(self.paymentNameLabel)
     .leftSpaceToView(self.yingjiaoLabel, 5)
     .heightIs(17)
@@ -245,15 +245,15 @@
     return _yingjiaoLabel;
 }
 
--(UILabel *)jiezhuanLabel{
-    if (!_jiezhuanLabel) {
-        _jiezhuanLabel = [[UILabel alloc] init];
-        _jiezhuanLabel.textAlignment = NSTextAlignmentCenter;
-        _jiezhuanLabel.font = HXFont(12);
-        _jiezhuanLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _jiezhuanLabel.text = @"结转金额";
+-(UILabel *)shijiaoLabel{
+    if (!_shijiaoLabel) {
+        _shijiaoLabel = [[UILabel alloc] init];
+        _shijiaoLabel.textAlignment = NSTextAlignmentCenter;
+        _shijiaoLabel.font = HXFont(12);
+        _shijiaoLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _shijiaoLabel.text = @"实缴金额";
     }
-    return _jiezhuanLabel;
+    return _shijiaoLabel;
 }
 
 -(UIImageView *)typeImageView{

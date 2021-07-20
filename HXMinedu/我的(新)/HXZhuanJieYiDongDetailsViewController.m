@@ -176,6 +176,7 @@
             if (!cell) {
                 cell = [[HXRecentPaymentInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:recentPaymentInfoCellIdentifier];
             }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             HXZzyAndZcpModel *zzyAndZcpModel = self.zzyAndZcpModel;
             [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
             cell.zzyAndZcpModel = zzyAndZcpModel;
@@ -440,7 +441,7 @@
         _yingTuiLabel.textAlignment = NSTextAlignmentCenter;
         _yingTuiLabel.font = HXBoldFont(12);
         _yingTuiLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _yingTuiLabel.text = @"结账后应退";
+        _yingTuiLabel.text = @"结转后应退";
     }
     return _yingTuiLabel;
 }

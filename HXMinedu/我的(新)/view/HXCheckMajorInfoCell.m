@@ -50,6 +50,7 @@
     self.versionLabel.text = HXSafeString(majorInfoModel.title);
     self.schoolLabel.text = HXSafeString(majorInfoModel.BkSchool);
     self.majorLabel.text = HXSafeString(majorInfoModel.majorName);
+    self.paymentInfoLabel.text = majorInfoModel.isRecent ? @"【新缴费信息】":  @"【原缴费信息】";
 }
 
 
@@ -204,7 +205,7 @@
         _paymentInfoLabel.textAlignment = NSTextAlignmentLeft;
         _paymentInfoLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _paymentInfoLabel.font = HXFont(14);
-        _paymentInfoLabel.text = @"【新缴费信息】";
+        
     }
     return _paymentInfoLabel;
 }

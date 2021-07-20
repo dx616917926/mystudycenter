@@ -36,6 +36,8 @@
 @property(nonatomic,copy) NSString *khsk;
 @property(nonatomic,copy) NSString *base64Str;
 
+@property(nonatomic,strong) HXStudentRefundDetailsModel *studentRefundDetailsModel;
+
 @end
 
 @implementation HXYiDongTuiFeiViewController
@@ -45,7 +47,30 @@
     // Do any additional setup after loading the view.
     [self createUI];
     self.payMode = 1;
+    ///获取学生转专业转产品异动退费详情
+    [self getStopStudyByZzyAndZcpRefundInfo];
 }
+
+#pragma mark - 获取学生转专业转产品异动退费详情
+-(void)getStopStudyByZzyAndZcpRefundInfo{
+    
+    NSDictionary *dic = @{
+        @"stopStudyId":HXSafeString(self.stopStudyId)
+    };
+    [self.view showLoading];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStopStudyByZzyAndZcpRefundInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.studentRefundDetailsModel = [HXStudentRefundDetailsModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+           
+            [self.mainTableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+    }];
+}
+
 
 #pragma mark - 学生异动信息确认或驳回
 -(void)loadRefundConfirmOrRejectRemark:(NSString *)remark reviewStatus:(NSInteger)reviewStatus{
@@ -70,7 +95,7 @@
                 reviewStatus == 1?[toastView showConfirmToastHideAfter:2]:[toastView showRejectToastHideAfter:2];
                 //通知异动列表刷新
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"ConfirmOrRejectYiDongNotification" object:nil];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     //返回异动列表界面
                     [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         if ([obj isKindOfClass:[HXYiDongAndRefundConfirmViewController class]]) {
@@ -129,7 +154,7 @@
         return YES;
     }
     if (self.payMode == 2) {
-        if ([HXCommonUtil isNull:self.base64Str]) {
+        if ([HXCommonUtil isNull:self.base64Str]&&[HXCommonUtil isNull:self.studentRefundDetailsModel.skewm]) {
             [self.view showTostWithMessage:@"请添加退费二维码"];
             return  NO;
         }
@@ -151,6 +176,21 @@
     } cancel:nil];
 }
 
+-(void)refundMethodCell:(HXRefundMethodCell *)cell tapShowRefundQRCodeImageView:(UIImageView *)refundQRCodeImageView{
+    if([HXCommonUtil isNull:self.studentRefundDetailsModel.skewm] && self.studentRefundDetailsModel.reviewStatus != 0) {
+        return;
+    }else if(![HXCommonUtil isNull:self.studentRefundDetailsModel.skewm] && self.studentRefundDetailsModel.reviewStatus == 0){
+        [self refundMethodCell:cell clickUpLoadBtn:nil showRefundQRCodeImageView:refundQRCodeImageView];
+        return;
+    }
+    NSMutableArray *photos = [NSMutableArray new];
+    GKPhoto *photo = [GKPhoto new];
+    photo.url = [NSURL URLWithString:self.studentRefundDetailsModel.skewm];
+    photo.sourceImageView = refundQRCodeImageView;
+    [photos addObject:photo];
+    [self.browser resetPhotoBrowserWithPhotos:photos];
+    [self.browser showFromVC:self];
+}
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -179,7 +219,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
-    cell.isInitialization = YES;
+    cell.studentRefundDetailsModel = self.studentRefundDetailsModel;
     WeakSelf(weakSelf);
     cell.infoConfirmCallBack = ^(NSInteger payMode, NSString * _Nonnull khm, NSString * _Nonnull khh, NSString * _Nonnull khsk) {
         weakSelf.payMode = payMode;

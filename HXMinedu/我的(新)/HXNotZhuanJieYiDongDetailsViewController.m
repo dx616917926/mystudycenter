@@ -100,7 +100,7 @@
             reviewStatus == 1?[toastView showConfirmToastHideAfter:2]:[toastView showRejectToastHideAfter:2];
             //通知异动列表刷新
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ConfirmOrRejectYiDongNotification" object:nil];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 //返回异动列表界面
                 [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     if ([obj isKindOfClass:[HXYiDongAndRefundConfirmViewController class]]) {
@@ -234,6 +234,7 @@
             if (!cell) {
                 cell = [[HXRecentPaymentInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:recentPaymentInfoCellIdentifier];
             }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             HXZzyAndZcpModel *zzyAndZcpModel = self.zzyAndZcpModel;
             [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
             cell.zzyAndZcpModel = zzyAndZcpModel;
