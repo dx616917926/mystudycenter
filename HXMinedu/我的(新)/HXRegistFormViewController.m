@@ -97,19 +97,10 @@
     // 2. 创建下载路径和请求对象
     NSURL *URL = [NSURL URLWithString:self.downLoadUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    NSString *fileName = [self.downLoadUrl lastPathComponent]; //获取文件名称
-//    //判断是否存在
-//        if ([self isFileExist:fileName]) {
-//            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-//            NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
-//            self.fileURL = url;
-//            [self presentViewController:self.QLController animated:YES completion:nil];
-//            //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url
-//            [self.QLController refreshCurrentPreviewItem];
-//        } else {
-//
-//        }
+    NSString *generateStr = [HXCommonUtil generateTradeNO:5];//生成指定长度的字符串
+    NSString *fileName = [generateStr stringByAppendingString:[self.downLoadUrl lastPathComponent]]; //获取文件名称
     [self.view showLoadingWithMessage:@"正在下载..."];
+
     //下载文件
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress){
         

@@ -42,8 +42,8 @@
     if ([HXCommonUtil isNull:str]) {
         return @"";
     }
-   NSString *decodedString=[str stringByRemovingPercentEncoding];
-   return decodedString;
+    NSString *decodedString=[str stringByRemovingPercentEncoding];
+    return decodedString;
 }
 
 /**
@@ -253,7 +253,7 @@
     }
 }
 
-+ (BOOL) deptNumInputShouldNumber:(NSString *)str
++ (BOOL)deptNumInputShouldNumber:(NSString *)str
 {
     if (str.length == 0) {
         return NO;
@@ -267,4 +267,15 @@
 }
 
 
+
+//生成指定长度的字符串
++ (NSString *)generateTradeNO:(NSInteger)len{
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
+    for (NSInteger i = 0; i < len; i++) {
+        [randomString appendFormat: @"%C", [letters characterAtIndex:arc4random_uniform(letters.length)]];
+    }
+    return randomString;
+    
+}
 @end

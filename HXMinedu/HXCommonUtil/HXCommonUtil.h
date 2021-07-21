@@ -55,6 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
 //字符串截到对应的长度包括中文 一个汉字算2个字符
 + (NSString *)subStringIncludeChinese:(NSString *)text ToLength:(NSUInteger)length;
 
+//生成指定长度的字符串
++ (NSString *)generateTradeNO:(NSInteger)len;
+
 @end
 
 NS_ASSUME_NONNULL_END

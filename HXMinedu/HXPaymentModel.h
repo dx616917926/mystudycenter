@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *title;
 ///在籍
 @property(nonatomic, copy) NSString *studentStateName;
+///8005和8006置灰其他正常
+@property(nonatomic, assign) NSInteger studentStateId;
 ///实缴合计
 @property(nonatomic, assign) float payMoneyTotal;
 ///应缴合计

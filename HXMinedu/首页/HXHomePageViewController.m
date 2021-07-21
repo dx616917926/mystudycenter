@@ -184,7 +184,7 @@
 }
 
 - (NSArray *)getArrayTitles {
-    return @[@"成考", @"自考", @"国开", @"网教", @"职业资格"];
+    return @[@"成考", @"自考", @"国开", @"网教", @"职业资格", @"全日制"];
 }
 
 
@@ -205,7 +205,8 @@
             [KHX_URL_MAIN stringByAppendingString:@"/appGuide/zkGuide.html"],
             [KHX_URL_MAIN stringByAppendingString:@"/appGuide/gKGuide.html"],
             [KHX_URL_MAIN stringByAppendingString:@"/appGuide/ycjyGuide.html"],
-            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/zyzgGuide.html"]
+            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/zyzgGuide.html"],
+            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/qrzGuide.html"]
         ];
     }
     return _h5URLs;

@@ -14,7 +14,8 @@
 @property(nonatomic,strong) UILabel *versionLabel;
 @property(nonatomic,strong) UILabel *kaoqiLabel;
 @property(nonatomic,strong) UILabel *majorLabel;
-@property (nonatomic, strong) UIButton *downLoadBtn;
+@property (nonatomic, strong) UIButton *downLoadBtn;//报名表单下载按钮
+@property (nonatomic, strong) UIButton *downLoadSignTreatyBtn;//报名协议下载按钮
 
 @end
 
@@ -44,8 +45,10 @@
 
 #pragma mark - 预览大图
 -(void)downLoad:(UIButton *)sender{
+    NSInteger tag = sender.tag;
+    NSString *downUrl = (tag==6000?self.registFormModel.url:self.registFormModel.SignTreatyUrl);
     if (self.delegate && [self.delegate respondsToSelector:@selector(registFormCell:downLoadUrl:)]) {
-        [self.delegate registFormCell:self downLoadUrl:self.registFormModel.url];
+        [self.delegate registFormCell:self downLoadUrl:downUrl];
     }
 }
 
@@ -63,6 +66,8 @@
     }else if([HXCommonUtil isNull:registFormModel.bkSchool]){
         self.majorLabel.text = registFormModel.majorName;
     }
+    
+    self.downLoadSignTreatyBtn.hidden = (registFormModel.isSignTreaty==1?NO:YES);
 }
 
 
@@ -75,6 +80,7 @@
     [self.bigBackgroundView addSubview:self.kaoqiLabel];
     [self.bigBackgroundView addSubview:self.majorLabel];
     [self.bigBackgroundView addSubview:self.downLoadBtn];
+    [self.bigBackgroundView addSubview:self.downLoadSignTreatyBtn];
    
     
     self.shadowBackgroundView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(8, 16, 8, 16));
@@ -104,6 +110,22 @@
     NSArray *colorArr = @[(id)COLOR_WITH_ALPHA(0x4BA4FE, 1).CGColor,(id)COLOR_WITH_ALPHA(0x45EFCF, 1).CGColor];
     gradientLayer.colors = colorArr;
     [self.downLoadBtn.layer insertSublayer:gradientLayer below:self.downLoadBtn.titleLabel.layer];
+    
+    
+    self.downLoadSignTreatyBtn.sd_layout
+    .centerYEqualToView(self.downLoadBtn)
+    .rightSpaceToView(self.downLoadBtn, 24)
+    .widthIs(84)
+    .heightIs(30);
+    self.downLoadSignTreatyBtn.sd_cornerRadiusFromHeightRatio = @0.5;
+    
+    CAGradientLayer *gradientLayer2 = [CAGradientLayer layer];
+    gradientLayer2.bounds = self.downLoadSignTreatyBtn.bounds;
+    gradientLayer2.startPoint = CGPointMake(0, 0.5);
+    gradientLayer2.endPoint = CGPointMake(1, 0.5);
+    gradientLayer2.anchorPoint = CGPointMake(0, 0);
+    gradientLayer2.colors = colorArr;
+    [self.downLoadSignTreatyBtn.layer insertSublayer:gradientLayer2 below:self.downLoadSignTreatyBtn.titleLabel.layer];
     
     self.versionLabel.sd_layout
     .topSpaceToView(self.bigBackgroundView, 20)
@@ -160,13 +182,28 @@
 -(UIButton *)downLoadBtn{
     if (!_downLoadBtn) {
         _downLoadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _downLoadBtn.tag = 6000;
         _downLoadBtn.titleLabel.font = HXBoldFont(12);
-        [_downLoadBtn setTitle:@"点击下载" forState:UIControlStateNormal];
+        [_downLoadBtn setTitle:@"报名表单" forState:UIControlStateNormal];
         [_downLoadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _downLoadBtn.backgroundColor = COLOR_WITH_ALPHA(0x4BA4FE, 1);
         [_downLoadBtn addTarget:self action:@selector(downLoad:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _downLoadBtn;
+}
+
+-(UIButton *)downLoadSignTreatyBtn{
+    if (!_downLoadSignTreatyBtn) {
+        _downLoadSignTreatyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _downLoadSignTreatyBtn.tag = 6001;
+        _downLoadSignTreatyBtn.hidden = YES;
+        _downLoadSignTreatyBtn.titleLabel.font = HXBoldFont(12);
+        [_downLoadSignTreatyBtn setTitle:@"报名协议" forState:UIControlStateNormal];
+        [_downLoadSignTreatyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _downLoadSignTreatyBtn.backgroundColor = COLOR_WITH_ALPHA(0x4BA4FE, 1);
+        [_downLoadSignTreatyBtn addTarget:self action:@selector(downLoad:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _downLoadSignTreatyBtn;
 }
 
 

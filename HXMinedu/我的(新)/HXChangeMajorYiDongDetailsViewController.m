@@ -315,6 +315,7 @@
                 if (!cell) {
                     cell = [[HXOriginalPaymentInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:oiginalPaymentInfoCellIdentifier];
                 }
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 HXPaymentDetailsInfoModel *paymentDetailsInfoModel = self.zzyAndZcpModel.stopStudyByZzyAndZcpFeeList[indexPath.row];
                 [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
                 cell.paymentDetailsInfoModel = paymentDetailsInfoModel;

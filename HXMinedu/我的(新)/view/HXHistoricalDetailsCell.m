@@ -236,7 +236,7 @@
     if (!_bigTopGroundImageView) {
         _bigTopGroundImageView = [[UIImageView alloc] init];
         _bigTopGroundImageView.clipsToBounds = YES;
-        _bigTopGroundImageView.image = [UIImage resizedImageWithName:@"bigtop_gray"];
+        _bigTopGroundImageView.image = [UIImage imageNamed:@"bigtop_gray"];
     }
     return _bigTopGroundImageView;
 }

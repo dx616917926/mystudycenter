@@ -12,6 +12,7 @@
 #import "HXYinJiaoHeaderView.h"
 #import "HXPaymentDetailCell.h"
 #import "HXYingJiaoCell.h"
+#import "HXHistoricalDetailsCell.H"
 #import "HXPaidDetailCell.h"
 #import "HXUnPaidDetailCell.h"
 #import "HXNoDataTipView.h"
@@ -204,8 +205,9 @@
         if (!headerView) {
             headerView = [[HXYinJiaoHeaderView alloc] initWithReuseIdentifier:yinJiaoHeaderViewIdentifier];
         }
-        headerView.headerViewType = HXYingJiaoDetailsType;
+       
         HXPaymentModel *paymentModel = self.yinJiaoDetailsList[section];
+        headerView.headerViewType = (paymentModel.studentStateId == 8005||paymentModel.studentStateId == 8006) ?HXHistoricalDetailsType:HXYingJiaoDetailsType;
         headerView.paymentModel = paymentModel;
         return headerView;
     }else{
@@ -243,17 +245,30 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.flag == 1) {
         static NSString *yingJiaoCellIdentifier = @"HXYingJiaoCellIdentifier";
-        HXYingJiaoCell *cell = [tableView dequeueReusableCellWithIdentifier:yingJiaoCellIdentifier];
-        if (!cell) {
-            cell = [[HXYingJiaoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:yingJiaoCellIdentifier];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.showType = HXYingJiaoShowType;
-        [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+        static NSString *historicalDetailsCellIdentifier = @"HXHistoricalDetailsCellIdentifier";
         HXPaymentModel *paymentModel = self.yinJiaoDetailsList[indexPath.section];
         HXPaymentDetailsInfoModel *paymentDetailsInfoModel = paymentModel.payableTypeList[indexPath.row];
-        cell.paymentDetailsInfoModel = paymentDetailsInfoModel;
-        return cell;
+        if (paymentModel.studentStateId == 8005||paymentModel.studentStateId == 8006) {
+            HXHistoricalDetailsCell *historicalCell = [tableView dequeueReusableCellWithIdentifier:historicalDetailsCellIdentifier];
+            if (!historicalCell) {
+                historicalCell = [[HXHistoricalDetailsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:historicalDetailsCellIdentifier];
+            }
+            historicalCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [historicalCell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+            historicalCell.paymentDetailsInfoModel = paymentDetailsInfoModel;
+            return historicalCell;
+        }else{
+            HXYingJiaoCell *cell = [tableView dequeueReusableCellWithIdentifier:yingJiaoCellIdentifier];
+            if (!cell) {
+                cell = [[HXYingJiaoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:yingJiaoCellIdentifier];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.showType = HXYingJiaoShowType;
+            [cell useCellFrameCacheWithIndexPath:indexPath tableView:tableView];
+            cell.paymentDetailsInfoModel = paymentDetailsInfoModel;
+            return cell;
+        }
+    
     }else{
         HXPaymentDetailModel *paymentDetailModel = self.paidDetailsList[indexPath.section];
         //订单类型  -1已支付待确认  1-已完成  0-未完成 2-已结转

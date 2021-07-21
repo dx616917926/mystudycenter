@@ -44,8 +44,8 @@
 -(void)setCount:(NSInteger)count{
     _count = count;
     self.guideImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"homepageguide_%ld",(long)count]];
-    NSArray *titleArray = @[@"成考指南",@"自考指南",@"国开指南",@"网教指南",@"职业资格精品课程"];
-    NSArray *tipArray = @[@"成考的同学注意啦",@"自考的同学注意啦",@"国开的同学注意啦",@"网教的同学注意啦",@"职业资格报考攻略"];
+    NSArray *titleArray = @[@"成考报考指南",@"自考指南",@"国开指南",@"网教指南",@"职业资格精品课程",@"全日制学历报考攻略"];
+    NSArray *tipArray = @[@"成考的同学注意啦",@"自考的同学注意啦",@"国开的同学注意啦",@"网教的同学注意啦",@"职业资格报考攻略",@"报考攻略"];
     self.guideTitleLabel.text = titleArray[count-1];
     self.tipLabel.text = tipArray[count-1];
     [self.tipImageView updateLayout];
@@ -173,7 +173,7 @@
         _timeLabel.textColor = COLOR_WITH_ALPHA(0xB2B2B2, 1);
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _timeLabel.font = HXBoldFont(12);
-        _timeLabel.text = @"5月20日更新";
+        _timeLabel.text = @"7月21日更新";
     }
     return _timeLabel;
 }

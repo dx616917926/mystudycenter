@@ -107,7 +107,7 @@
 }
 -(NSArray *)titleArray{
     if (!_titleArray) {
-        _titleArray = @[@"成考报考指南",@"自考指南",@"国开指南",@"网教指南",@"职业资格精品课程"];
+        _titleArray = @[@"成考报考指南",@"自考指南",@"国开指南",@"网教指南",@"职业资格精品课程",@"全日制学历报考攻略"];
     }
     return _titleArray;
 }

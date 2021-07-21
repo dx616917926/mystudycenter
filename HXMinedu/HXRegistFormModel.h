@@ -22,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *bkSchool;
 ///表单下载地址url  
 @property(nonatomic, copy) NSString *url;
+///是否报名协议 1是 0否
+@property(nonatomic, assign) NSInteger isSignTreaty;
+///报名协议URL
+@property(nonatomic, copy) NSString *SignTreatyUrl;
+
 @end
 
 NS_ASSUME_NONNULL_END
