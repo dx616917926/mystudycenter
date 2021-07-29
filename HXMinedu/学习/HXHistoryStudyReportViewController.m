@@ -1,31 +1,36 @@
 //
-//  HXStudyReportViewController.m
+//  HXHistoryStudyReportViewController.m
 //  HXMinedu
 //
-//  Created by mac on 2021/4/7.
+//  Created by mac on 2021/7/29.
 //
 
-#import "HXStudyReportViewController.h"
 #import "HXHistoryStudyReportViewController.h"
-#import "HXStudyReportTableHeaderView.h"
+#import "HXSelectHistoryTimeViewController.h"
+#import "HXHistoryStudyReportTableHeaderView.h"
 #import "HXStudyReportHeaderView.h"
 #import "HXStudyReportCell.h"
 #import "HXStudyReportModel.h"
-#import "HXHistoryTimeModel.h"
 #import "HXNoDataTipView.h"
+#import "HXHistoryTimeModel.h"
 
-@interface HXStudyReportViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HXHistoryStudyReportViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic) NSMutableArray *sectionArray;
+
+
+
 @property(strong,nonatomic) UITableView *mainTableView;
-@property(strong,nonatomic) HXStudyReportTableHeaderView *studyReportTableHeaderView;
+@property(strong,nonatomic) HXHistoryStudyReportTableHeaderView *historyStudyReportTableHeaderView;
+
 @property(strong,nonatomic) HXStudyReportModel *studyReportModel;
 @property(strong,nonatomic) HXNoDataTipView *noDataTipView;
-//历史时间数组
-@property(strong,nonatomic) NSMutableArray *historyTimeList;
+
+///选择的历史时间
+@property(strong,nonatomic) NSString *selectHistoryTime;
 
 @end
 
-@implementation HXStudyReportViewController
+@implementation HXHistoryStudyReportViewController
 
 
 - (void)viewDidLoad {
@@ -34,35 +39,70 @@
     
     //UI
     [self createUI];
-    //获取学习报告
-    [self getLearnReport];
-    //获取历史版本时间
-    [self getStuHisVersionTime];
+    //获取历史学习报告
+    [self gethisLearnReport];
 }
 
-#pragma mark - 查看历史学习报告
--(void)checkHistoryStudyReport:(UIButton *)sender{
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    if (@available(iOS 13.0, *)) {
+        return UIStatusBarStyleLightContent;
+    } else {
+        return UIStatusBarStyleDefault;
+    }
+}
+
+#pragma mark - Setter
+-(void)setHistoryTimeList:(NSArray *)historyTimeList{
+    _historyTimeList = historyTimeList;
+    [historyTimeList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXHistoryTimeModel *model = obj;
+        if (model.isSelected) {
+            self.selectHistoryTime = model.createDate;
+            *stop = YES;
+            return;
+        }
+    }];
     
-    HXHistoryStudyReportViewController *vc = [[HXHistoryStudyReportViewController alloc] init];
-    vc.sc_navigationBarHidden = YES;//隐藏导航栏
-    vc.historyTimeList = self.historyTimeList;
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark -  获取学习报告
--(void)getLearnReport{
+#pragma mark - Event
+-(void)popBack:(UIButton *)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+///选择历史时间
+-(void)selectHistoryTime:(UIButton *)sender{
+    
+    HXSelectHistoryTimeViewController *vc = [[HXSelectHistoryTimeViewController alloc] init];
+    vc.historyTimeList = self.historyTimeList;
+    WeakSelf(weakSelf);
+    vc.selectFinishCallBack = ^(NSString * _Nonnull time) {
+        StrongSelf(strongSelf);
+        strongSelf.selectHistoryTime = time;
+        //重新获取历史学习报告
+        [strongSelf gethisLearnReport];
+    };
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+
+
+#pragma mark -  获取历史学习报告
+-(void)gethisLearnReport{
     HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
         @"version_id":HXSafeString(selectMajorModel.versionId),
         @"major_id":HXSafeString(selectMajorModel.major_id),
-        @"type":@(selectMajorModel.type)
+        @"type":@(selectMajorModel.type),
+        @"createDate":HXSafeString(self.selectHistoryTime)
     };
     [self.view showLoading];
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_LearnReport  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_HistoryLearnReport  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.studyReportModel = [HXStudyReportModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            self.studyReportModel.historyTime = self.selectHistoryTime;
             [self refreshUI];
         }
     } failure:^(NSError * _Nonnull error) {
@@ -70,39 +110,11 @@
     }];
 }
 
-#pragma mark -  获取历史版本时间
--(void)getStuHisVersionTime{
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
-    NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id),
-        @"type":@(selectMajorModel.type)
-    };
-    
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_StuHisVersionTime  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-        [self.view hideLoading];
-        BOOL success = [dictionary boolValueForKey:@"Success"];
-        if (success) {
-            NSArray *array = [HXHistoryTimeModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
-            [self.historyTimeList removeAllObjects];
-            [self.historyTimeList addObjectsFromArray:array];
-            //默认选择第一个
-            HXHistoryTimeModel *model = self.historyTimeList.firstObject;
-            model.isSelected = YES;
-            
-        }
-    } failure:^(NSError * _Nonnull error) {
-        
-    }];
-}
-
-
-
 #pragma mark - 刷新数据
 -(void)refreshUI{
     self.sc_navigationBar.title =HXSafeString(self.studyReportModel.name);
     //头部数据
-    self.studyReportTableHeaderView.studyReportModel = self.studyReportModel;
+    self.historyStudyReportTableHeaderView.studyReportModel = self.studyReportModel;
     
     [self.sectionArray removeAllObjects];
     if (self.studyReportModel.kjxxCourseList.count>0) {
@@ -198,13 +210,17 @@
 #pragma mark - UI
 -(void)createUI{
    
-    self.view.backgroundColor = COLOR_WITH_ALPHA(0xf5f6fa, 1);
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    [self setSc_NavigationBarAnimateInvalid:YES];
-    self.sc_navigationBar.leftBarButtonItem = self.leftBarItem;
-   
+    self.view.backgroundColor = COLOR_WITH_ALPHA(0xFCFCFC, 1);
+    
     [self.view addSubview:self.mainTableView];
-
+   
+    self.mainTableView.sd_layout
+    .topSpaceToView(self.view, 0)
+    .leftEqualToView(self.view)
+    .rightEqualToView(self.view)
+    .bottomEqualToView(self.view);
+    
+    
 }
 
 #pragma mark - lazyLoad
@@ -215,18 +231,12 @@
     return _sectionArray;
 }
 
--(NSMutableArray *)historyTimeList{
-    if (!_historyTimeList) {
-        _historyTimeList = [NSMutableArray array];
-    }
-    return _historyTimeList;
-}
 
 
 
 -(UITableView *)mainTableView{
     if (!_mainTableView) {
-        _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight) style:UITableViewStyleGrouped];
+        _mainTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _mainTableView.bounces = NO;
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
@@ -247,17 +257,18 @@
         _mainTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         _mainTableView.scrollIndicatorInsets = _mainTableView.contentInset;
         _mainTableView.showsVerticalScrollIndicator = NO;
-        _mainTableView.tableHeaderView = self.studyReportTableHeaderView;
+        _mainTableView.tableHeaderView = self.historyStudyReportTableHeaderView;
     }
     return _mainTableView;
 }
 
--(HXStudyReportTableHeaderView *)studyReportTableHeaderView{
-    if (!_studyReportTableHeaderView) {
-        _studyReportTableHeaderView = [[HXStudyReportTableHeaderView alloc] initWithFrame:CGRectZero];
-        [_studyReportTableHeaderView.checkHistoryBtn addTarget:self action:@selector(checkHistoryStudyReport:) forControlEvents:UIControlEventTouchUpInside];
+-(HXHistoryStudyReportTableHeaderView *)historyStudyReportTableHeaderView{
+    if (!_historyStudyReportTableHeaderView) {
+        _historyStudyReportTableHeaderView = [[HXHistoryStudyReportTableHeaderView alloc] initWithFrame:CGRectZero];
+        [_historyStudyReportTableHeaderView.backBtn addTarget:self action:@selector(popBack:) forControlEvents:UIControlEventTouchUpInside];
+        [_historyStudyReportTableHeaderView.titleControl addTarget:self action:@selector(selectHistoryTime:) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _studyReportTableHeaderView;
+    return _historyStudyReportTableHeaderView;
 }
 
 -(HXNoDataTipView *)noDataTipView{
@@ -279,3 +290,4 @@
 */
 
 @end
+

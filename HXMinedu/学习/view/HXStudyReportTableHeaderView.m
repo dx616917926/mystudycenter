@@ -28,6 +28,8 @@
 @property(nonatomic,strong) UIImageView *mingyanImageView;
 @property(nonatomic,strong) UILabel *mingyanLabel;
 
+
+
 @property(nonatomic,strong) UIView *threeContainerView;
 @property(nonatomic,strong) NSMutableArray *threeControls;
 
@@ -70,6 +72,7 @@
     [self.cardImageView addSubview:self.tagBtn2];
     [self.cardImageView addSubview:self.mingyanImageView];
     [self.mingyanImageView addSubview:self.mingyanLabel];
+    [self.cardImageView addSubview:self.checkHistoryBtn];
     [self.bigBackGroundView addSubview:self.threeContainerView];
     
     NSArray *titles = @[@"课件学习",@"平时作业",@"期末考试"];
@@ -190,13 +193,31 @@
     .centerYEqualToView(self.mingyanImageView)
     .autoHeightRatio(0);
     
-    [self.cardImageView setupAutoHeightWithBottomView:self.mingyanImageView bottomMargin:15];
+    self.checkHistoryBtn.sd_layout
+    .topSpaceToView(self.mingyanImageView, 10)
+    .leftSpaceToView(self.cardImageView, 15)
+    .rightSpaceToView(self.cardImageView, 15)
+    .heightIs(24);
+    
+    self.checkHistoryBtn.titleLabel.sd_layout
+    .centerXEqualToView(self.checkHistoryBtn).offset(-6)
+    .centerYEqualToView(self.checkHistoryBtn)
+    .heightIs(24);
+    [self.checkHistoryBtn.titleLabel setSingleLineAutoResizeWithMaxWidth:150];
+    
+    self.checkHistoryBtn.imageView.sd_layout
+    .leftSpaceToView(self.checkHistoryBtn.titleLabel, 2)
+    .centerYEqualToView(self.checkHistoryBtn)
+    .heightIs(12)
+    .widthEqualToHeight();
+    
+    [self.cardImageView setupAutoHeightWithBottomView:self.checkHistoryBtn bottomMargin:10];
     
     self.threeContainerView.sd_layout
     .topSpaceToView(self.cardImageView, 15)
     .leftEqualToView(self.cardImageView)
     .rightEqualToView(self.cardImageView);
-    
+
     for (UIControl *control in self.threeControls) {
         control.sd_layout.heightIs(70);
         control.sd_cornerRadius = @5;
@@ -262,6 +283,8 @@
     
     self.mingyanLabel.text = HXSafeString(studyReportModel.remarks);
     
+    self.checkHistoryBtn.hidden = (studyReportModel.isHisVersion == 1?NO:YES);
+    
     for (int i = 0;i < self.threeControls.count;i++) {
         UIControl *control = self.threeControls[i];
         UILabel *topLabel = [control viewWithTag:3333];
@@ -305,6 +328,7 @@
     if (!_cardImageView) {
         _cardImageView = [[UIImageView alloc] init];
         _cardImageView.image = [UIImage resizedImageWithName:@"cardkuang_icon"];
+        _cardImageView.userInteractionEnabled = YES;
     }
     return _cardImageView;
 }
@@ -422,6 +446,19 @@
         _mingyanImageView.image = [UIImage resizedImageWithName:@"mingyankuang"];
     }
     return _mingyanImageView;
+}
+
+-(UIButton *)checkHistoryBtn{
+    if (!_checkHistoryBtn) {
+        _checkHistoryBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _checkHistoryBtn.hidden = YES;
+        _checkHistoryBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        _checkHistoryBtn.titleLabel.font = HXBoldFont(12);
+        [_checkHistoryBtn setTitleColor:COLOR_WITH_ALPHA(0xAFAFAF, 1) forState:UIControlStateNormal];
+        [_checkHistoryBtn setImage:[UIImage imageNamed:@"accessory_icon"] forState:UIControlStateNormal];
+        [_checkHistoryBtn setTitle:@"查看历史学习报告" forState:UIControlStateNormal];
+    }
+    return _checkHistoryBtn;;
 }
 
 -(UIView *)threeContainerView{

@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *name;
 ///生成时间
 @property(nonatomic, copy) NSString *buildTime;
+///选择的历史时间
+@property(nonatomic, copy) NSString *historyTime;
 ///关键词
 @property(nonatomic, copy) NSString *keyWords;
 ///标签1
@@ -32,6 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *pszy;
 ///期末考试 最高分
 @property(nonatomic, copy) NSString *qmcj;
+
+///是否有历史版本 1为有   0为没有
+@property(nonatomic, assign) NSInteger isHisVersion;
 ///课件学习数组
 @property(nonatomic, strong) NSArray<HXCourseDetailModel *> *kjxxCourseList;
 ///知识点测评数组

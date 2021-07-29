@@ -53,7 +53,7 @@
     NSURL *URL = [NSURL URLWithString:APP_URL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     //阿里云存储不用担心缓存问题！！
-//    request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+    request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     request.HTTPMethod = @"GET";
     request.timeoutInterval = 15;
 

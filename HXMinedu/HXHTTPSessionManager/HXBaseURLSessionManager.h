@@ -67,6 +67,12 @@ NS_ASSUME_NONNULL_BEGIN
 //获取学习报告
 #define HXPOST_Get_LearnReport                             @"/MD/StuInfo/getLearnReport"
 
+//获取历史学习报告
+#define HXPOST_Get_HistoryLearnReport                           @"/MD/StuInfo/gethisLearnReport"
+
+//获取历史版本时间
+#define HXPOST_Get_StuHisVersionTime                           @"/MD/StuInfo/getStuHisVersionTime"
+
 //获取Banner和Logo
 #define HXPOST_Get_BannerAndLogo                            @"/MD/StuInfo/getBannerAndLogo"
 
