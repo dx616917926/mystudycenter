@@ -520,7 +520,7 @@
         _confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _confirmBtn.titleLabel.font = HXBoldFont(16);
         _confirmBtn.backgroundColor = COLOR_WITH_ALPHA(0x4DC656, 1);
-        [_confirmBtn setTitle:@"确认信息" forState:UIControlStateNormal];
+        [_confirmBtn setTitle:@"确认退费" forState:UIControlStateNormal];
         [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_confirmBtn addTarget:self action:@selector(confirm:) forControlEvents:UIControlEventTouchUpInside];
     }
