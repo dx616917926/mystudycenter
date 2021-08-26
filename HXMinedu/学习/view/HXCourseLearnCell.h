@@ -13,9 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef enum : NSUInteger {
     HXNoClickType = 0,
-    HXKeJianXueXiClickType = 1,
-    HXPingShiZuoYeClickType = 2,
-    HXQiMoKaoShiClickType = 3
+    HXKeJianXueXiClickType = 1,//控件学习
+    HXPingShiZuoYeClickType = 2,//平时作业
+    HXQiMoKaoShiClickType = 3,//期末考试
+    HXLiNianZhenTiClickType = 4//历年真题
 } HXClickType;
 
 

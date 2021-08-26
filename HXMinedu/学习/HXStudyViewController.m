@@ -24,6 +24,8 @@
 #import "HXCourseModel.h"
 #import "HXBannerLogoModel.h"
 #import "SDWebImage.h"
+#import "HXCourseToastView.h"
+
 
 @interface HXStudyViewController ()<UITableViewDelegate,UITableViewDataSource,HXStudyTableHeaderViewDelegate,HXCourseLearnCellDelegate>
 
@@ -219,6 +221,23 @@
             }
             [self.noDataTipView updateLayout];
             [self.mainTableView reloadData];
+            
+            //遍历,是否有新课件
+            __block BOOL showToast = NO;
+            [self.courseList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                HXCourseModel *model = obj;
+                NSString *courseIdKey = [NSString stringWithFormat:@"course_id+%@",model.course_id];
+                BOOL hasKey = [HXUserDefaults boolForKey:courseIdKey];
+                if (model.isHisVersion == 1 && !hasKey) {
+                    [HXUserDefaults setBool:YES forKey:courseIdKey];
+                    showToast = YES;
+                }
+            }];
+            
+            if (showToast) {
+                HXCourseToastView *toastView = [[HXCourseToastView alloc] init];
+                [toastView showToastHideAfter:3];
+            }
         }
     } failure:^(NSError * _Nonnull error) {
         
@@ -366,6 +385,7 @@
             break;
         case HXPingShiZuoYeClickType://平时作业
         case HXQiMoKaoShiClickType://期末考试
+        case HXLiNianZhenTiClickType://历年真题
         {
             if ([item.Type isEqualToString:@"1"]) {
                 //课件学习模块,先判断登陆状态

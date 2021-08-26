@@ -72,9 +72,10 @@
     
     self.backBtn.imageView.sd_layout
     .centerYEqualToView(self.backBtn)
-    .leftSpaceToView(self.backBtn, 20)
+    .leftSpaceToView(self.backBtn, 14)
     .widthIs(24)
     .heightEqualToWidth();
+    [self.backBtn.imageView updateLayout];
     
     self.titleControl.sd_layout
     .centerYEqualToView(self.backBtn)
@@ -217,7 +218,6 @@
     if (!_backBtn) {
         _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backBtn setImage:[UIImage imageNamed:@"navihistory_whiteback"] forState:UIControlStateNormal];
-        
     }
     return _backBtn;
 }

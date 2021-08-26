@@ -15,6 +15,8 @@
 @property(nonatomic,strong) UIImageView *courseImageView;
 @property(nonatomic,strong) UILabel *courseNameLabel;
 
+@property(nonatomic,strong) UIImageView *hisVersionImageView;
+
 @property(nonatomic,strong) UIImageView *courseTypeImageView;
 @property(nonatomic,strong) UILabel *courseTypeLabel;
 
@@ -58,6 +60,8 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
         type = HXPingShiZuoYeClickType;
     }else if(tag == 9999){
         type = HXQiMoKaoShiClickType;
+    }else if(tag == 1010){
+        type = HXLiNianZhenTiClickType;
     }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(handleType:withItem:)]) {
@@ -82,6 +86,8 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
         self.courseTypeLabel.text = @"其它";
     }
     
+   // 1为有历史版本  0为没有历史版本
+    self.hisVersionImageView.hidden = (courseModel.isHisVersion==1?NO:YES);
     
     [self.containerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         //移除关联对象
@@ -111,15 +117,19 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
                 btn.tag = 8888;
                 [btn setBackgroundColor:COLOR_WITH_ALPHA(0x4DC656, 1)];
                 [btn setImage:[UIImage imageNamed:@"pingshi_icon"] forState:UIControlStateNormal];
-            }else{//期末考试
+            }else if ([item.ExamCourseType isEqualToString:@"3"]) {//期末考试
                 btn.tag = 9999;
                 [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFAC639, 1)];
                 [btn setImage:[UIImage imageNamed:@"qimo_icon"] forState:UIControlStateNormal];
+            }else if ([item.ExamCourseType isEqualToString:@"4"]) {//历年真题
+                btn.tag = 1010;
+                [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFE664B, 1)];
+                [btn setImage:[UIImage imageNamed:@"zhenti_icon"] forState:UIControlStateNormal];
             }
             
             btn.sd_layout
             .topEqualToView(self.containerView)
-            .leftSpaceToView(self.containerView, _kpw(23)+i*(_kpw(80)+_kpw(23)))
+            .leftSpaceToView(self.containerView, _kpw(10)+i*(_kpw(80)+_kpw(6)))
             .widthIs(_kpw(80))
             .heightIs(30);
             btn.sd_cornerRadiusFromHeightRatio = @0.5;
@@ -149,6 +159,7 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
     [self.bigBackgroundView addSubview:self.courseTypeImageView];
     [self.courseTypeImageView addSubview:self.courseTypeLabel];
     [self.bigBackgroundView addSubview:self.courseNameLabel];
+    [self.bigBackgroundView addSubview:self.hisVersionImageView];
 //    [self.bigBackgroundView addSubview:self.crownImageView];
 //    [self.bigBackgroundView addSubview:self.rectangleImageView];
 //    [self.rectangleImageView addSubview:self.jingpinLabel];
@@ -157,9 +168,9 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
 
     
     self.bigBackgroundView.sd_layout
-    .leftSpaceToView(self.contentView, _kpw(23))
+    .leftSpaceToView(self.contentView, _kpw(10))
     .topSpaceToView(self.contentView, 7)
-    .rightSpaceToView(self.contentView, _kpw(23));
+    .rightSpaceToView(self.contentView, _kpw(10));
     self.bigBackgroundView.sd_cornerRadius = @5;
     
     self.courseImageView.sd_layout
@@ -175,13 +186,20 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
     .widthIs(60)
     .heightIs(40);
     
+    
+    
     self.courseNameLabel.sd_layout
     .topEqualToView(self.courseImageView).offset(8)
     .leftSpaceToView(self.courseImageView, 24)
-    .rightSpaceToView(self.bigBackgroundView, 30)
     .autoHeightRatio(0);
+    [self.courseNameLabel setSingleLineAutoResizeWithMaxWidth:_kpw(105)];
     [self.courseNameLabel setMaxNumberOfLinesToShow:2];
     
+    self.hisVersionImageView.sd_layout
+    .topEqualToView(self.courseImageView).offset(8)
+    .leftSpaceToView(self.courseNameLabel, 5)
+    .widthIs(22)
+    .heightEqualToWidth();
     
     self.containerView.sd_layout
     .topSpaceToView(self.courseImageView, 12)
@@ -268,7 +286,14 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
 }
 
 
-
+-(UIImageView *)hisVersionImageView{
+    if (!_hisVersionImageView) {
+        _hisVersionImageView = [[UIImageView alloc] init];
+        _hisVersionImageView.image = [UIImage imageNamed:@"hisversion"];
+        _hisVersionImageView.hidden = YES;
+    }
+    return _hisVersionImageView;
+}
 
 
 

@@ -206,7 +206,7 @@
         _copyrightLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _copyrightLabel.font = HXFont(12);
         _copyrightLabel.textAlignment = NSTextAlignmentCenter;
-        _copyrightLabel.text = @"湖南灵越网络科技有限公司 版权所有";
+//        _copyrightLabel.text = @"湖南灵越网络科技有限公司 版权所有";
     }
     return _copyrightLabel;
 }

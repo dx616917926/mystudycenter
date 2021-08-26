@@ -22,6 +22,7 @@
 #import "MJRefresh.h"
 #import "WMZBannerView.h"
 
+
 @interface HXMyViewController ()
 
 @property(nonatomic,strong) UIScrollView *mainScrollView;
@@ -33,6 +34,8 @@
 @property(nonatomic,strong) UIButton *collectInfoBtn;
 @property(nonatomic,strong) UIButton *messageBtn;
 @property(nonatomic,strong) UIView *messageRedDot;
+@property(nonatomic,strong) UILabel *messageCountLabel;
+
 
 @property(nonatomic,strong)  WMZBannerView *bannerView;
 @property(nonatomic,strong)  WMZBannerParam *bannerParam;
@@ -40,6 +43,7 @@
 @property(nonatomic,strong) UIView *middleContainerView;
 @property(nonatomic,strong) NSMutableArray *middleBtns;
 @property(nonatomic,strong) UIImageView *logoViewImageView;
+@property(nonatomic,strong) UIButton *tuifeiBtn;
 
 @property(nonatomic,strong) HXStudentInfoModel*stuInfoModel;
 @property(nonatomic,strong) NSArray *majorList;
@@ -73,6 +77,8 @@
     [self getStuInfo];
     //获取学生专业
     [self geMajorList];
+    //获取学生退费信息，控制退费确认按钮的显示与隐藏
+    [self getStudentRefundList];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -89,6 +95,8 @@
         [self getStuInfo];
         //获取学生专业
         [self geMajorList];
+        //获取学生退费信息，控制退费确认按钮的显示与隐藏
+        [self getStudentRefundList];
     }
     [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString([HXPublicParamTool sharedInstance].jiGouLogoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
     
@@ -148,6 +156,25 @@
     }];
 }
 
+#pragma mark - 获取学生退费信息
+-(void)getStudentRefundList{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStudentRefundList withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            //刷新数据
+            NSArray *array = [HXStudentRefundModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (array.count>0) {
+                self.tuifeiBtn.hidden = NO;
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+
+    }];
+}
+
 ///下拉刷新
 -(void)loadNewData{
     //获取学生信息和考生信息
@@ -158,6 +185,9 @@
     if ([HXCommonUtil isNull:[HXPublicParamTool sharedInstance].jiGouLogoUrl]) {
         [self getBannerAndLogo];
     }
+    
+    //获取学生退费信息，控制退费确认按钮的显示与隐藏
+    [self getStudentRefundList];
 
 }
 
@@ -171,6 +201,7 @@
             NSDictionary *data = [dictionary objectForKey:@"Data"];
             self.messageCount = [[data stringValueForKey:@"WDCount"] integerValue];
             self.messageRedDot.hidden = !(self.messageCount>0);
+            self.messageCountLabel.text = [NSString stringWithFormat:@"%ld",(long)self.messageCount];
         }else{
             self.messageCount = 0;
             self.messageRedDot.hidden = YES;
@@ -241,7 +272,14 @@
             [self.navigationController pushViewController:infoConfirmVc animated:YES];
         }
             break;
-        case 3://异动确认
+        
+        case 3://班主任
+        {
+            HXHeadMasterViewController *headMasterVc = [[HXHeadMasterViewController alloc] init];
+            headMasterVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:headMasterVc animated:YES];
+        }
+        case 4://异动确认
         {
             HXYiDongAndRefundConfirmViewController *yiDongAndRefundConfirmVc = [[HXYiDongAndRefundConfirmViewController alloc] init];
             yiDongAndRefundConfirmVc.hidesBottomBarWhenPushed = YES;
@@ -250,7 +288,7 @@
 
         }
             break;
-        case 4://退费确认
+        case 5://退费确认
         {
             HXYiDongAndRefundConfirmViewController *yiDongAndRefundConfirmVc = [[HXYiDongAndRefundConfirmViewController alloc] init];
             yiDongAndRefundConfirmVc.hidesBottomBarWhenPushed = YES;
@@ -259,12 +297,6 @@
             
         }
             break;
-        case 5://班主任
-        {
-            HXHeadMasterViewController *headMasterVc = [[HXHeadMasterViewController alloc] init];
-            headMasterVc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:headMasterVc animated:YES];
-        }
             break;
         case 6://关于我们
         {
@@ -361,11 +393,13 @@
     .heightIs(30);
         
     self.messageRedDot.sd_layout
-    .topEqualToView(self.messageBtn)
-    .rightEqualToView(self.messageBtn).offset(-12)
-    .widthIs(8)
+    .topEqualToView(self.messageBtn).offset(-6)
+    .rightEqualToView(self.messageBtn).offset(-6)
+    .widthIs(20)
     .heightEqualToWidth();
     self.messageRedDot.sd_cornerRadiusFromHeightRatio = @0.5;
+    
+    self.messageCountLabel.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, 0, 0, 0));
     
     self.bannerView.sd_layout
     .topSpaceToView(self.mainScrollView, 160)
@@ -555,10 +589,20 @@
         _messageRedDot = [[UIView alloc] init];
         _messageRedDot.backgroundColor = [UIColor redColor];
         _messageRedDot.hidden = YES;
+        [_messageRedDot addSubview:self.messageCountLabel];
     }
     return _messageRedDot;
 }
 
+-(UILabel *)messageCountLabel{
+    if (!_messageCountLabel) {
+        _messageCountLabel = [[UILabel alloc] init];
+        _messageCountLabel.textAlignment = NSTextAlignmentCenter;
+        _messageCountLabel.font = HXFont(11);
+        _messageCountLabel.textColor = COLOR_WITH_ALPHA(0xffffff, 1);
+    }
+    return _messageCountLabel;
+}
 
 
 -(WMZBannerView *)bannerView{
@@ -606,7 +650,7 @@
     if (!_middleContainerView) {
         _middleContainerView = [[UIView alloc] init];
         _middleContainerView.backgroundColor = [UIColor whiteColor];
-        NSArray *titles = @[@"缴费明细",@"报名表单",@"图片信息确认",@"异动确认",@"退费确认",@"班主任"];
+        NSArray *titles = @[@"缴费明细",@"报名表单",@"图片信息确认",@"班主任",@"异动确认",@"退费确认"];
         NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"infconfirm_icon",@"yidongconfirm_icon",@"refundconfirm_icon",@"headmaster_icon"];
         for (int i = 0; i<titles.count; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -619,6 +663,10 @@
             [btn addTarget:self action:@selector(handleMiddleClick:) forControlEvents:UIControlEventTouchUpInside];
             [_middleContainerView addSubview:btn];
             [self.middleBtns addObject:btn];
+            if (i==5) {
+                self.tuifeiBtn = btn;
+                self.tuifeiBtn.hidden = YES;
+            }
         }
     }
     return _middleContainerView;;

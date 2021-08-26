@@ -34,7 +34,7 @@
 }
 
 - (NSUserDefaults *)userDefault{
-
+    
     if (_userDefault == nil) {
         _userDefault = [NSUserDefaults standardUserDefaults];
     }
@@ -209,9 +209,17 @@
     [self.userDefault removeObjectForKey:@"userId"];
     [self.userDefault removeObjectForKey:@"currentYear"];
     
+    ///清除所有的存储本地的课件记录数据
+    NSDictionary *dic = [self.userDefault dictionaryRepresentation];
+    for (NSString *key in dic) {
+        if ([key containsString:@"course_id+"]) {
+            [self.userDefault removeObjectForKey:key];
+        }
+    }
+    
     [self.userDefault synchronize];
     
-
+    
 }
 
 @end

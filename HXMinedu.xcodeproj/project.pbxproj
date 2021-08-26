@@ -15,6 +15,7 @@
 		040581BC255156AF0022A300 /* HXResetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 040581BA255156AF0022A300 /* HXResetTableViewCell.m */; };
 		040581BD255156AF0022A300 /* HXResetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040581BB255156AF0022A300 /* HXResetTableViewCell.xib */; };
 		04060A40255548FF00133FB3 /* CustomIOSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */; };
+		0408AF7026B3DBBE00CA16AD /* HXCourseToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0408AF6F26B3DBBE00CA16AD /* HXCourseToastView.m */; };
 		0409D3792669BD5B00802912 /* HXRefundDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409D3782669BD5B00802912 /* HXRefundDetailsViewController.m */; };
 		0409D37F2669D0E500802912 /* HXSuggestionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409D37E2669D0E500802912 /* HXSuggestionCell.m */; };
 		0409D3822669D9CD00802912 /* HXMajorInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409D3812669D9CD00802912 /* HXMajorInfoCell.m */; };
@@ -383,6 +384,8 @@
 		040581BB255156AF0022A300 /* HXResetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXResetTableViewCell.xib; sourceTree = "<group>"; };
 		04060A3E255548FF00133FB3 /* CustomIOSAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOSAlertView.h; sourceTree = "<group>"; };
 		04060A3F255548FF00133FB3 /* CustomIOSAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOSAlertView.m; sourceTree = "<group>"; };
+		0408AF6E26B3DBBE00CA16AD /* HXCourseToastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCourseToastView.h; sourceTree = "<group>"; };
+		0408AF6F26B3DBBE00CA16AD /* HXCourseToastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCourseToastView.m; sourceTree = "<group>"; };
 		0409D3772669BD5B00802912 /* HXRefundDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXRefundDetailsViewController.h; sourceTree = "<group>"; };
 		0409D3782669BD5B00802912 /* HXRefundDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXRefundDetailsViewController.m; sourceTree = "<group>"; };
 		0409D37D2669D0E500802912 /* HXSuggestionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSuggestionCell.h; sourceTree = "<group>"; };
@@ -2019,6 +2022,8 @@
 				04275A14262E622C005CFD34 /* HXStudyGuideView.m */,
 				04275A16262E72CD005CFD34 /* HXSelectStudyTypeGuideView.h */,
 				04275A17262E72CD005CFD34 /* HXSelectStudyTypeGuideView.m */,
+				0408AF6E26B3DBBE00CA16AD /* HXCourseToastView.h */,
+				0408AF6F26B3DBBE00CA16AD /* HXCourseToastView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2589,6 +2594,7 @@
 				0449A53D254C11F6001A28D5 /* HXPopoverView.m in Sources */,
 				0449A528254C11F6001A28D5 /* OSCommonImage.m in Sources */,
 				0404ED8C2655FBA00001AA6A /* HXHomePageGuideCell.m in Sources */,
+				0408AF7026B3DBBE00CA16AD /* HXCourseToastView.m in Sources */,
 				04146065262FCCFD0065B76B /* HXBannerModel.m in Sources */,
 				04F3EA1D26243D8B004ACAF9 /* HXCourseDetailModel.m in Sources */,
 				043A607C2697DB1C00F9C15A /* HXYiDongTuiFeiViewController.m in Sources */,
@@ -2956,7 +2962,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development: Shuo Li (55J4Q86345)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2972,7 +2978,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读developer";
@@ -2990,7 +2996,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Huaxia Dadi Long-distance Education Network Service Co., Ltd.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3006,7 +3012,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读";

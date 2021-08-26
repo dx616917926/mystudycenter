@@ -26,6 +26,15 @@
     return self;
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    if (@available(iOS 13.0, *)) {
+        return UIStatusBarStyleDarkContent;
+    } else {
+        return UIStatusBarStyleDefault;
+    }
+   
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -182,10 +191,6 @@
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:array.count-3] animated:YES];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return kStatusBarStyle;
-}
 
 - (void)didReceiveMemoryWarning
 {

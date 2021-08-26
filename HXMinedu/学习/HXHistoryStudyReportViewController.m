@@ -123,12 +123,12 @@
 //    if (self.studyReportModel.zscpCourseList.count>0) {
 //        [self.sectionArray addObject:@{@"sectionTitle":@"知识测评",@"sectionImageName":@"zhishidianping_icon",@"cellType":@(HXZhiShiDianPingType),@"list":self.studyReportModel.zscpCourseList}];
 //    }
-    if (self.studyReportModel.pszyCourseList.count>0) {
-        [self.sectionArray addObject:@{@"sectionTitle":@"平时作业",@"sectionImageName":@"pinshizuoye_icon",@"cellType":@(HXPingShiZuoYeType),@"list":self.studyReportModel.pszyCourseList}];
-    }
-    if (self.studyReportModel.qmcjCourseList.count>0) {
-        [self.sectionArray addObject:@{@"sectionTitle":@"期末考试",@"sectionImageName":@"qimokaoshi_icon",@"cellType":@(HXQiMoKaoShiType),@"list":self.studyReportModel.qmcjCourseList}];
-    }
+//    if (self.studyReportModel.pszyCourseList.count>0) {
+//        [self.sectionArray addObject:@{@"sectionTitle":@"平时作业",@"sectionImageName":@"pinshizuoye_icon",@"cellType":@(HXPingShiZuoYeType),@"list":self.studyReportModel.pszyCourseList}];
+//    }
+//    if (self.studyReportModel.qmcjCourseList.count>0) {
+//        [self.sectionArray addObject:@{@"sectionTitle":@"期末考试",@"sectionImageName":@"qimokaoshi_icon",@"cellType":@(HXQiMoKaoShiType),@"list":self.studyReportModel.qmcjCourseList}];
+//    }
     
     [self.mainTableView reloadData];
     

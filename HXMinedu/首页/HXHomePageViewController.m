@@ -26,6 +26,7 @@
 @property (nonatomic, strong) UIButton *dakaBtn;
 @property (nonatomic, strong) UIButton *messageBtn;
 @property(nonatomic,strong) UIView *messageRedDot;
+@property(nonatomic,strong) UILabel *messageCountLabel;
 @property(nonatomic,strong)   WMZBannerView *bannerView;
 
 @property (nonatomic, copy) NSArray *imagesURLs;
@@ -101,6 +102,7 @@
             NSDictionary *data = [dictionary objectForKey:@"Data"];
             self.messageCount = [[data stringValueForKey:@"WDCount"] integerValue];
             self.messageRedDot.hidden = !(self.messageCount>0);
+            self.messageCountLabel.text = [NSString stringWithFormat:@"%ld",(long)self.messageCount];
         }else{
             self.messageCount = 0;
             self.messageRedDot.hidden = YES;
@@ -264,11 +266,13 @@
         .heightIs(20);
         
         self.messageRedDot.sd_layout
-        .topEqualToView(self.messageBtn)
-        .rightEqualToView(self.messageBtn).offset(-12)
-        .widthIs(8)
+        .topEqualToView(self.messageBtn).offset(-6)
+        .rightEqualToView(self.messageBtn).offset(-6)
+        .widthIs(20)
         .heightEqualToWidth();
         self.messageRedDot.sd_cornerRadiusFromHeightRatio = @0.5;
+        
+        self.messageCountLabel.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, 0, 0, 0));
         
         self.bannerView.sd_layout
         .topSpaceToView(self.logoImageView, 20)
@@ -315,8 +319,19 @@
         _messageRedDot = [[UIView alloc] init];
         _messageRedDot.backgroundColor = [UIColor redColor];
         _messageRedDot.hidden = YES;
+        [_messageRedDot addSubview:self.messageCountLabel];
     }
     return _messageRedDot;
+}
+
+-(UILabel *)messageCountLabel{
+    if (!_messageCountLabel) {
+        _messageCountLabel = [[UILabel alloc] init];
+        _messageCountLabel.textAlignment = NSTextAlignmentCenter;
+        _messageCountLabel.font = HXFont(11);
+        _messageCountLabel.textColor = COLOR_WITH_ALPHA(0xffffff, 1);
+    }
+    return _messageCountLabel;
 }
 
 

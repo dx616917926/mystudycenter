@@ -99,6 +99,7 @@
         if (success) {
             [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
             self.topConfirmBtn.hidden  = YES;
+            self.topUploadBtn.hidden  = YES;
             ///通知外部刷新
             if (self.refreshInforBlock) {
                 self.refreshInforBlock(2);
@@ -113,12 +114,14 @@
 #pragma mark - 上传图片信息
 -(void)uploadStudentFile:(NSString *)encodedImageStr{
     [self.view showLoadingWithMessage:@"正在上传..."];
+    //type 0为添加 1为修改
     NSDictionary *dic = @{
         @"fileType_id":HXSafeString(self.pictureInfoModel.fileTypeId),
         @"image":HXSafeString(encodedImageStr),
         @"version_id":HXSafeString(self.pictureInfoModel.version_id),
         @"major_id":HXSafeString(self.pictureInfoModel.major_id),
-        @"attr":@(self.pictureInfoModel.attr)
+        @"attr":@(self.pictureInfoModel.attr),
+        @"type":([HXCommonUtil isNull:self.pictureInfoModel.imgurl]?@0:@1)
     };
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdateStudentFile  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.view hideLoading];
@@ -314,7 +317,13 @@
         self.topUploadBtn.hidden = (self.pictureInfoModel.attr == 2);
         self.topConfirmBtn.sd_layout.topSpaceToView(self.topImageView, 14).heightIs(0);
     }else{
-        self.topUploadBtn.hidden = YES;
+        //0.待上传  1.待确认  2.待审核  3.审核不通过  4.审核通过 只有待确认和审核不通过时可以修改照片
+        if (self.pictureInfoModel.status ==1||self.pictureInfoModel.status ==3) {
+            self.topUploadBtn.hidden = NO;
+        }else{
+            self.topUploadBtn.hidden = YES;
+        }
+       
         if (self.pictureInfoModel.studentstatus == 1) {//已确认隐藏确认按钮
             self.topConfirmBtn.hidden  = YES;
         }else{

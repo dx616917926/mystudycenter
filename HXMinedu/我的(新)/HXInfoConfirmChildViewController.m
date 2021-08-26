@@ -74,7 +74,7 @@
             pictureInfoModel.studentstatus = 0;
         }
         if (flag == 2) {//已确定
-            pictureInfoModel.status = 1;
+            pictureInfoModel.status = 2;
             pictureInfoModel.studentstatus = 1;
         }
         [weakSelf.mainTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];

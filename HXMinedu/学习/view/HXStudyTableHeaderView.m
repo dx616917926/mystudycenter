@@ -65,8 +65,8 @@
     
     self.containerView.sd_layout
     .topSpaceToView(self, 16)
-    .leftSpaceToView(self, _kpw(23))
-    .rightSpaceToView(self, _kpw(23))
+    .leftSpaceToView(self, _kpw(10))
+    .rightSpaceToView(self, _kpw(10))
     .heightIs(50);
     
     self.noticeBtn.sd_layout
@@ -112,8 +112,8 @@
     self.bannerView.sd_layout
     .topSpaceToView(self.containerView, 16)
     .centerXEqualToView(self)
-    .widthIs(floorf(kScreenWidth-_kpw(23)*2))
-    .heightIs(floorf((kScreenWidth-_kpw(23)*2)*141/345));
+    .widthIs(floorf(kScreenWidth-_kpw(10)*2))
+    .heightIs(floorf((kScreenWidth-_kpw(10)*2)*141/345));
     self.bannerView.sd_cornerRadius = @8;
 
     
@@ -121,7 +121,7 @@
     .topSpaceToView(self.bannerView, 16)
     .leftEqualToView(self.containerView)
     .rightEqualToView(self.containerView)
-    .heightIs((kScreenWidth-_kpw(23)*2)*0.353);
+    .heightIs((kScreenWidth-_kpw(10)*2)*0.353);
     
     
     
@@ -134,7 +134,7 @@
     self.versionBtn.sd_layout
     .centerYEqualToView(self.courseLearnLabel)
     .leftSpaceToView(self.courseLearnLabel, 16)
-    .rightSpaceToView(self, _kpw(23))
+    .rightSpaceToView(self, _kpw(10))
     .heightIs(22);
     
     self.versionBtn.imageView.sd_layout
