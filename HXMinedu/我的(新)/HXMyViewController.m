@@ -167,6 +167,8 @@
             NSArray *array = [HXStudentRefundModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             if (array.count>0) {
                 self.tuifeiBtn.hidden = NO;
+            }else{
+                self.tuifeiBtn.hidden = YES;
             }
         }
     } failure:^(NSError * _Nonnull error) {
@@ -651,7 +653,7 @@
         _middleContainerView = [[UIView alloc] init];
         _middleContainerView.backgroundColor = [UIColor whiteColor];
         NSArray *titles = @[@"缴费明细",@"报名表单",@"图片信息确认",@"班主任",@"异动确认",@"退费确认"];
-        NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"infconfirm_icon",@"yidongconfirm_icon",@"refundconfirm_icon",@"headmaster_icon"];
+        NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"infconfirm_icon",@"headmaster_icon",@"yidongconfirm_icon",@"refundconfirm_icon"];
         for (int i = 0; i<titles.count; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;
