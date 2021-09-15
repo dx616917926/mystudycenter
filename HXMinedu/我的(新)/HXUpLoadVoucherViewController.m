@@ -72,6 +72,21 @@
     
 }
 
+-(void)cancel:(UIButton *)sender{
+    
+    //返回全部订单页面，刷新数据
+    [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[HXPaymentDtailsContainerViewController class]]) {
+            [self.navigationController popToViewController:obj animated:YES];
+            *stop = YES;
+            //发出支付截图上传成功通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ZhiFuImageUploadSuccessNotification" object:nil];
+            return;;
+        }
+    }];
+}
+
+
 -(void)upLoadImage:(UIButton *)sender{
     NSString *encodedImageStr = [self imageChangeBase64:self.showUpLoadImageView.image];
     if (!self.showUpLoadImageView.image){
@@ -543,7 +558,7 @@
         _cancelBtn.titleLabel.font = HXFont(16);
         [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
         [_cancelBtn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
-        [_cancelBtn addTarget:self action:@selector(popBack:) forControlEvents:UIControlEventTouchUpInside];
+        [_cancelBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cancelBtn;
 }

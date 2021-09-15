@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *imgurl;
 //类型名称
 @property(nonatomic, copy) NSString *fileTypeName;
+//专业名称
+@property(nonatomic, copy) NSString *majorName;
 //状态 0:待上传 1:已上传  //0.待上传  1.待确认  2.待审核  3.审核不通过  4.审核通过 只有待确认和审核不通过时可以修改照片
 @property(nonatomic, assign) NSInteger status;
 ///状态提示：未上传    待确认   待确认

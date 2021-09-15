@@ -99,7 +99,7 @@
         if (success) {
             [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
             self.topConfirmBtn.hidden  = YES;
-            self.topUploadBtn.hidden  = YES;
+            self.topUploadBtn.hidden  = NO;
             ///通知外部刷新
             if (self.refreshInforBlock) {
                 self.refreshInforBlock(2);
@@ -129,7 +129,7 @@
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
-            self.topUploadBtn.hidden  = YES;
+//            self.topUploadBtn.hidden  = YES;
             self.pictureInfoModel.imgurl = [dictionary stringValueForKey:@"Data"];
             ///通知外部刷新
             if (self.refreshInforBlock) {
@@ -147,7 +147,7 @@
     if([HXCommonUtil isNull:self.pictureInfoModel.imgurl]) return;
     NSMutableArray *photos = [NSMutableArray new];
     GKPhoto *photo = [GKPhoto new];
-    photo.url = [NSURL URLWithString:self.pictureInfoModel.imgurl];
+    photo.image = self.topImageView.image;
     photo.sourceImageView =(UIImageView *)ges.view;
     [photos addObject:photo];
     [self.browser resetPhotoBrowserWithPhotos:photos];
@@ -314,12 +314,14 @@
     if (self.pictureInfoModel.status == 0) {//0:待上传 1:已上传
         self.topConfirmBtn.hidden  = YES;
         ////等于2时不允许上传图片
+        [self.topUploadBtn setTitle:@"上传图片" forState:UIControlStateNormal];
         self.topUploadBtn.hidden = (self.pictureInfoModel.attr == 2);
         self.topConfirmBtn.sd_layout.topSpaceToView(self.topImageView, 14).heightIs(0);
     }else{
-        //0.待上传  1.待确认  2.待审核  3.审核不通过  4.审核通过 只有待确认和审核不通过时可以修改照片
-        if (self.pictureInfoModel.status ==1||self.pictureInfoModel.status ==3) {
+        //0.待上传  1.待确认  2.待审核  3.审核不通过  4.审核通过   (只有 1.待确认  2.待审核  3.审核不通过 可以修改照片,重新上传)
+        if (self.pictureInfoModel.status ==1||self.pictureInfoModel.status ==2||self.pictureInfoModel.status ==3) {
             self.topUploadBtn.hidden = NO;
+            [self.topUploadBtn setTitle:@"重新上传" forState:UIControlStateNormal];
         }else{
             self.topUploadBtn.hidden = YES;
         }

@@ -133,60 +133,60 @@
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             
-            //            if ([HXPublicParamTool sharedInstance].versionList.count>0) {//原来有值
-            //                //保持原来选中的
-            //                __block HXVersionModel *selectVersionModel;
-            //                __block HXMajorModel *selectMajorModel;
-            //                [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            //                    HXVersionModel *versionModel = obj;
-            //                    if (versionModel.isSelected) {
-            //                        selectVersionModel = versionModel;
-            //                        [versionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            //                            if (obj.isSelected) {
-            //                                selectMajorModel = obj;
-            //                                *stop = YES;
-            //                                return;
-            //                            }
-            //                        }];
-            //                        *stop = YES;
-            //                        return;
-            //                    }
-            //                }];
-            //                //重新赋值
-            //                [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
-            //                [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            //                    HXVersionModel *versionModel = obj;
-            //                    if ([versionModel.versionId isEqualToString:selectVersionModel.versionId]&&[versionModel.versionName isEqualToString:selectVersionModel.versionName]&&versionModel.type==selectVersionModel.type) {
-            //                        versionModel.isSelected = YES;
-            //                        [versionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            //                            if ([obj.major_id isEqualToString:selectMajorModel.major_id]&&[obj.versionId isEqualToString:selectMajorModel.versionId]&&obj.type==selectMajorModel.type) {
-            //                                obj.isSelected = YES;
-            //                                *stop = YES;
-            //                                return;
-            //                            }
-            //                        }];
-            //                        *stop = YES;
-            //                        return;
-            //                    }
-            //                }];
-            //            }else{
-            //                //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
-            //                [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
-            //                ///默认选择第一个
-            //                HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList.firstObject;
-            //                model.isSelected = YES;
-            //                HXMajorModel *majorModel = model.majorList.firstObject;
-            //                majorModel.isSelected = YES;
-            //            }
+            if ([HXPublicParamTool sharedInstance].versionList.count>0) {//原来有值
+                //保持原来选中的
+                __block HXVersionModel *selectVersionModel;
+                __block HXMajorModel *selectMajorModel;
+                [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    HXVersionModel *versionModel = obj;
+                    if (versionModel.isSelected) {
+                        selectVersionModel = versionModel;
+                        [versionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            if (obj.isSelected) {
+                                selectMajorModel = obj;
+                                *stop = YES;
+                                return;
+                            }
+                        }];
+                        *stop = YES;
+                        return;
+                    }
+                }];
+                //重新赋值
+                [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+                [[HXPublicParamTool sharedInstance].versionList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    HXVersionModel *versionModel = obj;
+                    if ([versionModel.versionId isEqualToString:selectVersionModel.versionId]&&[versionModel.versionName isEqualToString:selectVersionModel.versionName]&&versionModel.type==selectVersionModel.type) {
+                        versionModel.isSelected = YES;
+                        [versionModel.majorList enumerateObjectsUsingBlock:^(HXMajorModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            if ([obj.major_id isEqualToString:selectMajorModel.major_id]&&[obj.versionId isEqualToString:selectMajorModel.versionId]&&obj.type==selectMajorModel.type) {
+                                obj.isSelected = YES;
+                                *stop = YES;
+                                return;
+                            }
+                        }];
+                        *stop = YES;
+                        return;
+                    }
+                }];
+            }else{
+                //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
+                [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+                ///默认选择第一个
+                HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList.firstObject;
+                model.isSelected = YES;
+                HXMajorModel *majorModel = model.majorList.firstObject;
+                majorModel.isSelected = YES;
+            }
             
             
-            //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
-            [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
-            ///默认选择第一个
-            HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList.firstObject;
-            model.isSelected = YES;
-            HXMajorModel *majorModel = model.majorList.firstObject;
-            majorModel.isSelected = YES;
+            //            //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
+            //            [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            //            ///默认选择第一个
+            //            HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList.firstObject;
+            //            model.isSelected = YES;
+            //            HXMajorModel *majorModel = model.majorList.firstObject;
+            //            majorModel.isSelected = YES;
             ///刷新导航数据
             [self refreshNavBarData];
             ///发出<<报考类型专业改变>>通知

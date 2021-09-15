@@ -102,7 +102,11 @@
             NSDictionary *data = [dictionary objectForKey:@"Data"];
             self.messageCount = [[data stringValueForKey:@"WDCount"] integerValue];
             self.messageRedDot.hidden = !(self.messageCount>0);
-            self.messageCountLabel.text = [NSString stringWithFormat:@"%ld",(long)self.messageCount];
+            if (self.messageCount>99) {
+                self.messageCountLabel.text = @"99+";
+            }else{
+                self.messageCountLabel.text = [NSString stringWithFormat:@"%ld",(long)self.messageCount];
+            }
         }else{
             self.messageCount = 0;
             self.messageRedDot.hidden = YES;

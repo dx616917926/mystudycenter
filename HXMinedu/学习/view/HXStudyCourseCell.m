@@ -56,7 +56,8 @@
     if (learnRecordModel.learnTime == 0) {
         self.gradientProgressView.progress = 0;
     }else{
-        self.gradientProgressView.progress = (learnRecordModel.learnDuration*1.0/learnRecordModel.learnTime);
+        float progress = (learnRecordModel.learnDuration*1.0/learnRecordModel.learnTime);
+        self.gradientProgressView.progress = (progress>1?1:progress);
     }
     [self.courseImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:learnRecordModel.imgUrl]] placeholderImage:nil];
 }

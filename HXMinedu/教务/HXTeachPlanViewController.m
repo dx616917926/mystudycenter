@@ -123,7 +123,7 @@
         headerView.model = model;
         ///展开/折叠回调
         headerView.expandCallBack = ^(void) {
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
         };
         return headerView;
     }else{

@@ -59,7 +59,8 @@
         if (courseDetailModel.learnTime == 0) {
             self.gradientProgressView.progress = 0;
         }else{
-            self.gradientProgressView.progress = (courseDetailModel.learnDuration*1.0/courseDetailModel.learnTime);
+            float progress = (courseDetailModel.learnDuration*1.0/courseDetailModel.learnTime);
+            self.gradientProgressView.progress = (progress>1?1:progress);
         }
         
     }else if (self.cellType == HXZhiShiDianPingType) {
@@ -69,7 +70,8 @@
         if (courseDetailModel.yzTopic == 0 && courseDetailModel.wzTopic == 0) {
             self.gradientProgressView.progress = 0;
         }else{
-            self.gradientProgressView.progress = (courseDetailModel.yzTopic*1.0/(courseDetailModel.yzTopic+courseDetailModel.wzTopic));
+            float progress = (courseDetailModel.yzTopic*1.0/(courseDetailModel.yzTopic+courseDetailModel.wzTopic));
+            self.gradientProgressView.progress = (progress>1?1:progress);
         }
        
     }else if (self.cellType == HXPingShiZuoYeType|self.cellType == HXQiMoKaoShiType) {
@@ -78,7 +80,8 @@
         if ([courseDetailModel.score isEqualToString:@"暂无成绩"]) {
             self.gradientProgressView.progress = 0;
         }else{
-            self.gradientProgressView.progress = ([courseDetailModel.score integerValue]*1.0/courseDetailModel.totalScore);
+            float progress = ([courseDetailModel.score integerValue]*1.0/courseDetailModel.totalScore);
+            self.gradientProgressView.progress = (progress>1?1:progress);
         }
         
     }

@@ -203,7 +203,11 @@
             NSDictionary *data = [dictionary objectForKey:@"Data"];
             self.messageCount = [[data stringValueForKey:@"WDCount"] integerValue];
             self.messageRedDot.hidden = !(self.messageCount>0);
-            self.messageCountLabel.text = [NSString stringWithFormat:@"%ld",(long)self.messageCount];
+            if (self.messageCount>99) {
+                self.messageCountLabel.text = @"99+";
+            }else{
+                self.messageCountLabel.text = [NSString stringWithFormat:@"%ld",(long)self.messageCount];
+            }
         }else{
             self.messageCount = 0;
             self.messageRedDot.hidden = YES;
@@ -266,7 +270,7 @@
         }
             break;
         
-            break;
+          
         case 2://图片信息
         {
             HXInfoConfirmViewController *infoConfirmVc = [[HXInfoConfirmViewController alloc] init];
@@ -281,6 +285,7 @@
             headMasterVc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:headMasterVc animated:YES];
         }
+            break;
         case 4://异动确认
         {
             HXYiDongAndRefundConfirmViewController *yiDongAndRefundConfirmVc = [[HXYiDongAndRefundConfirmViewController alloc] init];
@@ -299,7 +304,7 @@
             
         }
             break;
-            break;
+           
         case 6://关于我们
         {
             HXAboutUsViewController *aboutUsVc = [[HXAboutUsViewController alloc] init];
