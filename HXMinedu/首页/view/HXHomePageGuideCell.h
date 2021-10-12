@@ -6,10 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HXColumnItemModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXHomePageGuideCell : UITableViewCell
+@property (nonatomic, strong) HXColumnItemModel *columnItemModel;
+
 @property (nonatomic, assign) NSInteger count;
 @end
 

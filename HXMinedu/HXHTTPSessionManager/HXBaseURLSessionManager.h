@@ -76,6 +76,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取Banner和Logo
 #define HXPOST_Get_BannerAndLogo                            @"/MD/StuInfo/getBannerAndLogo"
 
+//获取是否渠道学生
+#define HXPOST_GetIsQdStu                                @"/MD/StuInfo/GetIsQdStu"
+
 //获取应缴明细V2
 #define HXPOST_Get_PayableDetails                          @"/MD/StuPayInfo/getPayableDetailsV2"
 
@@ -126,6 +129,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 //获取学生转专业转产品异动退费详情
 #define HXPOST_GetStopStudyByZzyAndZcpRefundInfo                    @"/MD/StopStudy/GetStopStudyByZzyAndZcpRefundInfo"
+
+//获取首页栏目
+#define HXPOST_GetHomePageSettingsList                               @"/MD/IndexInfo/GetHomePageSettingsList"
+
+//获取首页栏目内容
+#define HXPOST_GetHomePageInfoList                                 @"/MD/IndexInfo/GetHomePageInfoList"
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

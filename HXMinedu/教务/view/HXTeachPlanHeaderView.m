@@ -8,7 +8,7 @@
 #import "HXTeachPlanHeaderView.h"
 
 @interface HXTeachPlanHeaderView ()
-
+@property(nonatomic,strong) UIView *shadowBackgroundView;
 @property(nonatomic,strong) UIControl *bigBackgroundControl;
 @property(nonatomic,strong) UILabel *titleLabel;
 @property(nonatomic,strong) UIView *timeView;
@@ -82,6 +82,7 @@
 }
 
 -(void)createUI{
+    [self.contentView addSubview:self.shadowBackgroundView];
     [self.contentView addSubview:self.bigBackgroundControl];
     [self.bigBackgroundControl addSubview:self.titleLabel];
     [self.bigBackgroundControl addSubview:self.timeView];
@@ -91,8 +92,13 @@
     
     
     
-    self.bigBackgroundControl.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, 0, 0, 0));
-   
+    self.bigBackgroundControl.sd_layout.spaceToSuperView(UIEdgeInsetsMake(5, 15, 5, 15));
+    self.shadowBackgroundView.sd_layout
+    .topEqualToView(self.bigBackgroundControl)
+    .leftEqualToView(self.bigBackgroundControl)
+    .rightEqualToView(self.bigBackgroundControl)
+    .bottomEqualToView(self.bigBackgroundControl);
+    self.shadowBackgroundView.layer.cornerRadius = 6;
     
     self.titleLabel.sd_layout
     .leftSpaceToView(self.bigBackgroundControl, 16)
@@ -115,7 +121,17 @@
 }
 
 #pragma mark - lazyload
-
+-(UIView *)shadowBackgroundView{
+    if (!_shadowBackgroundView) {
+        _shadowBackgroundView = [[UIView alloc] init];
+        _shadowBackgroundView.backgroundColor = [UIColor whiteColor];
+        _shadowBackgroundView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.10).CGColor;
+        _shadowBackgroundView.layer.shadowOffset = CGSizeMake(0, 2);
+        _shadowBackgroundView.layer.shadowRadius = 4;
+        _shadowBackgroundView.layer.shadowOpacity = 1;
+    }
+    return _shadowBackgroundView;
+}
 
 -(UIControl *)bigBackgroundControl{
     if (!_bigBackgroundControl) {

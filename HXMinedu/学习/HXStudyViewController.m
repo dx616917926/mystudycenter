@@ -73,7 +73,7 @@
     [self getVersionandMajorList];
     
     //登录成功的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getVersionandMajorList) name:LOGINSUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess:) name:LOGINSUCCESS object:nil];
     ///监听<<报考类型专业改变>>通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
 }
@@ -103,6 +103,10 @@
     if (nonifi.object != self) {///不接收自己发出的<<报考类型专业改变>>通知
         [self refreshNavBarData];
     }
+}
+-(void)loginSuccess:(NSNotification *)nonifi{
+    [HXPublicParamTool sharedInstance].versionList = nil;
+    [self getVersionandMajorList];
 }
 
 #pragma mark - event
@@ -313,7 +317,6 @@
             *stop = YES;
             return;;
         }
-        
     }];
     
     

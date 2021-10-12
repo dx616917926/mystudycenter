@@ -7,6 +7,7 @@
 
 #import "HXHomePageChildViewController.h"
 #import "HXCommonWebViewController.h"
+#import "HXShowH5ImageViewController.h"
 #import "UIViewController+YNPageExtend.h"
 #import "HXHomePageGuideCell.h"
 #import "MJRefresh.h"
@@ -14,6 +15,7 @@
 @interface HXHomePageChildViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSArray *titleArray;
+@property(nonatomic,assign) NSInteger pageIndex;
 @end
 /// 开启刷新头部高度
 #define kOpenRefreshHeaderViewHeight 0
@@ -24,41 +26,65 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self.view addSubview:self.tableView];
+    //UI
+    [self createUI];
     
-    /// 添加刷新
-//    [self addTableViewRefresh];
+    //获取首页栏目内容
+    [self getHomePageInfoList];
+    
+    
 }
-/// 添加下拉刷新
-- (void)addTableViewRefresh {
+
+#pragma mark - Setter
+-(void)setHomePageColumnModel:(HXHomePageColumnModel *)homePageColumnModel{
+    _homePageColumnModel = homePageColumnModel;
+}
+
+
+#pragma mark - 获取首页栏目内容
+-(void)getHomePageInfoList{
+    self.pageIndex = 1;
+    NSDictionary *dic = @{
+        @"id":HXSafeString(self.homePageColumnModel.columnId),
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15)
+    };
     
-    WeakSelf(weakSelf);
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [weakSelf.dataArray removeAllObjects];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            for (int i = 0; i < 10; i++) {
-                [weakSelf.dataArray addObject:@""];
-            }
-            [weakSelf.tableView.mj_header endRefreshing];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetHomePageInfoList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.tableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *list = [HXColumnItemModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.dataArray removeAllObjects];
+            [self.dataArray addObjectsFromArray:list];
             [self.tableView reloadData];
-    
-        });
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.tableView.mj_header endRefreshing];
     }];
     
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            for (int i = 0; i < 10; i++) {
-                [weakSelf.dataArray addObject:@""];
-            }
-            [weakSelf.tableView.mj_footer endRefreshing];
-            [weakSelf.tableView reloadData];
-            
-        });
-    }];
 }
 
-
+-(void)loadMoreData{
+    self.pageIndex++;
+    NSDictionary *dic = @{
+        @"id":HXSafeString(self.homePageColumnModel.columnId),
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15)
+    };
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetHomePageInfoList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.tableView.mj_footer endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *list = [HXColumnItemModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.dataArray addObjectsFromArray:list];
+            [self.tableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.tableView.mj_footer endRefreshing];
+        self.pageIndex--;
+    }];
+}
 
 #pragma mark - UITableViewDelegate  UITableViewDataSource
 
@@ -70,7 +96,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 1;
+    return self.dataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -85,17 +111,31 @@
         cell = [[HXHomePageGuideCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homePageGuideCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.count = self.count;
+    cell.columnItemModel = self.dataArray[indexPath.row];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HXColumnItemModel *columnItemModel = self.dataArray[indexPath.row];
     HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-    webViewVC.urlString = self.h5Url;
-    webViewVC.cuntomTitle = self.titleArray[self.count-1];
+    webViewVC.urlString = columnItemModel.url;
+    webViewVC.cuntomTitle = columnItemModel.name;
     webViewVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webViewVC animated:YES];
+    
+}
+
+#pragma mark - UI
+-(void)createUI{
+    [self.view addSubview:self.tableView];
+    // 刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getHomePageInfoList)];
+    header.automaticallyChangeAlpha = YES;
+    self.tableView.mj_header = header;
+    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    self.tableView.mj_footer = footer;
+    self.tableView.mj_footer.hidden = YES;
 }
 
 #pragma mark - lazyload
@@ -105,19 +145,14 @@
     }
     return _dataArray;
 }
--(NSArray *)titleArray{
-    if (!_titleArray) {
-        _titleArray = @[@"成考报考指南",@"自考指南",@"国开指南",@"网教指南",@"职业资格精品课程",@"全日制学历报考攻略"];
-    }
-    return _titleArray;
-}
+
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.bounces = NO;
+        _tableView.bounces = YES;
         _tableView.backgroundColor = COLOR_WITH_ALPHA(0xFDFDFD, 1);
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {

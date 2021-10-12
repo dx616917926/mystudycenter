@@ -81,4 +81,8 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 })
 #endif
 
+
+//url字符串转码处理
+#define HXSafeURL(urlStr)   [NSURL URLWithString:[HXCommonUtil stringEncoding:urlStr]]
+
 #endif /* HXDefines_h */

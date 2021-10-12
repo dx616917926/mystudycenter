@@ -15,6 +15,8 @@
 #import "HXHomeBannnerCell.h"
 #import "SDWebImage.h"
 #import "HXBannerLogoModel.h"
+#import "HXHomePageColumnModel.h"
+#import "HXVersionModel.h"
 
 @interface HXHomePageViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
 //自定义导航
@@ -29,8 +31,11 @@
 @property(nonatomic,strong) UILabel *messageCountLabel;
 @property(nonatomic,strong)   WMZBannerView *bannerView;
 
-@property (nonatomic, copy) NSArray *imagesURLs;
-@property (nonatomic, copy) NSArray *h5URLs;
+//栏目数据源
+@property (nonatomic, strong) NSMutableArray *columnList;
+
+@property (nonatomic, strong) NSArray *imagesURLs;
+@property (nonatomic, strong) NSArray *h5URLs;
 //未读消息数量
 @property(nonatomic,assign) NSInteger messageCount;
 @end
@@ -45,9 +50,13 @@
     
     //获取Banner和Logo
     [self getBannerAndLogo];
-    
+    //获取首页栏目
+    [self getHomePageSettingsList];
     ///监听<<报考类型专业改变>>通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBannerAndLogo) name:VersionAndMajorChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
+    
+    //登录成功的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginsuccessNotification:) name:LOGINSUCCESS object:nil];
 }
 
 
@@ -63,6 +72,35 @@
     systemNotificationVc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:systemNotificationVc animated:YES];
 }
+
+#pragma mark - /监听<<报考类型专业改变>>通知
+-(void)versionAndMajorChangeNotification:(NSNotification *)not{
+    //获取Banner和Logo
+    [self getBannerAndLogo];
+    //获取首页栏目
+    [self getHomePageSettingsList];
+}
+
+-(void)loginsuccessNotification:(NSNotification *)not{
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_Version_Major_List withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            //////由于报考类型数据多处用到，避免频繁获取，此处保存在单例中
+            [HXPublicParamTool sharedInstance].versionList = [HXVersionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            ///默认选择第一个
+            HXVersionModel *model = [HXPublicParamTool sharedInstance].versionList.firstObject;
+            model.isSelected = YES;
+            HXMajorModel *majorModel = model.majorList.firstObject;
+            majorModel.isSelected = YES;
+            //获取首页栏目
+            [self getHomePageSettingsList];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+        [self.view hideLoading];
+    }];
+}
+
 
 #pragma mark -  获取Banner和Logo
 -(void)getBannerAndLogo{
@@ -119,13 +157,38 @@
     }];
 }
 
+#pragma mark - 获取首页栏目
+-(void)getHomePageSettingsList{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"type":@(selectMajorModel.type),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetHomePageSettingsList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *list = [HXHomePageColumnModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.columnList removeAllObjects];
+            [self.columnList addObjectsFromArray:list];
+            //设置子控制器
+            if (self.columnList.count>0) {
+                [self setupPageVC];
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
 
 
 #pragma mark - UI
 -(void)createUI{
     self.automaticallyAdjustsScrollViewInsets = NO;
-    //设置控制器
-    [self setupPageVC];
+   
 }
 
 
@@ -138,6 +201,8 @@
     
 }
 
+
+//设置子控制器
 - (void)setupPageVC {
     
     YNPageConfigration *configration = [YNPageConfigration defaultConfig];
@@ -180,22 +245,33 @@
 
 - (NSArray *)getArrayVCs {
     NSMutableArray *vcs = [NSMutableArray array];
-    for (int i = 0; i<[self getArrayTitles].count; i++) {
+    for (int i = 0; i<self.columnList.count; i++) {
         HXHomePageChildViewController *vc = [[HXHomePageChildViewController alloc] init];
-        vc.count = i+1;
-        vc.h5Url = self.h5URLs[i];
+        vc.homePageColumnModel = self.columnList[i];
         [vcs addObject:vc];
     }
     return vcs;
 }
 
 - (NSArray *)getArrayTitles {
-    return @[@"成考", @"自考", @"国开", @"网教", @"职业资格", @"全日制"];
+    NSMutableArray *titles = [NSMutableArray array];
+    for (int i = 0; i<self.columnList.count; i++) {
+        HXHomePageColumnModel *homePageColumnModel = self.columnList[i];
+        [titles addObject:homePageColumnModel.name];
+    }
+    return titles;
 }
 
 
 
 #pragma mark - Getter and Setter
+
+-(NSMutableArray *)columnList{
+    if (!_columnList) {
+        _columnList = [NSMutableArray array];
+    }
+    return _columnList;
+}
 - (NSArray *)imagesURLs {
     if (!_imagesURLs) {
         _imagesURLs = @[

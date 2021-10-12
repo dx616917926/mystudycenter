@@ -74,7 +74,7 @@ static NSString * const kFunctionName      =   @"callFunctionName";
     if (![urlstr hasPrefix:@"http"]) {
         urlstr = [@"https://" stringByAppendingString:urlstr];
     }
-    NSURL *url = [NSURL URLWithString:urlstr];
+    NSURL *url = HXSafeURL(urlstr);
     NSMutableURLRequest *mutableRequest = [NSMutableURLRequest requestWithURL:url];
     //设置请求头，如果有需要
     //    [mutableRequest setValue:@"" forHTTPHeaderField:@""];

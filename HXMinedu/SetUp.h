@@ -30,7 +30,7 @@
 #define     kHXDevelopLWJEdition    3     //李文军主机
 #define     kHXChangeEdition        100   //支持切换服务器(长按登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试)
 
-#define     kHXAPPEdition          kHXChangeEdition
+#define     kHXAPPEdition           kHXReleaseEdition
 
 #if (kHXAPPEdition == kHXChangeEdition)
 #define    kHXCanChangeServer       1   //长按切换登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试
@@ -45,6 +45,7 @@
 #if kHXCanChangeServer
 #define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? kHXDevelopOPServer : KHXUserDefaultsForValue(KP_SERVER_KEY))
 #endif
+
 
  
 #if (kHXAPPEdition == kHXReleaseEdition)

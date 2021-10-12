@@ -40,6 +40,7 @@
 @property(nonatomic,strong)  WMZBannerView *bannerView;
 @property(nonatomic,strong)  WMZBannerParam *bannerParam;
 
+@property(nonatomic,strong) NSMutableArray *bujuArray;
 @property(nonatomic,strong) UIView *middleContainerView;
 @property(nonatomic,strong) NSMutableArray *middleBtns;
 @property(nonatomic,strong) UIImageView *logoViewImageView;
@@ -144,7 +145,7 @@
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_BannerAndLogo withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-
+        
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             HXBannerLogoModel *model = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
@@ -152,7 +153,33 @@
             [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(model.logoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
         }
     } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+//获取是否渠道学生  控制报名表单隐藏与显示
+-(void)getIsQdStu{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
+    };
     
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetIsQdStu withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSInteger isQudao = [[dictionary stringValueForKey:@"Data"] integerValue];
+            [self.bujuArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSMutableDictionary *dic = obj;
+                if ([dic[@"title"] isEqualToString:@"报名表单"]) {
+                    dic[@"isShow"] = (isQudao==0?@1:@0);
+                    [self updateMiddleContainerViewLayout];
+                }
+            }];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
     }];
 }
 
@@ -165,15 +192,18 @@
         if (success) {
             //刷新数据
             NSArray *array = [HXStudentRefundModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
-            if (array.count>0) {
-                self.tuifeiBtn.hidden = NO;
-            }else{
-                self.tuifeiBtn.hidden = YES;
-            }
+            [self.bujuArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSMutableDictionary *dic = obj;
+                if ([dic[@"title"] isEqualToString:@"退费确认"]) {
+                    dic[@"isShow"] = (array.count>0?@1:@0);
+                    [self updateMiddleContainerViewLayout];
+                }
+            }];
+            
         }
     } failure:^(NSError * _Nonnull error) {
-       
-
+        
+        
     }];
 }
 
@@ -190,7 +220,10 @@
     
     //获取学生退费信息，控制退费确认按钮的显示与隐藏
     [self getStudentRefundList];
-
+    
+    //获取是否渠道学生  控制报名表单隐藏与显示
+    [self getIsQdStu];
+    
 }
 
 #pragma mark - 请求未读消息数量
@@ -239,6 +272,47 @@
 }
 
 
+///更新布局
+-(void)updateMiddleContainerViewLayout{
+    ///移除重新布局
+    [self.middleBtns removeAllObjects];
+    [self.middleContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+        obj = nil;
+    }];
+    
+    [self.bujuArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSDictionary *dic = obj;
+        if ([dic[@"isShow"] integerValue] ==1) {
+            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            btn.titleLabel.textAlignment = NSTextAlignmentCenter;
+            btn.titleLabel.font = HXFont(_kpAdaptationWidthFont(12));
+            btn.tag = [dic[@"handleEventTag"] integerValue];
+            [btn setTitle:dic[@"title"] forState:UIControlStateNormal];
+            [btn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:dic[@"iconName"]] forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(handleMiddleClick:) forControlEvents:UIControlEventTouchUpInside];
+            [_middleContainerView addSubview:btn];
+            [self.middleBtns addObject:btn];
+            
+            btn.sd_layout.heightIs(90);
+            btn.imageView.sd_layout
+            .centerXEqualToView(btn)
+            .topSpaceToView(btn, 10)
+            .widthIs(44)
+            .heightEqualToWidth();
+            
+            btn.titleLabel.sd_layout
+            .leftEqualToView(btn)
+            .rightEqualToView(btn)
+            .bottomSpaceToView(btn, 10)
+            .heightIs(15);
+        }
+    }];
+
+    [self.middleContainerView setupAutoMarginFlowItems:self.middleBtns withPerRowItemsCount:3 itemWidth:100 verticalMargin:20 verticalEdgeInset:20 horizontalEdgeInset:10];
+}
+
 #pragma mark - Event
 -(void)clickCollectInfoBtn:(UIButton *)sender{
     HXInfoConfirmViewController *infoConfirmVc = [[HXInfoConfirmViewController alloc] init];
@@ -269,8 +343,8 @@
             [self.navigationController pushViewController:registFormVc animated:YES];
         }
             break;
-        
-          
+            
+            
         case 2://图片信息
         {
             HXInfoConfirmViewController *infoConfirmVc = [[HXInfoConfirmViewController alloc] init];
@@ -278,7 +352,7 @@
             [self.navigationController pushViewController:infoConfirmVc animated:YES];
         }
             break;
-        
+            
         case 3://班主任
         {
             HXHeadMasterViewController *headMasterVc = [[HXHeadMasterViewController alloc] init];
@@ -292,7 +366,7 @@
             yiDongAndRefundConfirmVc.hidesBottomBarWhenPushed = YES;
             yiDongAndRefundConfirmVc.confirmType = HXYiDongConfirmType;
             [self.navigationController pushViewController:yiDongAndRefundConfirmVc animated:YES];
-
+            
         }
             break;
         case 5://退费确认
@@ -304,7 +378,7 @@
             
         }
             break;
-           
+            
         case 6://关于我们
         {
             HXAboutUsViewController *aboutUsVc = [[HXAboutUsViewController alloc] init];
@@ -337,7 +411,7 @@
     [self.topView addSubview:self.phoneBtn];
     [self.topView addSubview:self.collectInfoBtn];
     [self.topView addSubview:self.messageBtn];
- 
+    
     [self.mainScrollView addSubview:self.bannerView];
     [self.mainScrollView addSubview:self.middleContainerView];
     [self.mainScrollView addSubview:self.bottomContainerView];
@@ -392,13 +466,13 @@
     [self.phoneBtn setupAutoSizeWithHorizontalPadding:8 buttonHeight:18];
     self.phoneBtn.sd_cornerRadiusFromHeightRatio = @0.5;
     
-
+    
     self.messageBtn.sd_layout
     .centerYEqualToView(self.phoneBtn).offset(5)
     .rightSpaceToView(self.topView, 15)
     .widthIs(60)
     .heightIs(30);
-        
+    
     self.messageRedDot.sd_layout
     .topEqualToView(self.messageBtn).offset(-6)
     .rightEqualToView(self.messageBtn).offset(-6)
@@ -504,9 +578,9 @@
     // 设置自动切换透明度(在导航栏下面自动隐藏)
     header.automaticallyChangeAlpha = YES;
     
-     //设置header
+    //设置header
     self.mainScrollView.mj_header = header;
-
+    
     
 }
 
@@ -619,7 +693,7 @@
         //自定义视图必传
         .wMyCellClassNameSet(@"HXRecordCell")
         .wMyCellSet(^UICollectionViewCell *(NSIndexPath *indexPath, UICollectionView *collectionView, id model, UIImageView *bgImageView,NSArray*dataArr) {
-                   //自定义视图
+            //自定义视图
             HXRecordCell *cell = (HXRecordCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HXRecordCell class]) forIndexPath:indexPath];
             HXMajorModel *majorModel = model;
             cell.majorModel = majorModel;
@@ -628,52 +702,63 @@
         .wFrameSet(CGRectMake(0, 0, kScreenWidth, 200))
         //关闭pageControl
         .wHideBannerControlSet(YES)
-         //开启缩放
-         .wScaleSet(YES)
-         ///缩放系数
-         .wScaleFactorSet(0.1)
+        //开启缩放
+        .wScaleSet(YES)
+        ///缩放系数
+        .wScaleFactorSet(0.1)
         //自定义item的大小
         .wItemSizeSet(CGSizeMake(kScreenWidth-46,180))
         //固定移动的距离
         .wContentOffsetXSet(0.5)
-         //自动滚动
+        //自动滚动
         .wAutoScrollSet(NO)
         //cell动画的位置
         .wPositionSet(BannerCellPositionCenter)
-         //循环
-         .wRepeatSet(NO)
+        //循环
+        .wRepeatSet(NO)
         //整体左右间距 让最后一个可以居中
         .wSectionInsetSet(UIEdgeInsetsMake(0,23, 0,23))
         //间距
         .wLineSpacingSet(10);
         self.bannerParam = param;
-       _bannerView = [[WMZBannerView alloc] initConfigureWithModel:param];
+        _bannerView = [[WMZBannerView alloc] initConfigureWithModel:param];
         
     }
     return _bannerView;
+}
+
+-(NSMutableArray *)bujuArray{
+    if (!_bujuArray) {
+        _bujuArray = [NSMutableArray array];
+        [_bujuArray addObjectsFromArray:@[
+            [@{@"title":@"缴费明细",@"iconName":@"payment_icon",@"handleEventTag":@(5000),@"isShow":@(1)} mutableCopy],
+            [@{@"title":@"报名表单",@"iconName":@"registform_icon",@"handleEventTag":@(5001),@"isShow":@(1)} mutableCopy],
+            [@{@"title":@"图片信息确认",@"iconName":@"infconfirm_icon",@"handleEventTag":@(5002),@"isShow":@(1)} mutableCopy],
+            [ @{@"title":@"班主任",@"iconName":@"headmaster_icon",@"handleEventTag":@(5003),@"isShow":@(1)} mutableCopy],
+            [@{@"title":@"异动确认",@"iconName":@"yidongconfirm_icon",@"handleEventTag":@(5004),@"isShow":@(1)} mutableCopy],
+            [@{@"title":@"退费确认",@"iconName":@"refundconfirm_icon",@"handleEventTag":@(5005),@"isShow":@(1)} mutableCopy]
+        ]];
+    }
+    return _bujuArray;
 }
 
 -(UIView *)middleContainerView{
     if (!_middleContainerView) {
         _middleContainerView = [[UIView alloc] init];
         _middleContainerView.backgroundColor = [UIColor whiteColor];
-        NSArray *titles = @[@"缴费明细",@"报名表单",@"图片信息确认",@"班主任",@"异动确认",@"退费确认"];
-        NSArray *imageNames = @[@"payment_icon",@"registform_icon",@"infconfirm_icon",@"headmaster_icon",@"yidongconfirm_icon",@"refundconfirm_icon"];
-        for (int i = 0; i<titles.count; i++) {
+        
+        for (int i = 0; i<self.bujuArray.count; i++) {
+            NSDictionary *dic = self.bujuArray[i];
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;
             btn.titleLabel.font = HXFont(_kpAdaptationWidthFont(12));
-            btn.tag = 5000+i;
-            [btn setTitle:titles[i] forState:UIControlStateNormal];
+            btn.tag = [dic[@"handleEventTag"] integerValue];
+            [btn setTitle:dic[@"title"] forState:UIControlStateNormal];
             [btn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
-            [btn setImage:[UIImage imageNamed:imageNames[i]] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:dic[@"iconName"]] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(handleMiddleClick:) forControlEvents:UIControlEventTouchUpInside];
             [_middleContainerView addSubview:btn];
             [self.middleBtns addObject:btn];
-            if (i==5) {
-                self.tuifeiBtn = btn;
-                self.tuifeiBtn.hidden = YES;
-            }
         }
     }
     return _middleContainerView;;

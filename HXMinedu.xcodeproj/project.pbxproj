@@ -93,6 +93,9 @@
 		0442C88B26437B1A00E8148A /* HXScanCodePaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0442C88A26437B1A00E8148A /* HXScanCodePaymentViewController.m */; };
 		0442C88E2643CE5000E8148A /* HXUpLoadVoucherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0442C88D2643CE5000E8148A /* HXUpLoadVoucherViewController.m */; };
 		0442C8912643D3AC00E8148A /* HXScanCodePaymentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0442C8902643D3AC00E8148A /* HXScanCodePaymentModel.m */; };
+		0444398127117ED800CDA40B /* HXHomePageColumnModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0444398027117ED800CDA40B /* HXHomePageColumnModel.m */; };
+		0444398427117FBB00CDA40B /* HXColumnItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0444398327117FBB00CDA40B /* HXColumnItemModel.m */; };
+		044439872711934600CDA40B /* HXShowH5ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044439862711934600CDA40B /* HXShowH5ImageViewController.m */; };
 		0445807D25B7F71B005E719C /* HXCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445807C25B7F71B005E719C /* HXCustomButton.m */; };
 		0445808225B7F9AF005E719C /* HXCourseListModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445808125B7F9AF005E719C /* HXCourseListModelView.m */; };
 		0445808625B807B5005E719C /* HXModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445808525B807B5005E719C /* HXModelItem.m */; };
@@ -537,6 +540,12 @@
 		0442C88D2643CE5000E8148A /* HXUpLoadVoucherViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXUpLoadVoucherViewController.m; sourceTree = "<group>"; };
 		0442C88F2643D3AC00E8148A /* HXScanCodePaymentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXScanCodePaymentModel.h; sourceTree = "<group>"; };
 		0442C8902643D3AC00E8148A /* HXScanCodePaymentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXScanCodePaymentModel.m; sourceTree = "<group>"; };
+		0444397F27117ED800CDA40B /* HXHomePageColumnModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomePageColumnModel.h; sourceTree = "<group>"; };
+		0444398027117ED800CDA40B /* HXHomePageColumnModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomePageColumnModel.m; sourceTree = "<group>"; };
+		0444398227117FBB00CDA40B /* HXColumnItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXColumnItemModel.h; sourceTree = "<group>"; };
+		0444398327117FBB00CDA40B /* HXColumnItemModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXColumnItemModel.m; sourceTree = "<group>"; };
+		044439852711934600CDA40B /* HXShowH5ImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXShowH5ImageViewController.h; sourceTree = "<group>"; };
+		044439862711934600CDA40B /* HXShowH5ImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXShowH5ImageViewController.m; sourceTree = "<group>"; };
 		0445807B25B7F71B005E719C /* HXCustomButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCustomButton.h; sourceTree = "<group>"; };
 		0445807C25B7F71B005E719C /* HXCustomButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCustomButton.m; sourceTree = "<group>"; };
 		0445808025B7F9AF005E719C /* HXCourseListModelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCourseListModelView.h; sourceTree = "<group>"; };
@@ -1102,6 +1111,8 @@
 				04172FA72653B48F008D1C85 /* HXHomePageChildViewController.m */,
 				0404ED8D26565D1F0001AA6A /* HXHomePageShareViewController.h */,
 				0404ED8E26565D1F0001AA6A /* HXHomePageShareViewController.m */,
+				044439852711934600CDA40B /* HXShowH5ImageViewController.h */,
+				044439862711934600CDA40B /* HXShowH5ImageViewController.m */,
 			);
 			path = "首页";
 			sourceTree = "<group>";
@@ -2232,6 +2243,10 @@
 				049D8E0A269C33D900F0E219 /* HXMajorInfoModel.m */,
 				0421A96F269D25CA009F27BB /* HXZzyAndZcpModel.h */,
 				0421A970269D25CA009F27BB /* HXZzyAndZcpModel.m */,
+				0444397F27117ED800CDA40B /* HXHomePageColumnModel.h */,
+				0444398027117ED800CDA40B /* HXHomePageColumnModel.m */,
+				0444398227117FBB00CDA40B /* HXColumnItemModel.h */,
+				0444398327117FBB00CDA40B /* HXColumnItemModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2565,6 +2580,7 @@
 				0449A35E254C1174001A28D5 /* UIControl+BlocksKit.m in Sources */,
 				041FE0E826147B4900696D5C /* HXRightSectionHeadView.m in Sources */,
 				0442C8912643D3AC00E8148A /* HXScanCodePaymentModel.m in Sources */,
+				0444398127117ED800CDA40B /* HXHomePageColumnModel.m in Sources */,
 				046F25AF261ED39F00E394C3 /* HXPaymentDtailChildViewController.m in Sources */,
 				04191B68266F67FA00652E9D /* HXRegistFormModel.m in Sources */,
 				04940E9C261DA00F00C3E8E4 /* HXStudyReportTableHeaderView.m in Sources */,
@@ -2599,9 +2615,11 @@
 				043E05D025A46E8A005FABD4 /* HXVertifyCodeContentView.m in Sources */,
 				04663BAA2615540800239120 /* HXVersionModel.m in Sources */,
 				0449A545254C11F6001A28D5 /* HXAudioManager.m in Sources */,
+				044439872711934600CDA40B /* HXShowH5ImageViewController.m in Sources */,
 				044824F725A5642F00A8942C /* NSString+HXString.m in Sources */,
 				047593EF26FD9E8A00D206E9 /* WKWebView+HXWebView.m in Sources */,
 				049D9818261401D1009A6B5D /* HXCourseCell.m in Sources */,
+				0444398427117FBB00CDA40B /* HXColumnItemModel.m in Sources */,
 				041E42F6265CF47800E7F160 /* HXHeadMasterModel.m in Sources */,
 				04120F8D26B27F5900696C44 /* HXSelectHistoryTimeCell.m in Sources */,
 				04172F6426537185008D1C85 /* HXHomePageViewController.m in Sources */,
@@ -2986,9 +3004,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development: Shuo Li (55J4Q86345)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Shuo Li (55J4Q86345)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3005,7 +3023,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读developer";
@@ -3023,7 +3041,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Huaxia Dadi Long-distance Education Network Service Co., Ltd.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3040,7 +3058,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读";

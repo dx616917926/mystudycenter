@@ -6,13 +6,13 @@
 //
 
 #import "HXBaseViewController.h"
-
+#import "HXHomePageColumnModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXHomePageChildViewController : HXBaseViewController
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, assign) NSInteger count;
-@property (nonatomic, strong) NSString *h5Url;
+@property (nonatomic, strong) HXHomePageColumnModel *homePageColumnModel;
+
 @end
 
 NS_ASSUME_NONNULL_END

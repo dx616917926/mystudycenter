@@ -6,7 +6,7 @@
 //
 
 #import "HXHomePageGuideCell.h"
-
+#import "SDWebImage.h"
 @interface HXHomePageGuideCell ()
 @property(nonatomic,strong) UIView *shadowBackgroundView;
 @property(nonatomic,strong) UIView *bigBackgroundView;
@@ -39,6 +39,21 @@
         [self createUI];
     }
     return self;
+}
+
+-(void)setColumnItemModel:(HXColumnItemModel *)columnItemModel{
+    _columnItemModel = columnItemModel;
+    [self.guideImageView sd_setImageWithURL:HXSafeURL(columnItemModel.imgUrl) placeholderImage:nil];
+    self.guideTitleLabel.text = columnItemModel.name;
+    self.tipLabel.text = columnItemModel.remarks;
+    self.timeLabel.text =columnItemModel.createTime;
+    [self.tipImageView updateLayout];
+    UIBezierPath *bPath = [UIBezierPath bezierPathWithRoundedRect:self.tipImageView.bounds byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomRight cornerRadii:CGSizeMake(8, 8)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame =self.tipImageView.bounds;
+    maskLayer.path = bPath.CGPath;
+    self.tipImageView.layer.mask = maskLayer;
+    self.tipImageView.hidden = [HXCommonUtil isNull:columnItemModel.remarks];
 }
 
 -(void)setCount:(NSInteger)count{
@@ -173,7 +188,6 @@
         _timeLabel.textColor = COLOR_WITH_ALPHA(0xB2B2B2, 1);
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _timeLabel.font = HXBoldFont(12);
-        _timeLabel.text = @"7月21日更新";
     }
     return _timeLabel;
 }
