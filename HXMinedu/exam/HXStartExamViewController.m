@@ -881,7 +881,7 @@
             weakSelf.lastUserSaveAnswer = nil;
         }
         
-        if (![qId isEqualToString:@"0"]) {
+        if (![qId isEqualToString:@""]) {
             //没有答案就删除
             if ([answer isEqualToString:@""] &&([attach isEqualToString:@""] || attach == nil)) {
                 [weakSelf.userAnswers removeObjectForKey:qId];
@@ -1067,7 +1067,7 @@
             weakSelf.lastUserSaveAnswer = nil;
         }
         
-        if (![qId isEqualToString:@"0"]) {
+        if (![qId isEqualToString:@""]) {
             //没有答案就删除
             if ([answer isEqualToString:@""] &&([attach isEqualToString:@""] || attach == nil)) {
                 [weakSelf.userAnswers removeObjectForKey:qId];
