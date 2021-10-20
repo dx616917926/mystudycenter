@@ -16,7 +16,9 @@
 #import "HXLoginViewController.h"
 
 @interface HXTabBarController ()<UITabBarControllerDelegate>
-
+{
+    BOOL notControlRotate;
+}
 @property(nonatomic, strong) NSMutableArray *rootArray;
 
 @end
@@ -33,6 +35,13 @@
     self.rootArray = [[NSMutableArray alloc] init];
     self.tabBar.tintColor = [UIColor blackColor];
     self.delegate = self;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    notControlRotate = YES;
 }
 
 - (void)showLogin{
@@ -146,6 +155,23 @@
             }
         }
 }
+
+- (BOOL)shouldAutorotate
+{
+    if (!notControlRotate) {
+        return YES;
+    }
+    return [self.selectedViewController shouldAutorotate];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    
+    if (!notControlRotate) {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    return [self.selectedViewController supportedInterfaceOrientations];
+}
+
 /*
 #pragma mark - Navigation
 
