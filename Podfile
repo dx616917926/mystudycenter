@@ -25,5 +25,6 @@ target 'HXMinedu' do
   pod 'IQKeyboardManager', '~> 6.5.6'
   pod 'YBPopupMenu', '~> 1.1.9'
   pod 'WechatOpenSDK', '~> 1.8.7.1'
+  pod 'SGQRCode', '~> 3.5.1'
   
 end

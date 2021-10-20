@@ -43,6 +43,7 @@ PODS:
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
+  - SGQRCode (3.5.1)
   - WebViewJavascriptBridge (5.1.2)
   - WechatOpenSDK (1.8.7.1)
   - WMZBanner (1.2.0):
@@ -67,6 +68,7 @@ DEPENDENCIES:
   - SDAutoLayout (~> 2.2.1)
   - SDCycleScrollView (>= 1.82)
   - SDWebImage (~> 5.10.0)
+  - SGQRCode (~> 3.5.1)
   - WebViewJavascriptBridge (~> 5.1.2)
   - WechatOpenSDK (~> 1.8.7.1)
   - WMZBanner (~> 1.2.0)
@@ -93,6 +95,7 @@ SPEC REPOS:
     - SDAutoLayout
     - SDCycleScrollView
     - SDWebImage
+    - SGQRCode
     - WechatOpenSDK
     - WMZBanner
     - YBPopupMenu
@@ -115,12 +118,13 @@ SPEC CHECKSUMS:
   SDAutoLayout: 8bf6b3bbc8b01f775d4defbb4fda2ace805461be
   SDCycleScrollView: a0d74c3384caa72bdfc81470bdbc8c14b3e1fbcf
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
+  SGQRCode: 65d6170ddcf3feecc6e2f3601aac78ad93e56589
   WebViewJavascriptBridge: f99dac16105500a570a12b0b03e6bc46501eeb00
   WechatOpenSDK: 6a4d1436c15b3b5fe2a0bd383f3046010186da44
   WMZBanner: 42d02896dc7a67a4d7a2ebe1ef5b7a79f8d2c540
   YBPopupMenu: 3a02e89860bb0568ba477aee609bc3f25e5bd339
   YNPageViewController: 33040d429adf0b415d4449ffeec848d8339934ea
 
-PODFILE CHECKSUM: 8d34f9d26c3840c95e492dd0313fc9aef1b67bde
+PODFILE CHECKSUM: dcad2068ce84de9a78cd6e87476fb70bf9ea344d
 
 COCOAPODS: 1.10.1

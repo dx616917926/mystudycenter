@@ -9,6 +9,7 @@
 #import <objc/runtime.h>
 #import "SDWebImage.h"
 
+
 @interface HXCourseLearnCell ()
 @property(nonatomic,strong) UIView *shadowBackgroundView;
 @property(nonatomic,strong) UIView *bigBackgroundView;
