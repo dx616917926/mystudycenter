@@ -26,7 +26,8 @@
 //  v5.0 开启边播边缓存功能，默认缓存到NSCachesDirectory目录。
 //  v5.1 优化请求的参数。
 //  v5.2 新增回传学习记录功能，修改提示框。
-//  v5.3 完善接口异常数据处理，新增指定视频清晰度参数 defaultQuality（LD标清、FD流畅）
+//  v5.3 完善接口异常数据处理，新增指定视频清晰度参数 defaultQuality（LD标清、FD流畅）默认LD
+//  v5.4 适配iOS 15，更新阿里云SDK v5.4.3.0
 
 
 NS_ASSUME_NONNULL_BEGIN

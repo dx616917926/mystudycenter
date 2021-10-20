@@ -2,7 +2,6 @@ ${PODS_ROOT}/Target Support Files/Pods-HXMinedu/Pods-HXMinedu-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
 ${PODS_ROOT}/AliPlayerSDK_iOS/AliyunPlayer.framework
 ${PODS_ROOT}/AliPlayerSDK_iOS/alivcffmpeg.framework
-${PODS_ROOT}/AliPlayerSDK_iOS/AlivcConan.framework
 ${PODS_ROOT}/AliPlayerSDK_iOS/AliyunMediaDownloader.framework
 ${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework
 ${BUILT_PRODUCTS_DIR}/GKCover/GKCover.framework

@@ -11,6 +11,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef int (^BitStreamReadCallbackBlock)(uint8_t *buffer, int size);
+
+typedef long (^BitStreamSeekCallbackBlock)(long offset, int whence);
+
+static const int SEEK_SIZE = 0x10000;
+
+typedef NS_ENUM(NSUInteger, ENCRYPTION_TYPE) { ENCRYPTION_TYPE_NONE = 0, ENCRYPTION_TYPE_ALIVODENCRYPTION, ENCRYPTION_TYPE_FAIRPLAY };
+
 OBJC_EXPORT
 @interface AVPSource : NSObject
 
@@ -81,7 +89,20 @@ OBJC_EXPORT
  */
 @property (nonatomic, copy) NSString* cacheFile;
 
+@property(nonatomic) uint64_t originSize;
+
 @end
+
+
+OBJC_EXPORT
+@interface AVPBitStreamSource : AVPSource
+
+@property(nonatomic, copy) BitStreamReadCallbackBlock mBitStreamReadCallbackBlock;
+
+@property(nonatomic, copy) BitStreamSeekCallbackBlock mBitStreamSeekCallbackBlock;
+
+@end
+
 
 OBJC_EXPORT
 @interface AVPVidStsSource : AVPSource
@@ -157,6 +178,27 @@ OBJC_EXPORT
  @brief format,default is nil, value is "mp4,mp3,flv,m3u8"
  */
 @property (nonatomic, copy) NSString* format;
+/**
+ @brief authTimeout
+ */
+@property (nonatomic, assign) long authTimeout;
+/**
+ @brief resultType
+ */
+@property (nonatomic, copy) NSString* resultType;
+/**
+ @brief reAuthInfo
+ */
+@property (nonatomic, copy) NSString* reAuthInfo;
+/**
+ @brief streamType
+ */
+@property (nonatomic, copy) NSString* streamType;
+/**
+ @brief outputType
+ */
+@property (nonatomic, copy) NSString* outputType;
+
 
 @end
 
@@ -202,6 +244,26 @@ OBJC_EXPORT
  @brief format,default is nil, value is "mp4,mp3,flv,m3u8"
  */
 @property (nonatomic, copy) NSString* format;
+/**
+ @brief authTimeout
+ */
+@property (nonatomic, assign) long authTimeout;
+/**
+ @brief resultType
+ */
+@property (nonatomic, copy) NSString* resultType;
+/**
+ @brief reAuthInfo
+ */
+@property (nonatomic, copy) NSString* reAuthInfo;
+/**
+ @brief streamType
+ */
+@property (nonatomic, copy) NSString* streamType;
+/**
+ @brief outputType
+ */
+@property (nonatomic, copy) NSString* outputType;
 
 @end
 
@@ -278,6 +340,66 @@ OBJC_EXPORT
  @brief mtsHlsUriToken
  */
 @property (nonatomic, copy) NSString* mtsHlsUriToken;
+
+@end
+
+OBJC_EXPORT
+@interface AVPLiveStsSource : AVPSource
+
+- (instancetype)initWithUrl:(NSString *)url
+                accessKeyId:(NSString *)accessKeyId
+            accessKeySecret:(NSString *)accessKeySecret
+              securityToken:(NSString *)securityToken
+                     region:(NSString *)region
+                     domain:(NSString *)domain
+                        app:(NSString *)app
+                     stream:(NSString *)stream
+             encryptionType:(ENCRYPTION_TYPE)encryptionType;
+
+/**
+ @brief url
+ */
+@property (nonatomic, copy) NSString* url;
+
+/**
+ @brief accessKeyId
+ */
+@property (nonatomic, copy) NSString* accessKeyId;
+
+/**
+ @brief accessKeySecret
+ */
+@property (nonatomic, copy) NSString* accessKeySecret;
+
+/**
+ @brief securityToken
+ */
+@property (nonatomic, copy) NSString* securityToken;
+
+/**
+ @brief region
+ */
+@property (nonatomic, copy) NSString* region;
+
+/**
+ @brief domain
+ */
+@property (nonatomic, copy) NSString* domain;
+
+/**
+ @brief app
+ */
+@property (nonatomic, copy) NSString* app;
+
+/**
+ @brief stream
+ */
+@property (nonatomic, copy) NSString* stream;
+
+/**
+ @brief encryptionType
+ */
+@property(assign) ENCRYPTION_TYPE encryptionType;
 
 @end
 

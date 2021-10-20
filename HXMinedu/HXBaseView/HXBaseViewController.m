@@ -67,6 +67,10 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
+}
+
 - (BOOL)prefersStatusBarHidden
 {
     return NO;
