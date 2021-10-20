@@ -55,6 +55,13 @@
     else{
         self.tableView.contentInsetTop = 64;  //Notice
     }
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
+    if (@available(iOS 15.0, *)) {
+        self.tableView.sectionHeaderTopPadding = 0;
+    }
+#endif
+    
     [self.view addSubview:self.tableView];
     
     [self.tableView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:NULL];
