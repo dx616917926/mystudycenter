@@ -2506,14 +2506,14 @@
     if (!_isEnterExam) {
         return nil;
     }
-    UIView * topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
+    UIView * topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kStatusBarHeight+80)];
     topView.backgroundColor = [UIColor clearColor];
     
     UIButton * trashButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    [trashButton setBackgroundImage:[UIImage imageNamed:@"trash_green"] forState:UIControlStateNormal];
-    
-    [trashButton setFrame:CGRectMake(kScreenWidth-50, kStatusBarHeight+10, 40, 40)];
+    [trashButton setImage:[UIImage imageNamed:@"trash_green"] forState:UIControlStateNormal];
+    [trashButton setFrame:CGRectMake(kScreenWidth-60, kStatusBarHeight+10, 60, 60)];
+    [trashButton setContentEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     
     [trashButton addTarget:self action:@selector(trashButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
