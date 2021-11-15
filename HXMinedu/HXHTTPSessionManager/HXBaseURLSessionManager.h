@@ -73,8 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
 //获取历史版本时间
 #define HXPOST_Get_StuHisVersionTime                           @"/MD/StuInfo/getStuHisVersionTime"
 
-//获取Banner和Logo
+//获取顶部Logo
 #define HXPOST_Get_BannerAndLogo                            @"/MD/StuInfo/getBannerAndLogo"
+
+//获取首页Banner
+#define HXPOST_GetHomePageBannerList                          @"/MD/IndexInfo/GetHomePageBannerList"
 
 //获取是否渠道学生
 #define HXPOST_GetIsQdStu                                @"/MD/StuInfo/GetIsQdStu"
@@ -135,6 +138,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //获取首页栏目内容
 #define HXPOST_GetHomePageInfoList                                 @"/MD/IndexInfo/GetHomePageInfoList"
+
+//直播列表
+#define HXPOST_GetLiveList                                         @"/MD/Live/getLiveList"
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

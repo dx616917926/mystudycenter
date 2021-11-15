@@ -13,7 +13,8 @@
 #define NeedReAuthorize @"HXNeedReAuthorize"
 ///报考类型专业改变通知
 #define VersionAndMajorChangeNotification    @"VersionAndMajorChangeNotification"
-
+///首页banner改变通知
+#define HomePageBannerChangeNotification    @"HomePageBannerChangeNotification"
 
 #define NETWORK_AVAILIABLE ([[AFNetworkReachabilityManager sharedManager] isReachable])
 #define NETWORK_ViaWWAN    ([[AFNetworkReachabilityManager sharedManager] isReachableViaWWAN])

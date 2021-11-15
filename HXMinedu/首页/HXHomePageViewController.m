@@ -17,6 +17,7 @@
 #import "HXBannerLogoModel.h"
 #import "HXHomePageColumnModel.h"
 #import "HXVersionModel.h"
+#import "HXColumnItemModel.h"
 
 @interface HXHomePageViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
 //自定义导航
@@ -34,6 +35,9 @@
 //栏目数据源
 @property (nonatomic, strong) NSMutableArray *columnList;
 
+//banner数据源
+@property (nonatomic, strong) NSMutableArray *bannerList;
+
 @property (nonatomic, strong) NSArray *imagesURLs;
 @property (nonatomic, strong) NSArray *h5URLs;
 //未读消息数量
@@ -48,15 +52,25 @@
     //布局
     [self createUI];
     
-    //获取Banner和Logo
-    [self getBannerAndLogo];
+    //获取顶部Logo
+    [self getLogo];
+    //获取首页Banner
+    [self getHomePageBannerList];
     //获取首页栏目
     [self getHomePageSettingsList];
     ///监听<<报考类型专业改变>>通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
     
+    ///监听<<首页banner改变>通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHomePageBannerList) name:HomePageBannerChangeNotification object:nil];
+    
     //登录成功的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginsuccessNotification:) name:LOGINSUCCESS object:nil];
+}
+
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -64,6 +78,7 @@
     [super viewWillAppear:animated];
     //获取未读消息数量
     [self getMessageWDCount];
+    
 }
 
 #pragma mark - Event
@@ -75,8 +90,10 @@
 
 #pragma mark - /监听<<报考类型专业改变>>通知
 -(void)versionAndMajorChangeNotification:(NSNotification *)not{
-    //获取Banner和Logo
-    [self getBannerAndLogo];
+    //获取顶部Logo
+    [self getLogo];
+    //获取首页Banner
+    [self getHomePageBannerList];
     //获取首页栏目
     [self getHomePageSettingsList];
 }
@@ -102,8 +119,8 @@
 }
 
 
-#pragma mark -  获取Banner和Logo
--(void)getBannerAndLogo{
+#pragma mark -  获取顶部Logo
+-(void)getLogo{
     HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic;
     if ([HXCommonUtil isNull:selectMajorModel.versionId]) {
@@ -123,6 +140,35 @@
             HXBannerLogoModel *bannerLogoModel = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
             //刷新顶部部logo
             [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:bannerLogoModel.logoIndexUrl]] placeholderImage:nil];
+        }
+        
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+#pragma mark -  获取首页Banner
+-(void)getHomePageBannerList{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic;
+    if ([HXCommonUtil isNull:selectMajorModel.versionId]) {
+        dic = nil;
+    }else{
+        dic = @{
+            @"version_id":HXSafeString(selectMajorModel.versionId),
+            @"type":@(selectMajorModel.type),
+            @"major_id":HXSafeString(selectMajorModel.major_id)
+        };
+    }
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetHomePageBannerList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXColumnItemModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.bannerList removeAllObjects];
+            [self.bannerList addObjectsFromArray:array];
+            [self.bannerView updateUI];
         }
         
     } failure:^(NSError * _Nonnull error) {
@@ -271,6 +317,13 @@
         _columnList = [NSMutableArray array];
     }
     return _columnList;
+}
+
+-(NSMutableArray *)bannerList{
+    if (!_bannerList) {
+        _bannerList = [NSMutableArray array];
+    }
+    return _bannerList;
 }
 - (NSArray *)imagesURLs {
     if (!_imagesURLs) {
@@ -423,13 +476,13 @@
         .wMyCellClassNameSet(@"HXHomeBannnerCell")
         .wMyCellSet(^UICollectionViewCell *(NSIndexPath *indexPath, UICollectionView *collectionView, id model, UIImageView *bgImageView,NSArray*dataArr) {
             //自定义视图
-            HXHomeBannnerCell *cell = ( HXHomeBannnerCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ HXHomeBannnerCell class]) forIndexPath:indexPath];
-            //            [cell.showImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:self.imagesURLs[indexPath.row]]] placeholderImage:nil options:SDWebImageRefreshCached];
-            cell.showImageView.image = [UIImage imageNamed:self.imagesURLs[indexPath.row]];
+            HXHomeBannnerCell *cell = ( HXHomeBannnerCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HXHomeBannnerCell class]) forIndexPath:indexPath];
+            HXColumnItemModel *itemModel = self.bannerList[indexPath.row];
+            [cell.showImageView sd_setImageWithURL:HXSafeURL(itemModel.imgUrl) placeholderImage:nil options:SDWebImageRefreshCached];
             return cell;
         })
         .wFrameSet(CGRectMake(0, 0, BannerWitdh, 144))
-        .wDataSet(self.imagesURLs)
+        .wDataSet(self.bannerList)
         //显示pageControl
         .wHideBannerControlSet(NO)
         .wBannerControlImageSet(@"bannercontrol_default")
@@ -450,7 +503,7 @@
         //cell动画的位置
         .wPositionSet(BannerCellPositionCenter)
         //循环
-        .wRepeatSet(YES)
+        .wRepeatSet(NO)
         //整体左右间距  让最后一个可以居中
         .wSectionInsetSet(UIEdgeInsetsMake(0,13, 0, 13))
         //间距
@@ -459,12 +512,13 @@
         //点击banner
         param.wEventClick = ^(id anyID, NSInteger index) {
             NSLog(@"点击了%ld  %@",(long)index,anyID);
+            HXColumnItemModel *itemModel = self.bannerList[index];
             HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-            webViewVC.urlString = [KHX_URL_MAIN stringByAppendingString:@"/appGuide/productDescription.html"];
-            webViewVC.cuntomTitle = @"新手指南";
+            webViewVC.urlString = itemModel.url;
+            webViewVC.cuntomTitle = itemModel.name;
             webViewVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:webViewVC animated:YES];
-            
+
         };
     }
     return _bannerView;

@@ -63,6 +63,7 @@
         [self.tableView.mj_header endRefreshing];
     }];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:HomePageBannerChangeNotification object:nil];
 }
 
 -(void)loadMoreData{

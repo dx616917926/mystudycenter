@@ -9,7 +9,7 @@
 #import "HXHomePageViewController.h"
 #import "HXStudyViewController.h"
 #import "HXMyCourseViewController.h"
-#import "HXLiveViewController.h"
+#import "HXLiveBroadcastViewController.h"
 #import "HXHomeViewController.h"
 #import "HXEducationViewController.h"
 #import "HXMyViewController.h"
@@ -112,7 +112,7 @@
     myCourseNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_1"];
 
     //直播
-    HXLiveViewController *live = [HXLiveViewController new];
+    HXLiveBroadcastViewController *live = [HXLiveBroadcastViewController new];
     HXNavigationController *liveNav = [[HXNavigationController alloc] initWithRootViewController:live];
     liveNav.tabBarItem.title = @"直播";
     liveNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_3"];

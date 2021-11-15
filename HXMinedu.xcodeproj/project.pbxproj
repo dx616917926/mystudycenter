@@ -269,6 +269,10 @@
 		046F25B5261EF6D300E394C3 /* HXRegistFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046F25B4261EF6D300E394C3 /* HXRegistFormViewController.m */; };
 		046F25B8261EFFBE00E394C3 /* HXSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046F25B7261EFFBE00E394C3 /* HXSetViewController.m */; };
 		046F25BB261F030100E394C3 /* HXSetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 046F25BA261F030100E394C3 /* HXSetCell.m */; };
+		04708E59271E60E1004B2A04 /* HXLiveBroadcastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04708E58271E60E1004B2A04 /* HXLiveBroadcastViewController.m */; };
+		04708E5D271E6B79004B2A04 /* HXLiveBroadCastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04708E5C271E6B79004B2A04 /* HXLiveBroadCastCell.m */; };
+		04708E60271E99D0004B2A04 /* HXLiveBroadcastModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04708E5F271E99D0004B2A04 /* HXLiveBroadcastModel.m */; };
+		04708E63271EA75B004B2A04 /* HXScanQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04708E62271EA75B004B2A04 /* HXScanQRCodeViewController.m */; };
 		047593EF26FD9E8A00D206E9 /* WKWebView+HXWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047593ED26FD9E8A00D206E9 /* WKWebView+HXWebView.m */; };
 		0475940026FDA47300D206E9 /* UMCommonLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593F326FDA47300D206E9 /* UMCommonLog.framework */; };
 		0475940126FDA47300D206E9 /* UMCommonLog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047593F426FDA47300D206E9 /* UMCommonLog.bundle */; };
@@ -865,6 +869,14 @@
 		046F25B7261EFFBE00E394C3 /* HXSetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSetViewController.m; sourceTree = "<group>"; };
 		046F25B9261F030100E394C3 /* HXSetCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSetCell.h; sourceTree = "<group>"; };
 		046F25BA261F030100E394C3 /* HXSetCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSetCell.m; sourceTree = "<group>"; };
+		04708E57271E60E1004B2A04 /* HXLiveBroadcastViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveBroadcastViewController.h; sourceTree = "<group>"; };
+		04708E58271E60E1004B2A04 /* HXLiveBroadcastViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveBroadcastViewController.m; sourceTree = "<group>"; };
+		04708E5B271E6B79004B2A04 /* HXLiveBroadCastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveBroadCastCell.h; sourceTree = "<group>"; };
+		04708E5C271E6B79004B2A04 /* HXLiveBroadCastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveBroadCastCell.m; sourceTree = "<group>"; };
+		04708E5E271E99D0004B2A04 /* HXLiveBroadcastModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveBroadcastModel.h; sourceTree = "<group>"; };
+		04708E5F271E99D0004B2A04 /* HXLiveBroadcastModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLiveBroadcastModel.m; sourceTree = "<group>"; };
+		04708E61271EA75A004B2A04 /* HXScanQRCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXScanQRCodeViewController.h; sourceTree = "<group>"; };
+		04708E62271EA75B004B2A04 /* HXScanQRCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXScanQRCodeViewController.m; sourceTree = "<group>"; };
 		047593ED26FD9E8A00D206E9 /* WKWebView+HXWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+HXWebView.m"; sourceTree = "<group>"; };
 		047593EE26FD9E8A00D206E9 /* WKWebView+HXWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKWebView+HXWebView.h"; sourceTree = "<group>"; };
 		047593F326FDA47300D206E9 /* UMCommonLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommonLog.framework; sourceTree = "<group>"; };
@@ -1903,6 +1915,15 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		04708E5A271E6B35004B2A04 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				04708E5B271E6B79004B2A04 /* HXLiveBroadCastCell.h */,
+				04708E5C271E6B79004B2A04 /* HXLiveBroadCastCell.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		047593F026FDA47300D206E9 /* UMeng_v7.3.5 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2036,6 +2057,11 @@
 		04913356260D843200055D3D /* 直播(新) */ = {
 			isa = PBXGroup;
 			children = (
+				04708E5A271E6B35004B2A04 /* view */,
+				04708E57271E60E1004B2A04 /* HXLiveBroadcastViewController.h */,
+				04708E58271E60E1004B2A04 /* HXLiveBroadcastViewController.m */,
+				04708E61271EA75A004B2A04 /* HXScanQRCodeViewController.h */,
+				04708E62271EA75B004B2A04 /* HXScanQRCodeViewController.m */,
 			);
 			path = "直播(新)";
 			sourceTree = "<group>";
@@ -2247,6 +2273,8 @@
 				0444398027117ED800CDA40B /* HXHomePageColumnModel.m */,
 				0444398227117FBB00CDA40B /* HXColumnItemModel.h */,
 				0444398327117FBB00CDA40B /* HXColumnItemModel.m */,
+				04708E5E271E99D0004B2A04 /* HXLiveBroadcastModel.h */,
+				04708E5F271E99D0004B2A04 /* HXLiveBroadcastModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2639,6 +2667,7 @@
 				0449A528254C11F6001A28D5 /* OSCommonImage.m in Sources */,
 				0404ED8C2655FBA00001AA6A /* HXHomePageGuideCell.m in Sources */,
 				0408AF7026B3DBBE00CA16AD /* HXCourseToastView.m in Sources */,
+				04708E60271E99D0004B2A04 /* HXLiveBroadcastModel.m in Sources */,
 				04146065262FCCFD0065B76B /* HXBannerModel.m in Sources */,
 				04F3EA1D26243D8B004ACAF9 /* HXCourseDetailModel.m in Sources */,
 				043A607C2697DB1C00F9C15A /* HXYiDongTuiFeiViewController.m in Sources */,
@@ -2733,6 +2762,7 @@
 				042F51F22648DAF4000F13C8 /* HXLearnRecordModel.m in Sources */,
 				0449A4B7254C11F6001A28D5 /* DOUAudioFileProvider.m in Sources */,
 				0449A4D8254C11F6001A28D5 /* XHViewState.m in Sources */,
+				04708E5D271E6B79004B2A04 /* HXLiveBroadCastCell.m in Sources */,
 				04528E37262158E500130DC8 /* HXStudentInfoModel.m in Sources */,
 				04EF935E2623D5E500B3723F /* HXPictureInfoModel.m in Sources */,
 				04936D4A259324710000ED74 /* HXCwsModuleViewController.m in Sources */,
@@ -2762,6 +2792,7 @@
 				04566E4D267053B700847287 /* HXHistoricalDetailsCell.m in Sources */,
 				04566E562670737700847287 /* HXStudentFileModel.m in Sources */,
 				0449A4C6254C11F6001A28D5 /* DOUAudioSpatialAnalyzer.m in Sources */,
+				04708E59271E60E1004B2A04 /* HXLiveBroadcastViewController.m in Sources */,
 				041EDEF12654DD3E00B11455 /* HXHomeBannnerCell.m in Sources */,
 				0449A537254C11F6001A28D5 /* RSSelectionLayer.m in Sources */,
 				0421A971269D25CA009F27BB /* HXZzyAndZcpModel.m in Sources */,
@@ -2838,6 +2869,7 @@
 				0449A52A254C11F6001A28D5 /* BitmapCropManipulator.m in Sources */,
 				041FE0E126147B0600696D5C /* HXCourseCell.m in Sources */,
 				041FE0C926146F3000696D5C /* HXLeftCell.m in Sources */,
+				04708E63271EA75B004B2A04 /* HXScanQRCodeViewController.m in Sources */,
 				04C3A2FB2595C282008F32A4 /* HXExamRecordCell.m in Sources */,
 				049D8E0E269C37D500F0E219 /* HXYiDongInfoModel.m in Sources */,
 				046CD599259477AF0097B18D /* HXExamCell.m in Sources */,
