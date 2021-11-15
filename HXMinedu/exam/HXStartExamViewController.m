@@ -349,6 +349,8 @@
 
 -(void)dealloc
 {
+    NSLog(@"考试页面已释放！");
+    
     //取消通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -882,22 +884,24 @@
         }
         
         if (![qId isEqualToString:@""]) {
+            
+            //读本地有没有图片 ---bug 2021年10月27日
+            if (attach==nil) {
+                NSDictionary * ans = [weakSelf.userAnswers objectForKey:qId];
+                if (ans) {
+                    attach = [ans objectForKey:@"file"];
+                }
+                if (!attach) {
+                    attach = @"";
+                }
+            }
+            
             //没有答案就删除
             if ([answer isEqualToString:@""] &&([attach isEqualToString:@""] || attach == nil)) {
                 [weakSelf.userAnswers removeObjectForKey:qId];
                 attach = @"";
             } else {
                 //有答案就保存
-                if (attach==nil) {
-                    NSDictionary * ans = [weakSelf.userAnswers objectForKey:qId];
-                    if (ans) {
-                        attach = [ans objectForKey:@"file"];
-                    }
-                    if (!attach) {
-                        attach = @"";
-                    }
-                }
-                
                 NSDictionary * an = @{@"answer": answer,@"id":qId,@"right":@"0",@"file":attach};
                 [weakSelf.userAnswers setObject:an forKey:qId];
             }
@@ -934,7 +938,8 @@
         {
             NSDictionary * dic = [weakSelf.userAnswers objectForKey:[data objectForKey:@"qid"]];
             if (dic != nil) {
-                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":self.examBasePath,@"userExamId":[self userExamId]});
+                //新增加userExamId参数，用于解码questionId
+                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":weakSelf.examBasePath,@"userExamId":[weakSelf userExamId]});
             }else
             {
                 responseCallback(@"");
@@ -1068,22 +1073,24 @@
         }
         
         if (![qId isEqualToString:@""]) {
+            
+            //读本地有没有图片 ---bug 2021年10月27日
+            if (attach==nil) {
+                NSDictionary * ans = [weakSelf.userAnswers objectForKey:qId];
+                if (ans) {
+                    attach = [ans objectForKey:@"file"];
+                }
+                if (!attach) {
+                    attach = @"";
+                }
+            }
+            
             //没有答案就删除
             if ([answer isEqualToString:@""] &&([attach isEqualToString:@""] || attach == nil)) {
                 [weakSelf.userAnswers removeObjectForKey:qId];
                 attach = @"";
             } else {
                 //有答案就保存
-                if (attach==nil) {
-                    NSDictionary * ans = [weakSelf.userAnswers objectForKey:qId];
-                    if (ans) {
-                        attach = [ans objectForKey:@"file"];
-                    }
-                    if (!attach) {
-                        attach = @"";
-                    }
-                }
-                
                 NSDictionary * an = @{@"answer": answer,@"id":qId,@"right":@"0",@"file":attach};
                 [weakSelf.userAnswers setObject:an forKey:qId];
             }
@@ -1120,7 +1127,8 @@
         {
             NSDictionary * dic = [weakSelf.userAnswers objectForKey:[data objectForKey:@"qid"]];
             if (dic != nil) {
-                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":self.examBasePath,@"userExamId":[self userExamId]});
+                //新增加userExamId参数，用于解码questionId
+                responseCallback(@{@"answer":[dic objectForKey:@"answer"],@"file":[dic objectForKey:@"file"],@"baseurl":weakSelf.examBasePath,@"userExamId":[weakSelf userExamId]});
             }else
             {
                 responseCallback(@"");
@@ -1275,9 +1283,23 @@
             HXQuestionGroup *gmodel = [qGroups objectAtIndex:i];
             //绘制题目的标题
             
-            UILabel *qTitle = [[UILabel alloc]initWithFrame:CGRectMake(itemMargin,scrollerHeight, scroller.frame.size.width-itemMargin*2, 40)];
+            UILabel *qTitle = [[UILabel alloc]initWithFrame:CGRectMake(itemMargin,scrollerHeight, scroller.frame.size.width-itemMargin*2, 999)];
+            qTitle.numberOfLines = 0;
+            
+            [gmodel.title stringByReplacingOccurrencesOfString:@" " withString:@""];
+            [gmodel.title stringByReplacingOccurrencesOfString:@"\\r" withString:@""];
+            [gmodel.title stringByReplacingOccurrencesOfString:@"\\n" withString:@""];
             
             qTitle.text = [NSString stringWithFormat:@"%d.%@",i+1,gmodel.title];
+            [qTitle sizeToFit];
+            
+            //来一点高度
+            if (qTitle.height<40) {
+                qTitle.height = 40;
+            }else
+            {
+                qTitle.height = 20 + qTitle.height;
+            }
             
             [scroller addSubview:qTitle];
             
