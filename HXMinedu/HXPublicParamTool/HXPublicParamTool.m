@@ -66,6 +66,18 @@
     [self.userDefault setObject:token forKey:@"token"];
 }
 
+- (NSString *)username{
+    if (!_username) {
+        _username = [self.userDefault objectForKey:@"username"];
+    }
+    return _username;
+}
+
+- (void)setUsername:(NSString *)username{
+    _username = username;
+    [self.userDefault setObject:username forKey:@"username"];
+}
+
 - (NSString *)partnerId{
     if (!_partnerId) {
         _partnerId = [self.userDefault objectForKey:@"partnerId"];
@@ -187,6 +199,7 @@
     //清除内存中数据
     self.accessToken = nil;
     self.personId = nil;
+    self.username = nil;
     self.accountantNoDate = nil;
     self.skillGrade = nil;
     self.avatarImageUrl = nil;
