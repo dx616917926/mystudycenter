@@ -111,6 +111,8 @@
     UIButton * rightSwitchButton;//下一题
     
     NSString *tempTitleText; //临时变量
+    
+    BOOL keyboardIsShow;   //是否显示了键盘
 }
 @property WKWebViewJavascriptBridge* bridge1;
 @property WKWebViewJavascriptBridge* bridge2;
@@ -263,6 +265,7 @@
     [self resetCookieForWKWebview];
     
     //开始下载试卷并解析 如果可以的话，就自动开始考试了~
+    shouldLoadCount ++;
     [self downloadExamHTMLAndParseQuestion];
     
     type = @"开始考试";
@@ -300,6 +303,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardHidden)
                                                  name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardShow)
+                                                 name:UIKeyboardWillShowNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -485,7 +491,7 @@
  */
 -(void)downloadExamHTMLAndParseQuestion{
     
-    [self.view showLoading];
+    [self.view showLoadingWithMessage:@"加载试卷中…"];
     
     AFHTTPSessionManager * manager = [[AFHTTPSessionManager alloc] init];
     
@@ -513,13 +519,23 @@
             }
         }
         
-        if (shouldLoadCount == 0) {
-            [self loadComplete];
-        }
+        [self loadComplete];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //
-        [self.view showErrorWithMessage:@"请求试卷错误！"];
+        [self.view hideLoading];
+        
+        __weak __typeof(self)weakSelf = self;
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"请求试卷错误！" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirmAction1 = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf downloadExamHTMLAndParseQuestion];
+        }];
+        UIAlertAction *confirmAction2 = [UIAlertAction actionWithTitle:@"返回上一页面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }];
+        [alertC addAction:confirmAction1];
+        [alertC addAction:confirmAction2];
+        [self presentViewController:alertC animated:YES completion:nil];
     }];
 }
 
@@ -560,7 +576,21 @@
         
         
     } failure:^(NSError *error) {
-        [self.view showErrorWithMessage:@"下载答案出错!"];
+        
+        [self.view hideLoading];
+        
+        __weak __typeof(self)weakSelf = self;
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"加载答案出错!" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirmAction1 = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf.view showLoading];
+            [weakSelf downloadTheRightAnswer];
+        }];
+        UIAlertAction *confirmAction2 = [UIAlertAction actionWithTitle:@"返回上一页面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }];
+        [alertC addAction:confirmAction1];
+        [alertC addAction:confirmAction2];
+        [self presentViewController:alertC animated:YES completion:nil];
     }];
     
 }
@@ -605,7 +635,21 @@
             [self.view showErrorWithMessage:@"下载答案出错!"];
         }
     } failure:^(NSError *error) {
-        [self.view showErrorWithMessage:@"下载答案出错!"];
+        
+        [self.view hideLoading];
+        
+        __weak __typeof(self)weakSelf = self;
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"加载答案出错!" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirmAction1 = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf.view showLoading];
+            [weakSelf downLoadTheUserAnswer];
+        }];
+        UIAlertAction *confirmAction2 = [UIAlertAction actionWithTitle:@"返回上一页面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }];
+        [alertC addAction:confirmAction1];
+        [alertC addAction:confirmAction2];
+        [self presentViewController:alertC animated:YES completion:nil];
     }];
     
 }
@@ -1232,8 +1276,14 @@
 
 #pragma mark - 键盘事件
 
+- (void)keyboardShow {
+    keyboardIsShow = YES;
+}
+
 -(void)keyboardHidden
 {
+    keyboardIsShow = NO;
+    
     if (self.curQuestion.isComplex && textarea) {
         [myWebView2 evaluateJavaScript:@"javascript:lose_focus()" completionHandler:nil];
         if (self.top > 0) {
@@ -1785,7 +1835,10 @@
     if (self.curQuestion != nil) {
         //主观题要先保存答案
         if (self.curQuestion.objective) {
-            [self keyboardHidden];
+            if (keyboardIsShow) {
+                [self keyboardHidden];
+                return;
+            }
         }
         
         HXQuestionInfo * prevQuestion = nil;
@@ -1814,7 +1867,10 @@
     if (self.curQuestion != nil) {
         //主观题要先保存答案
         if (self.curQuestion.objective) {
-            [self keyboardHidden];
+            if (keyboardIsShow) {
+                [self keyboardHidden];
+                return;
+            }
         }
         
         HXQuestionInfo * nextQuestion = nil;
@@ -1840,7 +1896,10 @@
     if (self.curQuestion != nil) {
         //主观题要先保存答案
         if (self.curQuestion.objective) {
-            [self keyboardHidden];
+            if (keyboardIsShow) {
+                [self keyboardHidden];
+                return;
+            }
         }
         
         HXQuestionInfo * prevQuestion = nil;
@@ -1871,7 +1930,10 @@
     if (self.curQuestion != nil) {
         //主观题要先保存答案
         if (self.curQuestion.objective) {
-            [self keyboardHidden];
+            if (keyboardIsShow) {
+                [self keyboardHidden];
+                return;
+            }
         }
         
         HXQuestionInfo * nextQuestion = nil;
@@ -2231,11 +2293,20 @@
     
     //如果是考试的话，就显示启动画板入口
     if (_isEnterExam) {
-        NSMutableString * html = [[NSMutableString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         
-        [html replaceOccurrencesOfString:@"</textarea>" withString:@"</textarea> <button type=\"button\" id=\"btn_open_painter\" style='font-size:18px'>添加照片</button><p style='font-size:16px;color:#ec8580;'>答题需要画图或者写计算过程的可在纸上完成，拍照成一张图上传。如需删除图片，可点击图片，右上角删除。</p>" options:NSLiteralSearch range:NSMakeRange(0, html.length)];   //改为从相册选择照片   2020年12月10日
-        
-        htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
+        //判断是否开启了上传附件功能
+        int subjAnswerType = [[self.userExam objectForKey:@"subjAnswerType"] intValue];
+        if ((subjAnswerType & 1) == 1) {
+            
+            NSMutableString * html = [[NSMutableString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            
+            [html replaceOccurrencesOfString:@"</textarea>" withString:@"</textarea> <button type=\"button\" id=\"btn_open_painter\" style='font-size:18px'>添加照片</button><p style='font-size:16px;color:#ec8580;'>答题需要画图或者写计算过程的可在纸上完成，拍照成一张图上传。如需删除图片，可点击图片，右上角删除。</p>" options:NSLiteralSearch range:NSMakeRange(0, html.length)];   //改为从相册选择照片   2020年12月10日
+            
+            htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
+        }else
+        {
+            htmlData = data;
+        }
     }else
     {
         htmlData = data;
@@ -2249,23 +2320,20 @@
     
     headHtml = [[doc peekAtSearchWithXPathQuery:@"//head"] raw];
     
-    if (headHtml!=nil && [headHtml rangeOfString:@"normal/paper/paper.css"].location != NSNotFound) {
+    if (headHtml!=nil) {
         
-        //替换本地路径
-        NSMutableString * head = [NSMutableString stringWithString:headHtml];
+        //重新拼接head
+        NSMutableString * head = [NSMutableString string];
         
         NSString * jquery1 = [NSString stringWithContentsOfFile:[MY_EXAM_BUNDLE_PATH stringByAppendingPathComponent:@"exam/statics/scripts/paper_cellphone.js"] encoding:NSUTF8StringEncoding error:nil];
+                
+        [head appendString:@"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>"];
         
-        [head replaceOccurrencesOfString:@"normal/paper/paper.css" withString:@"mobile/paper/paper_cellphone.css" options:NSLiteralSearch range:NSMakeRange(0, head.length)];
+        [head appendString:@"<link href=\"exam/statics/styles/green/mobile/paper/paper_cellphone.css\" rel=\"stylesheet\" type=\"text/css\"><script src=\"exam/statics/scripts/jquery-3.6.0.min.js\" type=\"text/javascript\"></script><script src=\"exam/statics/scripts/ASCIIMathML.js\" type=\"text/javascript\"></script>"];
         
-        [head replaceOccurrencesOfString:@"jquery-1.9.0.min.js\" type=\"text/javascript\"/>" withString:@"jquery-1.9.0.min.js\" type=\"text/javascript\"></script> " options:NSLiteralSearch range:NSMakeRange(0, head.length)];
+        [head appendString:[NSString stringWithFormat:@"<script type=\"text/javascript\"> %@ </script><script type=\"text/javascript\">jQuery(document).on(\"mobileinit\", function() { jQuery.mobile.autoInitializePage = false;}); </script><script src=\"exam/statics/scripts/jquery.mobile-1.4.5.min.js\" type=\"text/javascript\"></script>",jquery1]];
         
-        [head replaceOccurrencesOfString:@"<script src=\"/exam/statics/scripts/paper.js\" type=\"text/javascript\"/>" withString:[NSString stringWithFormat:@"<script type=\"text/javascript\"> %@ </script><script type=\"text/javascript\">jQuery(document).on(\"mobileinit\", function() { jQuery.mobile.autoInitializePage = false;}); </script><script src=\"exam/statics/scripts/jquery.mobile-1.3.2.min.js\" type=\"text/javascript\"></script>",jquery1] options:NSLiteralSearch range:NSMakeRange(0, head.length)];
-        
-        //将根目录写成相对路径
-        [head replaceOccurrencesOfString:@"/exam/" withString:@"exam/" options:NSLiteralSearch range:NSMakeRange(0, head.length)];
-        
-        [head replaceOccurrencesOfString:@"</head>" withString:@"</script><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"></head>" options:NSLiteralSearch range:NSMakeRange(0, head.length)];
+        [head appendString:@"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"></head>"];
         
         headHtml = [NSString stringWithString:head];
     }
