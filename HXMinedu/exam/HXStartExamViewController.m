@@ -178,6 +178,9 @@
 {
     [super viewDidLoad];
     
+    //开启常亮状态
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     qsNum = 0;
@@ -353,6 +356,9 @@
     
     //取消通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    //开启休眠
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 ///试卷id
