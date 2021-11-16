@@ -436,7 +436,7 @@
     gradientLayer.startPoint = CGPointMake(0, 0.5);
     gradientLayer.endPoint = CGPointMake(1, 0.5);
     gradientLayer.anchorPoint = CGPointMake(0, 0);
-    NSArray *colorArr = @[(id)COLOR_WITH_ALPHA(0x4BA4FE, 1).CGColor,(id)COLOR_WITH_ALPHA(0x45EFCF, 1).CGColor];
+    NSArray *colorArr = @[(id)COLOR_WITH_ALPHA(0x3EADFF, 1).CGColor,(id)COLOR_WITH_ALPHA(0x15E88D, 1).CGColor];
     gradientLayer.colors = colorArr;
     [self.topView.layer addSublayer:gradientLayer];
     [self.topView.layer insertSublayer:gradientLayer below:self.headerImageView.layer];
