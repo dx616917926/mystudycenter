@@ -7,6 +7,8 @@
 
 #import "AppDelegate.h"
 #import <UMCommon/UMCommon.h>
+#import <UMCommon/MobClick.h>
+#import <UMAPM/UMCrashConfigure.h>
 #import <UMCommonLog/UMCommonLogHeaders.h>
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import "HXLoginViewController.h"
@@ -14,6 +16,7 @@
 #import "HXCheckUpdateTool.h"
 #import "IQKeyboardManager.h"
 #import "WXApi.h"
+#import "UIDevice+HXDevice.h"
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -28,6 +31,14 @@
     [self firstEnterHandle];
     //第三方配置
     [self thirdPartyConfiguration];
+    
+#if !TARGET_OS_SIMULATOR
+    //检测当前程序运行的环境变量，防止通过DYLD_INSERT_LIBRARIES注入链接异常动态库，来更改相关工具名称
+    char *env = getenv("DYLD_INSERT_LIBRARIES");
+    if(env) {
+        exit(0);
+    }
+#endif
     
     //检查更新
     [self checkAppUpdate];
@@ -49,6 +60,22 @@
     //正式环境
     [UMConfigure setLogEnabled:NO];
 #endif
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //判断设备是否越狱，依据是否存在apt和Cydia.app
+        //判断App是否被破解
+        if ([MobClick isJailbroken] || [MobClick isPirated]) {
+            exit(0);
+        }
+    });
+    
+    //崩溃回调
+    [UMCrashConfigure setCrashCBBlock:^NSString * _Nullable{
+        
+        NSString* deviceModel = [[UIDevice currentDevice] deviceModelName];//手机型号
+        NSString *str = [NSString stringWithFormat:@"%@\n%@",deviceModel,[HXPublicParamTool sharedInstance].username];
+        return str;
+    }];
     
 #if 0
     //微信配置

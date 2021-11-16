@@ -193,6 +193,7 @@
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [HXPublicParamTool sharedInstance].isLogin = YES;
+            [HXPublicParamTool sharedInstance].username = self->loginView.userNameTextField.text;
             [weakSelf.view showSuccessWithMessage:@"登录成功!"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.view hideLoading];

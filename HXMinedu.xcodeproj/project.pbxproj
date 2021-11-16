@@ -304,6 +304,7 @@
 		049D8E0E269C37D500F0E219 /* HXYiDongInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D8E0D269C37D500F0E219 /* HXYiDongInfoModel.m */; };
 		049D9818261401D1009A6B5D /* HXCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D9817261401D1009A6B5D /* HXCourseCell.m */; };
 		049D981B26140A6C009A6B5D /* HXGradientProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D981A26140A6C009A6B5D /* HXGradientProgressView.m */; };
+		04B904822742022A0026EFF1 /* UIDevice+HXDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B904802742022A0026EFF1 /* UIDevice+HXDevice.m */; };
 		04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */; };
 		04BFCB6225A6A4DB00B03A58 /* HXCwsCourseware.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BFCB6125A6A4DB00B03A58 /* HXCwsCourseware.m */; };
 		04C3A2E825959A27008F32A4 /* HXExamDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2E725959A27008F32A4 /* HXExamDetailViewController.m */; };
@@ -931,6 +932,8 @@
 		049D9817261401D1009A6B5D /* HXCourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCourseCell.m; sourceTree = "<group>"; };
 		049D981926140A6C009A6B5D /* HXGradientProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXGradientProgressView.h; sourceTree = "<group>"; };
 		049D981A26140A6C009A6B5D /* HXGradientProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXGradientProgressView.m; sourceTree = "<group>"; };
+		04B904802742022A0026EFF1 /* UIDevice+HXDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+HXDevice.m"; sourceTree = "<group>"; };
+		04B904812742022A0026EFF1 /* UIDevice+HXDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+HXDevice.h"; sourceTree = "<group>"; };
 		04BA63E32599A2EA00F2C1E8 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
 		04BFCB6025A6A4DB00B03A58 /* HXCwsCourseware.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCwsCourseware.h; sourceTree = "<group>"; };
@@ -1526,6 +1529,8 @@
 				04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */,
 				047593EE26FD9E8A00D206E9 /* WKWebView+HXWebView.h */,
 				047593ED26FD9E8A00D206E9 /* WKWebView+HXWebView.m */,
+				04B904812742022A0026EFF1 /* UIDevice+HXDevice.h */,
+				04B904802742022A0026EFF1 /* UIDevice+HXDevice.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -2695,6 +2700,7 @@
 				0449A4DA254C11F6001A28D5 /* XHImageViewer.m in Sources */,
 				04940E96261D5E7700C3E8E4 /* HXRecordInfoCell.m in Sources */,
 				0404ED8F26565D1F0001AA6A /* HXHomePageShareViewController.m in Sources */,
+				04B904822742022A0026EFF1 /* UIDevice+HXDevice.m in Sources */,
 				041824692672037E00EF8FDC /* HXReviewerSuggestionCell.m in Sources */,
 				04FEF9EF265B976D003500C1 /* HXHeadMasterViewController.m in Sources */,
 				046F25B5261EF6D300E394C3 /* HXRegistFormViewController.m in Sources */,
