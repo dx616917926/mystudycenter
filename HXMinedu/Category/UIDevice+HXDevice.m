@@ -96,6 +96,8 @@
     
     if ([deviceModel isEqualToString:@"iPhone12,5"])   return @"iPhone 11 Pro Max";
     
+    if ([deviceModel isEqualToString:@"iPhone12,8"])   return @"iPhone SE 2020";
+    
     if ([deviceModel isEqualToString:@"iPhone13,1"])   return @"iPhone 12 mini";
     
     if ([deviceModel isEqualToString:@"iPhone13,2"])   return @"iPhone 12";
@@ -103,9 +105,7 @@
     if ([deviceModel isEqualToString:@"iPhone13,3"])   return @"iPhone 12 Pro";
     
     if ([deviceModel isEqualToString:@"iPhone13,4"])   return @"iPhone 12 Pro Max";
-    
-    if ([deviceModel isEqualToString:@"iPhone13,8"])   return @"iPhone SE 2020";
-    
+        
     if ([deviceModel isEqualToString:@"iPhone14,4"])   return @"iPhone 13 mini";
     
     if ([deviceModel isEqualToString:@"iPhone14,5"])   return @"iPhone 13";
