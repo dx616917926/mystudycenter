@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *ExamUrl;        //考试地址
 @property(nonatomic, strong) NSString *Type;
 @property(nonatomic, strong) NSDictionary *cws_param;  //新课件系统的参数
+@property(nonatomic, strong) NSDictionary *mooc_param;  //慕课课件系统的参数
 @property(nonatomic, strong) NSString *coursewareType;
 @property(nonatomic, strong) NSString *learnDuration;  //学习总时长
 @property(nonatomic, strong) NSString *learnTime;      //建议学时
@@ -26,7 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *ImgUrl;
 ///类型
 @property(nonatomic, strong) NSString *ExamCourseType;
-
+//课件来源   MOOC：为慕课课程
+@property(nonatomic, strong) NSString *StemCode;
+//课程名称
+@property(nonatomic, strong) NSString *courseName;
 @end
 
 NS_ASSUME_NONNULL_END

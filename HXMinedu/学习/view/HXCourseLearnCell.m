@@ -102,6 +102,8 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
         self.containerView.sd_layout.heightIs(46);
         for (int i= 0; i<courseModel.modules.count; i++) {
             HXModelItem *item = courseModel.modules[i];
+            item.StemCode = courseModel.StemCode;
+            item.courseName = courseModel.courseName;
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.containerView addSubview:btn];
             //将数据关联按钮

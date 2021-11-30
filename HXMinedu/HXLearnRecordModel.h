@@ -22,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSInteger learnDuration;
 //新课件系统的参数
 @property(nonatomic, strong) NSDictionary *cws_param;
+//慕课课件系统的参数
+@property(nonatomic, strong) NSDictionary *mooc_param;
+//MOOC为慕课课程
+@property(nonatomic, strong) NSString *StemCode;
 
 @end
 

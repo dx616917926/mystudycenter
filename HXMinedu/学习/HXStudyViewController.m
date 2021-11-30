@@ -13,6 +13,7 @@
 #import "HXSystemNotificationViewController.h"
 #import "HXExamListViewController.h"
 #import <TXMoviePlayer/TXMoviePlayerController.h>
+#import "HXMoocViewController.h"
 #import "HXCustommNavView.h"
 #import "HXCourseLearnCell.h"
 #import "HXStudyCourseCell.h"
@@ -357,18 +358,30 @@
         {
             if ([item.Type isEqualToString:@"1"]) {
                 //课件学习模块,先判断登陆状态
+                WeakSelf(weakSelf);
                 [self getLoginStatus:^(BOOL status) {
+                    StrongSelf(strongSelf);
                     if (status) {
-                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                        if (@available(iOS 13.0, *)) {
-                            playerVC.barStyle = UIStatusBarStyleDarkContent;
-                        } else {
+                        if ([item.StemCode isEqualToString:@"MOOC"]) {//慕课
+                            HXMoocViewController *vc = [[HXMoocViewController alloc] init];
+                            vc.titleName = item.courseName;
+                            vc.moocUrl = [item.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                            vc.hidesBottomBarWhenPushed = YES;
+                            [strongSelf.navigationController pushViewController:vc animated:YES];
+                            
+                        }else{
+                            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                            if (@available(iOS 13.0, *)) {
+                                playerVC.barStyle = UIStatusBarStyleDarkContent;
+                            } else {
+                                playerVC.barStyle = UIStatusBarStyleDefault;
+                            }
+                            playerVC.cws_param = item.cws_param;
                             playerVC.barStyle = UIStatusBarStyleDefault;
+                            playerVC.hidesBottomBarWhenPushed = YES;
+                            [strongSelf.navigationController pushViewController:playerVC animated:YES];
                         }
-                        playerVC.cws_param = item.cws_param;
-                        playerVC.barStyle = UIStatusBarStyleDefault;
-                        playerVC.hidesBottomBarWhenPushed = YES;
-                        [self.navigationController pushViewController:playerVC animated:YES];
+                        
                     }
                 }];
                 
@@ -392,18 +405,30 @@
         {
             if ([item.Type isEqualToString:@"1"]) {
                 //课件学习模块,先判断登陆状态
+                WeakSelf(weakSelf);
                 [self getLoginStatus:^(BOOL status) {
+                    StrongSelf(strongSelf);
                     if (status) {
-                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                        if (@available(iOS 13.0, *)) {
-                            playerVC.barStyle = UIStatusBarStyleDarkContent;
-                        } else {
+                        if ([item.StemCode isEqualToString:@"MOOC"]) {//慕课
+                            HXMoocViewController *vc = [[HXMoocViewController alloc] init];
+                            vc.titleName = item.courseName;
+                            vc.moocUrl = [item.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                            vc.hidesBottomBarWhenPushed = YES;
+                            [strongSelf.navigationController pushViewController:vc animated:YES];
+                            
+                        }else{
+                            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                            if (@available(iOS 13.0, *)) {
+                                playerVC.barStyle = UIStatusBarStyleDarkContent;
+                            } else {
+                                playerVC.barStyle = UIStatusBarStyleDefault;
+                            }
+                            playerVC.cws_param = item.cws_param;
                             playerVC.barStyle = UIStatusBarStyleDefault;
+                            playerVC.hidesBottomBarWhenPushed = YES;
+                            [strongSelf.navigationController pushViewController:playerVC animated:YES];
                         }
-                        playerVC.cws_param = item.cws_param;
-                        playerVC.barStyle = UIStatusBarStyleDefault;
-                        playerVC.hidesBottomBarWhenPushed = YES;
-                        [self.navigationController pushViewController:playerVC animated:YES];
+                        
                     }
                 }];
                 
@@ -527,26 +552,53 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //课件学习模块,先判断登陆状态
+    WeakSelf(weakSelf);
     [self getLoginStatus:^(BOOL status) {
+        StrongSelf(strongSelf);
         if (status) {
-            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-            if (@available(iOS 13.0, *)) {
-                playerVC.barStyle = UIStatusBarStyleDarkContent;
-            } else {
-                playerVC.barStyle = UIStatusBarStyleDefault;
-            }
-            playerVC.barStyle = UIStatusBarStyleDefault;
-            playerVC.hidesBottomBarWhenPushed = YES;
-            if (indexPath.section == 1) {
+            if (indexPath.section == 1) {//今天
                 HXLearnRecordModel *learnRecordModel = self.kjxxCourseListtModel.nowadaysList[indexPath.row];
-                if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
-                playerVC.cws_param = learnRecordModel.cws_param;
-                [self.navigationController pushViewController:playerVC animated:YES];
-            }else if(indexPath.section == 2){
+                if ([learnRecordModel.StemCode isEqualToString:@"MOOC"]) {
+                    HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
+                    moocVc.titleName = learnRecordModel.courseName;
+                    moocVc.moocUrl = [learnRecordModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                    moocVc.hidesBottomBarWhenPushed = YES;
+                    [strongSelf.navigationController pushViewController:moocVc animated:YES];
+                }else{
+                    TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                    if (@available(iOS 13.0, *)) {
+                        playerVC.barStyle = UIStatusBarStyleDarkContent;
+                    } else {
+                        playerVC.barStyle = UIStatusBarStyleDefault;
+                    }
+                    playerVC.barStyle = UIStatusBarStyleDefault;
+                    playerVC.hidesBottomBarWhenPushed = YES;
+                    if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
+                    playerVC.cws_param = learnRecordModel.cws_param;
+                    [strongSelf.navigationController pushViewController:playerVC animated:YES];
+                }
+                
+            }else if(indexPath.section == 2){//昨天
                 HXLearnRecordModel *learnRecordModel = self.kjxxCourseListtModel.yesterdayList[indexPath.row];
-                if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
-                playerVC.cws_param = learnRecordModel.cws_param;
-                [self.navigationController pushViewController:playerVC animated:YES];
+                if ([learnRecordModel.StemCode isEqualToString:@"MOOC"]) {
+                    HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
+                    moocVc.titleName = learnRecordModel.courseName;
+                    moocVc.moocUrl = [learnRecordModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                    moocVc.hidesBottomBarWhenPushed = YES;
+                    [strongSelf.navigationController pushViewController:moocVc animated:YES];
+                }else{
+                    TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                    if (@available(iOS 13.0, *)) {
+                        playerVC.barStyle = UIStatusBarStyleDarkContent;
+                    } else {
+                        playerVC.barStyle = UIStatusBarStyleDefault;
+                    }
+                    playerVC.barStyle = UIStatusBarStyleDefault;
+                    playerVC.hidesBottomBarWhenPushed = YES;
+                    if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
+                    playerVC.cws_param = learnRecordModel.cws_param;
+                    [strongSelf.navigationController pushViewController:playerVC animated:YES];
+                }
             }
         }
     }];
