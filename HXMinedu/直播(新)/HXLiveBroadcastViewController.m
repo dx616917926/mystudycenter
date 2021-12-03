@@ -12,7 +12,7 @@
 #import "MJRefresh.h"
 #import "HXVersionModel.h"
 #import "HXNoDataTipView.h"
-
+#import "SGAuthorization.h"
 @interface HXLiveBroadcastViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 @property(nonatomic,strong) UIView *topView;
@@ -184,9 +184,24 @@
 #pragma mark - Event
 ///扫码
 -(void)scanQRCode:(UIButton *)sender{
-    HXScanQRCodeViewController *vc = [[HXScanQRCodeViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    //相机授权回调方法
+    [[SGAuthorization authorization] AVAuthorizationBlock:^(SGAuthorization * _Nonnull authorization, SGAuthorizationStatus status) {
+        if (status == SGAuthorizationStatusSuccess) {
+            HXScanQRCodeViewController *vc = [[HXScanQRCodeViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (status == SGAuthorizationStatusFail) {
+            UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"无法使用相机" message:@"请在设备的”设置-隐私-相机“中允许访问相机" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            [alertVc addAction:sure];
+            [self presentViewController:alertVc animated:YES completion:nil];
+        }else{
+            [self.view showErrorWithMessage:@"系统原因, 无法访问"];
+        }
+    }];
+    
 }
 
 
