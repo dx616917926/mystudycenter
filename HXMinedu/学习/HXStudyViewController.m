@@ -378,6 +378,7 @@
                             }
                             playerVC.cws_param = item.cws_param;
                             playerVC.barStyle = UIStatusBarStyleDefault;
+                            playerVC.showLearnFinishStyle = YES;
                             playerVC.hidesBottomBarWhenPushed = YES;
                             [strongSelf.navigationController pushViewController:playerVC animated:YES];
                         }
@@ -425,6 +426,7 @@
                             }
                             playerVC.cws_param = item.cws_param;
                             playerVC.barStyle = UIStatusBarStyleDefault;
+                            playerVC.showLearnFinishStyle = YES;
                             playerVC.hidesBottomBarWhenPushed = YES;
                             [strongSelf.navigationController pushViewController:playerVC animated:YES];
                         }
@@ -572,6 +574,7 @@
                         playerVC.barStyle = UIStatusBarStyleDefault;
                     }
                     playerVC.barStyle = UIStatusBarStyleDefault;
+                    playerVC.showLearnFinishStyle = YES;
                     playerVC.hidesBottomBarWhenPushed = YES;
                     if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
                     playerVC.cws_param = learnRecordModel.cws_param;
@@ -594,6 +597,7 @@
                         playerVC.barStyle = UIStatusBarStyleDefault;
                     }
                     playerVC.barStyle = UIStatusBarStyleDefault;
+                    playerVC.showLearnFinishStyle = YES;
                     playerVC.hidesBottomBarWhenPushed = YES;
                     if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
                     playerVC.cws_param = learnRecordModel.cws_param;

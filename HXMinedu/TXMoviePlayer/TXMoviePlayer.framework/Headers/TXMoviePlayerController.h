@@ -27,8 +27,8 @@
 //  v5.1 优化请求的参数。
 //  v5.2 新增回传学习记录功能，修改提示框。
 //  v5.3 完善接口异常数据处理，新增指定视频清晰度参数 defaultQuality（LD标清、FD流畅）默认LD
-//  v5.4 适配iOS 15，更新阿里云SDK v5.4.3.0
-
+//  v5.4 适配iOS 15
+//  v5.5 新增章节目录是否显示已学完状态的控制功能。默认NO，字体颜色默认绿色
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,6 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *coursewareTitle; //课件大标题名称
 @property(nonatomic, strong) NSString *coursewareId;    //ID
 @property(nonatomic, strong) NSString *classID;         //班级ID
+
+@property(nonatomic, assign) BOOL showLearnFinishStyle; //是否显示已学完的状态，默认NO
+@property(nonatomic, strong) UIColor *learnFinishStyleColor;//学完状态的字体颜色，默认绿色
 
 @end
 
