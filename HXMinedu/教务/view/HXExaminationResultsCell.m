@@ -13,6 +13,8 @@
 @property(nonatomic,strong) UILabel *scoreLabel;
 @property(nonatomic,strong) UIButton *resultBtn;
 
+
+
 @end
 
 @implementation HXExaminationResultsCell
@@ -40,15 +42,21 @@
     _examDateCourseScoreModel = examDateCourseScoreModel;
     self.examTitleLabel.text = HXSafeString(examDateCourseScoreModel.courseName);
     self.scoreLabel.text = [examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?@"":[HXSafeString(examDateCourseScoreModel.finalScore) stringByAppendingString:@"分"];
-    if (examDateCourseScoreModel.IsPass == 1) {
-        [self.resultBtn setTitle:@"通过" forState:UIControlStateNormal];
-        [self.resultBtn setImage:[UIImage imageNamed:@"success_icon"] forState:UIControlStateNormal];
-        self.bigBackGroundView.backgroundColor = COLOR_WITH_ALPHA(0xF3FFFA, 1);
+    if (examDateCourseScoreModel.isHaveKaoQi) {
+        self.resultBtn.sd_layout.widthIs(90);
+        if (examDateCourseScoreModel.IsPass == 1) {
+            [self.resultBtn setTitle:@"通过" forState:UIControlStateNormal];
+            [self.resultBtn setImage:[UIImage imageNamed:@"success_icon"] forState:UIControlStateNormal];
+            self.bigBackGroundView.backgroundColor = COLOR_WITH_ALPHA(0xF3FFFA, 1);
+        }else{
+            [self.resultBtn setTitle:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?@"暂无成绩":@"未通过") forState:UIControlStateNormal];
+            [self.resultBtn setImage:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?[UIImage imageNamed:@"clock_icon"]:[UIImage imageNamed:@"fail_icon"]) forState:UIControlStateNormal];
+            self.bigBackGroundView.backgroundColor = ([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?COLOR_WITH_ALPHA(0xFFF7EA, 1):COLOR_WITH_ALPHA(0xFFF8FA, 1));
+        }
     }else{
-        [self.resultBtn setTitle:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?@"暂无成绩":@"未通过") forState:UIControlStateNormal];
-        [self.resultBtn setImage:([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?[UIImage imageNamed:@"clock_icon"]:[UIImage imageNamed:@"fail_icon"]) forState:UIControlStateNormal];
-        self.bigBackGroundView.backgroundColor = ([examDateCourseScoreModel.finalScore isEqualToString:@"-99"]?COLOR_WITH_ALPHA(0xFFF7EA, 1):COLOR_WITH_ALPHA(0xFFF8FA, 1));
+        self.resultBtn.sd_layout.widthIs(0);
     }
+    
    
 }
 
@@ -134,6 +142,7 @@
         _resultBtn.titleLabel.font = HXFont(14);
         _resultBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
         [_resultBtn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
+        _resultBtn.clipsToBounds = YES;
     }
     return _resultBtn;
 }

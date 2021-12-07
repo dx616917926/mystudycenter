@@ -10,6 +10,7 @@
 #import "HXExaminationResultsCell.h"
 #import "HXShowExamDateView.h"
 #import "HXNoDataTipView.h"
+#import "MJRefresh.h"
 @interface HXExaminationResultsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(strong,nonatomic) UITableView *mainTableView;
@@ -20,6 +21,8 @@
 @property(strong,nonatomic) NSArray *examDateList;
 @property(strong,nonatomic) HXExamDateModel *selectExamDateModel;
 
+//是否有考期
+@property(nonatomic,assign) BOOL isHaveKaoQi;
 
 @end
 
@@ -40,16 +43,22 @@
 #pragma mark -  获取报考课程分数列表
 -(void)getExamDateCourseScoreInfoList{
     NSDictionary *dic = @{
-        @"major_id":HXSafeString(self.selectMajorModel.major_id)
+        @"major_id":HXSafeString(self.selectMajorModel.major_id),
+        @"version_id":HXSafeString(self.selectMajorModel.versionId)
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_ExamDateCourseScoreInfo_List  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-
+        [self.mainTableView.mj_header endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.examDateList = [HXExamDateModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             self.selectExamDateModel = self.examDateList.firstObject;
             self.selectExamDateModel.isSelected = YES;
+            if ([HXCommonUtil isNull:self.selectExamDateModel.AdmissionStatus]&&![HXCommonUtil isNull:self.selectExamDateModel.examDate]) {
+                self.isHaveKaoQi = YES;
+            }else{
+                self.isHaveKaoQi = NO;
+            }
             [self refreshUI];
         }
     } failure:^(NSError * _Nonnull error) {
@@ -81,8 +90,19 @@
         self.selectDateHeaderView.hidden = NO;
         [self.noDataTipView removeFromSuperview];
     }
-    NSString *examDate = [NSString stringWithFormat:@"%@",self.selectExamDateModel.examDate];
-    [self.selectDateHeaderView.selectDateBtn setTitle:examDate forState:UIControlStateNormal];
+    if (self.isHaveKaoQi) {
+        self.selectDateHeaderView.selectDateBtn.titleLabel.sd_layout.centerXEqualToView(self.selectDateHeaderView.selectDateBtn).offset(-10);
+        self.selectDateHeaderView.selectDateBtn.imageView.sd_layout.widthIs(8);
+        self.selectDateHeaderView.selectDateBtn.enabled = YES;
+        NSString *examDate = [NSString stringWithFormat:@"%@",self.selectExamDateModel.examDate];
+        [self.selectDateHeaderView.selectDateBtn setTitle:examDate forState:UIControlStateNormal];
+    }else{
+        self.selectDateHeaderView.selectDateBtn.titleLabel.sd_layout.centerXEqualToView(self.selectDateHeaderView.selectDateBtn).offset(0);
+        self.selectDateHeaderView.selectDateBtn.imageView.sd_layout.widthIs(0);
+        self.selectDateHeaderView.selectDateBtn.enabled = NO;
+        [self.selectDateHeaderView.selectDateBtn setTitle:self.selectExamDateModel.AdmissionStatus forState:UIControlStateNormal];
+    }
+   
     [self.mainTableView reloadData];
 }
 
@@ -110,6 +130,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     HXExamDateCourseScoreModel *examDateCourseScoreModel = self.selectExamDateModel.examDateCourseScoreInfoList[indexPath.row];
+    examDateCourseScoreModel.isHaveKaoQi = self.isHaveKaoQi;
     cell.examDateCourseScoreModel = examDateCourseScoreModel;
     return cell;
     
@@ -119,18 +140,23 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-
+#pragma mark - UI
 -(void)createUI{
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.selectDateHeaderView];
     [self.view addSubview:self.mainTableView];
+    
+    // 刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getExamDateCourseScoreInfoList)];
+    header.automaticallyChangeAlpha = YES;
+    self.mainTableView.mj_header = header;
 }
 
 #pragma mark - lazyload
 -(UITableView *)mainTableView{
     if (!_mainTableView) {
         _mainTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 68, kScreenWidth, kScreenHeight-kNavigationBarHeight-kTabBarHeight-58-68) style:UITableViewStylePlain];
-        _mainTableView.bounces = NO;
+        _mainTableView.bounces = YES;
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
         _mainTableView.backgroundColor = COLOR_WITH_ALPHA(0xFCFCFC, 1);

@@ -9,6 +9,7 @@
 #import "HXPaymentDtailsContainerViewController.h"
 #import "HXRegistFormViewController.h"
 #import "HXInfoConfirmViewController.h"
+#import "HXPictureInforConfirmViewController.h"
 #import "HXAboutUsViewController.h"
 #import "HXSetViewController.h"
 #import "HXHeadMasterViewController.h"

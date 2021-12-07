@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///是否通过 1通过 0未通过
 @property(nonatomic, assign) NSInteger IsPass;
 
+//是否有考期
+@property(nonatomic,assign) BOOL isHaveKaoQi;
+
 @end
 
 NS_ASSUME_NONNULL_END

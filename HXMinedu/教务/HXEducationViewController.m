@@ -10,6 +10,7 @@
 #import "HXTeachPlanViewController.h"
 #import "HXApplyCoursesViewController.h"
 #import "HXExaminationResultsViewController.h"
+#import "HXMyGraduationViewController.h"
 #import "HXSelectStudyTypeViewController.h"
 #import "HXCustommNavView.h"
 #import "HXVersionModel.h"
@@ -162,7 +163,7 @@
     self.pageViewController.dataSource = nil;
     [self.pageViewController.view removeFromSuperview];
     
-    self.titles = @[@"教学计划",@"报考课程",@"考试成绩"];
+    self.titles = @[@"教学计划",@"报考课程",@"考试成绩"];//,@"我的毕业"
     self.pageViewController = [[XLPageViewController alloc] initWithConfig:self.config];
     self.pageViewController.bounces = NO;
     self.pageViewController.view.frame = CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight-kTabBarHeight);
@@ -189,6 +190,10 @@
         HXExaminationResultsViewController *examinationResultsVc = [[HXExaminationResultsViewController alloc] init];
         examinationResultsVc.selectMajorModel = selectMajorModel;
         return examinationResultsVc;
+    }else if (index==3) {
+        HXMyGraduationViewController *myGraduationVc = [[HXMyGraduationViewController alloc] init];
+        myGraduationVc.selectMajorModel = selectMajorModel;
+        return myGraduationVc;
     }
     return nil;
 }

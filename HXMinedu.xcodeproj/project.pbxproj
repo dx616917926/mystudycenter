@@ -240,6 +240,8 @@
 		0459C72D258B51E1000555D4 /* launch_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72B258B51E1000555D4 /* launch_logo@3x.png */; };
 		0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72C258B51E1000555D4 /* launch_logo@2x.png */; };
 		045FA186259D67AF00910575 /* HXUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045FA185259D67AF00910575 /* HXUserInfoViewController.m */; };
+		0466380F275DDC57000730B2 /* HXDissertationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0466380E275DDC57000730B2 /* HXDissertationCell.m */; };
+		04663812275DF2B0000730B2 /* HXLunWenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04663811275DF2B0000730B2 /* HXLunWenViewController.m */; };
 		04663BAA2615540800239120 /* HXVersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04663BA92615540800239120 /* HXVersionModel.m */; };
 		04663BAD2615B3C300239120 /* HXTeachCourseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04663BAC2615B3C300239120 /* HXTeachCourseModel.m */; };
 		04663BB32615C32F00239120 /* HXCourseTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04663BB22615C32F00239120 /* HXCourseTypeModel.m */; };
@@ -282,12 +284,17 @@
 		0475940426FDA47300D206E9 /* UMRemoteConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593FD26FDA47300D206E9 /* UMRemoteConfig.framework */; };
 		0475940526FDA47300D206E9 /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593FE26FDA47300D206E9 /* UMCommon.framework */; };
 		0475940626FDA47300D206E9 /* UMDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593FF26FDA47300D206E9 /* UMDevice.framework */; };
+		0477CA2E275EFA3500A99914 /* HXPictureInforConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA2D275EFA3500A99914 /* HXPictureInforConfirmViewController.m */; };
+		0477CA31275F06DC00A99914 /* HXCommonSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA30275F06DC00A99914 /* HXCommonSelectView.m */; };
+		0477CA34275F071400A99914 /* HXCommonSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA32275F071300A99914 /* HXCommonSelectCell.m */; };
+		0477CA37275F075900A99914 /* HXCommonSelectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA36275F075900A99914 /* HXCommonSelectModel.m */; };
 		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
 		0480069326213301002F725F /* HXExamDateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480069226213301002F725F /* HXExamDateModel.m */; };
 		048006962621340A002F725F /* HXExamDayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048006952621340A002F725F /* HXExamDayModel.m */; };
 		0480069926213560002F725F /* HXExamDateSignInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480069826213560002F725F /* HXExamDateSignInfoModel.m */; };
 		0485164D2589D7F70071F7C8 /* IntroViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */; };
 		048516532589E16B0071F7C8 /* HXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 048516522589E16B0071F7C8 /* HXPageControl.m */; };
+		04893BAC275DB92A005CB6C5 /* HXMyGraduationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04893BAB275DB92A005CB6C5 /* HXMyGraduationViewController.m */; };
 		048C66962670AAD400977A4F /* HXStudentRefundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C66952670AAD400977A4F /* HXStudentRefundModel.m */; };
 		048C66992670B55000977A4F /* HXStudentRefundDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C66982670B55000977A4F /* HXStudentRefundDetailsModel.m */; };
 		0491335A260D854200055D3D /* HXStudyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04913359260D854200055D3D /* HXStudyViewController.m */; };
@@ -814,6 +821,10 @@
 		0459C72C258B51E1000555D4 /* launch_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@2x.png"; sourceTree = "<group>"; };
 		045FA184259D67AF00910575 /* HXUserInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXUserInfoViewController.h; sourceTree = "<group>"; };
 		045FA185259D67AF00910575 /* HXUserInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXUserInfoViewController.m; sourceTree = "<group>"; };
+		0466380D275DDC57000730B2 /* HXDissertationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXDissertationCell.h; sourceTree = "<group>"; };
+		0466380E275DDC57000730B2 /* HXDissertationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXDissertationCell.m; sourceTree = "<group>"; };
+		04663810275DF2B0000730B2 /* HXLunWenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLunWenViewController.h; sourceTree = "<group>"; };
+		04663811275DF2B0000730B2 /* HXLunWenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLunWenViewController.m; sourceTree = "<group>"; };
 		04663BA82615540800239120 /* HXVersionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXVersionModel.h; sourceTree = "<group>"; };
 		04663BA92615540800239120 /* HXVersionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXVersionModel.m; sourceTree = "<group>"; };
 		04663BAB2615B3C300239120 /* HXTeachCourseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXTeachCourseModel.h; sourceTree = "<group>"; };
@@ -890,6 +901,14 @@
 		047593FD26FDA47300D206E9 /* UMRemoteConfig.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMRemoteConfig.framework; sourceTree = "<group>"; };
 		047593FE26FDA47300D206E9 /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommon.framework; sourceTree = "<group>"; };
 		047593FF26FDA47300D206E9 /* UMDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMDevice.framework; sourceTree = "<group>"; };
+		0477CA2C275EFA3500A99914 /* HXPictureInforConfirmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPictureInforConfirmViewController.h; sourceTree = "<group>"; };
+		0477CA2D275EFA3500A99914 /* HXPictureInforConfirmViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPictureInforConfirmViewController.m; sourceTree = "<group>"; };
+		0477CA2F275F06DC00A99914 /* HXCommonSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXCommonSelectView.h; sourceTree = "<group>"; };
+		0477CA30275F06DC00A99914 /* HXCommonSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCommonSelectView.m; sourceTree = "<group>"; };
+		0477CA32275F071300A99914 /* HXCommonSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCommonSelectCell.m; sourceTree = "<group>"; };
+		0477CA33275F071400A99914 /* HXCommonSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXCommonSelectCell.h; sourceTree = "<group>"; };
+		0477CA35275F075900A99914 /* HXCommonSelectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXCommonSelectModel.h; sourceTree = "<group>"; };
+		0477CA36275F075900A99914 /* HXCommonSelectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCommonSelectModel.m; sourceTree = "<group>"; };
 		0478C47725AC379800ECECBD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewCell.h; sourceTree = "<group>"; };
 		047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewCell.m; sourceTree = "<group>"; };
@@ -902,6 +921,8 @@
 		0485164C2589D7F70071F7C8 /* IntroViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IntroViewAssets.xcassets; sourceTree = "<group>"; };
 		048516512589E16B0071F7C8 /* HXPageControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPageControl.h; sourceTree = "<group>"; };
 		048516522589E16B0071F7C8 /* HXPageControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPageControl.m; sourceTree = "<group>"; };
+		04893BAA275DB92A005CB6C5 /* HXMyGraduationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXMyGraduationViewController.h; sourceTree = "<group>"; };
+		04893BAB275DB92A005CB6C5 /* HXMyGraduationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXMyGraduationViewController.m; sourceTree = "<group>"; };
 		048C66942670AAD400977A4F /* HXStudentRefundModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudentRefundModel.h; sourceTree = "<group>"; };
 		048C66952670AAD400977A4F /* HXStudentRefundModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudentRefundModel.m; sourceTree = "<group>"; };
 		048C66972670B55000977A4F /* HXStudentRefundDetailsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudentRefundDetailsModel.h; sourceTree = "<group>"; };
@@ -1233,6 +1254,10 @@
 				042320AA26968E0600779BE9 /* HXOriginalPaymentInfoCell.m */,
 				042320AC2696DBD900779BE9 /* HXRecentPaymentInfoCell.h */,
 				042320AD2696DBD900779BE9 /* HXRecentPaymentInfoCell.m */,
+				0477CA2F275F06DC00A99914 /* HXCommonSelectView.h */,
+				0477CA30275F06DC00A99914 /* HXCommonSelectView.m */,
+				0477CA33275F071400A99914 /* HXCommonSelectCell.h */,
+				0477CA32275F071300A99914 /* HXCommonSelectCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -1918,6 +1943,8 @@
 				046F25A5261E8E7100E394C3 /* HXShowExamDateView.m */,
 				046F25A7261E904A00E394C3 /* HXExamDateCell.h */,
 				046F25A8261E904A00E394C3 /* HXExamDateCell.m */,
+				0466380D275DDC57000730B2 /* HXDissertationCell.h */,
+				0466380E275DDC57000730B2 /* HXDissertationCell.m */,
 				041FE0CD26147B0600696D5C /* view */,
 			);
 			path = view;
@@ -2060,6 +2087,10 @@
 				046EF04D2611886000A0B790 /* HXApplyCoursesViewController.m */,
 				046EF04F261188C300A0B790 /* HXExaminationResultsViewController.h */,
 				046EF050261188C300A0B790 /* HXExaminationResultsViewController.m */,
+				04893BAA275DB92A005CB6C5 /* HXMyGraduationViewController.h */,
+				04893BAB275DB92A005CB6C5 /* HXMyGraduationViewController.m */,
+				04663810275DF2B0000730B2 /* HXLunWenViewController.h */,
+				04663811275DF2B0000730B2 /* HXLunWenViewController.m */,
 			);
 			path = "教务";
 			sourceTree = "<group>";
@@ -2100,6 +2131,8 @@
 				046F25B4261EF6D300E394C3 /* HXRegistFormViewController.m */,
 				046876FE261FDB0D00DA03C8 /* HXAboutUsViewController.h */,
 				046876FD261FDB0D00DA03C8 /* HXAboutUsViewController.m */,
+				0477CA2C275EFA3500A99914 /* HXPictureInforConfirmViewController.h */,
+				0477CA2D275EFA3500A99914 /* HXPictureInforConfirmViewController.m */,
 				04687700261FF5A700DA03C8 /* HXInfoConfirmViewController.h */,
 				04687701261FF5A700DA03C8 /* HXInfoConfirmViewController.m */,
 				04566E5126706E6C00847287 /* HXInfoConfirmChildViewController.h */,
@@ -2285,6 +2318,8 @@
 				0444398327117FBB00CDA40B /* HXColumnItemModel.m */,
 				04708E5E271E99D0004B2A04 /* HXLiveBroadcastModel.h */,
 				04708E5F271E99D0004B2A04 /* HXLiveBroadcastModel.m */,
+				0477CA35275F075900A99914 /* HXCommonSelectModel.h */,
+				0477CA36275F075900A99914 /* HXCommonSelectModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2624,8 +2659,10 @@
 				04940E9C261DA00F00C3E8E4 /* HXStudyReportTableHeaderView.m in Sources */,
 				04D793C4254FA5D200BCB358 /* HXCompleteViewController.m in Sources */,
 				04120F8A26B27AD100696C44 /* HXSelectHistoryTimeViewController.m in Sources */,
+				04893BAC275DB92A005CB6C5 /* HXMyGraduationViewController.m in Sources */,
 				04936D552593268E0000ED74 /* HXPullRefreshViewController.m in Sources */,
 				0445807D25B7F71B005E719C /* HXCustomButton.m in Sources */,
+				0477CA31275F06DC00A99914 /* HXCommonSelectView.m in Sources */,
 				0449A359254C1174001A28D5 /* UIViewController+HXNavigation.m in Sources */,
 				041A54F0263BB3080049C2EC /* HXVoucherViewController.m in Sources */,
 				043E05C025A4682E005FABD4 /* HXVertifyCodeViewController.m in Sources */,
@@ -2705,6 +2742,7 @@
 				04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */,
 				0449A4DA254C11F6001A28D5 /* XHImageViewer.m in Sources */,
 				04940E96261D5E7700C3E8E4 /* HXRecordInfoCell.m in Sources */,
+				0477CA34275F071400A99914 /* HXCommonSelectCell.m in Sources */,
 				0404ED8F26565D1F0001AA6A /* HXHomePageShareViewController.m in Sources */,
 				04B904822742022A0026EFF1 /* UIDevice+HXDevice.m in Sources */,
 				041824692672037E00EF8FDC /* HXReviewerSuggestionCell.m in Sources */,
@@ -2716,6 +2754,7 @@
 				0414606B263019750065B76B /* HXPaymentModel.m in Sources */,
 				04EF935B2623D59D00B3723F /* HXCommonWebViewController.m in Sources */,
 				04940E99261D8E6600C3E8E4 /* HXStudyReportViewController.m in Sources */,
+				04663812275DF2B0000730B2 /* HXLunWenViewController.m in Sources */,
 				04275A18262E72CD005CFD34 /* HXSelectStudyTypeGuideView.m in Sources */,
 				04275A15262E622C005CFD34 /* HXStudyGuideView.m in Sources */,
 				046F25B8261EFFBE00E394C3 /* HXSetViewController.m in Sources */,
@@ -2765,6 +2804,7 @@
 				0449A553254C11F6001A28D5 /* HXCircularProgressView.m in Sources */,
 				040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */,
 				042320AB26968E0600779BE9 /* HXOriginalPaymentInfoCell.m in Sources */,
+				0466380F275DDC57000730B2 /* HXDissertationCell.m in Sources */,
 				0449A536254C11F6001A28D5 /* TestColorViewController.m in Sources */,
 				0449A539254C11F6001A28D5 /* ACEDrawingTools.m in Sources */,
 				0449A4D3254C11F6001A28D5 /* HXVerificationCodeView.m in Sources */,
@@ -2783,6 +2823,7 @@
 				048516532589E16B0071F7C8 /* HXPageControl.m in Sources */,
 				04D5AF44259B1F2F004F11E8 /* HXMessageListController.m in Sources */,
 				0449A4B8254C11F6001A28D5 /* DOUAudioStreamer+Options.m in Sources */,
+				0477CA37275F075900A99914 /* HXCommonSelectModel.m in Sources */,
 				046F25AC261ED14400E394C3 /* HXPaymentDtailsContainerViewController.m in Sources */,
 				0449A4C4254C11F6001A28D5 /* DOUAudioPlaybackItem.m in Sources */,
 				040581B62551564B0022A300 /* HXResetViewController.m in Sources */,
@@ -2850,6 +2891,7 @@
 				041FE0DE26147B0600696D5C /* HXLeftCell.m in Sources */,
 				04FD3D6425ADAADA00E157EA /* NSDate+HXDate.m in Sources */,
 				04936D50259325EC0000ED74 /* HXExamModuleViewController.m in Sources */,
+				0477CA2E275EFA3500A99914 /* HXPictureInforConfirmViewController.m in Sources */,
 				04D5AF48259B1F40004F11E8 /* HXMessageDetailController.m in Sources */,
 				0405818E2551041A0022A300 /* HXIntroViewManager.m in Sources */,
 				046EF0452611821800A0B790 /* XLPageBasicTitleView.m in Sources */,
