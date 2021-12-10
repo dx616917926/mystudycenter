@@ -1,20 +1,23 @@
 //
-//  HXPictureInforConfirmViewController.m
+//  HXZiLiaoInfoViewController.m
 //  HXMinedu
 //
-//  Created by mac on 2021/12/7.
+//  Created by mac on 2021/12/8.
 //
 
-#import "HXPictureInforConfirmViewController.h"
-#import "HXSelectStudyTypeViewController.h"
 #import "HXZiLiaoInfoViewController.h"
-#import "HXZiLiaoCell.h"
+#import "HXSelectStudyTypeViewController.h"
+#import "HXInfoConfirmCell.h"
 #import "HXCommonSelectView.h"
 #import "HXNoDataTipView.h"
 
-@interface HXPictureInforConfirmViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HXZiLiaoInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)  UITableView *mainTableView;
+
 @property (nonatomic,strong)  UIView *tableHeaderView;
+@property (nonatomic,strong)  UILabel *ziLiaoTitleLabel;
+@property (nonatomic,strong)  UIButton *ziLiaoSwitchBtn;
+
 @property(strong,nonatomic)   HXNoDataTipView *noDataTipView;
 
 @property(nonatomic,strong) UIControl *majorSwitchControl;///汉语言文学
@@ -25,7 +28,7 @@
 
 @end
 
-@implementation HXPictureInforConfirmViewController
+@implementation HXZiLiaoInfoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,10 +89,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *ziLiaoCellIdentifier = @"HXZiLiaoCellIdentifier";
-    HXZiLiaoCell *cell = [tableView dequeueReusableCellWithIdentifier:ziLiaoCellIdentifier];
+    static NSString *infoConfirmCellIdentifier = @"HXInfoConfirmCellIdentifier";
+    HXInfoConfirmCell *cell = [tableView dequeueReusableCellWithIdentifier:infoConfirmCellIdentifier];
     if (!cell) {
-        cell = [[HXZiLiaoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ziLiaoCellIdentifier];
+        cell = [[HXInfoConfirmCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:infoConfirmCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -97,8 +100,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    HXZiLiaoInfoViewController *vc = [[HXZiLiaoInfoViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UI
@@ -147,30 +148,49 @@
 -(UIView *)tableHeaderView{
     if (!_tableHeaderView) {
         _tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
-        UILabel *titleLabel =[[UILabel alloc] init];
-        titleLabel.font = HXBoldFont(18);
-        titleLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
-        titleLabel.text = @"资料全览";
-        [_tableHeaderView addSubview:titleLabel];
         
-//        UIButton *switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [switchBtn setImage:[UIImage imageNamed:@"ziliaoswitch_icon"] forState:UIControlStateNormal];
-//        [_tableHeaderView addSubview:switchBtn];
+        [_tableHeaderView addSubview:self.ziLiaoTitleLabel];
+        [_tableHeaderView addSubview:self.ziLiaoSwitchBtn];
         
-        titleLabel.sd_layout
+        self.ziLiaoTitleLabel.sd_layout
         .centerYEqualToView(_tableHeaderView)
         .leftSpaceToView(_tableHeaderView, 20)
         .widthIs(120)
         .heightIs(25);
         
-//        switchBtn.sd_layout
-//        .centerYEqualToView(_tableHeaderView)
-//        .rightSpaceToView(_tableHeaderView, 20)
-//        .widthIs(21)
-//        .heightIs(15);
+        self.ziLiaoSwitchBtn.sd_layout
+        .centerYEqualToView(_tableHeaderView)
+        .rightSpaceToView(_tableHeaderView, 0)
+        .widthIs(60)
+        .heightIs(50);
+        
+        self.ziLiaoSwitchBtn.imageView.sd_layout
+        .centerYEqualToView(self.ziLiaoSwitchBtn)
+        .rightSpaceToView(self.ziLiaoSwitchBtn, 20)
+        .widthIs(21)
+        .heightIs(15);
         
     }
     return _tableHeaderView;
+}
+
+-(UILabel *)ziLiaoTitleLabel{
+    if (!_ziLiaoTitleLabel) {
+        _ziLiaoTitleLabel =[[UILabel alloc] init];
+        _ziLiaoTitleLabel.font = HXBoldFont(18);
+        _ziLiaoTitleLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
+        _ziLiaoTitleLabel.text = @"基本资料";
+    }
+    return _ziLiaoTitleLabel;
+}
+
+-(UIButton *)ziLiaoSwitchBtn{
+    if (!_ziLiaoSwitchBtn) {
+        _ziLiaoSwitchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+       [_ziLiaoSwitchBtn setImage:[UIImage imageNamed:@"ziliaoswitch_icon"] forState:UIControlStateNormal];
+        [_ziLiaoSwitchBtn addTarget:self action:@selector(ziLiaoSwitch:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _ziLiaoSwitchBtn;
 }
 
 -(HXNoDataTipView *)noDataTipView{

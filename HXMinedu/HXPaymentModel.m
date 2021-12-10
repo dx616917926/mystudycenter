@@ -24,6 +24,9 @@
 }
 
 -(NSArray<HXPaymentDetailsInfoModel *> *)payableTypeList{
+    if (_payableTypeList.count>0) {
+        return _payableTypeList;
+    }
     NSMutableArray *modeArray = [NSMutableArray array];
     [self.payableDetailsInfos enumerateObjectsUsingBlock:^(HXPaymentDetailsInfoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.payableDetailsInfoList.count>0) {

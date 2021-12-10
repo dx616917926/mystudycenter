@@ -43,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///交易凭证url
 @property(nonatomic, copy) NSString *proofUrl;
 
+//是否选中
+@property(nonatomic, assign) BOOL isSeleted;
 
 @end
 

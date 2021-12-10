@@ -130,7 +130,7 @@
                                       }];
     self.searchTextField.attributedPlaceholder = attrString;
     //选择资料类型等的搜索框去掉
-    if ([@"选择资料类型" containsString:title]) {
+    if ([@"选择资料类型、选择专业" containsString:title]) {
         self.bigWhiteShadowView.sd_layout.heightIs(430);
         self.searchTextField.sd_layout.topSpaceToView(self.showLabel, 10).heightIs(0);
     }else{

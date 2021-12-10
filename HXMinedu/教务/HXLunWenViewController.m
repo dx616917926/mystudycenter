@@ -7,7 +7,7 @@
 
 #import "HXLunWenViewController.h"
 
-@interface HXLunWenViewController ()
+@interface HXLunWenViewController ()<UIDocumentPickerDelegate>
 
 @property(nonatomic,strong) HXBarButtonItem *rightBarButtonItem;
 
@@ -61,13 +61,54 @@
     [self createUI];
 }
 
+#pragma Mark - Event
+//上传论文
+-(void)upLoadLunWen{
+    
+    NSArray * types = @[@"public.item"];
+    UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:types inMode:UIDocumentPickerModeOpen];
+    documentPicker.delegate = self;
+    documentPicker.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:documentPicker animated:YES completion:nil];
+}
+
+#pragma mark - <UIDocumentPickerDelegate>选择文件回调
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
+    //获取授权
+    BOOL fileUrlAuthozied = [urls.firstObject startAccessingSecurityScopedResource];
+    if (fileUrlAuthozied) {
+        //通过文件协调工具来得到新的文件地址，以此得到文件保护功能
+        NSFileCoordinator *fileCoordinator = [[NSFileCoordinator alloc] init];
+        NSError *error;
+        [fileCoordinator coordinateReadingItemAtURL:urls.firstObject options:0 error:&error byAccessor:^(NSURL *newURL) {
+            //读取文件
+            NSString *fileName = [newURL lastPathComponent];
+            NSError *error = nil;
+            NSData *fileData = [NSData dataWithContentsOfURL:newURL options:NSDataReadingMappedIfSafe error:&error];
+            if (error) {
+                //读取出错
+                [self.view showErrorWithMessage:@"读取出错"];
+            } else {
+                //上传
+                NSLog(@"fileData --- %@",fileData);
+//                [self uploadingWithFileData:fileData fileName:fileName fileURL:newURL];
+            }
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        }];
+        [urls.firstObject stopAccessingSecurityScopedResource];
+    } else {
+        //授权失败
+        [self.view showErrorWithMessage:@"授权失败"];
+    }
+}
+
 #pragma mark - 布局子视图
 -(void)createUI{
     
     self.sc_navigationBar.title = @"我的毕业";
     
     self.rightBarButtonItem = [[HXBarButtonItem alloc] initWithTitle:@"重新上传" style:HXBarButtonItemStylePlain handler:^(id sender) {
-        
+        [self upLoadLunWen];
     }];
     
     self.sc_navigationBar.rightBarButtonItem = self.rightBarButtonItem;

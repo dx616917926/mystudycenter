@@ -1,16 +1,16 @@
 //
-//  HXInfoConfirmCell.m
+//  HXZiLiaoCell.m
 //  HXMinedu
 //
-//  Created by mac on 2021/4/9.
+//  Created by mac on 2021/12/8.
 //
 
-#import "HXInfoConfirmCell.h"
+#import "HXZiLiaoCell.h"
 
-@interface HXInfoConfirmCell ()
+@interface HXZiLiaoCell ()
 
 @property(nonatomic,strong) UILabel *titleLabel;
-@property(nonatomic,strong) UILabel *contentLabel;
+@property(nonatomic,strong) UILabel *numLabel;
 @property(nonatomic,strong) UIImageView *stateImageView;
 @property(nonatomic,strong) UILabel *stateLabel;
 @property(nonatomic,strong) UIImageView *arrowImageView;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation HXInfoConfirmCell
+@implementation HXZiLiaoCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -42,12 +42,14 @@
 -(void)setPictureInfoModel:(HXPictureInfoModel *)pictureInfoModel{
     _pictureInfoModel = pictureInfoModel;
     if ([HXCommonUtil isNull:pictureInfoModel.majorName]) {
-       
+        self.titleLabel.sd_layout.heightIs(46);
+        self.numLabel.sd_layout.heightIs(0);
         self.titleLabel.text = HXSafeString(pictureInfoModel.fileTypeName);
     }else{
-        
+        self.titleLabel.sd_layout.heightIs(25);
+        self.numLabel.sd_layout.heightIs(20);
         self.titleLabel.text = HXSafeString(pictureInfoModel.majorName);
-        
+        self.numLabel.text = HXSafeString(pictureInfoModel.fileTypeName);
     }
    
     
@@ -63,6 +65,7 @@
 #pragma mark - UI
 -(void)createUI{
     [self addSubview:self.titleLabel];
+    [self addSubview:self.numLabel];
     [self addSubview:self.stateImageView];
     [self addSubview:self.stateLabel];
     [self addSubview:self.arrowImageView];
@@ -73,7 +76,6 @@
     .leftSpaceToView(self, 10)
     .rightSpaceToView(self, 10)
     .heightIs(0.5);
-    
     
     
     self.arrowImageView.sd_layout
@@ -94,14 +96,19 @@
     .heightIs(20)
     .widthEqualToHeight();
     
+    self.numLabel.sd_layout
+    .centerYEqualToView(self.stateImageView)
+    .centerXEqualToView(self.stateImageView)
+    .widthRatioToView(self.stateImageView, 1)
+    .heightRatioToView(self.stateImageView, 1);
+    self.numLabel.sd_cornerRadiusFromHeightRatio = @0.5;
+    
     self.titleLabel.sd_layout
     .centerYEqualToView(self)
-    .leftEqualToView(self.bottomLine).offset(2)
+    .leftEqualToView(self.bottomLine).offset(10)
     .rightSpaceToView(self.stateImageView, 10)
-    .heightIs(50);
-    
-    
-    
+    .heightIs(22);
+
 }
 
 -(UILabel *)titleLabel{
@@ -110,25 +117,30 @@
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.font = HXFont(16);
         _titleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _titleLabel.numberOfLines = 2;
+        _titleLabel.numberOfLines = 1;
+        _titleLabel.text = @"毕业申办资料(2)";
     }
     return _titleLabel;;
 }
 
--(UILabel *)contentLabel{
-    if (!_contentLabel) {
-        _contentLabel = [[UILabel alloc] init];
-        _contentLabel.textAlignment = NSTextAlignmentLeft;
-        _contentLabel.font = HXFont(16);
-        _contentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _contentLabel.numberOfLines = 1;
+-(UILabel *)numLabel{
+    if (!_numLabel) {
+        _numLabel = [[UILabel alloc] init];
+        _numLabel.backgroundColor = COLOR_WITH_ALPHA(0xFF3D3D, 1);
+        _numLabel.textAlignment = NSTextAlignmentCenter;
+        _numLabel.font = HXFont(16);
+        _numLabel.textColor = COLOR_WITH_ALPHA(0xffffff, 1);
+        _numLabel.numberOfLines = 1;
+        _numLabel.text = @"5";
     }
-    return _contentLabel;;
+    return _numLabel;;
 }
 
 -(UIImageView *)stateImageView{
     if (!_stateImageView) {
         _stateImageView = [[UIImageView alloc] init];
+        _stateImageView.image = [UIImage imageNamed:@"confirm_icon"];
+        _stateImageView.hidden = YES;
     }
     return _stateImageView;
 }
@@ -136,10 +148,10 @@
 -(UILabel *)stateLabel{
     if (!_stateLabel) {
         _stateLabel = [[UILabel alloc] init];
-        _stateLabel.textAlignment = NSTextAlignmentLeft;
-        _stateLabel.font = HXFont(14);
-        _stateLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
-        
+        _stateLabel.textAlignment = NSTextAlignmentRight;
+        _stateLabel.font = HXFont(16);
+        _stateLabel.textColor = COLOR_WITH_ALPHA(0x858585, 1);
+        _stateLabel.text = @"待完善";
     }
     return _stateLabel;;
 }

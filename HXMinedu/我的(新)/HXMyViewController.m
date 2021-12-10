@@ -348,7 +348,7 @@
             
         case 2://图片信息
         {
-            HXInfoConfirmViewController *infoConfirmVc = [[HXInfoConfirmViewController alloc] init];
+            HXPictureInforConfirmViewController *infoConfirmVc = [[HXPictureInforConfirmViewController alloc] init];
             infoConfirmVc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:infoConfirmVc animated:YES];
         }

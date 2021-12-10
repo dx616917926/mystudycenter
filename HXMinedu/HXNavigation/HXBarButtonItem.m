@@ -114,14 +114,14 @@
 }
 - (instancetype)initWithCustsRigthItem:(UIView *)customView style:(HXBarButtonItemStyle)style{
     if (self = [self init]) {
-        UIButton *button = [[UIButton alloc] init];
-        button.backgroundColor =[UIColor orangeColor];
-        [button sizeToFit];
-        button.height = 44;
-        button.width += kScreenWidth - 160;
-        button.centerY = 20 + 22;
-        button.x = -100;
-        self.view = button;
+//        UIButton *button = [[UIButton alloc] init];
+//        button.backgroundColor =[UIColor whiteColor];
+//        [button sizeToFit];
+//        button.height = 44;
+//        button.width += kScreenWidth - 160;
+//        button.centerY = 20 + 22;
+//        button.x = -100;
+        self.view = customView;
     }
     return self;
 }

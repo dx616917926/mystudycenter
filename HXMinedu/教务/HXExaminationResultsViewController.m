@@ -83,7 +83,7 @@
 
 #pragma mark - 刷新数据
 -(void)refreshUI{
-    if (self.examDateList.count == 0) {
+    if (self.selectExamDateModel.examDateCourseScoreInfoList.count == 0) {
         self.selectDateHeaderView.hidden = YES;
         [self.view addSubview:self.noDataTipView];
     }else{

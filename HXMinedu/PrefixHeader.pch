@@ -15,6 +15,7 @@
 #import <UIKit/UIKit.h>
 
 #import "HXDefines.h"
+#import "HXNotificationNameDefines.h"
 #import "SetUp.h"
 
 #import "HXNavigation.h"

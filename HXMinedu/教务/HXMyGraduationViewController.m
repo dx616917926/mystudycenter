@@ -32,7 +32,7 @@
 #pragma mark - Event
 //上传论文
 -(void)upLoadLunWen:(UIButton *)sender{
-    NSArray * types=@[@"public.item"];
+    NSArray * types = @[@"public.item"];
    
     UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:types inMode:UIDocumentPickerModeOpen];
     documentPicker.delegate = self;//(UIDocumentPickerDelegate)

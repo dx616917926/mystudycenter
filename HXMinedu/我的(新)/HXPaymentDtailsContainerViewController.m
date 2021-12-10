@@ -8,12 +8,15 @@
 #import "HXPaymentDtailsContainerViewController.h"
 #import "XLPageViewController.h"
 #import "HXPaymentDtailChildViewController.h"
+#import "HXZiZhuJiaoFeiViewController.h"
 
 @interface HXPaymentDtailsContainerViewController ()<XLPageViewControllerDelegate,XLPageViewControllerDataSrouce>
 //配置信息
 @property (nonatomic, strong) XLPageViewControllerConfig *config;
 @property (nonatomic, strong) XLPageViewController *pageViewController;
 @property (nonatomic, strong) NSArray *titles;
+
+@property (nonatomic, strong) UIButton *rightBtn;
 
 @end
 
@@ -25,6 +28,13 @@
     // Do any additional setup after loading the view.
     //UI
     [self createUI];
+}
+
+#pragma mark - Event
+//自助缴费
+-(void)pushZiZhuJiaoFei:(UIButton *)sender{
+    HXZiZhuJiaoFeiViewController *vc = [[HXZiZhuJiaoFeiViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark -<XLPageViewControllerDelegate,XLPageViewControllerDataSrouce>
@@ -50,6 +60,7 @@
 -(void)createUI{
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.sc_navigationBar.title = @"缴费明细";
+    self.sc_navigationBar.rightBarButtonItem = [[HXBarButtonItem alloc] initWithCustsRigthItem:self.rightBtn style:HXBarButtonItemStylePlain];
     [self initPageViewController];
     
 }
@@ -87,6 +98,24 @@
     return config;
 }
 
+-(UIButton *)rightBtn{
+    if (!_rightBtn) {
+        _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _rightBtn.frame = CGRectMake(0, 0, 110, 44);
+        _rightBtn.titleLabel.font = HXFont(14);
+        [_rightBtn setTitle:@"自助缴费" forState:UIControlStateNormal];
+        [_rightBtn setTitleColor:COLOR_WITH_ALPHA(0x5B5B5B, 1) forState:UIControlStateNormal];
+        [_rightBtn setImage:[UIImage imageNamed:@"zizhujiaofei_icon"] forState:UIControlStateNormal];
+        [_rightBtn addTarget:self action:@selector(pushZiZhuJiaoFei:) forControlEvents:UIControlEventTouchUpInside];
+        
+        _rightBtn.imageView.sd_layout
+        .centerYEqualToView(_rightBtn)
+        .leftEqualToView(_rightBtn).offset(10)
+        .widthIs(16)
+        .heightIs(16);
+    }
+    return _rightBtn;
+}
 
 -(void)dealloc{
     ///重新初始化子视图控制器,这里会多次调用，在调用之前先移除原先的，避免多次添加

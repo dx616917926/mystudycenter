@@ -8,13 +8,7 @@
 #ifndef HXDefines_h
 #define HXDefines_h
 
-#define SHOWLOGIN @"HXShowLoginVC"
-#define LOGINSUCCESS @"HXLoginSuccess"
-#define NeedReAuthorize @"HXNeedReAuthorize"
-///报考类型专业改变通知
-#define VersionAndMajorChangeNotification    @"VersionAndMajorChangeNotification"
-///首页banner改变通知
-#define HomePageBannerChangeNotification    @"HomePageBannerChangeNotification"
+
 
 #define NETWORK_AVAILIABLE ([[AFNetworkReachabilityManager sharedManager] isReachable])
 #define NETWORK_ViaWWAN    ([[AFNetworkReachabilityManager sharedManager] isReachableViaWWAN])
@@ -73,7 +67,8 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 // 根据高度度适配字体大小
 #define _kpAdaptationHeightFont(__font_) ([[UIScreen mainScreen].bounds.size.height * (__font_) / 667.0)
 
-#define  HXUserDefaults  [NSUserDefaults standardUserDefaults]
+#define  HXUserDefaults        [NSUserDefaults standardUserDefaults]
+#define  HXNotificationCenter  [NSNotificationCenter defaultCenter]
 
 #ifndef KHXUserDefaultsForValue
 #define KHXUserDefaultsForValue(___key_) ({   \

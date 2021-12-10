@@ -64,10 +64,10 @@
             [self.dataList removeAllObjects];
             NSArray *data = [HXStudentFileModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             [self.dataList addObjectsFromArray:data];
-            [self initPageViewController];
             if (self.dataList.count == 0) {
                 [self.view addSubview:self.noDataTipView];
             }else{
+                [self initPageViewController];
                 [self.noDataTipView removeFromSuperview];
             }
         }
@@ -82,8 +82,7 @@
 -(void)createUI{
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.sc_navigationBar.title = @"图片信息确认";
-   
-    
+
 }
 
 ///初始化子视图控制器

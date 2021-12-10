@@ -163,7 +163,7 @@
     self.pageViewController.dataSource = nil;
     [self.pageViewController.view removeFromSuperview];
     
-    self.titles = @[@"教学计划",@"报考课程",@"考试成绩"];//,@"我的毕业"
+    self.titles = @[@"教学计划",@"报考课程",@"考试成绩",@"我的毕业"];
     self.pageViewController = [[XLPageViewController alloc] initWithConfig:self.config];
     self.pageViewController.bounces = NO;
     self.pageViewController.view.frame = CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight-kTabBarHeight);
