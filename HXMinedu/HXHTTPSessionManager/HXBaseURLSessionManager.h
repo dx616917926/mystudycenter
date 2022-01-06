@@ -56,10 +56,10 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXPOST_Get_StudentFile                                 @"/MD/StuInfo/getStudentFileV2"
 
 //学生确认图片信息V2
-#define HXPOST_UpdateStudentStatu                                @"/MD/StuInfo/UpdateStudentstatusV2"
+#define HXPOST_UpdateStudentStatu                                @"/MD/StuInfo/UpdateStudentstatus"
 
 //上传图片信息V2
-#define HXPOST_UpdateStudentFile                               @"/MD/StuInfo/uploadStudentFileV2"
+#define HXPOST_UpdateStudentFile                               @"/MD/StuInfo/uploadStudentFile"
 
 //获取隐私协议
 #define HXPOST_Get_PrivacyUrl                                @"/MD/StuInfo/getPrivacyUrl"
@@ -141,6 +141,40 @@ NS_ASSUME_NONNULL_BEGIN
 
 //直播列表
 #define HXPOST_GetLiveList                                         @"/MD/Live/getLiveList"
+
+//获取学生所有专业
+#define HXPOST_GetAllMajorList                                         @"/MD/StuInfo/getAllMajorList"
+
+//获取机构资料类型
+#define HXPOST_GetFileTypeList                                         @"/MD/StuInfo/GetFileTypeList"
+
+//获取学生资料统计
+#define HXPOST_GetFileTypeInfo                                         @"/MD/StuInfo/GetFileTypeInfo"
+
+//获取学生图片信息V3
+#define HXPOST_GetStudentFileV3                                         @"/MD/StuInfo/getStudentFileV3"
+
+//保存自主缴费信息
+#define HXPOST_SaveStuPay                                               @"/MD/StuPayInfo/SaveStuPay"
+
+//获取支付方式
+#define HXPOST_GetPayMode                                               @"/MD/StuPayInfo/GetPayMode"
+
+//获取支付类型
+#define HXPOST_GetPayType                                               @"/MD/StuPayInfo/GetPayType"
+
+//获取学生论文
+#define HXPOST_GetStudentPaper                                          @"/MD/StuPaper/getStudentPaper"
+
+//获取学生论文详情
+#define HXPOST_GetStudentPaperInfo                                      @"/MD/StuPaper/getStudentPaperInfo"
+
+//修改答辩状态
+#define HXPOST_UpdatedbStatus                                           @"/MD/StuPaper/UpdatedbStatus"
+
+//上传论文
+#define HXPOST_UploadStudentPaperFile                                   @"/MD/StuPaper/UploadStudentPaperFile"
+
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

@@ -108,7 +108,7 @@
     
     self.timeLabel.sd_layout
     .leftSpaceToView(self.titleLabel, 7)
-    .centerYEqualToView(self.bigBackgroundControl)
+    .centerYEqualToView(self.titleLabel)
     .heightIs(22);
     [self.timeLabel setSingleLineAutoResizeWithMaxWidth:150];
     
@@ -146,7 +146,7 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _titleLabel.font = [UIFont systemFontOfSize:16];
+        _titleLabel.font = HXFont(16);
         
     }
     return _titleLabel;;
@@ -164,7 +164,7 @@
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.textColor = COLOR_WITH_ALPHA(0xAFAFAF, 1);
-        _timeLabel.font = [UIFont systemFontOfSize:14];
+        _timeLabel.font = HXFont(14);
         
     }
     return _timeLabel;;

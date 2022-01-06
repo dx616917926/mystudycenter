@@ -14,6 +14,7 @@
 #import "HXExamListViewController.h"
 #import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXMoocViewController.h"
+#import "HXCommonWebViewController.h"
 #import "HXCustommNavView.h"
 #import "HXCourseLearnCell.h"
 #import "HXStudyCourseCell.h"
@@ -345,7 +346,12 @@
                 return;;
             }
         }];
-    }else if(flag == 3){//切换类型
+    }else if(flag == 3){//课程库
+        HXCommonWebViewController *vc = [[HXCommonWebViewController alloc] init];
+        vc.urlString = self.bannerLogoModel.courseResourceUrl;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if(flag == 4){//切换类型
         [self  selectStudyType];
     }
     

@@ -9,7 +9,6 @@
 #import "HXCommonWebViewController.h"
 #import "HXScanQRCodeViewController.h"
 #import "HXLiveBroadCastCell.h"
-#import "MJRefresh.h"
 #import "HXVersionModel.h"
 #import "HXNoDataTipView.h"
 #import "SGAuthorization.h"

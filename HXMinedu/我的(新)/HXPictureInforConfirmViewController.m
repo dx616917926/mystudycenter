@@ -22,6 +22,12 @@
 @property(nonatomic,strong) UIImageView *triangleImageView;
 
 @property(nonatomic,strong) HXCommonSelectView *commonSelectView;
+//选择的专业
+@property(nonatomic,strong) HXCommonSelectModel *selectMajorModel;
+//专业数据源
+@property(nonatomic,strong) NSMutableArray *majorList;
+//学生资料数据源
+@property(nonatomic,strong) NSMutableArray *fileTypeList;
 
 @end
 
@@ -30,44 +36,101 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     //UI
     [self createUI];
-    
-   
+    //获取学生所有专业
+    [self getAllMajorList];
     
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.majorList.count>0) {
+        [self.majorList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            HXCommonSelectModel *model = obj;
+            if (model.isSelected) {
+                self.selectMajorModel = model;
+                self.majorLabel.text = self.selectMajorModel.majorName;
+                //重新获取学生资料统计
+                [self getFileTypeInfo];
+                *stop = YES;
+                return;
+            }
+        }];
+    }
+    
+}
+
+#pragma mark - 获取学生所有专业
+-(void)getAllMajorList{
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetAllMajorList withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *list = [HXCommonSelectModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.majorList addObjectsFromArray:list];
+            if (self.majorList.count>0) {
+                self.selectMajorModel = self.majorList.firstObject;
+                self.selectMajorModel.isSelected = YES;
+                self.majorLabel.text = self.selectMajorModel.majorName;
+                //获取学生资料统计
+                [self getFileTypeInfo];
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+    }];
+    
+}
+
+#pragma mark - 获取学生资料统计
+-(void)getFileTypeInfo{
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(self.selectMajorModel.version_id),
+        @"major_id":HXSafeString(self.selectMajorModel.major_id),
+        @"type":@(self.selectMajorModel.type)
+    };
+    [self.noDataTipView removeFromSuperview];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetFileTypeInfo withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *list = [HXFileTypeInfoModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.fileTypeList removeAllObjects];
+            [self.fileTypeList addObjectsFromArray:list];
+            if (self.fileTypeList.count>0) {
+                [self.mainTableView reloadData];
+            }else{
+                [self.view addSubview:self.noDataTipView];
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_header endRefreshing];
+    }];
+    
+}
+
+
 #pragma mark - Event
 //切换专业
 -(void)selectType:(UIControl *)sender{
     
-    HXSelectStudyTypeViewController *vc =[[HXSelectStudyTypeViewController alloc] init];
-    //选择完成回调
-    WeakSelf(weakSelf)
-    vc.selectFinishCallBack = ^(HXVersionModel * _Nonnull selectVersionModel, HXMajorModel * _Nonnull selectMajorModel) {
-        StrongSelf(strongSelf)
-        strongSelf.majorLabel.text = selectMajorModel.majorName;
-        [HXPublicParamTool sharedInstance].selectMajorModel = selectMajorModel;
-    };
-    [self presentViewController:vc animated:YES completion:nil];
+    if (self.majorList.count>0) {
+        [self.commonSelectView show];
+        self.commonSelectView.dataArray = self.majorList;
+        self.commonSelectView.title = @"选择专业";
+        WeakSelf(weakSelf);
+        self.commonSelectView.seletConfirmBlock = ^(HXCommonSelectModel * _Nonnull selectModel) {
+            StrongSelf(strongSelf);
+            strongSelf.selectMajorModel = selectModel;
+            strongSelf.majorLabel.text = strongSelf.selectMajorModel.majorName;
+            //获取学生资料统计
+            [strongSelf getFileTypeInfo];
+        };
+    }
 }
 
-///切换资料
--(void)ziLiaoSwitch:(UIButton *)sender{
-    
-    [self.commonSelectView show];
-    self.commonSelectView.dataArray = @[];
-    self.commonSelectView.title = @"选择资料类型";
-    WeakSelf(weakSelf);
-    self.commonSelectView.seletConfirmBlock = ^(HXCommonSelectModel * _Nonnull selectModel) {
-        StrongSelf(strongSelf);
-        ///
-        
-       
-        
-       
-    };
-}
+
 
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
@@ -77,7 +140,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return  5;
+    return  self.fileTypeList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -91,6 +154,7 @@
     if (!cell) {
         cell = [[HXZiLiaoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ziLiaoCellIdentifier];
     }
+    cell.fileTypeInfoModel = self.fileTypeList[indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -98,28 +162,44 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     HXZiLiaoInfoViewController *vc = [[HXZiLiaoInfoViewController alloc] init];
+    vc.majorList = self.majorList;
+    HXFileTypeInfoModel *fileTypeInfoModel = self.fileTypeList[indexPath.row];
+    vc.selectFileTypeName =fileTypeInfoModel.reserve;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UI
 -(void)createUI{
     self.sc_navigationBar.titleView = self.majorSwitchControl;
-    
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
-    self.majorLabel.text = selectMajorModel.majorName;
-    
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.mainTableView];
     self.mainTableView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(kNavigationBarHeight, 0, 0, 0));
    
+    //下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getFileTypeInfo)];
+    self.mainTableView.mj_header = header;
 }
 
 
 #pragma mark - lazyLoad
+-(NSMutableArray *)majorList{
+    if (!_majorList) {
+        _majorList = [NSMutableArray array];
+    }
+    return _majorList;
+}
+
+-(NSMutableArray *)fileTypeList{
+    if (!_fileTypeList) {
+        _fileTypeList = [NSMutableArray array];
+    }
+    return _fileTypeList;
+}
+
 -(UITableView *)mainTableView{
     if (!_mainTableView) {
         _mainTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _mainTableView.bounces = NO;
+        _mainTableView.bounces = YES;
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
         _mainTableView.backgroundColor = [UIColor whiteColor];

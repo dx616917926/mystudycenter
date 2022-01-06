@@ -58,6 +58,17 @@ NS_ASSUME_NONNULL_BEGIN
 //生成指定长度的字符串
 + (NSString *)generateTradeNO:(NSInteger)len;
 
+/**
+ 获取当前的日期
+ 默认日期格式为:yyyy-MM-dd HH-mm
+ */
++ (NSString *)getCurrentDateWithFormatterStr:(NSString *)formatterStr;
+/**
+ 比较两个日期的大小
+ 默认日期格式为:yyyy-MM-dd HH-mm
+ */
++ (int)compareDate:(NSString*)date1 withDate:(NSString*)date2 formatterStr:(NSString *)formatterStr;
+
 @end
 
 NS_ASSUME_NONNULL_END

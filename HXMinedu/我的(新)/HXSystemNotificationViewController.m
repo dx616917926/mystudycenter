@@ -10,7 +10,7 @@
 #import "HXSystemNotificationCell.h"
 #import "HXNoDataTipView.h"
 #import "HXMessageObject.h"
-#import "MJRefresh.h"
+
 
 @interface HXSystemNotificationViewController ()<UITableViewDelegate,UITableViewDataSource>
 

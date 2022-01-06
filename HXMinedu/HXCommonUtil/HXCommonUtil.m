@@ -278,4 +278,50 @@
     return randomString;
     
 }
+
+/**
+ 获取当前的日期
+ 默认日期格式为:yyyy-MM-dd HH-mm
+ */
++ (NSString *)getCurrentDateWithFormatterStr:(NSString *)formatterStr{
+    // 设置 日期的格式
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    if ([HXCommonUtil isNull:formatter]) {
+        [formatter setDateFormat:@"yyyy-MM-dd HH-mm"];
+    }else{
+        [formatter setDateFormat:formatterStr];
+    }
+    // 获取 当前系统时间
+    NSString *dataTime = [formatter stringFromDate:[NSDate date]];
+    return dataTime;
+}
+
+/**
+ 比较两个日期的大小
+ 默认日期格式为:yyyy-MM-dd HH-mm
+ */
++ (int)compareDate:(NSString*)date1 withDate:(NSString*)date2 formatterStr:(NSString *)formatterStr{
+    int ci = 0;
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    if ([HXCommonUtil isNull:formatterStr]) {
+        [df setDateFormat:@"yyyy-MM-dd HH-mm"];
+    }else{
+        [df setDateFormat:formatterStr];
+    }
+    NSDate *dt1 = [[NSDate alloc] init];
+    NSDate *dt2 = [[NSDate alloc] init];
+    dt1 = [df dateFromString:date1];
+    dt2 = [df dateFromString:date2];
+    NSComparisonResult result = [dt1 compare:dt2];
+    switch (result){
+            //date2比date1大
+        case NSOrderedAscending: ci=1; break;
+            //date2比date1小
+        case NSOrderedDescending: ci=-1; break;
+            //date2=date1
+        case NSOrderedSame: ci=0; break;
+        
+    }
+    return ci;
+}
 @end

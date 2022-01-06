@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXPictureInfoModel : NSObject
+///
 ///类型id
 @property(nonatomic, copy) NSString *fileId;
 ///上传类型id

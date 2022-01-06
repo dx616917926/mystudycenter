@@ -6,8 +6,10 @@
 //
 
 #import "HXLunWenViewController.h"
+#import "HXStudentPaperModel.h"
+#import <QuickLook/QuickLook.h>
 
-@interface HXLunWenViewController ()<UIDocumentPickerDelegate>
+@interface HXLunWenViewController ()<UIDocumentPickerDelegate,QLPreviewControllerDataSource>
 
 @property(nonatomic,strong) HXBarButtonItem *rightBarButtonItem;
 
@@ -49,6 +51,13 @@
 @property(nonatomic,strong) UIView *bottomShadowView;
 @property(nonatomic,strong) UIView *bottomView;
 @property(nonatomic,strong) UIButton *daBianBtn;
+
+@property(nonatomic,strong)HXStudentPaperModel *studentPaperModel;
+
+@property (nonatomic, copy) NSString *downLoadUrl;
+@property (nonatomic, strong) QLPreviewController *QLController;
+@property (nonatomic, copy) NSURL *fileURL;
+
 @end
 
 @implementation HXLunWenViewController
@@ -59,7 +68,74 @@
     
     //UI
     [self createUI];
+    //获取学生论文详情
+    [self getStudentPaperInfo];
+    
+    self.QLController = [[QLPreviewController alloc] init];
+    self.QLController.dataSource = self;
 }
+
+#pragma mark - 获取学生论文详情
+-(void)getStudentPaperInfo{
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(self.selectMajorModel.versionId),
+        @"major_id":HXSafeString(self.selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStudentPaperInfo withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.studentPaperModel = [HXStudentPaperModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [self refeshUI];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+
+}
+
+//上传论文
+-(void)uploadingWithFileData:(NSString *)fileData fileName:(NSString *)fileName{
+    [self.view showLoading];
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(self.selectMajorModel.versionId),
+        @"major_id":HXSafeString(self.selectMajorModel.major_id),
+        @"file":HXSafeString(fileData),
+        @"fileName":HXSafeString(fileName)
+    };
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UploadStudentPaperFile withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            //获取学生论文详情
+            [self getStudentPaperInfo];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+    }];
+}
+
+
+///修改答辩状态
+-(void)updatedbStatus{
+    [self.view showLoading];
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(self.selectMajorModel.versionId),
+        @"major_id":HXSafeString(self.selectMajorModel.major_id)
+    };
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UploadStudentPaperFile withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.progressLabel.text = @"已答辩";
+            self.bottomShadowView.hidden = self.bottomView.hidden = YES;
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+    }];
+}
+
 
 #pragma Mark - Event
 //上传论文
@@ -70,6 +146,52 @@
     documentPicker.delegate = self;
     documentPicker.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:documentPicker animated:YES completion:nil];
+}
+
+#pragma mark - 下载查看论文
+-(void)downLoadLunwen{
+    if ([HXCommonUtil isNull:self.studentPaperModel.paperUrl]) {
+        [self.view showTostWithMessage:@"资源无效"];
+        return;
+    }
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    // 1. 创建会话管理者
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    
+    // 2. 创建下载路径和请求对象
+    NSURL *URL = [NSURL URLWithString:self.downLoadUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    NSString *generateStr = [HXCommonUtil generateTradeNO:5];//生成指定长度的字符串
+    NSString *fileName = [generateStr stringByAppendingString:[self.downLoadUrl lastPathComponent]]; //获取文件名称
+    [self.view showLoadingWithMessage:@"正在下载..."];
+
+    //下载文件
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress){
+        
+    } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
+        return url;
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        [self.view hideLoading];
+        self.fileURL = filePath;
+        [self presentViewController:self.QLController animated:YES completion:nil];
+        //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url
+        [self.QLController refreshCurrentPreviewItem];
+    }];
+    [downloadTask resume];
+}
+
+
+#pragma mark - QLPreviewControllerDataSource
+/// 文件路径
+- (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
+    return self.fileURL;
+}
+/// 文件数
+- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
+    return 1;
 }
 
 #pragma mark - <UIDocumentPickerDelegate>选择文件回调
@@ -91,7 +213,8 @@
             } else {
                 //上传
                 NSLog(@"fileData --- %@",fileData);
-//                [self uploadingWithFileData:fileData fileName:fileName fileURL:newURL];
+                NSString *base64Str = [fileData base64EncodedStringWithOptions:0];
+                [self uploadingWithFileData:base64Str fileName:fileName];
             }
             [self dismissViewControllerAnimated:YES completion:NULL];
         }];
@@ -99,6 +222,56 @@
     } else {
         //授权失败
         [self.view showErrorWithMessage:@"授权失败"];
+    }
+}
+
+
+#pragma mark - 刷新UI
+-(void)refeshUI{
+    //1001成人高考   1002自学考试   1003国家开放大学   1004网络教育   1005职业资格证书   1006全日制学历
+    if ([self.studentPaperModel.version_id integerValue] == 1001) {
+        self.typeLabel.text = [NSString stringWithFormat:@"成人高考  %@",self.studentPaperModel.enterDate];
+    }else if ([self.studentPaperModel.version_id integerValue] == 1002) {
+        self.typeLabel.text = [NSString stringWithFormat:@"自学考试  %@",self.studentPaperModel.enterDate];
+    }else if ([self.studentPaperModel.version_id integerValue] == 1003) {
+        self.typeLabel.text = [NSString stringWithFormat:@"国家开放大学  %@",self.studentPaperModel.enterDate];
+    }else if ([self.studentPaperModel.version_id integerValue] == 1004) {
+        self.typeLabel.text = [NSString stringWithFormat:@"网络教育  %@",self.studentPaperModel.enterDate];
+    }else if ([self.studentPaperModel.version_id integerValue] == 1005) {
+        self.typeLabel.text = [NSString stringWithFormat:@"职业资格证书  %@",self.studentPaperModel.enterDate];
+    }else if ([self.studentPaperModel.version_id integerValue] == 1006) {
+        self.typeLabel.text = [NSString stringWithFormat:@"全日制学历  %@",self.studentPaperModel.enterDate];
+    }
+    
+    self.schoolLabel.text = HXSafeString(self.studentPaperModel.BkSchool);
+    self.cengCiLabel.text = HXSafeString(self.studentPaperModel.educationName);
+    self.majorLabel.text = HXSafeString(self.studentPaperModel.majorName);
+    self.beginTimeLabel.text = HXSafeString(self.studentPaperModel.defenseBDateText);
+    self.endTimeLabel.text = HXSafeString(self.studentPaperModel.defenseEDateText);
+    self.addressLabel.text =HXSafeString(self.studentPaperModel.defenseAddr);
+    self.modeLabel.text = HXSafeString(self.studentPaperModel.defenseType);
+    ///等于1 我已答辩 等于0则用时间判断是否开始或结束
+    /*未开始：还没有到答辩时间
+      进行中：到了答辩时间这一天
+      已结束：已经过了答辩时间，但是学生还没点“我已答辩”
+      已答辩：学生点了“我已答辩”按钮之后
+   */
+    if (self.studentPaperModel.defenseStatus == 1) {
+        self.progressLabel.text = @"已答辩";
+        self.bottomShadowView.hidden = self.bottomView.hidden = YES;
+    }else{
+        self.bottomShadowView.hidden = self.bottomView.hidden = NO;
+        NSString *currentDateStr = [HXCommonUtil getCurrentDateWithFormatterStr:@""];
+        if ([HXCommonUtil compareDate:currentDateStr withDate:self.studentPaperModel.defenseBDateText formatterStr:@""]==1) {
+            self.progressLabel.text = @"未开始";
+            self.bottomShadowView.hidden = self.bottomView.hidden = YES;
+        }else if ([HXCommonUtil compareDate:currentDateStr withDate:self.studentPaperModel.defenseBDateText formatterStr:@""]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:self.studentPaperModel.defenseEDateText formatterStr:@""]==1) {
+            self.progressLabel.text = @"进行中";
+            self.bottomShadowView.hidden = self.bottomView.hidden = NO;
+        }else if ([HXCommonUtil compareDate:currentDateStr withDate:self.studentPaperModel.defenseEDateText formatterStr:@""]==-1) {
+            self.progressLabel.text = @"已结束";
+            self.bottomShadowView.hidden = self.bottomView.hidden = NO;
+        }
     }
 }
 
@@ -153,166 +326,166 @@
     [self.bottomView addSubview:self.daBianBtn];
     
     self.mainScrollView.sd_layout
-    .topSpaceToView(self.view, kNavigationBarHeight)
-    .leftEqualToView(self.view)
-    .rightEqualToView(self.view)
-    .bottomEqualToView(self.view);
+        .topSpaceToView(self.view, kNavigationBarHeight)
+        .leftEqualToView(self.view)
+        .rightEqualToView(self.view)
+        .bottomEqualToView(self.view);
     
     self.leftImageView.sd_layout
-    .topSpaceToView(self.mainScrollView, 20)
-    .leftSpaceToView(self.mainScrollView, 20)
-    .widthIs(125)
-    .heightIs(167);
+        .topSpaceToView(self.mainScrollView, 20)
+        .leftSpaceToView(self.mainScrollView, 20)
+        .widthIs(125)
+        .heightIs(167);
     
     self.typeLabel.sd_layout
-    .topSpaceToView(self.mainScrollView, 40)
-    .leftSpaceToView(self.leftImageView, 28)
-    .rightSpaceToView(self.mainScrollView, 20)
-    .heightIs(25);
+        .topSpaceToView(self.mainScrollView, 40)
+        .leftSpaceToView(self.leftImageView, 28)
+        .rightSpaceToView(self.mainScrollView, 20)
+        .heightIs(25);
     
     self.schoolLabel.sd_layout
-    .topSpaceToView(self.typeLabel, 10)
-    .leftEqualToView(self.typeLabel)
-    .rightEqualToView(self.typeLabel)
-    .heightRatioToView(self.typeLabel, 1);
+        .topSpaceToView(self.typeLabel, 10)
+        .leftEqualToView(self.typeLabel)
+        .rightEqualToView(self.typeLabel)
+        .heightRatioToView(self.typeLabel, 1);
     
     self.cengCiLabel.sd_layout
-    .topSpaceToView(self.schoolLabel, 10)
-    .leftEqualToView(self.typeLabel)
-    .rightEqualToView(self.typeLabel)
-    .heightRatioToView(self.typeLabel, 0.9);
+        .topSpaceToView(self.schoolLabel, 10)
+        .leftEqualToView(self.typeLabel)
+        .rightEqualToView(self.typeLabel)
+        .heightRatioToView(self.typeLabel, 0.9);
     
     self.majorLabel.sd_layout
-    .topSpaceToView(self.cengCiLabel, 10)
-    .leftEqualToView(self.typeLabel)
-    .rightEqualToView(self.typeLabel)
-    .heightRatioToView(self.typeLabel, 0.9);
+        .topSpaceToView(self.cengCiLabel, 10)
+        .leftEqualToView(self.typeLabel)
+        .rightEqualToView(self.typeLabel)
+        .heightRatioToView(self.typeLabel, 0.9);
     
     //答辩开始时间
     self.beginTimeView.sd_layout
-    .topSpaceToView(self.leftImageView, 10)
-    .leftSpaceToView(self.mainScrollView, 20)
-    .rightSpaceToView(self.mainScrollView, 20)
-    .heightIs(62);
+        .topSpaceToView(self.leftImageView, 10)
+        .leftSpaceToView(self.mainScrollView, 20)
+        .rightSpaceToView(self.mainScrollView, 20)
+        .heightIs(62);
     
     self.beginTitleLabel.sd_layout
-    .leftEqualToView(self.beginTimeView)
-    .centerYEqualToView(self.beginTimeView)
-    .heightIs(20)
-    .widthIs(100);
+        .leftEqualToView(self.beginTimeView)
+        .centerYEqualToView(self.beginTimeView)
+        .heightIs(20)
+        .widthIs(100);
     
     self.beginTimeLabel.sd_layout
-    .leftSpaceToView(self.beginTitleLabel, 20)
-    .rightEqualToView(self.beginTimeView)
-    .centerYEqualToView(self.beginTimeView)
-    .heightIs(22);
+        .leftSpaceToView(self.beginTitleLabel, 20)
+        .rightEqualToView(self.beginTimeView)
+        .centerYEqualToView(self.beginTimeView)
+        .heightIs(22);
     
     self.line1View.sd_layout
-    .leftEqualToView(self.beginTimeView)
-    .rightEqualToView(self.beginTimeView)
-    .bottomEqualToView(self.beginTimeView)
-    .heightIs(1);
+        .leftEqualToView(self.beginTimeView)
+        .rightEqualToView(self.beginTimeView)
+        .bottomEqualToView(self.beginTimeView)
+        .heightIs(1);
     
     //答辩结束时间
     self.endTimeView.sd_layout
-    .topSpaceToView(self.beginTimeView, 0)
-    .leftEqualToView(self.beginTimeView)
-    .rightEqualToView(self.beginTimeView)
-    .heightRatioToView(self.beginTimeView, 1);
+        .topSpaceToView(self.beginTimeView, 0)
+        .leftEqualToView(self.beginTimeView)
+        .rightEqualToView(self.beginTimeView)
+        .heightRatioToView(self.beginTimeView, 1);
     
     self.endTitleLabel.sd_layout
-    .leftEqualToView(self.endTimeView)
-    .centerYEqualToView(self.endTimeView)
-    .heightRatioToView(self.beginTitleLabel, 1)
-    .widthRatioToView(self.beginTitleLabel, 1);
+        .leftEqualToView(self.endTimeView)
+        .centerYEqualToView(self.endTimeView)
+        .heightRatioToView(self.beginTitleLabel, 1)
+        .widthRatioToView(self.beginTitleLabel, 1);
     
     self.endTimeLabel.sd_layout
-    .leftSpaceToView(self.endTitleLabel, 20)
-    .rightEqualToView(self.endTimeView)
-    .centerYEqualToView(self.endTimeView)
-    .heightRatioToView(self.beginTimeLabel, 1);
+        .leftSpaceToView(self.endTitleLabel, 20)
+        .rightEqualToView(self.endTimeView)
+        .centerYEqualToView(self.endTimeView)
+        .heightRatioToView(self.beginTimeLabel, 1);
     
     self.line2View.sd_layout
-    .leftEqualToView(self.endTimeView)
-    .rightEqualToView(self.endTimeView)
-    .bottomEqualToView(self.endTimeView)
-    .heightRatioToView(self.line1View, 1);
+        .leftEqualToView(self.endTimeView)
+        .rightEqualToView(self.endTimeView)
+        .bottomEqualToView(self.endTimeView)
+        .heightRatioToView(self.line1View, 1);
     
     
     //论文答辩地址
     self.addressView.sd_layout
-    .topSpaceToView(self.endTimeView, 0)
-    .leftEqualToView(self.beginTimeView)
-    .rightEqualToView(self.beginTimeView)
-    .heightRatioToView(self.beginTimeView, 1);
+        .topSpaceToView(self.endTimeView, 0)
+        .leftEqualToView(self.beginTimeView)
+        .rightEqualToView(self.beginTimeView)
+        .heightRatioToView(self.beginTimeView, 1);
     
     self.addressTitleLabel.sd_layout
-    .leftEqualToView(self.addressView)
-    .centerYEqualToView(self.addressView)
-    .heightRatioToView(self.beginTitleLabel, 1)
-    .widthRatioToView(self.beginTitleLabel, 1);
+        .leftEqualToView(self.addressView)
+        .centerYEqualToView(self.addressView)
+        .heightRatioToView(self.beginTitleLabel, 1)
+        .widthRatioToView(self.beginTitleLabel, 1);
     
     self.addressLabel.sd_layout
-    .leftSpaceToView(self.addressTitleLabel, 20)
-    .rightEqualToView(self.addressView)
-    .centerYEqualToView(self.addressView)
-    .heightRatioToView(self.beginTimeLabel, 1);
+        .leftSpaceToView(self.addressTitleLabel, 20)
+        .rightEqualToView(self.addressView)
+        .centerYEqualToView(self.addressView)
+        .heightRatioToView(self.beginTimeLabel, 1);
     
     self.line3View.sd_layout
-    .leftEqualToView(self.addressView)
-    .rightEqualToView(self.addressView)
-    .bottomEqualToView(self.addressView)
-    .heightRatioToView(self.line1View, 1);
+        .leftEqualToView(self.addressView)
+        .rightEqualToView(self.addressView)
+        .bottomEqualToView(self.addressView)
+        .heightRatioToView(self.line1View, 1);
     
     //论文答辩形式
     self.modeView.sd_layout
-    .topSpaceToView(self.addressView, 0)
-    .leftEqualToView(self.beginTimeView)
-    .rightEqualToView(self.beginTimeView)
-    .heightRatioToView(self.beginTimeView, 1);
+        .topSpaceToView(self.addressView, 0)
+        .leftEqualToView(self.beginTimeView)
+        .rightEqualToView(self.beginTimeView)
+        .heightRatioToView(self.beginTimeView, 1);
     
     self.modeTitleLabel.sd_layout
-    .leftEqualToView(self.modeView)
-    .centerYEqualToView(self.modeView)
-    .heightRatioToView(self.beginTitleLabel, 1)
-    .widthRatioToView(self.beginTitleLabel, 1);
+        .leftEqualToView(self.modeView)
+        .centerYEqualToView(self.modeView)
+        .heightRatioToView(self.beginTitleLabel, 1)
+        .widthRatioToView(self.beginTitleLabel, 1);
     
     self.modeLabel.sd_layout
-    .leftSpaceToView(self.modeTitleLabel, 20)
-    .rightEqualToView(self.modeView)
-    .centerYEqualToView(self.modeView)
-    .heightRatioToView(self.beginTimeLabel, 1);
+        .leftSpaceToView(self.modeTitleLabel, 20)
+        .rightEqualToView(self.modeView)
+        .centerYEqualToView(self.modeView)
+        .heightRatioToView(self.beginTimeLabel, 1);
     
     self.line4View.sd_layout
-    .leftEqualToView(self.modeView)
-    .rightEqualToView(self.modeView)
-    .bottomEqualToView(self.modeView)
-    .heightRatioToView(self.line1View, 1);
+        .leftEqualToView(self.modeView)
+        .rightEqualToView(self.modeView)
+        .bottomEqualToView(self.modeView)
+        .heightRatioToView(self.line1View, 1);
     
     //答辩进度
     self.progressView.sd_layout
-    .topSpaceToView(self.modeView, 0)
-    .leftEqualToView(self.beginTimeView)
-    .rightEqualToView(self.beginTimeView)
-    .heightRatioToView(self.beginTimeView, 1);
+        .topSpaceToView(self.modeView, 0)
+        .leftEqualToView(self.beginTimeView)
+        .rightEqualToView(self.beginTimeView)
+        .heightRatioToView(self.beginTimeView, 1);
     
     self.progressTitleLabel.sd_layout
-    .leftEqualToView(self.progressView)
-    .centerYEqualToView(self.progressView)
-    .heightRatioToView(self.beginTitleLabel, 1)
-    .widthRatioToView(self.beginTitleLabel, 1);
+        .leftEqualToView(self.progressView)
+        .centerYEqualToView(self.progressView)
+        .heightRatioToView(self.beginTitleLabel, 1)
+        .widthRatioToView(self.beginTitleLabel, 1);
     
     self.progressLabel.sd_layout
-    .leftSpaceToView(self.progressTitleLabel, 20)
-    .rightEqualToView(self.progressView)
-    .centerYEqualToView(self.progressView)
-    .heightRatioToView(self.beginTimeLabel, 1);
+        .leftSpaceToView(self.progressTitleLabel, 20)
+        .rightEqualToView(self.progressView)
+        .centerYEqualToView(self.progressView)
+        .heightRatioToView(self.beginTimeLabel, 1);
     
     self.line5View.sd_layout
-    .leftEqualToView(self.progressView)
-    .rightEqualToView(self.progressView)
-    .bottomEqualToView(self.progressView)
-    .heightRatioToView(self.line1View, 1);
+        .leftEqualToView(self.progressView)
+        .rightEqualToView(self.progressView)
+        .bottomEqualToView(self.progressView)
+        .heightRatioToView(self.line1View, 1);
     
     [self.mainScrollView setupAutoContentSizeWithBottomView:self.progressView bottomMargin:150];
     
@@ -320,29 +493,29 @@
     
     ///我已答辩
     self.bottomShadowView.sd_layout
-    .leftEqualToView(self.view)
-    .rightEqualToView(self.view)
-    .bottomEqualToView(self.view)
-    .heightIs(132);
+        .leftEqualToView(self.view)
+        .rightEqualToView(self.view)
+        .bottomEqualToView(self.view)
+        .heightIs(132);
     
     self.bottomView.sd_layout
-    .leftEqualToView(self.bottomShadowView)
-    .rightEqualToView(self.bottomShadowView)
-    .topEqualToView(self.bottomShadowView)
-    .bottomEqualToView(self.bottomShadowView);
-
+        .leftEqualToView(self.bottomShadowView)
+        .rightEqualToView(self.bottomShadowView)
+        .topEqualToView(self.bottomShadowView)
+        .bottomEqualToView(self.bottomShadowView);
+    
     [self.bottomView updateLayout];
     UIBezierPath * bPath = [UIBezierPath bezierPathWithRoundedRect:self.bottomView.bounds byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight cornerRadii:CGSizeMake(22, 22)];
     CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
     maskLayer.path = bPath.CGPath;
     self.bottomView.layer.mask = maskLayer;
     
-  
+    
     self.daBianBtn.sd_layout
-    .topSpaceToView(self.bottomView, 30)
-    .centerXEqualToView(self.bottomView)
-    .widthIs(_kpw(335))
-    .heightIs(48);
+        .topSpaceToView(self.bottomView, 30)
+        .centerXEqualToView(self.bottomView)
+        .widthIs(_kpw(335))
+        .heightIs(48);
     self.daBianBtn.sd_cornerRadiusFromHeightRatio = @0.5;
     [self.daBianBtn updateLayout];
     
@@ -354,11 +527,8 @@
     NSArray *colorArr = @[(id)COLOR_WITH_ALPHA(0x3EADFF, 1).CGColor,(id)COLOR_WITH_ALPHA(0x15E88D, 1).CGColor];
     gradientLayer.colors = colorArr;
     [self.daBianBtn.layer insertSublayer:gradientLayer below:self.daBianBtn.titleLabel.layer];
-
     
-   
     
-  
 }
 
 #pragma mark - LazyLoad
@@ -379,6 +549,8 @@
         _leftImageView.userInteractionEnabled = YES;
         _leftImageView.image = [UIImage imageNamed:@"word_icon"];
         _leftImageView.clipsToBounds = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(downLoadLunwen)];
+        [_leftImageView addGestureRecognizer:tap];
     }
     return _leftImageView;
 }
@@ -388,7 +560,7 @@
         _typeLabel = [[UILabel alloc] init];
         _typeLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
         _typeLabel.font = HXBoldFont(18);
-        _typeLabel.text = @"自学考试  202010";
+        
     }
     return _typeLabel;
 }
@@ -398,7 +570,7 @@
         _schoolLabel = [[UILabel alloc] init];
         _schoolLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _schoolLabel.font = HXBoldFont(18);
-        _schoolLabel.text = @"湖南涉外经济学院";
+       
     }
     return _schoolLabel;
 }
@@ -408,7 +580,7 @@
         _cengCiLabel = [[UILabel alloc] init];
         _cengCiLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _cengCiLabel.font = HXFont(16);
-        _cengCiLabel.text = @"高升专";
+       
     }
     return _cengCiLabel;
 }
@@ -418,7 +590,7 @@
         _majorLabel = [[UILabel alloc] init];
         _majorLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _majorLabel.font = HXFont(16);
-        _majorLabel.text = @"A020106金融学";
+        
     }
     return _majorLabel;
 }
@@ -447,7 +619,7 @@
         _beginTimeLabel.textAlignment = NSTextAlignmentRight;
         _beginTimeLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _beginTimeLabel.font = HXFont(16);
-        _beginTimeLabel.text = @"2021.06.01 09:00";
+       
     }
     return _beginTimeLabel;
 }
@@ -484,7 +656,7 @@
         _endTimeLabel.textAlignment = NSTextAlignmentRight;
         _endTimeLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _endTimeLabel.font = HXFont(16);
-        _endTimeLabel.text = @"2021.06.01 12:00";
+        
     }
     return _endTimeLabel;
 }
@@ -521,7 +693,7 @@
         _addressLabel.textAlignment = NSTextAlignmentRight;
         _addressLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _addressLabel.font = HXFont(16);
-        _addressLabel.text = @"湖南涉外经济学院";
+        
     }
     return _addressLabel;
 }
@@ -557,7 +729,7 @@
         _modeLabel.textAlignment = NSTextAlignmentRight;
         _modeLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _modeLabel.font = HXFont(16);
-        _modeLabel.text = @"线下答辩";
+        
     }
     return _modeLabel;
 }
@@ -593,7 +765,7 @@
         _progressLabel.textAlignment = NSTextAlignmentRight;
         _progressLabel.textColor = COLOR_WITH_ALPHA(0xFFC02C, 1);
         _progressLabel.font = HXFont(16);
-        _progressLabel.text = @"进行中";
+        
     }
     return _progressLabel;
 }

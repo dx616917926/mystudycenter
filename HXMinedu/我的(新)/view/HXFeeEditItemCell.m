@@ -66,6 +66,13 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     UITextField *textField = notification.object;
     //获取绑定的关联对象
     HXPaymentDetailModel *model = (HXPaymentDetailModel *)objc_getAssociatedObject(textField, &YingJiaoFeeWithTextFiledKey);
+    
+    float payMoney = [textField.text floatValue];
+    if (payMoney>model.fee) {
+        [[UIApplication sharedApplication].keyWindow showTostWithMessage:@"实缴金额不能大于应缴金额"];
+        textField.text = @"";
+    }
+    
     model.payMoney = [textField.text floatValue];
     //计算本次应缴小计：
     __block float feeSubtotal = 0.0;
@@ -77,6 +84,7 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     //修改自助缴费本次实缴金额通知
     [HXNotificationCenter postNotificationName:kChangeZiZhuShiJiaoFeeNotification object:nil];
 }
+
 
 #pragma mark - 赋值刷新
 -(void)setPaymentDetailsInfoModel:(HXPaymentDetailsInfoModel *)paymentDetailsInfoModel{
@@ -93,16 +101,21 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
         self.typeImageView.image = [UIImage imageNamed:@"qitaleixing"];
     }
     self.typeLabel.text = HXSafeString(paymentDetailsInfoModel.ftypeName);
-    self.yingjiaoXiaoJiMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailsInfoModel.feeSubtotal];
-   
     
+    ///计算本次应缴小计
+    __block float payMoneySubtotal = 0.0f;
+    [paymentDetailsInfoModel.payableDetailsInfoList enumerateObjectsUsingBlock:^(HXPaymentDetailModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        payMoneySubtotal += obj.payMoney;
+    }];
+    
+    self.yingjiaoXiaoJiMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",payMoneySubtotal];
+   
     [self.middleContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         //移除关联对象
         objc_removeAssociatedObjects(obj);
         [obj removeFromSuperview];
         obj = nil;
     }];
-    
    
     NSMutableArray *list = [NSMutableArray array];
     [list addObjectsFromArray:paymentDetailsInfoModel.payableDetailsInfoList];
@@ -113,14 +126,12 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
         UIControl *itemView = [[UIControl alloc] init];
         itemView.backgroundColor = [UIColor clearColor];
         
-        
         [self.middleContainerView addSubview:itemView];
         itemView.sd_layout
         .topSpaceToView(self.middleContainerView, i*40)
         .leftEqualToView(self.middleContainerView)
         .rightEqualToView(self.middleContainerView)
         .heightIs(40);
-        
         
         UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -176,12 +187,12 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     
     self.middleContainerView.sd_layout.heightIs(40*list.count);
     [self.middleContainerView updateLayout];
-    
-   
+
 }
 
 #pragma mark - UI
 -(void)createUI{
+    
     [self.contentView addSubview:self.bigTopGroundImageView];
     
     [self.bigTopGroundImageView addSubview:self.topContainerView];
@@ -198,8 +209,6 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     [self.smallBottomImageView addSubview:self.bottomContainerView];
     [self.bottomContainerView addSubview:self.yingjiaoXiaoJiLabel];
     [self.bottomContainerView addSubview:self.yingjiaoXiaoJiMoneyLabel];
-    
-    
     
     self.bigTopGroundImageView.sd_layout
     .topSpaceToView(self.contentView, 0)
@@ -250,7 +259,6 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     
     [self.bigTopGroundImageView setupAutoHeightWithBottomView:self.middleContainerView bottomMargin:0];
     
-    
     self.smallBottomImageView.sd_layout
     .topSpaceToView(self.bigTopGroundImageView, 0)
     .leftSpaceToView(self.contentView, 10)
@@ -271,7 +279,6 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     .rightSpaceToView(self.bottomContainerView, 20)
     .heightIs(20);
     
-
     ///设置cell高度自适应
     [self setupAutoHeightWithBottomView:self.smallBottomImageView bottomMargin:0];
    

@@ -6,10 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HXStudentPaperModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXDissertationCell : UITableViewCell
+
+@property(strong,nonatomic) HXStudentPaperModel *studentPaperModel;
 
 @end
 

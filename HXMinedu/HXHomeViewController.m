@@ -11,7 +11,7 @@
 #import "HXMessageListController.h"
 #import "HXUserInfoViewController.h"
 #import "HXHomeViewCell.h"
-#import "MJRefresh.h"
+
 
 @interface HXHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 {

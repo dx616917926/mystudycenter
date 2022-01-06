@@ -8,7 +8,6 @@
 #import "HXMyCourseViewController.h"
 //#import "HXClassDetailViewController.h"
 #import "HXCourseListTableViewCell.h"
-#import "MJRefresh.h"
 #import "HXCourseModel.h"
 #import "HXGradeDropDownMenu.h"
 #import "HXMajorModel.h"

@@ -14,6 +14,7 @@
 @property(nonatomic,strong) UIView *containerView;
 @property(nonatomic,strong) UIButton *noticeBtn;
 @property(nonatomic,strong) UIButton *liveBroadcastBtn;
+@property(nonatomic,strong) UIButton *kechengkuBtn;
 @property(nonatomic,strong) UILabel *courseLearnLabel;
 
 
@@ -57,6 +58,7 @@
     [self addSubview:self.containerView];
     [self.containerView addSubview:self.noticeBtn];
     [self.containerView addSubview:self.liveBroadcastBtn];
+    [self.containerView addSubview:self.kechengkuBtn];
     [self addSubview:self.bannerView];
     [self addSubview:self.studyReportImageView];
     [self addSubview:self.versionBtn];
@@ -72,41 +74,61 @@
     self.noticeBtn.sd_layout
     .centerYEqualToView(self.containerView)
     .leftSpaceToView(self.containerView, 0)
-    .widthIs(_kpw(152))
+    .widthIs(_kpw(110))
     .heightRatioToView(self.containerView, 1);
     self.noticeBtn.layer.cornerRadius = 6;
     
     self.noticeBtn.imageView.sd_layout
     .centerYEqualToView(self.noticeBtn)
-    .leftSpaceToView(self.noticeBtn, _kpw(38))
+    .leftSpaceToView(self.noticeBtn, _kpw(20))
     .widthIs(28)
     .heightEqualToWidth();
     [self.noticeBtn.imageView updateLayout];
     
     self.noticeBtn.titleLabel.sd_layout
     .centerYEqualToView(self.noticeBtn)
-    .leftSpaceToView(self.noticeBtn.imageView, 12)
-    .rightSpaceToView(self.noticeBtn, 10)
+    .leftSpaceToView(self.noticeBtn.imageView, 10)
+    .rightSpaceToView(self.noticeBtn, 0)
     .heightRatioToView(self.noticeBtn, 1);
     
     self.liveBroadcastBtn.sd_layout
     .centerYEqualToView(self.noticeBtn)
-    .rightSpaceToView(self.containerView, 0)
+    .centerXEqualToView(self.containerView)
     .widthRatioToView(self.noticeBtn, 1)
     .heightRatioToView(self.noticeBtn, 1);
     self.liveBroadcastBtn.layer.cornerRadius = 6;
     
     self.liveBroadcastBtn.imageView.sd_layout
     .centerYEqualToView(self.liveBroadcastBtn)
-    .leftSpaceToView(self.liveBroadcastBtn, _kpw(38))
+    .leftSpaceToView(self.liveBroadcastBtn, _kpw(20))
     .widthIs(28)
     .heightEqualToWidth();
 
     self.liveBroadcastBtn.titleLabel.sd_layout
     .centerYEqualToView(self.liveBroadcastBtn)
-    .leftSpaceToView(self.liveBroadcastBtn.imageView, 12)
-    .rightSpaceToView(self.liveBroadcastBtn, 10)
+    .leftSpaceToView(self.liveBroadcastBtn.imageView, 10)
+    .rightSpaceToView(self.liveBroadcastBtn, 0)
     .heightRatioToView(self.liveBroadcastBtn, 1);
+    
+    
+    self.kechengkuBtn.sd_layout
+    .centerYEqualToView(self.noticeBtn)
+    .rightSpaceToView(self.containerView, 0)
+    .widthRatioToView(self.noticeBtn, 1)
+    .heightRatioToView(self.noticeBtn, 1);
+    self.kechengkuBtn.layer.cornerRadius = 6;
+    
+    self.kechengkuBtn.imageView.sd_layout
+    .centerYEqualToView(self.kechengkuBtn)
+    .leftSpaceToView(self.kechengkuBtn, _kpw(15))
+    .widthIs(28)
+    .heightEqualToWidth();
+
+    self.kechengkuBtn.titleLabel.sd_layout
+    .centerYEqualToView(self.kechengkuBtn)
+    .leftSpaceToView(self.kechengkuBtn.imageView, 10)
+    .rightSpaceToView(self.kechengkuBtn, 0)
+    .heightRatioToView(self.kechengkuBtn, 1);
     
     ///广告栏
     self.bannerView.sd_layout
@@ -199,14 +221,14 @@
     if (!_noticeBtn) {
         _noticeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _noticeBtn.tag = 9001;
-        _noticeBtn.backgroundColor = COLOR_WITH_ALPHA(0xFFF1EF, 1);
-        _noticeBtn.layer.shadowColor = COLOR_WITH_ALPHA(0xD1553E, 0.1).CGColor;
+        _noticeBtn.backgroundColor = COLOR_WITH_ALPHA(0xFFECEC, 1);
+        _noticeBtn.layer.shadowColor = COLOR_WITH_ALPHA(0xEB4747, 0.1).CGColor;
         _noticeBtn.layer.shadowOffset = CGSizeMake(0, 2);
         _noticeBtn.layer.shadowRadius = 5;
         _noticeBtn.layer.shadowOpacity = 1;
         _noticeBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(16));
         [_noticeBtn setImage:[UIImage imageNamed:@"notice_icon"] forState:UIControlStateNormal];
-        [_noticeBtn setTitleColor:COLOR_WITH_ALPHA(0xFE664B, 1) forState:UIControlStateNormal];
+        [_noticeBtn setTitleColor:COLOR_WITH_ALPHA(0xFF7074, 1) forState:UIControlStateNormal];
         [_noticeBtn setTitle:@"公告" forState:UIControlStateNormal];
         [_noticeBtn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -217,19 +239,38 @@
     if (!_liveBroadcastBtn) {
         _liveBroadcastBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _liveBroadcastBtn.tag = 9002;
-        _liveBroadcastBtn.backgroundColor = COLOR_WITH_ALPHA(0xFEEFFF, 1);
-        _liveBroadcastBtn.layer.shadowColor = COLOR_WITH_ALPHA(0x9F4BFE, 0.1).CGColor;
+        _liveBroadcastBtn.backgroundColor = COLOR_WITH_ALPHA(0xFFF6E8, 1);
+        _liveBroadcastBtn.layer.shadowColor = COLOR_WITH_ALPHA(0xF08035, 0.1).CGColor;
         _liveBroadcastBtn.layer.shadowOffset = CGSizeMake(0, 2);
         _liveBroadcastBtn.layer.shadowRadius = 5;
         _liveBroadcastBtn.layer.shadowOpacity = 1;
         _liveBroadcastBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(16));
         [_liveBroadcastBtn setImage:[UIImage imageNamed:@"liveBroadcast_icon"] forState:UIControlStateNormal];
-        [_liveBroadcastBtn setTitleColor:COLOR_WITH_ALPHA(0x9F4BFE, 1) forState:UIControlStateNormal];
+        [_liveBroadcastBtn setTitleColor:COLOR_WITH_ALPHA(0xFF972E, 1) forState:UIControlStateNormal];
         [_liveBroadcastBtn setTitle:@"直播" forState:UIControlStateNormal];
         [_liveBroadcastBtn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _liveBroadcastBtn;
 }
+
+-(UIButton *)kechengkuBtn{
+    if (!_kechengkuBtn) {
+        _kechengkuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _kechengkuBtn.tag = 9003;
+        _kechengkuBtn.backgroundColor = COLOR_WITH_ALPHA(0xE6F0FF, 1);
+        _kechengkuBtn.layer.shadowColor = COLOR_WITH_ALPHA(0x3B6BD9, 0.1).CGColor;
+        _kechengkuBtn.layer.shadowOffset = CGSizeMake(0, 2);
+        _kechengkuBtn.layer.shadowRadius = 5;
+        _kechengkuBtn.layer.shadowOpacity = 1;
+        _kechengkuBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(16));
+        [_kechengkuBtn setImage:[UIImage imageNamed:@"kechengku_icon"] forState:UIControlStateNormal];
+        [_kechengkuBtn setTitleColor:COLOR_WITH_ALPHA(0x5699FF, 1) forState:UIControlStateNormal];
+        [_kechengkuBtn setTitle:@"课程库" forState:UIControlStateNormal];
+        [_kechengkuBtn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _kechengkuBtn;
+}
+
 
 
 
@@ -247,7 +288,7 @@
 -(UIButton *)versionBtn{
     if (!_versionBtn) {
         _versionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _versionBtn.tag = 9003;
+        _versionBtn.tag = 9004;
         _versionBtn.titleLabel.textAlignment = NSTextAlignmentRight;
         _versionBtn.titleLabel.font = HXBoldFont(_kpAdaptationWidthFont(12));
         [_versionBtn setImage:[UIImage imageNamed:@"arrow_blue"] forState:UIControlStateNormal];

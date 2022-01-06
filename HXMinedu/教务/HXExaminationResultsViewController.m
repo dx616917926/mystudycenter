@@ -10,7 +10,6 @@
 #import "HXExaminationResultsCell.h"
 #import "HXShowExamDateView.h"
 #import "HXNoDataTipView.h"
-#import "MJRefresh.h"
 @interface HXExaminationResultsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(strong,nonatomic) UITableView *mainTableView;

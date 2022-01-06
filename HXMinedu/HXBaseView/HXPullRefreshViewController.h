@@ -6,7 +6,7 @@
 //
 
 #import "HXBaseViewController.h"
-#import "MJRefresh.h"
+
 
 @protocol HXPullRefreshDelegate <NSObject>
 

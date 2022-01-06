@@ -10,7 +10,6 @@
 #import "HXTeachPlanCell.h"
 #import "HXTeachPlanHeaderView.h"
 #import "HXNoDataTipView.h"
-#import "MJRefresh.h"
 #import "HXCourseTypeModel.h"
 
 

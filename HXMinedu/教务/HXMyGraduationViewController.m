@@ -13,6 +13,7 @@
 
 @property(strong,nonatomic) UITableView *mainTableView;
 @property(strong,nonatomic) UIView *noDataTipView;
+@property(strong,nonatomic) UIView *noUpLoadTipView;
 @property(strong,nonatomic) NSMutableArray *dataArray;
 
 
@@ -26,8 +27,65 @@
     
     //UI
     [self createUI];
+    
+    //获取学生论文
+    [self getStudentPaper];
 }
 
+
+#pragma mark -  获取学生论文
+-(void)getStudentPaper{
+    
+    [self.noDataTipView removeFromSuperview];
+    [self.noUpLoadTipView removeFromSuperview];
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(self.selectMajorModel.versionId),
+        @"major_id":HXSafeString(self.selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetStudentPaper withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXStudentPaperModel *model = [HXStudentPaperModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            if (model.IsUpload==1) {
+                [self.dataArray removeAllObjects];
+                if ([model.version_id integerValue]>0) {
+                    [self.dataArray addObject:model];
+                    [self.mainTableView reloadData];
+                }else{
+                    [self.mainTableView addSubview:self.noDataTipView];
+                }
+            }else{
+                [self.mainTableView addSubview:self.noUpLoadTipView];
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_header endRefreshing];
+    }];
+}
+
+//上传论文
+-(void)uploadingWithFileData:(NSString *)fileData fileName:(NSString *)fileName{
+    [self.view showLoading];
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(self.selectMajorModel.versionId),
+        @"major_id":HXSafeString(self.selectMajorModel.major_id),
+        @"file":HXSafeString(fileData),
+        @"fileName":HXSafeString(fileName)
+    };
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UploadStudentPaperFile withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            [self.noDataTipView removeFromSuperview];
+            //获取学生论文
+            [self getStudentPaper];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+    }];
+}
 
 #pragma mark - Event
 //上传论文
@@ -58,9 +116,9 @@
                 [self.view showErrorWithMessage:@"读取出错"];
             } else {
                 //上传
-                [self.noDataTipView removeFromSuperview];
-                NSLog(@"fileData --- %@",fileData);
-//                [self uploadingWithFileData:fileData fileName:fileName fileURL:newURL];
+                NSLog(@"fileData --- %lu",(unsigned long)fileData.length);
+                NSString *base64Str = [fileData base64EncodedStringWithOptions:0];
+                [self uploadingWithFileData:base64Str fileName:fileName];
             }
             [self dismissViewControllerAnimated:YES completion:NULL];
         }];
@@ -74,7 +132,7 @@
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return self.dataArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -105,6 +163,7 @@
     if (!cell) {
         cell = [[HXDissertationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:dissertationCellIdentifier];
     }
+    cell.studentPaperModel = self.dataArray[indexPath.section];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -113,6 +172,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     HXLunWenViewController *lunWenVc = [[HXLunWenViewController alloc] init];
     lunWenVc.hidesBottomBarWhenPushed = YES;
+    lunWenVc.selectMajorModel = self.selectMajorModel;
     [self.navigationController pushViewController:lunWenVc animated:YES];
 }
 
@@ -120,7 +180,12 @@
 #pragma mark - 布局子视图
 -(void)createUI{
     [self.view addSubview:self.mainTableView];
-    [self.view addSubview:self.noDataTipView];
+    // 下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getStudentPaper)];
+    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    header.automaticallyChangeAlpha = YES;
+    //设置header
+    self.mainTableView.mj_header = header;
   
 }
     
@@ -160,7 +225,7 @@
 
 -(UIView *)noDataTipView{
     if (!_noDataTipView) {
-        _noDataTipView = [[UIView alloc] initWithFrame:self.mainTableView.frame];
+        _noDataTipView = [[UIView alloc] initWithFrame:self.mainTableView.bounds];
         _noDataTipView.backgroundColor = COLOR_WITH_ALPHA(0xFCFCFC, 1);
         
         UIImageView *imageView = [[UIImageView alloc] init];
@@ -211,6 +276,39 @@
         [upLoadBtn.layer insertSublayer:gradientLayer below:upLoadBtn.imageView.layer];
     }
     return _noDataTipView;
+}
+
+
+-(UIView *)noUpLoadTipView{
+    if (!_noUpLoadTipView) {
+        _noUpLoadTipView = [[UIView alloc] initWithFrame:self.mainTableView.bounds];
+        _noUpLoadTipView.backgroundColor = COLOR_WITH_ALPHA(0xFCFCFC, 1);
+        
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.image = [UIImage imageNamed:@"search_nodata"];
+        [_noUpLoadTipView addSubview:imageView];
+        
+        UILabel *tipLabel = [[UILabel alloc] init];
+        tipLabel.font = HXFont(13);
+        tipLabel.textColor = COLOR_WITH_ALPHA(0xB1B1B1, 1);
+        tipLabel.textAlignment = NSTextAlignmentCenter;
+        tipLabel.text = @"暂无数据";
+        [_noUpLoadTipView addSubview:tipLabel];
+        
+        imageView.sd_layout
+        .centerXEqualToView(_noUpLoadTipView)
+        .topSpaceToView(_noUpLoadTipView, 50)
+        .widthIs(375)
+        .heightIs(110);
+        
+        tipLabel.sd_layout
+        .topSpaceToView(imageView, 10)
+        .leftEqualToView(_noUpLoadTipView)
+        .rightEqualToView(_noUpLoadTipView)
+        .heightIs(18);
+        
+    }
+    return _noUpLoadTipView;
 }
 
 

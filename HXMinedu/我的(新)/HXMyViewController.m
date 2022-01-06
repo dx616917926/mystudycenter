@@ -8,7 +8,6 @@
 #import "HXMyViewController.h"
 #import "HXPaymentDtailsContainerViewController.h"
 #import "HXRegistFormViewController.h"
-#import "HXInfoConfirmViewController.h"
 #import "HXPictureInforConfirmViewController.h"
 #import "HXAboutUsViewController.h"
 #import "HXSetViewController.h"
@@ -20,7 +19,6 @@
 #import "HXMajorModel.h"
 #import "HXBannerLogoModel.h"
 #import "SDWebImage.h"
-#import "MJRefresh.h"
 #import "WMZBannerView.h"
 
 
@@ -112,7 +110,7 @@
         if (success) {
             NSDictionary *dic = [[dictionary objectForKey:@"Data"] firstObject];
             self.stuInfoModel = [HXStudentInfoModel mj_objectWithKeyValues:dic];
-            [self refreTopHeaderUI];
+            [self refreshTopHeaderUI];
         }
     } failure:^(NSError * _Nonnull error) {
         
@@ -256,7 +254,7 @@
 
 
 #pragma mark - 刷新数据
--(void)refreTopHeaderUI{
+-(void)refreshTopHeaderUI{
     self.nameLabel.text = HXSafeString(self.stuInfoModel.name);
     if (self.stuInfoModel.mobile.length>=11) {
         self.phoneBtn.hidden = NO;
@@ -316,7 +314,7 @@
 
 #pragma mark - Event
 -(void)clickCollectInfoBtn:(UIButton *)sender{
-    HXInfoConfirmViewController *infoConfirmVc = [[HXInfoConfirmViewController alloc] init];
+    HXPictureInforConfirmViewController *infoConfirmVc = [[HXPictureInforConfirmViewController alloc] init];
     infoConfirmVc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:infoConfirmVc animated:YES];
 }

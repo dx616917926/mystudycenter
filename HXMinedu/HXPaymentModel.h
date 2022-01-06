@@ -13,6 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HXPaymentModel : NSObject
 ///标题
 @property(nonatomic, copy) NSString *title;
+///专业ID
+@property(nonatomic, copy) NSString *major_id;
+///版本
+@property(nonatomic, copy) NSString *version_id;
+///
+@property(nonatomic, assign) NSInteger type;
 ///在籍
 @property(nonatomic, copy) NSString *studentStateName;
 ///8005和8006置灰其他正常

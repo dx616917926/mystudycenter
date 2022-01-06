@@ -10,7 +10,7 @@
 #import "HXHistoricalDetailsCell.h"
 #import "HXNoDataTipView.h"
 #import "HXPaymentModel.h"
-#import "MJRefresh.h"
+
 
 @interface HXHistoricalDetailsViewController ()<UITableViewDelegate,UITableViewDataSource>
 

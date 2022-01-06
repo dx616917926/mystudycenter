@@ -17,7 +17,7 @@
 #import "HXUnPaidDetailCell.h"
 #import "HXNoDataTipView.h"
 #import "HXPaymentModel.h"
-#import "MJRefresh.h"
+
 
 
 @interface HXPaymentDtailChildViewController ()<UITableViewDelegate,UITableViewDataSource,HXPaidDetailCellDelegate>

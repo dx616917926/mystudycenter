@@ -6,7 +6,6 @@
 //
 
 #import "HXLiveViewController.h"
-#import "MJRefresh.h"
 #import "HXLiveModel.h"
 #import "HXLiveDetailViewController.h"
 

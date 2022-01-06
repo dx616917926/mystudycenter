@@ -13,7 +13,7 @@
 #import "HXCommonSelectView.h"
 #import "HXNoDataTipView.h"
 #import "HXPaymentModel.h"
-#import "MJRefresh.h"
+
 
 
 @interface HXZiZhuJiaoFeiViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -157,6 +157,9 @@
     }
     HXZiZhuOrderDetailsViewController *vc = [[HXZiZhuOrderDetailsViewController alloc] init];
     HXPaymentModel *paidDetailsInfoModel  = [HXPaymentModel new];
+    paidDetailsInfoModel.type = self.selectPaymentModel.type;
+    paidDetailsInfoModel.version_id = self.selectPaymentModel.version_id;
+    paidDetailsInfoModel.major_id = self.selectPaymentModel.major_id;
     paidDetailsInfoModel.payMode_id = self.selectPaymentModel.payMode_id;
     paidDetailsInfoModel.orderNum = self.selectPaymentModel.orderNum;
     paidDetailsInfoModel.createDate = self.selectPaymentModel.createDate;

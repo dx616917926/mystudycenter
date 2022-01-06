@@ -39,26 +39,33 @@
     return self;
 }
 
--(void)setPictureInfoModel:(HXPictureInfoModel *)pictureInfoModel{
-    _pictureInfoModel = pictureInfoModel;
-    if ([HXCommonUtil isNull:pictureInfoModel.majorName]) {
-        self.titleLabel.sd_layout.heightIs(46);
-        self.numLabel.sd_layout.heightIs(0);
-        self.titleLabel.text = HXSafeString(pictureInfoModel.fileTypeName);
-    }else{
-        self.titleLabel.sd_layout.heightIs(25);
-        self.numLabel.sd_layout.heightIs(20);
-        self.titleLabel.text = HXSafeString(pictureInfoModel.majorName);
-        self.numLabel.text = HXSafeString(pictureInfoModel.fileTypeName);
-    }
-   
+#pragma mark - Setter
+-(void)setFileTypeInfoModel:(HXFileTypeInfoModel *)fileTypeInfoModel{
     
-    if (pictureInfoModel.status == 0) {//待上传
+    _fileTypeInfoModel = fileTypeInfoModel;
+    
+    self.titleLabel.text = [NSString stringWithFormat:@"%@(%ld)",fileTypeInfoModel.reserve,(long)fileTypeInfoModel.count];
+    
+    //状态 1待完善 2待确认 3已完善
+    if (fileTypeInfoModel.status == 1) {
         self.stateImageView.image = [UIImage imageNamed:@"noupload_icon"];
-        self.stateLabel.text = @"待上传";
+        self.stateLabel.text = @"待完善";
+        self.stateImageView.hidden = YES;
+        self.numLabel.hidden = NO;
+        self.numLabel.backgroundColor = COLOR_WITH_ALPHA(0xFF3D3D, 1);
+        self.numLabel.text = [NSString stringWithFormat:@"%ld",(fileTypeInfoModel.count-fileTypeInfoModel.stuFileCount)];
+    }else if (fileTypeInfoModel.status == 2) {
+        self.stateImageView.image = [UIImage imageNamed:@"unconfirm_icon"];
+        self.stateLabel.text = @"待确认";
+        self.stateImageView.hidden = YES;
+        self.numLabel.hidden = NO;
+        self.numLabel.backgroundColor = COLOR_WITH_ALPHA(0xFF9F0A, 1);
+        self.numLabel.text = [NSString stringWithFormat:@"%ld",fileTypeInfoModel.dqrCount];
     }else {
-        self.stateImageView.image = (pictureInfoModel.studentstatus == 1? [UIImage imageNamed:@"confirm_icon"]:[UIImage imageNamed:@"unconfirm_icon"]);
-        self.stateLabel.text = (pictureInfoModel.studentstatus == 1? @"已确认":@"未确认");
+        self.stateImageView.image = [UIImage imageNamed:@"confirm_icon"];
+        self.stateLabel.text = @"已完善";
+        self.stateImageView.hidden = NO;
+        self.numLabel.hidden = YES;
     }
 }
 
@@ -107,7 +114,7 @@
     .centerYEqualToView(self)
     .leftEqualToView(self.bottomLine).offset(10)
     .rightSpaceToView(self.stateImageView, 10)
-    .heightIs(22);
+    .autoHeightRatio(0);
 
 }
 
@@ -117,8 +124,8 @@
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.font = HXFont(16);
         _titleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _titleLabel.numberOfLines = 1;
-        _titleLabel.text = @"毕业申办资料(2)";
+        _titleLabel.numberOfLines = 2;
+       
     }
     return _titleLabel;;
 }
@@ -126,12 +133,11 @@
 -(UILabel *)numLabel{
     if (!_numLabel) {
         _numLabel = [[UILabel alloc] init];
-        _numLabel.backgroundColor = COLOR_WITH_ALPHA(0xFF3D3D, 1);
         _numLabel.textAlignment = NSTextAlignmentCenter;
         _numLabel.font = HXFont(16);
         _numLabel.textColor = COLOR_WITH_ALPHA(0xffffff, 1);
         _numLabel.numberOfLines = 1;
-        _numLabel.text = @"5";
+        _numLabel.hidden = YES;
     }
     return _numLabel;;
 }
@@ -151,7 +157,7 @@
         _stateLabel.textAlignment = NSTextAlignmentRight;
         _stateLabel.font = HXFont(16);
         _stateLabel.textColor = COLOR_WITH_ALPHA(0x858585, 1);
-        _stateLabel.text = @"待完善";
+        
     }
     return _stateLabel;;
 }

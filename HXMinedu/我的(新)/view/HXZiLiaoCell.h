@@ -6,13 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HXPictureInfoModel.h"
+#import "HXFileTypeInfoModel.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXZiLiaoCell : UITableViewCell
 
-@property(nonatomic,strong) HXPictureInfoModel *pictureInfoModel;
+@property(nonatomic,strong) HXFileTypeInfoModel *fileTypeInfoModel;
 
 @end
 

@@ -8,5 +8,10 @@
 #import "HXPaymentDetailModel.h"
 
 @implementation HXPaymentDetailModel
-
++ (NSDictionary *)mj_replacedKeyFromPropertyName
+{
+    return @{
+        @"enrollFeeId" : @"Id"
+    };
+}
 @end

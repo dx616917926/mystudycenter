@@ -43,6 +43,30 @@
     return self;
 }
 
+#pragma mark - Setter
+-(void)setStudentPaperModel:(HXStudentPaperModel *)studentPaperModel{
+    _studentPaperModel = studentPaperModel;
+    
+    self.schoolNameLabel.text = HXSafeString(studentPaperModel.BkSchool);
+    self.cengCiNameLabel.text = HXSafeString(studentPaperModel.educationName);
+    self.majorNameLabel.text = HXSafeString(studentPaperModel.majorName);
+    ///version_id:1001成考  1002自考  1003国开   1004网教    1005职业资格   1006全日制
+    if ([studentPaperModel.version_id integerValue] ==1001) {
+        self.typeLabel.text = @"成考";
+    }else if ([studentPaperModel.version_id integerValue] ==1002) {
+        self.typeLabel.text = @"自考";
+    }else if ([studentPaperModel.version_id integerValue] ==1003) {
+        self.typeLabel.text = @"国开";
+    }else if ([studentPaperModel.version_id integerValue] ==1004) {
+        self.typeLabel.text = @"网教";
+    }else if ([studentPaperModel.version_id integerValue] ==1005) {
+        self.typeLabel.text = @"职业资格";
+    }else if ([studentPaperModel.version_id integerValue] ==1006) {
+        self.typeLabel.text = @"全日制 ";
+    }
+    
+}
+
 #pragma mark - UI布局
 -(void)createUI{
     self.backgroundColor = [UIColor clearColor];
@@ -149,7 +173,7 @@
         _schoolNameLabel = [[UILabel alloc] init];
         _schoolNameLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _schoolNameLabel.font = HXFont(18);
-        _schoolNameLabel.text = @"湖南涉外经济学院";
+        
     }
     return _schoolNameLabel;;
 }
@@ -159,7 +183,7 @@
         _cengCiNameLabel = [[UILabel alloc] init];
         _cengCiNameLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _cengCiNameLabel.font = HXFont(16);
-        _cengCiNameLabel.text = @"专升本";
+        
     }
     return _cengCiNameLabel;;
 }
@@ -169,7 +193,7 @@
         _majorNameLabel = [[UILabel alloc] init];
         _majorNameLabel.textColor = COLOR_WITH_ALPHA(0x5D5D63, 1);
         _majorNameLabel.font = HXFont(16);
-        _majorNameLabel.text = @"A020106金融学";
+        
     }
     return _majorNameLabel;
 }
@@ -184,7 +208,7 @@
         _typeLabel.backgroundColor = [UIColor clearColor];
         _typeLabel.transform = CGAffineTransformMakeRotation(M_PI/5.45);
         _typeLabel.transform = CGAffineTransformTranslate(_typeLabel.transform ,0, -12);
-        _typeLabel.text = @"自学";
+        
     }
     return _typeLabel;
 }

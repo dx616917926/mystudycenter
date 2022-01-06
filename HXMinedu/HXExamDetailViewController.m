@@ -8,7 +8,6 @@
 #import "HXExamDetailViewController.h"
 #import "HXExamDetailTopView.h"
 #import "HXExamRecordCell.h"
-#import "MJRefresh.h"
 #import "NSDate+HXDate.h"
 #import "HXStartExamViewController.h"
 

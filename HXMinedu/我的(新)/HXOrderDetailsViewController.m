@@ -8,13 +8,15 @@
 #import "HXOrderDetailsViewController.h"
 #import "HXScanCodePaymentViewController.h"
 #import "HXCommonWebViewController.h"
+#import "HXZiZhuJiaoFeiViewController.h"
+#import "HXZiZhuOrderDetailsViewController.h"
 #import "HXPaymentDetailCell.h"
 #import "HXYingJiaoCell.h"
 #import "HXPaidDetailCell.h"
 #import "HXUnPaidDetailCell.h"
 #import "HXNoDataTipView.h"
 #import "HXPaymentModel.h"
-#import "MJRefresh.h"
+
 
 
 @interface HXOrderDetailsViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -59,6 +61,7 @@
     
     //获取订单详情
     [self getPaidDetailsInfo];
+    
     
     
 }

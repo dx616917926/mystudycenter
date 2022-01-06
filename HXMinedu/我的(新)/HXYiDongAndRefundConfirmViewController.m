@@ -10,7 +10,7 @@
 #import "HXChangeMajorYiDongDetailsViewController.h"
 #import "HXTuiXueYiDongDetailsViewController.h"
 #import "HXNoDataTipView.h"
-#import "MJRefresh.h"
+
 @interface HXYiDongAndRefundConfirmViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *mainTableView;

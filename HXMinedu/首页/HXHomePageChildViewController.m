@@ -10,7 +10,7 @@
 #import "HXShowH5ImageViewController.h"
 #import "UIViewController+YNPageExtend.h"
 #import "HXHomePageGuideCell.h"
-#import "MJRefresh.h"
+
 
 @interface HXHomePageChildViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *dataArray;

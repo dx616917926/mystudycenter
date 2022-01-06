@@ -89,9 +89,6 @@
 -(void)confirmStudentStatu{
     NSDictionary *dic = @{
         @"studentFile_id":HXSafeString(self.pictureInfoModel.fileId),
-        @"fileType_id":HXSafeString(self.pictureInfoModel.fileTypeId),
-        @"attr":@(self.pictureInfoModel.attr)
-        
     };
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdateStudentStatu  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         self.topConfirmBtn.userInteractionEnabled = YES;
@@ -113,23 +110,21 @@
 
 #pragma mark - 上传图片信息
 -(void)uploadStudentFile:(NSString *)encodedImageStr{
+    
     [self.view showLoadingWithMessage:@"正在上传..."];
-    //type 0为添加 1为修改
     NSDictionary *dic = @{
         @"fileType_id":HXSafeString(self.pictureInfoModel.fileTypeId),
         @"image":HXSafeString(encodedImageStr),
         @"version_id":HXSafeString(self.pictureInfoModel.version_id),
-        @"major_id":HXSafeString(self.pictureInfoModel.major_id),
-        @"attr":@(self.pictureInfoModel.attr),
-        @"type":([HXCommonUtil isNull:self.pictureInfoModel.imgurl]?@0:@1)
+        @"major_id":HXSafeString(self.pictureInfoModel.major_id)
     };
+    
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdateStudentFile  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.view hideLoading];
         self.topConfirmBtn.userInteractionEnabled = YES;
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
-//            self.topUploadBtn.hidden  = YES;
             self.pictureInfoModel.imgurl = [dictionary stringValueForKey:@"Data"];
             ///通知外部刷新
             if (self.refreshInforBlock) {
@@ -313,7 +308,7 @@
     
     if (self.pictureInfoModel.status == 0) {//0:待上传 1:已上传
         self.topConfirmBtn.hidden  = YES;
-        ////等于2时不允许上传图片
+        ///等于2时不允许上传图片
         [self.topUploadBtn setTitle:@"上传图片" forState:UIControlStateNormal];
         self.topUploadBtn.hidden = (self.pictureInfoModel.attr == 2);
         self.topConfirmBtn.sd_layout.topSpaceToView(self.topImageView, 14).heightIs(0);
@@ -343,7 +338,7 @@
 }
 
 #pragma mark -- image转化成Base64位
--(NSString *)imageChangeBase64: (UIImage *)image{
+-(NSString *)imageChangeBase64:(UIImage *)image{
     UIImage*compressImage = [HXCommonUtil compressImageSize:image toByte:250000];
     NSData*imageData =  UIImageJPEGRepresentation(compressImage, 1);
     NSLog(@"压缩后图片大小：%.2f M",(float)imageData.length/(1024*1024.0f));
