@@ -97,7 +97,7 @@
 
 //上传论文
 -(void)uploadingWithFileData:(NSString *)fileData fileName:(NSString *)fileName{
-    [self.view showLoading];
+    [self.view showSuccessWithMessage:@"正在上传..."];
     NSDictionary *dic = @{
         @"version_id":HXSafeString(self.selectMajorModel.versionId),
         @"major_id":HXSafeString(self.selectMajorModel.major_id),
@@ -110,6 +110,9 @@
         if (success) {
             //获取学生论文详情
             [self getStudentPaperInfo];
+            [self.view showSuccessWithMessage:@"上传成功"];
+        }else{
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];
@@ -124,12 +127,14 @@
         @"version_id":HXSafeString(self.selectMajorModel.versionId),
         @"major_id":HXSafeString(self.selectMajorModel.major_id)
     };
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UploadStudentPaperFile withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdatedbStatus withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.view hideLoading];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.progressLabel.text = @"已答辩";
             self.bottomShadowView.hidden = self.bottomView.hidden = YES;
+        }else{
+            [self.view showErrorWithMessage:[dictionary stringValueForKey:@"Message"]];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];
@@ -141,7 +146,7 @@
 //上传论文
 -(void)upLoadLunWen{
     
-    NSArray * types = @[@"public.item"];
+    NSArray *types = @[@"public.item"];
     UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:types inMode:UIDocumentPickerModeOpen];
     documentPicker.delegate = self;
     documentPicker.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -150,7 +155,8 @@
 
 #pragma mark - 下载查看论文
 -(void)downLoadLunwen{
-    if ([HXCommonUtil isNull:self.studentPaperModel.paperUrl]) {
+    NSString *downLoadUrl = [HXCommonUtil stringEncoding:self.studentPaperModel.paperUrl];
+    if ([HXCommonUtil isNull:downLoadUrl]){
         [self.view showTostWithMessage:@"资源无效"];
         return;
     }
@@ -160,10 +166,10 @@
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
     // 2. 创建下载路径和请求对象
-    NSURL *URL = [NSURL URLWithString:self.downLoadUrl];
+    NSURL *URL = [NSURL URLWithString:downLoadUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     NSString *generateStr = [HXCommonUtil generateTradeNO:5];//生成指定长度的字符串
-    NSString *fileName = [generateStr stringByAppendingString:[self.downLoadUrl lastPathComponent]]; //获取文件名称
+    NSString *fileName = [generateStr stringByAppendingString:[downLoadUrl lastPathComponent]]; //获取文件名称
     [self.view showLoadingWithMessage:@"正在下载..."];
 
     //下载文件
@@ -811,6 +817,7 @@
         _daBianBtn.titleLabel.font = HXFont(15);
         [_daBianBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         [_daBianBtn setTitle:@"我已答辩" forState:UIControlStateNormal];
+        [_daBianBtn addTarget:self action:@selector(updatedbStatus) forControlEvents:UIControlEventTouchUpInside];
     }
     return _daBianBtn;
 }

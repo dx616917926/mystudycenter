@@ -114,36 +114,50 @@
 }
 
 -(void)handleData{
+    //筛选出可用的数据
     [self.majorArray removeAllObjects];
-    //是否显示右侧 切换专业按钮
-    self.sc_navigationBar.rightBarButtonItem = (self.yinJiaoDetailsList.count>1?self.rightBarButtonItem:nil);
-    self.selectPaymentModel = self.yinJiaoDetailsList.firstObject;
+    __block NSMutableArray *tempArray = [NSMutableArray array];
     [self.yinJiaoDetailsList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         HXPaymentModel *model = obj;
-        HXCommonSelectModel *tempModel = [HXCommonSelectModel new];
-        tempModel.content = model.title;
-        [self.majorArray addObject:tempModel];
-        if (idx==0) {
-            self.majorTitle = model.title;
+        ///8005和8006置灰其他正常
+        if (model.studentStateId!=8005&&model.studentStateId!=8006) {
+            HXCommonSelectModel *tempModel = [HXCommonSelectModel new];
+            tempModel.content = model.title;
+            [self.majorArray addObject:tempModel];
+            [tempArray addObject:model];
         }
     }];
+    if (tempArray.count>0) {
+        HXPaymentModel *model = tempArray.firstObject;
+        self.majorTitle = model.title;
+        self.selectPaymentModel = model;
+    }
+    //是否显示右侧 切换专业按钮
+    self.sc_navigationBar.rightBarButtonItem = (self.majorArray.count>1?self.rightBarButtonItem:nil);
     [self.mainTableView reloadData];
 }
 
 #pragma mark - Event
 //去支付
 -(void)pushZiZhuOrderDetailsVc:(UIButton *)sender{
+    //暂无需要缴费的费项
+    __block BOOL canSeleted = NO;
     //标准，补录数组
     __block NSMutableArray *payableTypeList = [NSMutableArray array];
     [self.selectPaymentModel.payableTypeList enumerateObjectsUsingBlock:^(HXPaymentDetailsInfoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         HXPaymentDetailsInfoModel *tempModel = [HXPaymentDetailsInfoModel new];
         tempModel.ftype = obj.ftype;
         tempModel.ftypeName = obj.ftypeName;
+        
         //单项缴费条目数组
         __block NSMutableArray *payableDetailsInfoList = [NSMutableArray array];
         [obj.payableDetailsInfoList enumerateObjectsUsingBlock:^(HXPaymentDetailModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.isSeleted) {
                 [payableDetailsInfoList addObject:obj];
+            }
+            //暂无需要缴费的费项
+            if (obj.IsFee) {
+                canSeleted = YES;
             }
         }];
         if (payableDetailsInfoList.count>0) {
@@ -151,6 +165,12 @@
             [payableTypeList addObject:tempModel];
         }
     }];
+    
+    
+    if (!canSeleted) {
+        [self.view showTostWithMessage:@"暂无需要缴费的费项"];
+        return;
+    }
     if (payableTypeList.count==0) {
         [self.view showTostWithMessage:@"请选择缴费项目"];
         return;

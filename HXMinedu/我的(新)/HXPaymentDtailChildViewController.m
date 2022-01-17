@@ -163,11 +163,10 @@
 }
 
 #pragma mark - <HXPaidDetailCellDelegate>
--(void)paidDetailCell:(HXPaidDetailCell *)cell checkVoucher:(NSString *)receiptUrl orderStatus:(NSInteger)orderStatus{
+-(void)paidDetailCell:(HXPaidDetailCell *)cell checkVoucher:(NSString *)receiptUrl pDFType:(NSInteger)PDFType{
     HXVoucherViewController *voucherVc = [[HXVoucherViewController alloc] init];
     voucherVc.downLoadUrl = receiptUrl;
-    voucherVc.orderStatus = orderStatus;
-    //-1 已支付待确认 1-已完成 0-未完成
+    voucherVc.PDFType = PDFType;
     [self.navigationController pushViewController:voucherVc animated:YES];
 }
 

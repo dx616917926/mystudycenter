@@ -31,7 +31,7 @@
 @property(nonatomic,strong) UILabel *shijiaoLabel;
 @property(nonatomic,strong) UILabel *shijiaoMoneyLabel;
 @property(nonatomic,strong) UIButton *checkBtn;
-
+@property(nonatomic,strong) UIButton *checkFaPiaoBtn;
 
 @end
 
@@ -80,6 +80,7 @@
         self.shijiaoLabel.hidden = self.shijiaoMoneyLabel.hidden = self.finishImageView.hidden = NO;
         self.finishImageView.image = [UIImage imageNamed:@"finishpayment"];
         self.checkBtn.hidden = NO;
+        self.checkFaPiaoBtn.hidden = [HXCommonUtil isNull:paymentDetailModel.invoiceurl];
         [self.checkBtn setTitle:@"查看收款凭证" forState:UIControlStateNormal];
     }else if (paymentDetailModel.orderStatus == 2) {//已结转
         self.paymentStateLabel.text = @"";
@@ -107,17 +108,26 @@
 }
 
 #pragma mark - Event
-//查看收款凭证、查看交易凭证
+///查看凭证 PDFType: 1、收款凭证     2、收款凭证    3、发票凭证
 -(void)checkVoucher:(UIButton *)sender{
     //-1 已支付待确认 1-已完成 0-未完成
+    NSInteger pDFType = 1;
     NSString *url;
     if (self.paymentDetailModel.orderStatus == 1) {
-        url = self.paymentDetailModel.receiptUrl;
-    }else{
+        if (sender.tag == 777666) {//发票凭证
+            pDFType = 3;
+            url = self.paymentDetailModel.invoiceurl;
+        }else{//收款凭证
+            url = self.paymentDetailModel.receiptUrl;
+            pDFType = 1;
+        }
+        
+    }else{//缴费凭证
+        pDFType = 2;
         url = self.paymentDetailModel.proofUrl;
     }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(paidDetailCell:checkVoucher:orderStatus:)]) {
-        [self.delegate paidDetailCell:self checkVoucher:url orderStatus:self.paymentDetailModel.orderStatus];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(paidDetailCell:checkVoucher:pDFType:)]) {
+        [self.delegate paidDetailCell:self checkVoucher:url pDFType:pDFType];
     }
 }
 
@@ -142,6 +152,7 @@
     [self.smallBottomImageView addSubview:self.shijiaoLabel];
     [self.smallBottomImageView addSubview:self.shijiaoMoneyLabel];
     [self.smallBottomImageView addSubview:self.checkBtn];
+    [self.smallBottomImageView addSubview:self.checkFaPiaoBtn];
     
     
     self.bigTopGroundImageView.sd_layout
@@ -245,14 +256,20 @@
     
     self.checkBtn.sd_layout
     .centerYEqualToView(self.smallBottomImageView)
-    .rightSpaceToView(self.smallBottomImageView, _kpw(22));
+    .rightSpaceToView(self.smallBottomImageView, _kpw(10));
     [self.checkBtn setupAutoSizeWithHorizontalPadding:10 buttonHeight:36];
     self.checkBtn.sd_cornerRadiusFromHeightRatio = @0.5;
+    
+    self.checkFaPiaoBtn.sd_layout
+    .centerYEqualToView(self.checkBtn)
+    .rightSpaceToView(self.checkBtn, _kpw(10));
+    [self.checkFaPiaoBtn setupAutoSizeWithHorizontalPadding:10 buttonHeight:36];
+    self.checkFaPiaoBtn.sd_cornerRadiusFromHeightRatio = @0.5;
     
     self.shijiaoMoneyLabel.sd_layout
     .centerYEqualToView(self.smallBottomImageView)
     .leftSpaceToView(self.shijiaoLabel, 5)
-    .rightSpaceToView(self.checkBtn, 10)
+    .rightSpaceToView(self.checkFaPiaoBtn, 10)
     .heightIs(20);
     
 }
@@ -453,6 +470,22 @@
         [_checkBtn addTarget:self action:@selector(checkVoucher:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _checkBtn;
+}
+
+
+-(UIButton *)checkFaPiaoBtn{
+    if (!_checkFaPiaoBtn) {
+        _checkFaPiaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _checkFaPiaoBtn.backgroundColor = [UIColor whiteColor];
+        _checkFaPiaoBtn .titleLabel.font = HXFont(14);
+        [_checkFaPiaoBtn setTitleColor:COLOR_WITH_ALPHA(0x4BA4FE, 1) forState:UIControlStateNormal];
+        _checkFaPiaoBtn.layer.borderWidth = 1;
+        _checkFaPiaoBtn.layer.borderColor = COLOR_WITH_ALPHA(0x4BA4FE, 1).CGColor;
+        [_checkFaPiaoBtn setTitle:@"发票凭证" forState:UIControlStateNormal];
+        [_checkFaPiaoBtn addTarget:self action:@selector(checkVoucher:) forControlEvents:UIControlEventTouchUpInside];
+        _checkFaPiaoBtn.tag = 777666;
+    }
+    return _checkFaPiaoBtn;
 }
 
 @end

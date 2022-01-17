@@ -108,7 +108,8 @@ const NSString *YingJiaoFeeWithItemKey = @"yingJiaoFeeWithItemKey";
         [itemView addTarget:self action:@selector(selectItem:) forControlEvents:UIControlEventTouchUpInside];
         //将数据关联按钮
         objc_setAssociatedObject(itemView, &YingJiaoFeeWithItemKey, model, OBJC_ASSOCIATION_RETAIN);
-        
+        //IsFee勾选
+    
         [self.middleContainerView addSubview:itemView];
         itemView.sd_layout
         .topSpaceToView(self.middleContainerView, i*40)
@@ -150,6 +151,14 @@ const NSString *YingJiaoFeeWithItemKey = @"yingJiaoFeeWithItemKey";
             shijiaolabel.textColor = COLOR_WITH_ALPHA(0xfe664b, 1);
         }else{
             shijiaolabel.textColor = COLOR_WITH_ALPHA(0xfece4b, 1);
+        }
+        //实缴小于应缴才能继续勾选
+        if (model.IsFee) {
+            selectImageView.hidden = NO;
+            itemView.userInteractionEnabled = YES;
+        }else{
+            selectImageView.hidden = YES;
+            itemView.userInteractionEnabled = NO;
         }
         
         selectImageView.sd_layout

@@ -24,6 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) float avgfee;
 ///实缴
 @property(nonatomic, assign) float payMoney;
+///自助缴费是否可勾选
+@property(nonatomic, assign) BOOL IsFee;
+///本次实缴(用于记录自助缴费)
+@property(nonatomic, assign) float benCiPayMoney;
 ///退费金额（退费详情用）
 @property(nonatomic, assign) float refundMoney;
 ///结转金额（异动详情用）
@@ -42,8 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSInteger orderStatus;
 ///收据凭证url
 @property(nonatomic, copy) NSString *receiptUrl;
-///交易凭证url
+///缴费凭证url
 @property(nonatomic, copy) NSString *proofUrl;
+///发票凭证url
+@property(nonatomic, copy) NSString *invoiceurl;
 
 //是否选中
 @property(nonatomic, assign) BOOL isSeleted;

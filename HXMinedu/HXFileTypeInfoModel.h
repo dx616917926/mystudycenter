@@ -18,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) NSInteger stuFileCount;
 ///待确认条数
 @property(nonatomic,assign) NSInteger dqrCount;
-///状态： 1待完善 2待确认 3已完善
+///已驳回条数
+@property(nonatomic,assign) NSInteger bhCount;
+///状态： 1待完善  2待确认  3已完善  4已驳回
 @property(nonatomic,assign) NSInteger status;
 
 @end

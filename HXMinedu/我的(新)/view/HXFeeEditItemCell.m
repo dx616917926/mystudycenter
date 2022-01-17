@@ -68,16 +68,16 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     HXPaymentDetailModel *model = (HXPaymentDetailModel *)objc_getAssociatedObject(textField, &YingJiaoFeeWithTextFiledKey);
     
     float payMoney = [textField.text floatValue];
-    if (payMoney>model.fee) {
+    if (payMoney>(model.fee-model.payMoney)) {
         [[UIApplication sharedApplication].keyWindow showTostWithMessage:@"实缴金额不能大于应缴金额"];
         textField.text = @"";
     }
     
-    model.payMoney = [textField.text floatValue];
+    model.benCiPayMoney = [textField.text floatValue];
     //计算本次应缴小计：
     __block float feeSubtotal = 0.0;
     [self.paymentDetailsInfoModel.payableDetailsInfoList enumerateObjectsUsingBlock:^(HXPaymentDetailModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        feeSubtotal += obj.payMoney;
+        feeSubtotal += obj.benCiPayMoney;
     }];
     self.paymentDetailsInfoModel.feeSubtotal = feeSubtotal;
     self.yingjiaoXiaoJiMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",feeSubtotal];
@@ -105,7 +105,7 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     ///计算本次应缴小计
     __block float payMoneySubtotal = 0.0f;
     [paymentDetailsInfoModel.payableDetailsInfoList enumerateObjectsUsingBlock:^(HXPaymentDetailModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        payMoneySubtotal += obj.payMoney;
+        payMoneySubtotal += obj.benCiPayMoney;
     }];
     
     self.yingjiaoXiaoJiMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",payMoneySubtotal];
@@ -144,7 +144,7 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
         yinjiaolabel.textAlignment = NSTextAlignmentCenter;
         yinjiaolabel.font = HXFont(12);
         yinjiaolabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        yinjiaolabel.text = [NSString stringWithFormat:@"¥%.2f",model.fee];
+        yinjiaolabel.text = [NSString stringWithFormat:@"¥%.2f",(model.fee-model.payMoney)];
         [itemView addSubview:yinjiaolabel];
         
         UITextField *shijiaoTextField = [[UITextField alloc] init];
@@ -154,7 +154,7 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
         shijiaoTextField.layer.borderColor = COLOR_WITH_ALPHA(0x5699FF, 1).CGColor;
         shijiaoTextField.textAlignment = NSTextAlignmentLeft;
         shijiaoTextField.font = HXFont(13);
-        shijiaoTextField.text = [NSString stringWithFormat:@"%.2f",model.payMoney];
+        shijiaoTextField.text = [NSString stringWithFormat:@"%.2f",(model.benCiPayMoney)];
         UIView *lefteView  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 30)];
         shijiaoTextField.leftView = lefteView;
         shijiaoTextField.leftViewMode = UITextFieldViewModeAlways;
@@ -322,7 +322,7 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
         _yingjiaoLabel.textAlignment = NSTextAlignmentCenter;
         _yingjiaoLabel.font = HXFont(12);
         _yingjiaoLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _yingjiaoLabel.text = @"应缴金额";
+        _yingjiaoLabel.text = @"剩余应缴";
     }
     return _yingjiaoLabel;
 }

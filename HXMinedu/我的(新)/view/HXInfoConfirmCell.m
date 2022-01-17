@@ -50,10 +50,13 @@
         
     }
    
-    
+    //状态 0:待上传 1:已上传  //0.待上传  1.待确认  2.待审核  3.审核不通过  4.审核通过 只有待确认和审核不通过时可以修改照片
     if (pictureInfoModel.status == 0) {//待上传
         self.stateImageView.image = [UIImage imageNamed:@"noupload_icon"];
         self.stateLabel.text = @"待上传";
+    }else if (pictureInfoModel.status == 3) {//审核不通过
+        self.stateImageView.image = [UIImage imageNamed:@"noupload_icon"];
+        self.stateLabel.text = @"已驳回";
     }else {
         self.stateImageView.image = (pictureInfoModel.studentstatus == 1? [UIImage imageNamed:@"confirm_icon"]:[UIImage imageNamed:@"unconfirm_icon"]);
         self.stateLabel.text = (pictureInfoModel.studentstatus == 1? @"已确认":@"未确认");

@@ -286,7 +286,7 @@
 + (NSString *)getCurrentDateWithFormatterStr:(NSString *)formatterStr{
     // 设置 日期的格式
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    if ([HXCommonUtil isNull:formatter]) {
+    if ([HXCommonUtil isNull:formatterStr]) {
         [formatter setDateFormat:@"yyyy-MM-dd HH-mm"];
     }else{
         [formatter setDateFormat:formatterStr];

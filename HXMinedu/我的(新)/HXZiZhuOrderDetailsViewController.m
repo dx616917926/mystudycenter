@@ -131,6 +131,10 @@
                 HXCommonSelectModel *payTypeModel = self.paymentTypeList.firstObject;
                 self.payTypeId = payTypeModel.value;
                 [self.paymentTypeBtn setTitle:payTypeModel.text forState:UIControlStateNormal];
+            }else{
+                [self.paymentTypeTitles removeAllObjects];
+                self.payTypeId = @"";
+                [self.paymentTypeBtn setTitle:nil forState:UIControlStateNormal];
             }
         }
     } failure:^(NSError * _Nonnull error) {
@@ -145,7 +149,7 @@
     [self.paidDetailsInfoModel.payableTypeList enumerateObjectsUsingBlock:^(HXPaymentDetailsInfoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         HXPaymentDetailsInfoModel *paymentDetailsInfoModel = obj;
         [paymentDetailsInfoModel.payableDetailsInfoList enumerateObjectsUsingBlock:^(HXPaymentDetailModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            payMoneyTotal += obj.payMoney;
+            payMoneyTotal += obj.benCiPayMoney;
         }];
     }];
     self.yingjiaoTotalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",payMoneyTotal];
@@ -170,7 +174,7 @@
     [self.paidDetailsInfoModel.payableTypeList enumerateObjectsUsingBlock:^(HXPaymentDetailsInfoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         HXPaymentDetailsInfoModel *paymentDetailsInfoModel = obj;
         [paymentDetailsInfoModel.payableDetailsInfoList enumerateObjectsUsingBlock:^(HXPaymentDetailModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            payMoneyTotal += obj.payMoney;
+            payMoneyTotal += obj.benCiPayMoney;
         }];
     }];
     self.yingjiaoTotalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",payMoneyTotal];
@@ -220,7 +224,7 @@
             HXPaymentDetailModel *paymentDetailModel = obj;
             [orderDic setObject:HXSafeString(paymentDetailModel.enrollFeeId) forKey:@"id"];
             [orderDic setObject:@(paymentDetailModel.fee) forKey:@"fee"];
-            [orderDic setObject:@(paymentDetailModel.payMoney) forKey:@"inputMoney"];
+            [orderDic setObject:@(paymentDetailModel.benCiPayMoney) forKey:@"inputMoney"];
             [orderDic setObject:HXSafeString(paymentDetailsInfoModel.ftypeName) forKey:@"ftype"];
             [ordrInfoArr addObject:orderDic];
         }];

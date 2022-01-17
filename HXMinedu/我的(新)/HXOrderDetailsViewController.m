@@ -111,7 +111,7 @@
     self.shiJiaoMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",self.paidDetailsInfoModel.payMoneyTotal];
 }
 
-#pragma mark - EVent
+#pragma mark - EVent 确认并支付
 -(void)pushPaymentVC:(UIButton *)sender{
     if (self.paidDetailsInfoModel.payMode_id == 2) {//扫码支付
         HXScanCodePaymentViewController *vc = [[HXScanCodePaymentViewController alloc] init];

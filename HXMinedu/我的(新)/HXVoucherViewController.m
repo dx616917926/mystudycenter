@@ -122,8 +122,8 @@
 -(void)createUI{
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    //-1 已支付待确认 1-已完成 0-未完成
-    self.sc_navigationBar.title = (self.orderStatus== 1? @"收据凭证":@"交易凭证");
+    //查看凭证 PDFType: 1、收款凭证     2、收款凭证    3、发票凭证
+    self.sc_navigationBar.title = (self.PDFType== 1?@"收据凭证":(self.PDFType== 2?@"交易凭证":@"发票凭证"));
     
     [self.view addSubview:self.showImageView];
     [self.view addSubview:self.downLoadBtn];
@@ -176,15 +176,15 @@
     if (!_downLoadBtn) {
         _downLoadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _downLoadBtn.titleLabel.font = HXBoldFont(18);
-        [_downLoadBtn setTitle:(self.orderStatus == 1? @"下载收据凭证":@"下载交易凭证") forState:UIControlStateNormal];
+        [_downLoadBtn setTitle:(self.PDFType == 1?@"下载收据凭证":(self.PDFType == 2?@"下载交易凭证":@"下载发票凭证")) forState:UIControlStateNormal];
         [_downLoadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_downLoadBtn addTarget:self action:@selector(downLoad:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _downLoadBtn;
 }
 
--(void)setOrderStatus:(NSInteger)orderStatus{
-    _orderStatus = orderStatus;
+- (void)setPDFType:(NSInteger)PDFType{
+    _PDFType = PDFType;
 }
 
 -(void)setDownLoadUrl:(NSString *)downLoadUrl{

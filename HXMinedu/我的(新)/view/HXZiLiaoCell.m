@@ -46,8 +46,13 @@
     
     self.titleLabel.text = [NSString stringWithFormat:@"%@(%ld)",fileTypeInfoModel.reserve,(long)fileTypeInfoModel.count];
     
-    //状态 1待完善 2待确认 3已完善
-    if (fileTypeInfoModel.status == 1) {
+    //状态 1待完善 2待确认 3已完善  4已驳回
+    if (fileTypeInfoModel.status == 4) {
+        self.stateImageView.image = [UIImage imageNamed:@"noupload_icon"];
+        self.stateLabel.text = @"已驳回";
+        self.stateImageView.hidden = NO;
+        self.numLabel.hidden = YES;
+    }else  if (fileTypeInfoModel.status == 1) {
         self.stateImageView.image = [UIImage imageNamed:@"noupload_icon"];
         self.stateLabel.text = @"待完善";
         self.stateImageView.hidden = YES;

@@ -43,7 +43,8 @@
 -(void)getExamDateCourseScoreInfoList{
     NSDictionary *dic = @{
         @"major_id":HXSafeString(self.selectMajorModel.major_id),
-        @"version_id":HXSafeString(self.selectMajorModel.versionId)
+        @"version_id":HXSafeString(self.selectMajorModel.versionId),
+        @"type":@(self.selectMajorModel.type)
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_ExamDateCourseScoreInfo_List  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {

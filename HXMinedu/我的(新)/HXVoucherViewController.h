@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HXVoucherViewController : HXBaseViewController
 
 @property (nonatomic, copy) NSString *downLoadUrl;
-@property (nonatomic, assign) NSInteger orderStatus;
+@property (nonatomic, assign) NSInteger PDFType;
 @end
 
 NS_ASSUME_NONNULL_END
