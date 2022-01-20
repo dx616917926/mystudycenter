@@ -20,8 +20,7 @@
 @property(strong,nonatomic) NSArray *examDateList;
 @property(strong,nonatomic) HXExamDateModel *selectExamDateModel;
 
-//是否有考期
-@property(nonatomic,assign) BOOL isHaveKaoQi;
+
 
 @end
 
@@ -54,11 +53,7 @@
             self.examDateList = [HXExamDateModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             self.selectExamDateModel = self.examDateList.firstObject;
             self.selectExamDateModel.isSelected = YES;
-            if ([HXCommonUtil isNull:self.selectExamDateModel.AdmissionStatus]&&![HXCommonUtil isNull:self.selectExamDateModel.examDate]) {
-                self.isHaveKaoQi = YES;
-            }else{
-                self.isHaveKaoQi = NO;
-            }
+           
             [self refreshUI];
         }
     } failure:^(NSError * _Nonnull error) {
@@ -90,11 +85,18 @@
         self.selectDateHeaderView.hidden = NO;
         [self.noDataTipView removeFromSuperview];
     }
-    if (self.isHaveKaoQi) {
+    ////1 自考报考成绩（切换考期 type等于1并且version_id等于1002） 2其他在籍成绩（切换学期 type等于1并且version_id不等于1002） 3成考考前成绩（无切换 type不等于1)
+    if (self.selectExamDateModel.type == 1) {
         self.selectDateHeaderView.selectDateBtn.titleLabel.sd_layout.centerXEqualToView(self.selectDateHeaderView.selectDateBtn).offset(-10);
         self.selectDateHeaderView.selectDateBtn.imageView.sd_layout.widthIs(8);
         self.selectDateHeaderView.selectDateBtn.enabled = YES;
         NSString *examDate = [NSString stringWithFormat:@"%@",self.selectExamDateModel.examDate];
+        [self.selectDateHeaderView.selectDateBtn setTitle:examDate forState:UIControlStateNormal];
+    }else if (self.selectExamDateModel.type == 2) {
+        self.selectDateHeaderView.selectDateBtn.titleLabel.sd_layout.centerXEqualToView(self.selectDateHeaderView.selectDateBtn).offset(-10);
+        self.selectDateHeaderView.selectDateBtn.imageView.sd_layout.widthIs(8);
+        self.selectDateHeaderView.selectDateBtn.enabled = YES;
+        NSString *examDate = [NSString stringWithFormat:@"第%@学期",self.selectExamDateModel.term];
         [self.selectDateHeaderView.selectDateBtn setTitle:examDate forState:UIControlStateNormal];
     }else{
         self.selectDateHeaderView.selectDateBtn.titleLabel.sd_layout.centerXEqualToView(self.selectDateHeaderView.selectDateBtn).offset(0);
@@ -130,7 +132,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     HXExamDateCourseScoreModel *examDateCourseScoreModel = self.selectExamDateModel.examDateCourseScoreInfoList[indexPath.row];
-    examDateCourseScoreModel.isHaveKaoQi = self.isHaveKaoQi;
+    examDateCourseScoreModel.isHaveKaoQi = (self.selectExamDateModel.type == 1||self.selectExamDateModel.type == 2);
     cell.examDateCourseScoreModel = examDateCourseScoreModel;
     return cell;
     

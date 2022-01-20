@@ -8,7 +8,7 @@
 #import "HXFeeEditItemCell.h"
 #import <objc/runtime.h>
 
-@interface HXFeeEditItemCell ()
+@interface HXFeeEditItemCell ()<UITextFieldDelegate>
 @property(nonatomic,strong) UIImageView *bigTopGroundImageView;
 
 @property(nonatomic,strong) UIView *topContainerView;
@@ -85,6 +85,16 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     [HXNotificationCenter postNotificationName:kChangeZiZhuShiJiaoFeeNotification object:nil];
 }
 
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    textField.text = nil;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    //获取绑定的关联对象
+    HXPaymentDetailModel *model = (HXPaymentDetailModel *)objc_getAssociatedObject(textField, &YingJiaoFeeWithTextFiledKey);
+    textField.text = [NSString stringWithFormat:@"¥%.2f",model.benCiPayMoney];
+}
+
 
 #pragma mark - 赋值刷新
 -(void)setPaymentDetailsInfoModel:(HXPaymentDetailsInfoModel *)paymentDetailsInfoModel{
@@ -123,6 +133,7 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
     ///创建条目
     for (int i = 0; i < list.count; i++) {
         HXPaymentDetailModel *model =list[i];
+        model.benCiPayMoney = (model.fee-model.payMoney);
         UIControl *itemView = [[UIControl alloc] init];
         itemView.backgroundColor = [UIColor clearColor];
         
@@ -144,7 +155,7 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
         yinjiaolabel.textAlignment = NSTextAlignmentCenter;
         yinjiaolabel.font = HXFont(12);
         yinjiaolabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        yinjiaolabel.text = [NSString stringWithFormat:@"¥%.2f",(model.fee-model.payMoney)];
+        yinjiaolabel.text = [NSString stringWithFormat:@"¥%.2f",model.benCiPayMoney];
         [itemView addSubview:yinjiaolabel];
         
         UITextField *shijiaoTextField = [[UITextField alloc] init];
@@ -154,10 +165,11 @@ const NSString *YingJiaoFeeWithTextFiledKey = @"yingJiaoFeeWithTextFiledKey";
         shijiaoTextField.layer.borderColor = COLOR_WITH_ALPHA(0x5699FF, 1).CGColor;
         shijiaoTextField.textAlignment = NSTextAlignmentLeft;
         shijiaoTextField.font = HXFont(13);
-        shijiaoTextField.text = [NSString stringWithFormat:@"%.2f",(model.benCiPayMoney)];
+        shijiaoTextField.text = [NSString stringWithFormat:@"%.2f",(model.fee-model.payMoney)];
         UIView *lefteView  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 30)];
         shijiaoTextField.leftView = lefteView;
         shijiaoTextField.leftViewMode = UITextFieldViewModeAlways;
+        shijiaoTextField.delegate = self;
         [itemView addSubview:shijiaoTextField];
         //将数据关联输入框
         objc_setAssociatedObject(shijiaoTextField, &YingJiaoFeeWithTextFiledKey, model, OBJC_ASSOCIATION_RETAIN);

@@ -58,7 +58,7 @@
 
 #pragma mark - 选择全部订单
 -(void)didSelectedALLOrders{
-    [self pageViewController:self.pageViewController didSelectedAtIndex:1];
+    self.pageViewController.selectedIndex = 1;
 }
 
 #pragma mark - UI

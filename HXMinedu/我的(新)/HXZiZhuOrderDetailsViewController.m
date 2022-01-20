@@ -10,6 +10,7 @@
 #import "HXCommonWebViewController.h"
 #import "HXZiZhuJiaoFeiViewController.h"
 #import "HXZiZhuOrderDetailsViewController.h"
+#import "HXPaymentDtailsContainerViewController.h"
 #import "HXFeeEditItemCell.h"
 #import "HXNoDataTipView.h"
 #import "YBPopupMenu.h"
@@ -255,6 +256,11 @@
             [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if ([obj isKindOfClass:[HXZiZhuJiaoFeiViewController class]]||[obj isKindOfClass:[HXZiZhuOrderDetailsViewController class]]) {
                     [tempArray addObject:obj];
+                }
+                //默认选择全部订单，刷新数据
+                if ([obj isKindOfClass:[HXPaymentDtailsContainerViewController class]]) {
+                    [(HXPaymentDtailsContainerViewController*)obj didSelectedALLOrders];
+                    [HXNotificationCenter postNotificationName:@"ZhiFuImageUploadSuccessNotification" object:nil];
                 }
             }];
             [navs removeObjectsInArray:tempArray];
@@ -516,8 +522,8 @@
         _orderDetailsTableFooterView.backgroundColor = [UIColor clearColor];
         [_orderDetailsTableFooterView addSubview:self.paymentMethodLabel];
         [_orderDetailsTableFooterView addSubview:self.paymentMethodBtn];
-        [_orderDetailsTableFooterView addSubview:self.paymentTypeLabel];
-        [_orderDetailsTableFooterView addSubview:self.paymentTypeBtn];
+//        [_orderDetailsTableFooterView addSubview:self.paymentTypeLabel];
+//        [_orderDetailsTableFooterView addSubview:self.paymentTypeBtn];
         [_orderDetailsTableFooterView addSubview:self.yingjiaoTotalLabel];
         [_orderDetailsTableFooterView addSubview:self.yingjiaoTotalMoneyLabel];
         [_orderDetailsTableFooterView addSubview:self.xuJiaoNaLabel];
@@ -553,35 +559,35 @@
         
         
         //支付类型
-        self.paymentTypeLabel.sd_layout
-        .topSpaceToView(self.paymentMethodLabel, 17)
-        .leftEqualToView(self.paymentMethodLabel)
-        .heightRatioToView(self.paymentMethodLabel, 1);
-        [self.paymentTypeLabel setSingleLineAutoResizeWithMaxWidth:120];
-        
-      
-        self.paymentTypeBtn.sd_layout
-        .centerYEqualToView(self.paymentTypeLabel)
-        .rightEqualToView(self.paymentMethodBtn)
-        .heightIs(26)
-        .widthIs(100);
-        self.paymentTypeBtn.sd_cornerRadius = @4;
-        
-        self.paymentTypeBtn.imageView.sd_layout
-        .rightSpaceToView(self.paymentTypeBtn, 5)
-        .centerYEqualToView(self.paymentTypeBtn)
-        .heightIs(6)
-        .widthIs(8);
-        
-        self.paymentTypeBtn.titleLabel.sd_layout
-        .centerYEqualToView(self.paymentTypeBtn)
-        .leftSpaceToView(self.paymentTypeBtn, 5)
-        .rightSpaceToView(self.paymentTypeBtn.imageView, 0)
-        .heightIs(20);
+//        self.paymentTypeLabel.sd_layout
+//        .topSpaceToView(self.paymentMethodLabel, 17)
+//        .leftEqualToView(self.paymentMethodLabel)
+//        .heightRatioToView(self.paymentMethodLabel, 1);
+//        [self.paymentTypeLabel setSingleLineAutoResizeWithMaxWidth:120];
+//
+//
+//        self.paymentTypeBtn.sd_layout
+//        .centerYEqualToView(self.paymentTypeLabel)
+//        .rightEqualToView(self.paymentMethodBtn)
+//        .heightIs(26)
+//        .widthIs(100);
+//        self.paymentTypeBtn.sd_cornerRadius = @4;
+//
+//        self.paymentTypeBtn.imageView.sd_layout
+//        .rightSpaceToView(self.paymentTypeBtn, 5)
+//        .centerYEqualToView(self.paymentTypeBtn)
+//        .heightIs(6)
+//        .widthIs(8);
+//
+//        self.paymentTypeBtn.titleLabel.sd_layout
+//        .centerYEqualToView(self.paymentTypeBtn)
+//        .leftSpaceToView(self.paymentTypeBtn, 5)
+//        .rightSpaceToView(self.paymentTypeBtn.imageView, 0)
+//        .heightIs(20);
         
         
         self.yingjiaoTotalLabel.sd_layout
-        .topSpaceToView(self.paymentTypeLabel, 17)
+        .topSpaceToView(self.paymentMethodLabel, 17)
         .leftEqualToView(self.paymentMethodLabel)
         .heightRatioToView(self.paymentMethodLabel, 1);
         [self.yingjiaoTotalLabel setSingleLineAutoResizeWithMaxWidth:160];
@@ -729,7 +735,7 @@
         _payBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _payBtn.titleLabel.font = HXFont(16);
         [_payBtn setTitleColor:COLOR_WITH_ALPHA(0xffffff, 1) forState:UIControlStateNormal];
-        [_payBtn setTitle:@"确认并支付" forState:UIControlStateNormal];
+        [_payBtn setTitle:@"确定订单" forState:UIControlStateNormal];
         [_payBtn addTarget:self action:@selector(pushPaymentVC:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _payBtn;

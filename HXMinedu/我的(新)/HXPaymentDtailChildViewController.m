@@ -48,9 +48,13 @@
         [self getPaidDetailsList];
     }
     //监听支付截图上传成功通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getPaidDetailsList) name:@"ZhiFuImageUploadSuccessNotification" object:nil];
+    [HXNotificationCenter addObserver:self selector:@selector(getPaidDetailsList) name:@"ZhiFuImageUploadSuccessNotification" object:nil];
 }
 
+
+-(void)dealloc{
+    [HXNotificationCenter removeObserver:self];
+}
 
 #pragma mark - Event
 -(void)pushHistoricalDetailsVC:(UIButton *)sender{
@@ -370,9 +374,6 @@
     return _noDataTipView;
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 /*
 #pragma mark - Navigation

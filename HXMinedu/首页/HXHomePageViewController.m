@@ -221,7 +221,10 @@
             [self.columnList addObjectsFromArray:list];
             //设置子控制器
             if (self.columnList.count>0) {
+                [self.headerView removeFromSuperview];
                 [self setupPageVC];
+            }else{
+                [self.view addSubview:self.headerView];
             }
         }
     } failure:^(NSError * _Nonnull error) {
