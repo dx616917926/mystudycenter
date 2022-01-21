@@ -110,18 +110,18 @@
 }
 
 #pragma mark - Event
-///查看凭证 PDFType: 1、交易凭证     2、收款凭证    3、发票凭证
+///查看凭证 PDFType: 1、已支付待确认,交易凭证     2、已完成,收款凭证    3、已完成,发票凭证
 -(void)checkVoucher:(UIButton *)sender{
     //-1 已支付待确认 1-已完成 0-未完成
     NSInteger pDFType = 99;
     NSString *url;
-    if (self.paymentDetailModel.orderStatus == 1&&![HXCommonUtil isNull:self.paymentDetailModel.invoiceurl]) {//发票凭证
+    if (self.paymentDetailModel.orderStatus == 1&&![HXCommonUtil isNull:self.paymentDetailModel.invoiceurl]) {//已完成,发票凭证
         pDFType = 3;
         url = self.paymentDetailModel.invoiceurl;
-    }else if (self.paymentDetailModel.orderStatus == -1&&![HXCommonUtil isNull:self.paymentDetailModel.receiptUrl]) {//交易凭证
+    }else if (self.paymentDetailModel.orderStatus == -1&&![HXCommonUtil isNull:self.paymentDetailModel.receiptUrl]) {//已支付待确认,交易凭证
         url = self.paymentDetailModel.receiptUrl;
         pDFType = 1;
-    }else if (self.paymentDetailModel.orderStatus == 1&&![HXCommonUtil isNull:self.paymentDetailModel.proofUrl]){//收款凭证
+    }else if (self.paymentDetailModel.orderStatus == 1&&![HXCommonUtil isNull:self.paymentDetailModel.proofUrl]){//已完成,收款凭证
         pDFType = 2;
         url = self.paymentDetailModel.proofUrl;
     }
