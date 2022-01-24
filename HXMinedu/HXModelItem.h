@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *StemCode;
 //课程名称
 @property(nonatomic, strong) NSString *courseName;
+
+//自己增加的，判断是否在时间范围内
+@property(nonatomic, assign) BOOL isInTime;
+
 @end
 
 NS_ASSUME_NONNULL_END

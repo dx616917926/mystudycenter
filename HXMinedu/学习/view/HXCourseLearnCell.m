@@ -100,12 +100,23 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
         self.containerView.sd_layout.heightIs(0);
     }else{
         self.containerView.sd_layout.heightIs(46);
+        
+        NSString *currentDateStr = [HXCommonUtil getCurrentDateWithFormatterStr:@"yyyy-MM-dd HH:mm:ss"];
+        
         for (int i= 0; i<courseModel.modules.count; i++) {
+            
             HXModelItem *item = courseModel.modules[i];
             item.StemCode = courseModel.StemCode;
             item.courseName = courseModel.courseName;
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.containerView addSubview:btn];
+            
+            //是否在时间范围内
+            if ([HXCommonUtil compareDate:currentDateStr withDate:item.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:item.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
+                item.isInTime = YES;
+            }else{
+                item.isInTime = NO;
+            }
             //将数据关联按钮
             objc_setAssociatedObject(btn, &BtnWithItemKey, item, OBJC_ASSOCIATION_RETAIN);
             btn.titleLabel.font = HXFont(_kpAdaptationWidthFont(10));
@@ -114,19 +125,19 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
             [btn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
             if ([item.ExamCourseType isEqualToString:@"1"]) {//课件学习
                 btn.tag = 7777;
-                [btn setBackgroundColor:COLOR_WITH_ALPHA(0x5699FF, 1)];
+                [btn setBackgroundColor:(item.isInTime?COLOR_WITH_ALPHA(0x5699FF, 1):COLOR_WITH_ALPHA(0xb1b5b9, 1))];
                 [btn setImage:[UIImage imageNamed:@"kejian_icon"] forState:UIControlStateNormal];
             }else if ([item.ExamCourseType isEqualToString:@"2"]) {//平时作业
                 btn.tag = 8888;
-                [btn setBackgroundColor:COLOR_WITH_ALPHA(0x4DC656, 1)];
+                [btn setBackgroundColor:(item.isInTime?COLOR_WITH_ALPHA(0x4DC656, 1):COLOR_WITH_ALPHA(0xb1b5b9, 1))];
                 [btn setImage:[UIImage imageNamed:@"pingshi_icon"] forState:UIControlStateNormal];
             }else if ([item.ExamCourseType isEqualToString:@"3"]) {//期末考试
                 btn.tag = 9999;
-                [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFAC639, 1)];
+                [btn setBackgroundColor:(item.isInTime?COLOR_WITH_ALPHA(0xFAC639, 1):COLOR_WITH_ALPHA(0xb1b5b9, 1))];
                 [btn setImage:[UIImage imageNamed:@"qimo_icon"] forState:UIControlStateNormal];
             }else if ([item.ExamCourseType isEqualToString:@"4"]) {//历年真题
                 btn.tag = 1010;
-                [btn setBackgroundColor:COLOR_WITH_ALPHA(0xFE664B, 1)];
+                [btn setBackgroundColor:(item.isInTime?COLOR_WITH_ALPHA(0xFE664B, 1):COLOR_WITH_ALPHA(0xb1b5b9, 1))];
                 [btn setImage:[UIImage imageNamed:@"zhenti_icon"] forState:UIControlStateNormal];
             }
             

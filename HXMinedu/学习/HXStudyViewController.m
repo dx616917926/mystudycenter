@@ -362,6 +362,10 @@
     switch (type) {
         case HXKeJianXueXiClickType://课件学习
         {
+            if (!item.isInTime) {
+                [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
+                return;
+            }
             if ([item.Type isEqualToString:@"1"]) {
                 //课件学习模块,先判断登陆状态
                 WeakSelf(weakSelf);
@@ -410,6 +414,10 @@
         case HXQiMoKaoShiClickType://期末考试
         case HXLiNianZhenTiClickType://历年真题
         {
+            if (!item.isInTime) {
+                [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
+                return;
+            }
             if ([item.Type isEqualToString:@"1"]) {
                 //课件学习模块,先判断登陆状态
                 WeakSelf(weakSelf);
