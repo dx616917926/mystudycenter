@@ -11,8 +11,8 @@
 #import "GKPhotoBrowser.h"
 #import "GKCover.h"
 #import "UIViewController+HXExtension.h"
-
-@interface HXConfirmViewController ()<GKPhotoBrowserDelegate>
+#import <QuickLook/QuickLook.h>
+@interface HXConfirmViewController ()<GKPhotoBrowserDelegate,QLPreviewControllerDataSource>
 @property(nonatomic,strong) UIScrollView *mainScrollView;
 @property(nonatomic,strong) UIImageView *topImageView;
 @property(nonatomic,strong) UIButton *topConfirmBtn;
@@ -25,6 +25,11 @@
 @property (nonatomic, weak) UIView *actionSheet;
 
 @property(nonatomic,strong) HXPhotoManager *photoManager;
+
+@property (nonatomic, copy) NSString *downLoadUrl;
+@property (nonatomic, strong) QLPreviewController *QLController;
+@property (nonatomic, copy) NSURL *fileURL;
+
 
 
 @end
@@ -140,13 +145,20 @@
 #pragma mark - 预览大图
 -(void)tapImageView:(UITapGestureRecognizer *)ges{
     if([HXCommonUtil isNull:self.pictureInfoModel.imgurl]) return;
-    NSMutableArray *photos = [NSMutableArray new];
-    GKPhoto *photo = [GKPhoto new];
-    photo.image = self.topImageView.image;
-    photo.sourceImageView =(UIImageView *)ges.view;
-    [photos addObject:photo];
-    [self.browser resetPhotoBrowserWithPhotos:photos];
-    [self.browser showFromVC:self];
+    if ([self.pictureInfoModel.imgurl containsString:@".jpg"]||[self.pictureInfoModel.imgurl containsString:@".png"]||[self.pictureInfoModel.imgurl containsString:@".gif"]) {//图片
+        NSMutableArray *photos = [NSMutableArray new];
+        GKPhoto *photo = [GKPhoto new];
+        photo.image = self.topImageView.image;
+        photo.sourceImageView =(UIImageView *)ges.view;
+        [photos addObject:photo];
+        [self.browser resetPhotoBrowserWithPhotos:photos];
+        [self.browser showFromVC:self];
+    }else{//非图片
+        self.QLController = [[QLPreviewController alloc] init];
+        self.QLController.dataSource = self;
+        [self downLoadZiLiao];
+    }
+    
 }
 
 -(GKPhotoBrowser *)browser{
@@ -168,6 +180,52 @@
     return _browser;
 }
 
+#pragma mark - 下载查看论文
+-(void)downLoadZiLiao{
+    NSString *downLoadUrl = [HXCommonUtil stringEncoding:self.pictureInfoModel.imgurl];
+    if ([HXCommonUtil isNull:downLoadUrl]){
+        [self.view showTostWithMessage:@"资源无效"];
+        return;
+    }
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    // 1. 创建会话管理者
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    
+    // 2. 创建下载路径和请求对象
+    NSURL *URL = [NSURL URLWithString:downLoadUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    NSString *generateStr = [HXCommonUtil generateTradeNO:5];//生成指定长度的字符串
+    NSString *fileName = [generateStr stringByAppendingString:[downLoadUrl lastPathComponent]]; //获取文件名称
+    [self.view showLoadingWithMessage:@"正在下载..."];
+
+    //下载文件
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress){
+        
+    } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
+        return url;
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        [self.view hideLoading];
+        self.fileURL = filePath;
+        [self presentViewController:self.QLController animated:YES completion:nil];
+        //刷新界面,如果不刷新的话，不重新走一遍代理方法，返回的url还是上一次的url
+        [self.QLController refreshCurrentPreviewItem];
+    }];
+    [downloadTask resume];
+}
+
+
+#pragma mark - QLPreviewControllerDataSource
+/// 文件路径
+- (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
+    return self.fileURL;
+}
+/// 文件数
+- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
+    return 1;
+}
 
 #pragma mark - <GKPhotoBrowserDelegate>
 - (void)photoBrowser:(GKPhotoBrowser *)browser longPressWithIndex:(NSInteger)index {
@@ -328,8 +386,15 @@
         }
     }
     
+    if (![HXCommonUtil isNull:self.pictureInfoModel.imgurl]) {
+        if ([self.pictureInfoModel.imgurl containsString:@".jpg"]||[self.pictureInfoModel.imgurl containsString:@".png"]||[self.pictureInfoModel.imgurl containsString:@".gif"]) {//图片
+            [self.topImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.pictureInfoModel.imgurl)] placeholderImage:[UIImage imageNamed:@"uploaddash"] options:SDWebImageRefreshCached];
+        }else{//非图片
+            self.topImageView.image = [UIImage imageNamed:@"bigziliao_icon"];
+        }
+    }
     
-    [self.topImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.pictureInfoModel.imgurl)] placeholderImage:[UIImage imageNamed:@"uploaddash"] options:SDWebImageRefreshCached];
+    
     
 }
 
