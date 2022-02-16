@@ -12,7 +12,7 @@ target 'HXMinedu' do
   pod 'SDWebImage', '~> 5.10.0'
   pod 'MMLayout', '0.1.0'
   pod 'FMDB', '~> 2.6.2'
-  pod 'AliPlayerSDK_iOS', '5.4.3.0-15301379'
+  pod 'AliPlayerSDK_iOS', '~> 5.4.4.1'  
   pod 'MJExtension', '3.2.4'
   pod 'HXViewHUD', '~> 0.2.0'
   pod 'SDAutoLayout', '~> 2.2.1'
@@ -26,5 +26,8 @@ target 'HXMinedu' do
   pod 'YBPopupMenu', '~> 1.1.9'
   pod 'WechatOpenSDK', '~> 1.8.7.1'
   pod 'SGQRCode', '~> 3.5.1'
+  
+  pod 'JCore'
+  pod 'JPush' 
   
 end

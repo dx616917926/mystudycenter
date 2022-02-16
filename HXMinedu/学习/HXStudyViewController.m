@@ -7,6 +7,7 @@
 //
 
 #import "HXStudyViewController.h"
+#import "HXSelectCourseListViewController.h"
 #import "HXSelectStudyTypeViewController.h"
 #import "HXExaminationResultsViewController.h"
 #import "HXStudyReportViewController.h"
@@ -60,7 +61,8 @@
 @property (nonatomic, strong) HXBannerLogoModel *bannerLogoModel;
 
 
-
+//创建全局队列组
+@property (nonatomic, strong) dispatch_group_t dispatchGroup;
 
 @end
 
@@ -69,6 +71,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    ///创建全局队列组
+    self.dispatchGroup = dispatch_group_create();
+    
     //布局UI
     [self createUI];
     //获取报考类型专业列表
@@ -78,6 +83,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess:) name:LOGINSUCCESS object:nil];
     ///监听<<报考类型专业改变>>通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
+    
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -206,6 +213,7 @@
 
 //获取课程列表
 -(void)getCourseList{
+    dispatch_group_enter(self.dispatchGroup);
     HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
         @"version_id":HXSafeString(selectMajorModel.versionId),
@@ -217,39 +225,37 @@
         
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
-            HXCourseLearnRecordModel *courseLearnRecordModel = [HXCourseLearnRecordModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
-            self.courseList = courseLearnRecordModel.courseInfoList;
-            self.kjxxCourseListtModel = courseLearnRecordModel.kjxxCourseListModel;
-            if (self.courseList.count == 0 && self.kjxxCourseListtModel.nowadaysList.count == 0 && self.kjxxCourseListtModel.yesterdayList.count == 0) {
-                self.noDataTipView.sd_layout.heightIs(_kpw(280));
-            }else{
-                self.noDataTipView.sd_layout.heightIs(0);
-            }
-            [self.noDataTipView updateLayout];
-            [self.mainTableView reloadData];
-            
-            //遍历,是否有新课件
-            __block BOOL showToast = NO;
-            [self.courseList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                HXCourseModel *model = obj;
-                NSString *courseIdKey = [NSString stringWithFormat:@"course_id+%@",model.course_id];
-                BOOL hasKey = [HXUserDefaults boolForKey:courseIdKey];
-                if (model.isHisVersion == 1 && !hasKey) {
-                    [HXUserDefaults setBool:YES forKey:courseIdKey];
-                    showToast = YES;
-                }
-            }];
-            
-            if (showToast) {
-                HXCourseToastView *toastView = [[HXCourseToastView alloc] init];
-                [toastView showToastHideAfter:3];
-            }
+            NSArray *list = [HXCourseModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            self.courseList = list;
         }
+        dispatch_group_leave(self.dispatchGroup);
     } failure:^(NSError * _Nonnull error) {
-        
+        dispatch_group_leave(self.dispatchGroup);
     }];
 }
 
+//获取学习记录
+-(void)getLearningRecordList{
+    dispatch_group_enter(self.dispatchGroup);
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"type":@(selectMajorModel.type),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetLearningRecordList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXKJCXXCourseListModel *kJCXXCourseListModel = [HXKJCXXCourseListModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            self.kjxxCourseListtModel = kJCXXCourseListModel;
+        }
+        dispatch_group_leave(self.dispatchGroup);
+    } failure:^(NSError * _Nonnull error) {
+        dispatch_group_leave(self.dispatchGroup);
+    }];
+}
 //获取Banner和Logo
 -(void)getBannerAndLogo{
     HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
@@ -322,10 +328,46 @@
     }];
     
     
-    //获取教学计划列表
-    [self getCourseList];
+    
     //获取Banner和Logo
     [self getBannerAndLogo];
+    //获取教学计划列表
+    [self getCourseList];
+    //获取学习记录
+    [self getLearningRecordList];
+    //请求完成刷新UI
+    dispatch_group_notify(self.dispatchGroup, dispatch_get_main_queue(), ^(){
+        [self refreshUI];
+    });
+}
+
+-(void)refreshUI{
+    if (self.courseList.count == 0 && self.kjxxCourseListtModel.nowadaysList.count == 0 && self.kjxxCourseListtModel.yesterdayList.count == 0) {
+        self.noDataTipView.sd_layout.heightIs(_kpw(280));
+    }else{
+        self.noDataTipView.sd_layout.heightIs(0);
+    }
+    [self.noDataTipView updateLayout];
+    [self.mainTableView reloadData];
+    
+    //遍历,是否有新课件
+    __block BOOL showToast = NO;
+    [self.courseList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXCourseModel *model = obj;
+        NSString *courseIdKey = [NSString stringWithFormat:@"course_id+%@",model.course_id];
+        BOOL hasKey = [HXUserDefaults boolForKey:courseIdKey];
+        if (model.isHisVersion == 1 && !hasKey) {
+            [HXUserDefaults setBool:YES forKey:courseIdKey];
+            showToast = YES;
+            *stop = YES;
+            return;
+        }
+    }];
+    
+    if (showToast) {
+        HXCourseToastView *toastView = [[HXCourseToastView alloc] init];
+        [toastView showToastHideAfter:3];
+    }
 }
 
 #pragma mark - HXStudyTableHeaderViewDelegate
@@ -361,53 +403,15 @@
 -(void)handleType:(HXClickType)type withItem:(HXModelItem *)item{
     switch (type) {
         case HXKeJianXueXiClickType://课件学习
-        {
-            if (!item.isInTime) {
-                [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
-                return;
-            }
-            if ([item.Type isEqualToString:@"1"]) {
-                //课件学习模块,先判断登陆状态
-                WeakSelf(weakSelf);
-                [self getLoginStatus:^(BOOL status) {
-                    StrongSelf(strongSelf);
-                    if (status) {
-                        if ([item.StemCode isEqualToString:@"MOOC"]) {//慕课
-                            HXMoocViewController *vc = [[HXMoocViewController alloc] init];
-                            vc.titleName = item.courseName;
-                            vc.moocUrl = [item.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
-                            vc.hidesBottomBarWhenPushed = YES;
-                            [strongSelf.navigationController pushViewController:vc animated:YES];
-                            
-                        }else{
-                            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                            if (@available(iOS 13.0, *)) {
-                                playerVC.barStyle = UIStatusBarStyleDarkContent;
-                            } else {
-                                playerVC.barStyle = UIStatusBarStyleDefault;
-                            }
-                            playerVC.cws_param = item.cws_param;
-                            playerVC.barStyle = UIStatusBarStyleDefault;
-                            playerVC.showLearnFinishStyle = YES;
-                            playerVC.hidesBottomBarWhenPushed = YES;
-                            [strongSelf.navigationController pushViewController:playerVC animated:YES];
-                        }
-                        
-                    }
-                }];
-                
-                
-            }else if ([item.Type isEqualToString:@"2"]) {
-                //考试模块
-                HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
-                listVC.authorizeUrl = item.ExamUrl;
-                listVC.title = item.ModuleName;
-                listVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:listVC animated:YES];
-            }else{
-                [self.view showTostWithMessage:@"暂不支持此模块"];
-            }
-            
+        {   if (!item.isInTime) {
+            [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
+            return;
+        }
+            HXSelectCourseListViewController *vc = [[HXSelectCourseListViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.type = type;
+            vc.course_id = item.course_id;
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         case HXPingShiZuoYeClickType://平时作业
@@ -698,16 +702,16 @@
         [_studyTableFooterView addSubview:self.logoImageView];
         
         self.noDataTipView.sd_layout
-        .topEqualToView(_studyTableFooterView)
-        .leftEqualToView(_studyTableFooterView)
-        .rightEqualToView(_studyTableFooterView)
-        .heightIs(0);
+            .topEqualToView(_studyTableFooterView)
+            .leftEqualToView(_studyTableFooterView)
+            .rightEqualToView(_studyTableFooterView)
+            .heightIs(0);
         
         self.logoImageView.sd_layout
-        .topSpaceToView(self.noDataTipView, 10)
-        .centerXEqualToView(_studyTableFooterView)
-        .widthIs(kScreenWidth)
-        .heightIs(48);
+            .topSpaceToView(self.noDataTipView, 10)
+            .centerXEqualToView(_studyTableFooterView)
+            .widthIs(kScreenWidth)
+            .heightIs(48);
         
         [_studyTableFooterView setupAutoHeightWithBottomView:self.logoImageView bottomMargin:30];
         
@@ -740,10 +744,10 @@
         label.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         [_lastLearnView addSubview:label];
         label.sd_layout
-        .centerYEqualToView(_lastLearnView)
-        .leftSpaceToView(_lastLearnView, _kpw(23))
-        .rightSpaceToView(_lastLearnView, _kpw(23))
-        .heightIs(25);
+            .centerYEqualToView(_lastLearnView)
+            .leftSpaceToView(_lastLearnView, _kpw(23))
+            .rightSpaceToView(_lastLearnView, _kpw(23))
+            .heightIs(25);
         label.font = HXBoldFont(18);
         label.text = @"上次学到哪";
     }
@@ -757,10 +761,10 @@
         label.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         [_todayView addSubview:label];
         label.sd_layout
-        .centerYEqualToView(_todayView)
-        .leftSpaceToView(_todayView, _kpw(23))
-        .rightSpaceToView(_todayView, _kpw(23))
-        .heightIs(22);
+            .centerYEqualToView(_todayView)
+            .leftSpaceToView(_todayView, _kpw(23))
+            .rightSpaceToView(_todayView, _kpw(23))
+            .heightIs(22);
         label.font = HXFont(16);
         label.text = @"今天";
     }
@@ -774,10 +778,10 @@
         label.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         [_yesterdayView addSubview:label];
         label.sd_layout
-        .centerYEqualToView(_yesterdayView)
-        .leftSpaceToView(_yesterdayView, _kpw(23))
-        .rightSpaceToView(_yesterdayView, _kpw(23))
-        .heightIs(22);
+            .centerYEqualToView(_yesterdayView)
+            .leftSpaceToView(_yesterdayView, _kpw(23))
+            .rightSpaceToView(_yesterdayView, _kpw(23))
+            .heightIs(22);
         label.font = HXFont(16);
         label.text = @"昨天";
     }

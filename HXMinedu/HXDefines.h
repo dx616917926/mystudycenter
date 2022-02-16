@@ -27,6 +27,14 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 #define NSLog(...)
 #endif
 
+//各种系统版本
+
+#define IOS11Later (@available(iOS 11, *))
+
+#define IOS10Later (@available(iOS 10, *))
+
+#define IOS9Later (@available(iOS 9, *))
+
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define IsIOS14 ({BOOL isIOS14 = NO; if(@available(iOS 14.0, *)){isIOS14 = YES;}(isIOS14);})
 

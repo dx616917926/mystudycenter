@@ -11,7 +11,6 @@
 + (NSDictionary *)mj_replacedKeyFromPropertyName
 {
     return @{@"courseInfoList" : @"t_courseInfoList_app",
-             @"kjxxCourseListModel" : @"t_kjxxCourseList_app"
     };
 }
 

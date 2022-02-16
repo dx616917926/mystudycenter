@@ -12,10 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HXCourseLearnRecordModel : NSObject
 
-
-@property(nonatomic, strong) HXKJCXXCourseListModel *kjxxCourseListModel;
-
 @property(nonatomic, strong) NSArray<HXCourseModel *> *courseInfoList;
+
 @end
 
 NS_ASSUME_NONNULL_END

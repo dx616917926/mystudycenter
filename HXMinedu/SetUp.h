@@ -8,6 +8,9 @@
 #ifndef SetUp_h
 #define SetUp_h
 
+//极光推送appkey
+#define JPUSHAPPKEY  @"fb4e7dfb1845b271fd4a33d7"
+
 //友盟统计appkey
 #define APPKEY @"5f9f69ea45b2b751a920c0d1"
 

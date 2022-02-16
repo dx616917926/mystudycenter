@@ -17,9 +17,16 @@
 #import "IQKeyboardManager.h"
 #import "WXApi.h"
 #import "UIDevice+HXDevice.h"
+// 引入 JPush 功能所需头文件
+#import "JPUSHService.h"
+// iOS10 注册 APNs 所需头文件
+#ifdef IOS10Later
+#import <UserNotifications/UserNotifications.h>
+#endif
 
-@interface AppDelegate ()<WXApiDelegate>
 
+@interface AppDelegate ()<WXApiDelegate,JPUSHRegisterDelegate>
+@property(nonatomic, strong) NSString *registrationID;
 @end
 
 @implementation AppDelegate
@@ -30,7 +37,7 @@
     
     [self firstEnterHandle];
     //第三方配置
-    [self thirdPartyConfiguration];
+    [self thirdPartyConfiguration:launchOptions ];
     
 #if !TARGET_OS_SIMULATOR
     //检测当前程序运行的环境变量，防止通过DYLD_INSERT_LIBRARIES注入链接异常动态库，来更改相关工具名称
@@ -43,11 +50,73 @@
     //检查更新
     [self checkAppUpdate];
     
+    //推送内容获取：
+    NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotification) {//点击通知启动
+        NSLog(@"点击通知启动");
+        NSString *title = remoteNotification[@"aps"][@"alert"][@"title"];
+        NSString *content = remoteNotification[@"aps"][@"alert"][@"body"];
+        [self alertTitle:title content:content isLaunch:NO];
+    }else{
+        NSLog(@"点击应用图标通知启动");
+    }
+    
+   
+    
     return YES;
 }
 
+- (JPUSHRegisterEntity *)pushRegisterEntity {
+    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+    if (@available(iOS 12.0, *)) {
+      entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
+    } else {
+      entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
+    }
+//    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+//        //可以添加自定义categories
+//        if (@available(iOS 10.0, *)) {
+//          NSSet<UNNotificationCategory *> *categories;
+//          entity.categories = categories;
+//        }else {
+//          NSSet<UIUserNotificationCategory *> *categories;
+//          entity.categories = categories;
+//        }
+//      }
+    return entity;
+}
+
 #pragma mark -第三方配置
-- (void)thirdPartyConfiguration {
+- (void)thirdPartyConfiguration:(NSDictionary *)launchOptions  {
+    //只有在前端运行的时候才能收到自定义消息的推送。从JPush服务器获取用户推送的自定义消息内容和标题以及附加字段等。
+    [HXNotificationCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
+    //【注册通知】通知回调代理（可选）
+    [JPUSHService registerForRemoteNotificationConfig:[self pushRegisterEntity] delegate:self];
+    //【初始化sdk】如果没有使用 IDFA 直接传 nil
+    [JPUSHService setupWithOption:launchOptions appKey:JPUSHAPPKEY
+                          channel:@""
+                 apsForProduction:PRODUCTIONMODE
+            advertisingIdentifier:nil];
+    
+    /*集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - RegistrationID。JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
+     应用程序可以把此 RegistrationID 保存以自己的应用服务器上，然后就可以根据 RegistrationID 来向设备推送消息或者通知
+     */
+    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
+        if(resCode == 0){
+            NSLog(@"registrationID获取成功：%@",registrationID);
+            self.registrationID = registrationID;
+        }
+        else{
+            NSLog(@"registrationID获取失败，code：%d",resCode);
+        }
+    }];
+    
+    //设置别名
+    [JPUSHService setAlias:@"minedu" completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSLog(@"%ld  %@  %ld",(long)iResCode,iAlias,(long)seq);
+    } seq:4];
+    
+    /*******************************************极光推送配置****************************************/
     
     ///友盟配置
     [UMConfigure initWithAppkey:APPKEY channel:@"fir"];
@@ -123,12 +192,18 @@
     
     //关闭网络监控
     [[AFNetworkReachabilityManager sharedManager] stopMonitoring];
+    //重置脚标(为0)
+    [application setApplicationIconBadgeNumber:0];
+    [JPUSHService resetBadge];
+   
 }
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    
+    //重置脚标(为0)
+    [application setApplicationIconBadgeNumber:0];
+    [JPUSHService resetBadge];
     //检测新版本
     [self checkAppUpdate];
 }
@@ -226,6 +301,103 @@
     NSLog(@"处理微信通过Universal Link启动App时传递的数据:%d",ret);
     return ret;
 }
+
+#pragma mark - 通知注册
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    /// Required - 注册 DeviceToken
+    [JPUSHService registerDeviceToken:deviceToken];
+}
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    //Optional
+    NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
+}
+
+#pragma mark- JPUSHRegisterDelegate
+
+// iOS 12 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(UNNotification *)notification{
+    if (notification && [notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //从通知界面直接进入应用
+        NSLog(@"从通知界面直接进入应用");
+    }else{
+        //
+        NSLog(@"从通知设置界面进入应用");
+    }
+    
+}
+#ifdef IOS10Later
+//App状态为正在前台 iOS 10 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+    // Required
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    UNNotificationRequest *request = notification.request; // 收到推送的请求
+    UNNotificationContent *content = request.content; // 收到推送的消息内容
+    
+    NSNumber *badge = content.badge;  // 推送消息的角标
+    NSString *body = content.body;    // 推送消息体
+    UNNotificationSound *sound = content.sound;  // 推送消息的声音
+    NSString *subtitle = content.subtitle;  // 推送消息的副标题
+    NSString *title = content.title;  // 推送消息的标题
+    NSLog(@"iOS10 前台收到本地通知:{\nbody:%@，\ntitle:%@,\nsubtitle:%@,\nbadge：%@，\nsound：%@，\nuserInfo：%@\n}",body,title,subtitle,badge,sound,userInfo);
+    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //远程通知
+        [JPUSHService handleRemoteNotification:userInfo];
+    }else{
+        // 本地通知
+    }
+    /// 需要执行这个方法，选择是否提醒用户，有 Badge、Sound、Alert 三种类型可以选择设置
+    if (@available(iOS 14.0, *)) {
+        completionHandler(UNNotificationPresentationOptionList);
+    } else {
+        completionHandler(UNNotificationPresentationOptionAlert);
+    }
+    
+    [self alertTitle:title content:body isLaunch:NO];
+    
+}
+
+//点击通知栏的通知消息 iOS 10 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    // Required
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    UNNotificationRequest *request = response.notification.request; // 收到推送的请求
+    UNNotificationContent *content = request.content; // 收到推送的消息内容
+    
+    NSNumber *badge = content.badge;  // 推送消息的角标
+    NSString *body = content.body;    // 推送消息体
+    UNNotificationSound *sound = content.sound;  // 推送消息的声音
+    NSString *subtitle = content.subtitle;  // 推送消息的副标题
+    NSString *title = content.title;  // 推送消息的标题
+    NSLog(@"iOS10 前台收到本地通知:{\nbody:%@，\ntitle:%@,\nsubtitle:%@,\nbadge：%@，\nsound：%@，\nuserInfo：%@\n}",body,title,subtitle,badge,sound,userInfo);
+    
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //远程通知
+        [JPUSHService handleRemoteNotification:userInfo];
+    }else{
+        // 本地通知
+    }
+    completionHandler();  // 系统要求执行这个方法
+    [self alertTitle:title content:body isLaunch:NO];
+}
+
+#endif
+
+// Required, iOS 7 Support
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    [JPUSHService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+//自定义消息,实现回调方法 networkDidReceiveMessage
+- (void)networkDidReceiveMessage:(NSNotification *)notification {
+    NSDictionary * userInfo = [notification userInfo];
+    NSString *title = [userInfo valueForKey:@"title"];
+    NSString *content = [userInfo valueForKey:@"content"];
+    NSString *messageID = [userInfo valueForKey:@"_j_msgid"];
+    NSDictionary *extras = [userInfo valueForKey:@"extras"];
+    [self alertTitle:title content:content isLaunch:NO];
+}
+
 
 
 #pragma mark - <WXApiDelegate>
@@ -332,6 +504,24 @@
     return dic;
 }
 
+-(void)alertTitle:(NSString *)title content:(NSString *)content isLaunch:(BOOL)isLaunch{
+   
+    
+    if (!isLaunch) {// 后台或者前台时给出提示弹窗
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:content preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alertVC addAction:okAction];
+        [alertVC addAction:cancelAction];
+        [self.window.rootViewController presentViewController:alertVC animated:YES completion:nil];
+        }else{// 如果是打开APP，则直接跳转
+            
+        }
+}
 
 
 @end

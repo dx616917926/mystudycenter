@@ -43,6 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
 //获取报考课程列表
 #define HXPOST_Get_ExamDateSignInfo_List                      @"/MD/StuScoreInfo/getExamDateSignInfoList"
 
+//获取课程课件学习列表
+#define HXPOST_GetCourseKjList                               @"/MD/StuCourse/getCourseKjList"
+
+//获取学习记录
+#define HXPOST_GetLearningRecordList                        @"/MD/StuCourse/getLearningRecordList"
+
 //获取考试成绩列表
 #define HXPOST_Get_ExamDateCourseScoreInfo_List               @"/MD/StuScoreInfo/getExamDateCourseScoreInfoList"
 

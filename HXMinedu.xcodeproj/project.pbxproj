@@ -318,6 +318,15 @@
 		049D8E0E269C37D500F0E219 /* HXYiDongInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D8E0D269C37D500F0E219 /* HXYiDongInfoModel.m */; };
 		049D9818261401D1009A6B5D /* HXCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D9817261401D1009A6B5D /* HXCourseCell.m */; };
 		049D981B26140A6C009A6B5D /* HXGradientProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D981A26140A6C009A6B5D /* HXGradientProgressView.m */; };
+		049EA50E27BA13810075EC17 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049EA50D27BA13810075EC17 /* WebKit.framework */; };
+		049EA51027BA13980075EC17 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049EA50F27BA13980075EC17 /* StoreKit.framework */; };
+		049EA51227BA13B00075EC17 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049EA51127BA13B00075EC17 /* CFNetwork.framework */; };
+		049EA51427BA13C10075EC17 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049EA51327BA13C10075EC17 /* CoreTelephony.framework */; };
+		049EA51627BA13CB0075EC17 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049EA51527BA13CB0075EC17 /* SystemConfiguration.framework */; };
+		049EA51727BA13D80075EC17 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049EA51127BA13B00075EC17 /* CFNetwork.framework */; };
+		049EDEF627BB46FC00A4E3BC /* HXSelectCourseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 049EDEF527BB46FC00A4E3BC /* HXSelectCourseListViewController.m */; };
+		049EDEF927BB48D200A4E3BC /* HXSelectCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049EDEF827BB48D200A4E3BC /* HXSelectCourseCell.m */; };
+		04B7CD6127B9F63900E9000E /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B7CD6027B9F63900E9000E /* UserNotifications.framework */; };
 		04B904822742022A0026EFF1 /* UIDevice+HXDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B904802742022A0026EFF1 /* UIDevice+HXDevice.m */; };
 		04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */; };
 		04BFCB6225A6A4DB00B03A58 /* HXCwsCourseware.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BFCB6125A6A4DB00B03A58 /* HXCwsCourseware.m */; };
@@ -975,6 +984,18 @@
 		049D9817261401D1009A6B5D /* HXCourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCourseCell.m; sourceTree = "<group>"; };
 		049D981926140A6C009A6B5D /* HXGradientProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXGradientProgressView.h; sourceTree = "<group>"; };
 		049D981A26140A6C009A6B5D /* HXGradientProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXGradientProgressView.m; sourceTree = "<group>"; };
+		049EA50B27BA13410075EC17 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		049EA50C27BA13570075EC17 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		049EA50D27BA13810075EC17 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		049EA50F27BA13980075EC17 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		049EA51127BA13B00075EC17 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		049EA51327BA13C10075EC17 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		049EA51527BA13CB0075EC17 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		049EDEF427BB46FC00A4E3BC /* HXSelectCourseListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSelectCourseListViewController.h; sourceTree = "<group>"; };
+		049EDEF527BB46FC00A4E3BC /* HXSelectCourseListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSelectCourseListViewController.m; sourceTree = "<group>"; };
+		049EDEF727BB48D200A4E3BC /* HXSelectCourseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSelectCourseCell.h; sourceTree = "<group>"; };
+		049EDEF827BB48D200A4E3BC /* HXSelectCourseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSelectCourseCell.m; sourceTree = "<group>"; };
+		04B7CD6027B9F63900E9000E /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		04B904802742022A0026EFF1 /* UIDevice+HXDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+HXDevice.m"; sourceTree = "<group>"; };
 		04B904812742022A0026EFF1 /* UIDevice+HXDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+HXDevice.h"; sourceTree = "<group>"; };
 		04BA63E32599A2EA00F2C1E8 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
@@ -1098,13 +1119,20 @@
 			files = (
 				0475940626FDA47300D206E9 /* UMDevice.framework in Frameworks */,
 				0475940426FDA47300D206E9 /* UMRemoteConfig.framework in Frameworks */,
+				049EA51227BA13B00075EC17 /* CFNetwork.framework in Frameworks */,
+				049EA51727BA13D80075EC17 /* CFNetwork.framework in Frameworks */,
+				049EA50E27BA13810075EC17 /* WebKit.framework in Frameworks */,
 				043F49AF260836AF006E304D /* TXMoviePlayer.framework in Frameworks */,
 				0497C523262D317700C096FD /* CoreGraphics.framework in Frameworks */,
+				049EA51627BA13CB0075EC17 /* SystemConfiguration.framework in Frameworks */,
+				04B7CD6127B9F63900E9000E /* UserNotifications.framework in Frameworks */,
+				049EA51427BA13C10075EC17 /* CoreTelephony.framework in Frameworks */,
 				0475940526FDA47300D206E9 /* UMCommon.framework in Frameworks */,
 				5402E7E5284CAF80DC24B23E /* Pods_HXMinedu.framework in Frameworks */,
 				0475940226FDA47300D206E9 /* UMAPM.framework in Frameworks */,
 				0497C521262D316000C096FD /* Security.framework in Frameworks */,
 				0475940326FDA47300D206E9 /* UTDID.framework in Frameworks */,
+				049EA51027BA13980075EC17 /* StoreKit.framework in Frameworks */,
 				0475940026FDA47300D206E9 /* UMCommonLog.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1166,8 +1194,8 @@
 				04172F6226537185008D1C85 /* HXHomePageViewController.h */,
 				04172F6326537185008D1C85 /* HXHomePageViewController.m */,
 				04172FA62653B48F008D1C85 /* HXHomePageChildViewController.h */,
-				04172FA72653B48F008D1C85 /* HXHomePageChildViewController.m */,
 				0404ED8D26565D1F0001AA6A /* HXHomePageShareViewController.h */,
+				04172FA72653B48F008D1C85 /* HXHomePageChildViewController.m */,
 				0404ED8E26565D1F0001AA6A /* HXHomePageShareViewController.m */,
 				044439852711934600CDA40B /* HXShowH5ImageViewController.h */,
 				044439862711934600CDA40B /* HXShowH5ImageViewController.m */,
@@ -2087,6 +2115,8 @@
 				0491335C260D899C00055D3D /* view */,
 				04913358260D854200055D3D /* HXStudyViewController.h */,
 				04913359260D854200055D3D /* HXStudyViewController.m */,
+				049EDEF427BB46FC00A4E3BC /* HXSelectCourseListViewController.h */,
+				049EDEF527BB46FC00A4E3BC /* HXSelectCourseListViewController.m */,
 				041FE0C426145A1C00696D5C /* HXSelectStudyTypeViewController.h */,
 				041FE0C526145A1C00696D5C /* HXSelectStudyTypeViewController.m */,
 				04940E97261D8E6600C3E8E4 /* HXStudyReportViewController.h */,
@@ -2206,6 +2236,8 @@
 				049D981A26140A6C009A6B5D /* HXGradientProgressView.m */,
 				04378434261C071D0084C381 /* HXCourseLearnCell.h */,
 				04378435261C071D0084C381 /* HXCourseLearnCell.m */,
+				049EDEF727BB48D200A4E3BC /* HXSelectCourseCell.h */,
+				049EDEF827BB48D200A4E3BC /* HXSelectCourseCell.m */,
 				04378437261C40E50084C381 /* HXStudyTableHeaderView.h */,
 				04378438261C40E50084C381 /* HXStudyTableHeaderView.m */,
 				04940E9A261DA00F00C3E8E4 /* HXStudyReportTableHeaderView.h */,
@@ -2491,6 +2523,14 @@
 		08BC7DB449F0590380C365E1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				049EA51527BA13CB0075EC17 /* SystemConfiguration.framework */,
+				049EA51327BA13C10075EC17 /* CoreTelephony.framework */,
+				049EA51127BA13B00075EC17 /* CFNetwork.framework */,
+				049EA50F27BA13980075EC17 /* StoreKit.framework */,
+				049EA50D27BA13810075EC17 /* WebKit.framework */,
+				049EA50C27BA13570075EC17 /* libresolv.tbd */,
+				049EA50B27BA13410075EC17 /* libz.tbd */,
+				04B7CD6027B9F63900E9000E /* UserNotifications.framework */,
 				0497C522262D317700C096FD /* CoreGraphics.framework */,
 				0497C520262D316000C096FD /* Security.framework */,
 				4A568469A6B6F55B5712E3B2 /* Pods_HXMinedu.framework */,
@@ -2781,6 +2821,7 @@
 				0404ED8F26565D1F0001AA6A /* HXHomePageShareViewController.m in Sources */,
 				04B904822742022A0026EFF1 /* UIDevice+HXDevice.m in Sources */,
 				041824692672037E00EF8FDC /* HXReviewerSuggestionCell.m in Sources */,
+				049EDEF927BB48D200A4E3BC /* HXSelectCourseCell.m in Sources */,
 				04FEF9EF265B976D003500C1 /* HXHeadMasterViewController.m in Sources */,
 				046F25B5261EF6D300E394C3 /* HXRegistFormViewController.m in Sources */,
 				04FD3D5A25AD72C100E157EA /* HXExam.m in Sources */,
@@ -2796,6 +2837,7 @@
 				042320B72696FA0600779BE9 /* HXStudentYiDongModel.m in Sources */,
 				0449A55A254C1299001A28D5 /* HXMyCourseViewController.m in Sources */,
 				040B03B02554EA2800E977E2 /* HXSettingViewController.m in Sources */,
+				049EDEF627BB46FC00A4E3BC /* HXSelectCourseListViewController.m in Sources */,
 				0409D37F2669D0E500802912 /* HXSuggestionCell.m in Sources */,
 				041FE0E226147B0600696D5C /* HXTeachPlanCell.m in Sources */,
 				04FD3D5625AD703B00E157EA /* HXExamListViewController.m in Sources */,
