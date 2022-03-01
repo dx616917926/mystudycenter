@@ -799,7 +799,7 @@
 
 
 -(void)dealloc{
-    [[NSNotificationCenter defaultCenter]  removeObserver:self];
+    [HXNotificationCenter  removeObserver:self];
 }
 
 /*

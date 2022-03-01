@@ -7,7 +7,7 @@
 //
 
 #import "HXPublicParamTool.h"
-
+#import "JPUSHService.h"
 @interface HXPublicParamTool()
 
 @property (nonatomic,strong)NSUserDefaults * userDefault;
@@ -195,7 +195,10 @@
     _selectMajorModel = selectMajorModel;
 }
 - (void)logOut {
-    
+    ///删除极光推送别名
+    [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSLog(@"%ld删除的别名:%@",iResCode,iAlias);
+    } seq:4];
     //清除内存中数据
     self.accessToken = nil;
     self.personId = nil;
@@ -229,9 +232,7 @@
             [self.userDefault removeObjectForKey:key];
         }
     }
-    
     [self.userDefault synchronize];
-    
     
 }
 

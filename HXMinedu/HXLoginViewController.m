@@ -10,6 +10,7 @@
 #import "HXLoginContentView.h"
 #import "HXForgetPasswordController.h"
 #import "HXCommonWebViewController.h"
+#import "JPUSHService.h"
 @interface HXLoginViewController ()<UITextFieldDelegate,HXLoginContentViewDeleagte>
 {
     HXLoginContentView *loginView;
@@ -142,8 +143,8 @@
     
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text =  @"430522200201023333";// @"430481198904251252";// @"436201199808050605";  @"430621199908080707"   @"430111199909090952" @"436210199807070740"//430406198006108968//430223198208226562 @"430381200306190101"//630122200210165979//450922200301122931//430702200108303028//140224200311030012//410328196202098816//430381200306190101
-    loginView.userNameTextField.text =  @"430522200201023333";
+    loginView.passWordTextField.text =  @"330328198406043023";// @"430481198904251252";// @"436201199808050605";  @"430621199908080707"   @"430111199909090952" @"436210199807070740"//430406198006108968//430223198208226562//430522200201023319 @"430381200306190101"//630122200210165979//450922200301122931//430702200108303028//140224200311030012//410328196202098816//430381200306190101
+    loginView.userNameTextField.text =  @"330328198406043023";
 #endif
 }
 
@@ -203,6 +204,12 @@
                 }];
 
                 [[[UIApplication sharedApplication].delegate window] setRootViewController:[(AppDelegate*)[UIApplication sharedApplication].delegate tabBarController]];
+                //登录成功设置别名
+                [JPUSHService setAlias:@"minedu" completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                    NSLog(@"%ld  %@  %ld",(long)iResCode,iAlias,(long)seq);
+                } seq:4];
+                
+                
             });
         }else{
             [self.view hideLoading];

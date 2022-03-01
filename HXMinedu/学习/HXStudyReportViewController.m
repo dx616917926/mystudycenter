@@ -89,7 +89,6 @@
             //默认选择第一个
             HXHistoryTimeModel *model = self.historyTimeList.firstObject;
             model.isSelected = YES;
-            
         }
     } failure:^(NSError * _Nonnull error) {
         

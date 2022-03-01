@@ -223,7 +223,7 @@ static NSString * const kFunctionName      =   @"callFunctionName";
         //  4.然后把处理后的，和最开始切割的做下拼接，就得到了最终的字符串
         NSString * finalStr = [NSString stringWithFormat:@"%@?%@",urlBaseStr, [HXCommonUtil  stringEncoding:afterHandleStr]];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            //  判断一下，是否安装了支付宝APP（也就是看看能不能打开这个URL）
+            //  判断一下，是否安装了微信APP（也就是看看能不能打开这个URL）
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:finalStr]]) {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:finalStr]];
             }else{

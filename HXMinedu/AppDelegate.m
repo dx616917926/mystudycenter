@@ -88,6 +88,8 @@
 
 #pragma mark -第三方配置
 - (void)thirdPartyConfiguration:(NSDictionary *)launchOptions  {
+
+    /*******************************************极光推送配置****************************************/
     //只有在前端运行的时候才能收到自定义消息的推送。从JPush服务器获取用户推送的自定义消息内容和标题以及附加字段等。
     [HXNotificationCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
     //【注册通知】通知回调代理（可选）
@@ -110,11 +112,6 @@
             NSLog(@"registrationID获取失败，code：%d",resCode);
         }
     }];
-    
-    //设置别名
-    [JPUSHService setAlias:@"minedu" completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-        NSLog(@"%ld  %@  %ld",(long)iResCode,iAlias,(long)seq);
-    } seq:4];
     
     /*******************************************极光推送配置****************************************/
     
@@ -315,7 +312,7 @@
 #pragma mark- JPUSHRegisterDelegate
 
 // iOS 12 Support
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(UNNotification *)notification{
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(UNNotification *)notification API_AVAILABLE(ios(10.0)){
     if (notification && [notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         //从通知界面直接进入应用
         NSLog(@"从通知界面直接进入应用");
@@ -327,7 +324,7 @@
 }
 #ifdef IOS10Later
 //App状态为正在前台 iOS 10 Support
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler  API_AVAILABLE(ios(10.0)){
     // Required
     NSDictionary * userInfo = notification.request.content.userInfo;
     UNNotificationRequest *request = notification.request; // 收到推送的请求
@@ -347,17 +344,20 @@
     }
     /// 需要执行这个方法，选择是否提醒用户，有 Badge、Sound、Alert 三种类型可以选择设置
     if (@available(iOS 14.0, *)) {
-        completionHandler(UNNotificationPresentationOptionList);
+        completionHandler(UNNotificationPresentationOptionList | UNNotificationPresentationOptionBanner);
     } else {
-        completionHandler(UNNotificationPresentationOptionAlert);
+        if (@available(iOS 10.0, *)) {
+            completionHandler(UNNotificationPresentationOptionAlert);
+        } else {
+            [self alertTitle:title content:body isLaunch:NO];
+        }
     }
     
-    [self alertTitle:title content:body isLaunch:NO];
     
 }
 
 //点击通知栏的通知消息 iOS 10 Support
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler  API_AVAILABLE(ios(10.0)){
     // Required
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     UNNotificationRequest *request = response.notification.request; // 收到推送的请求
@@ -516,7 +516,7 @@
             
         }];
         [alertVC addAction:okAction];
-        [alertVC addAction:cancelAction];
+//        [alertVC addAction:cancelAction];
         [self.window.rootViewController presentViewController:alertVC animated:YES completion:nil];
         }else{// 如果是打开APP，则直接跳转
             
