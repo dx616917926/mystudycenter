@@ -212,12 +212,10 @@
     WeakSelf(weakSelf)
     confirmVc.refreshInforBlock = ^(NSInteger flag) {
         if (flag == 1) {//已上传待确定
-            pictureInfoModel.status = 1;
-            pictureInfoModel.studentstatus = 0;
+            [weakSelf getStudentFileV3];
         }
         if (flag == 2) {//已确定
-            pictureInfoModel.status = 2;
-            pictureInfoModel.studentstatus = 1;
+            [weakSelf getStudentFileV3];
         }
         [weakSelf.mainTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 

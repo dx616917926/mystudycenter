@@ -10,7 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define HXGET_TOKEN       @"/api/ApiLogin/Login"         //获取token
+#define HXPOST_GetDomainNameList       @"/api/Student/GetList"//获取域名
+
+#define HXGET_TOKEN         @"/api/ApiLogin/Login"         //获取token
 
 #define HXPOST_LOGIN       @"/MD/LoginInfo/Login"        //登录
 #define HXPOST_STUINFO     @"/MD/StuInfo/getStuInfo"     //学生信息
@@ -190,6 +192,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedClient;
 
 - (void)clearCookies;
+//修改baseURL
++(void)setBaseURLStr:(NSString *)baseURL;
 
 /**
  登录请求

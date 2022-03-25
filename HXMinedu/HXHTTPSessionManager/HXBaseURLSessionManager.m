@@ -16,20 +16,20 @@
     static HXBaseURLSessionManager *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:[NSURL URLWithString:KHX_URL_MAIN]];
+        _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:HXSafeURL(KHXUserDefaultsForValue(KP_SERVER_KEY))];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         //请求头设置
         NSString *version = [NSString stringWithFormat:@"%@_%@",kPlatformName,APP_BUILDVERSION];
         [_sharedClient.requestSerializer  setValue:version forHTTPHeaderField:@"Version"];
-        _sharedClient.requestSerializer.timeoutInterval = 10;
+        _sharedClient.requestSerializer.timeoutInterval = 15;
        
     });
-    
-#if kHXCanChangeServer
-    //手动设置baseUrl
-    [_sharedClient setValue:[NSURL URLWithString:KHX_URL_MAIN] forKey:NSStringFromSelector(@selector(baseURL))];
-#endif
     return _sharedClient;
+}
+
+//修改baseURL
++(void)setBaseURLStr:(NSString *)baseURLStr{
+    [[HXBaseURLSessionManager sharedClient] setValue:[NSURL URLWithString:baseURLStr] forKey:NSStringFromSelector(@selector(baseURL))];
 }
 
 -(void)clearCookies
@@ -169,6 +169,9 @@
         NSLog(@"请求参数:%@",parameters);
         NSHTTPURLResponse *response = (NSHTTPURLResponse*)task.response;
         NSLog(@"接口错误信息%@",response);
+        if (![HXCommonUtil isNull:[error localizedDescription]]) {
+            [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:[error localizedDescription]];
+        }
         failure(error);
     }];
 }

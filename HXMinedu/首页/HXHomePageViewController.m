@@ -339,12 +339,12 @@
 - (NSArray *)h5URLs{
     if (!_h5URLs) {
         _h5URLs = @[
-            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/ckGuide.html"],
-            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/zkGuide.html"],
-            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/gKGuide.html"],
-            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/ycjyGuide.html"],
-            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/zyzgGuide.html"],
-            [KHX_URL_MAIN stringByAppendingString:@"/appGuide/qrzGuide.html"]
+            [KHXUserDefaultsForValue(KP_SERVER_KEY) stringByAppendingString:@"/appGuide/ckGuide.html"],
+            [KHXUserDefaultsForValue(KP_SERVER_KEY) stringByAppendingString:@"/appGuide/zkGuide.html"],
+            [KHXUserDefaultsForValue(KP_SERVER_KEY) stringByAppendingString:@"/appGuide/gKGuide.html"],
+            [KHXUserDefaultsForValue(KP_SERVER_KEY) stringByAppendingString:@"/appGuide/ycjyGuide.html"],
+            [KHXUserDefaultsForValue(KP_SERVER_KEY) stringByAppendingString:@"/appGuide/zyzgGuide.html"],
+            [KHXUserDefaultsForValue(KP_SERVER_KEY) stringByAppendingString:@"/appGuide/qrzGuide.html"]
         ];
     }
     return _h5URLs;

@@ -2213,7 +2213,7 @@
         decisionHandler(WKNavigationActionPolicyAllow);
         return;
         
-    }else if ([url isEqualToString:KHX_URL_MAIN]) {
+    }else if ([url isEqualToString:KHXUserDefaultsForValue(KP_SERVER_KEY)]) {
         decisionHandler(WKNavigationActionPolicyAllow);
         return;
         

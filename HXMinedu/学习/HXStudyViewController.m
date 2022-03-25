@@ -11,6 +11,7 @@
 #import "HXSelectStudyTypeViewController.h"
 #import "HXExaminationResultsViewController.h"
 #import "HXStudyReportViewController.h"
+#import "HXLearnReportViewController.h"
 #import "HXSystemNotificationViewController.h"
 #import "HXExamListViewController.h"
 #import <TXMoviePlayer/TXMoviePlayerController.h>
@@ -373,9 +374,10 @@
 #pragma mark - HXStudyTableHeaderViewDelegate
 -(void)handleEventWithFlag:(NSInteger)flag{
     if (flag == 0) {//学习报告
-        HXStudyReportViewController *studyReportVc = [[HXStudyReportViewController alloc] init];
-        studyReportVc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:studyReportVc animated:YES];
+        HXLearnReportViewController *vc = [[HXLearnReportViewController alloc] init];
+        vc.sc_navigationBarHidden = YES;//隐藏导航栏
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }else if(flag == 1){//公告
         HXSystemNotificationViewController *systemNotificationVc = [[HXSystemNotificationViewController alloc] init];
         systemNotificationVc.hidesBottomBarWhenPushed = YES;

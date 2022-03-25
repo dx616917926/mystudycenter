@@ -11,6 +11,8 @@
 #import "HXForgetPasswordController.h"
 #import "HXCommonWebViewController.h"
 #import "JPUSHService.h"
+#import "HXDomainNameModel.h"
+
 @interface HXLoginViewController ()<UITextFieldDelegate,HXLoginContentViewDeleagte>
 {
     HXLoginContentView *loginView;
@@ -27,18 +29,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //获取隐私协议
-    [self getPrivacyUrl];
-    
     [self createLoginUI];
 }
 
 #pragma mark - 获取隐私协议
--(void)getPrivacyUrl{
+-(void)getPrivacyUrl:(void (^)(bool success))callback{
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PrivacyUrl  withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [HXPublicParamTool sharedInstance].privacyUrl = HXSafeString([dictionary objectForKey:@"Data"]);
+            if (callback) {
+                callback(YES);
+            }
         }
     } failure:^(NSError * _Nonnull error) {
         
@@ -143,8 +145,8 @@
     
 #ifdef DEBUG
     //测试账号
-    loginView.passWordTextField.text =  @"430522200201020141";// @"430481198904251252";// @"436201199808050605";  @"430621199908080707"   @"430111199909090952" @"436210199807070740"//430406198006108968//430223198208226562//430522200201023319 @"430381200306190101"//630122200210165979//450922200301122931//430702200108303028//140224200311030012//410328196202098816//430381200306190101
-    loginView.userNameTextField.text =  @"430522200201020141";
+    loginView.passWordTextField.text =  @"152923198111156978";// @"430481198904251252";// @"436201199808050605";  @"430621199908080707"   @"430111199909090952" @"436210199807070740"//430406198006108968//430223198208226562//430522200201023319//430522200201020141//141414201601020304//152923198111156978 @"430381200306190101"//630122200210165979//450922200301122931//430702200108303028//140224200311030012//410328196202098816//430381200306190101
+    loginView.userNameTextField.text =  @"152923198111156978";
 #endif
 }
 
@@ -181,12 +183,49 @@
         return;
     }
     
-    [self login];
+    //先获取域名
+    [self getDomainNameList:YES callback:^(bool success) {
+        
+    }];
     
 }
 
+
+#pragma mark - 获取域名
+-(void)getDomainNameList:(BOOL)isLogin callback:(void (^)(bool success))callback{
+    [HXBaseURLSessionManager setBaseURLStr:KHX_API_Domain];
+    NSDictionary *dic = @{
+        @"personId":HXSafeString(loginView.userNameTextField.text)
+    };
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetDomainNameList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *list = [HXDomainNameModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            HXDomainNameModel *model = list.firstObject;
+            if (![HXCommonUtil isNull:model.DomainName]) {
+                //修改baseURL
+                [HXUserDefaults setObject:HXSafeString(HXSafeString(model.DomainName)) forKey:KP_SERVER_KEY];
+                [HXBaseURLSessionManager setBaseURLStr:KHXUserDefaultsForValue(KP_SERVER_KEY)];
+                if (isLogin) {
+                    [self login];
+                    callback(YES);
+                }else{
+                    //获取隐私协议
+                    [self getPrivacyUrl:callback];
+                }
+            }else{
+                [self.view showErrorWithMessage:@"域名不存在"];
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+
+}
+
 -(void)login{
-    NSLog(@"服务器地址: %@", KHX_URL_MAIN);
+    NSLog(@"服务器地址: %@", KHXUserDefaultsForValue(KP_SERVER_KEY));
     __weak __typeof(self)weakSelf = self;
     [self.view showLoadingWithMessage:@"登录中…"];
     [HXBaseURLSessionManager doLoginWithUserName:loginView.userNameTextField.text andPassword:loginView.passWordTextField.text success:^(NSDictionary * _Nonnull dictionary) {
@@ -209,7 +248,6 @@
                     NSLog(@"%ld  %@  %ld",(long)iResCode,iAlias,(long)seq);
                 } seq:4];
                 
-                
             });
         }else{
             [self.view hideLoading];
@@ -221,18 +259,46 @@
 }
 
 - (void)forgetPassworkButtonClick {
-    //重设密码
-    HXForgetPasswordController *resetVC = [[HXForgetPasswordController alloc] init];
-    [self.navigationController pushViewController:resetVC animated:YES];
+    
+    
+    if ([loginView.userNameTextField.text isEqualToString:@""]) {
+        if (loginView.loginType == HXLoginTypeUserName) {
+            [self.view showTostWithMessage:@"用户名必须填写"];
+        }else{
+            [self.view showTostWithMessage:@"手机号必须填写"];
+        }
+        return;
+    }
+    
+    //先获取域名
+    [self getDomainNameList:NO callback:^(bool success) {
+        //重设密码
+        HXForgetPasswordController *resetVC = [[HXForgetPasswordController alloc] init];
+        [self.navigationController pushViewController:resetVC animated:YES];
+    }];
+    
+   
 }
 
 - (void)privacyPolicyButtonClick {
     
-    //    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_PrivacyPolicy_URL]];
-    HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-    webViewVC.urlString = [HXPublicParamTool sharedInstance].privacyUrl;
-    webViewVC.cuntomTitle = @"隐私协议";
-    [self.navigationController pushViewController:webViewVC animated:YES];
+    if ([loginView.userNameTextField.text isEqualToString:@""]) {
+        if (loginView.loginType == HXLoginTypeUserName) {
+            [self.view showTostWithMessage:@"用户名必须填写"];
+        }else{
+            [self.view showTostWithMessage:@"手机号必须填写"];
+        }
+        return;
+    }
+    
+    //先获取域名
+    [self getDomainNameList:NO callback:^(bool success) {
+        HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+        webViewVC.urlString = [HXPublicParamTool sharedInstance].privacyUrl;
+        webViewVC.cuntomTitle = @"隐私协议";
+        [self.navigationController pushViewController:webViewVC animated:YES];
+    }];
+
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -265,6 +331,11 @@
         }]];
         [controller addAction:[UIAlertAction actionWithTitle:@"TestMD测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [HXUserDefaults setObject:kHXDevelopMDServer forKey:KP_SERVER_KEY];
+            NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
+            
+        }]];
+        [controller addAction:[UIAlertAction actionWithTitle:@"Free测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [HXUserDefaults setObject:kHXCDNFreeServer forKey:KP_SERVER_KEY];
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
             
         }]];

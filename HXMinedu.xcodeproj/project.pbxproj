@@ -305,6 +305,16 @@
 		0490C76827858797007D0A24 /* HXStudentPaperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490C76727858797007D0A24 /* HXStudentPaperModel.m */; };
 		0491335A260D854200055D3D /* HXStudyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04913359260D854200055D3D /* HXStudyViewController.m */; };
 		0491335F260D89EB00055D3D /* HXCustommNavView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0491335E260D89EB00055D3D /* HXCustommNavView.m */; };
+		0492535927EC034500E68E20 /* HXLearnReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492535827EC034500E68E20 /* HXLearnReportViewController.m */; };
+		0492535C27EC0D1000E68E20 /* HXVideoLearnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492535B27EC0D1000E68E20 /* HXVideoLearnViewController.m */; };
+		0492535F27EC0D6A00E68E20 /* HXPSZYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492535E27EC0D6A00E68E20 /* HXPSZYViewController.m */; };
+		0492536227EC0D7F00E68E20 /* HXQMKSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492536127EC0D7F00E68E20 /* HXQMKSViewController.m */; };
+		0492536527EC0D9400E68E20 /* HXLNZTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492536427EC0D9400E68E20 /* HXLNZTViewController.m */; };
+		0492536927EC3FB300E68E20 /* HXLearnReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492536827EC3FB300E68E20 /* HXLearnReportCell.m */; };
+		0492536C27EC5C5900E68E20 /* HXHistoryLearnReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492536B27EC5C5900E68E20 /* HXHistoryLearnReportCell.m */; };
+		0492536F27EC5DED00E68E20 /* HXHistoryLearnReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492536E27EC5DED00E68E20 /* HXHistoryLearnReportViewController.m */; };
+		0492537227EC681500E68E20 /* HXLearnReportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492537127EC681500E68E20 /* HXLearnReportDetailViewController.m */; };
+		0492537527EC687400E68E20 /* HXLearnReportDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0492537427EC687400E68E20 /* HXLearnReportDetailCell.m */; };
 		04936D4A259324710000ED74 /* HXCwsModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D49259324710000ED74 /* HXCwsModuleViewController.m */; };
 		04936D50259325EC0000ED74 /* HXExamModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D4F259325EC0000ED74 /* HXExamModuleViewController.m */; };
 		04936D552593268E0000ED74 /* HXPullRefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D542593268E0000ED74 /* HXPullRefreshViewController.m */; };
@@ -329,6 +339,12 @@
 		04B7CD6127B9F63900E9000E /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B7CD6027B9F63900E9000E /* UserNotifications.framework */; };
 		04B904822742022A0026EFF1 /* UIDevice+HXDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B904802742022A0026EFF1 /* UIDevice+HXDevice.m */; };
 		04BA63E52599A2EA00F2C1E8 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */; };
+		04BA9B3427ED51AD0008EC17 /* HXHistoryLearnReportDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA9B3327ED51AD0008EC17 /* HXHistoryLearnReportDetailCell.m */; };
+		04BA9B3727ED52CC0008EC17 /* HXLearnReportDetailHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA9B3627ED52CC0008EC17 /* HXLearnReportDetailHeadView.m */; };
+		04BA9B3A27ED5BBE0008EC17 /* HXHistoryLearnReportDetailHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA9B3927ED5BBE0008EC17 /* HXHistoryLearnReportDetailHeadView.m */; };
+		04BA9B3D27ED6E630008EC17 /* HXSelectTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA9B3C27ED6E630008EC17 /* HXSelectTimeView.m */; };
+		04BA9B4027ED724B0008EC17 /* HXSelectTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BA9B3F27ED724B0008EC17 /* HXSelectTimeCell.m */; };
+		04BEF76327EABBDB00FC1C16 /* HXDomainNameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BEF76227EABBDB00FC1C16 /* HXDomainNameModel.m */; };
 		04BFCB6225A6A4DB00B03A58 /* HXCwsCourseware.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BFCB6125A6A4DB00B03A58 /* HXCwsCourseware.m */; };
 		04C3A2E825959A27008F32A4 /* HXExamDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2E725959A27008F32A4 /* HXExamDetailViewController.m */; };
 		04C3A2ED2595B433008F32A4 /* HXExamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2EC2595B433008F32A4 /* HXExamModel.m */; };
@@ -959,6 +975,26 @@
 		04913359260D854200055D3D /* HXStudyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudyViewController.m; sourceTree = "<group>"; };
 		0491335D260D89EB00055D3D /* HXCustommNavView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCustommNavView.h; sourceTree = "<group>"; };
 		0491335E260D89EB00055D3D /* HXCustommNavView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCustommNavView.m; sourceTree = "<group>"; };
+		0492535727EC034500E68E20 /* HXLearnReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLearnReportViewController.h; sourceTree = "<group>"; };
+		0492535827EC034500E68E20 /* HXLearnReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLearnReportViewController.m; sourceTree = "<group>"; };
+		0492535A27EC0D1000E68E20 /* HXVideoLearnViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXVideoLearnViewController.h; sourceTree = "<group>"; };
+		0492535B27EC0D1000E68E20 /* HXVideoLearnViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXVideoLearnViewController.m; sourceTree = "<group>"; };
+		0492535D27EC0D6A00E68E20 /* HXPSZYViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPSZYViewController.h; sourceTree = "<group>"; };
+		0492535E27EC0D6A00E68E20 /* HXPSZYViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPSZYViewController.m; sourceTree = "<group>"; };
+		0492536027EC0D7F00E68E20 /* HXQMKSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXQMKSViewController.h; sourceTree = "<group>"; };
+		0492536127EC0D7F00E68E20 /* HXQMKSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXQMKSViewController.m; sourceTree = "<group>"; };
+		0492536327EC0D9400E68E20 /* HXLNZTViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLNZTViewController.h; sourceTree = "<group>"; };
+		0492536427EC0D9400E68E20 /* HXLNZTViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLNZTViewController.m; sourceTree = "<group>"; };
+		0492536727EC3FB300E68E20 /* HXLearnReportCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLearnReportCell.h; sourceTree = "<group>"; };
+		0492536827EC3FB300E68E20 /* HXLearnReportCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLearnReportCell.m; sourceTree = "<group>"; };
+		0492536A27EC5C5900E68E20 /* HXHistoryLearnReportCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHistoryLearnReportCell.h; sourceTree = "<group>"; };
+		0492536B27EC5C5900E68E20 /* HXHistoryLearnReportCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHistoryLearnReportCell.m; sourceTree = "<group>"; };
+		0492536D27EC5DED00E68E20 /* HXHistoryLearnReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHistoryLearnReportViewController.h; sourceTree = "<group>"; };
+		0492536E27EC5DED00E68E20 /* HXHistoryLearnReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHistoryLearnReportViewController.m; sourceTree = "<group>"; };
+		0492537027EC681500E68E20 /* HXLearnReportDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLearnReportDetailViewController.h; sourceTree = "<group>"; };
+		0492537127EC681500E68E20 /* HXLearnReportDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLearnReportDetailViewController.m; sourceTree = "<group>"; };
+		0492537327EC687400E68E20 /* HXLearnReportDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLearnReportDetailCell.h; sourceTree = "<group>"; };
+		0492537427EC687400E68E20 /* HXLearnReportDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLearnReportDetailCell.m; sourceTree = "<group>"; };
 		04936D48259324710000ED74 /* HXCwsModuleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCwsModuleViewController.h; sourceTree = "<group>"; };
 		04936D49259324710000ED74 /* HXCwsModuleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCwsModuleViewController.m; sourceTree = "<group>"; };
 		04936D4E259325EC0000ED74 /* HXExamModuleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamModuleViewController.h; sourceTree = "<group>"; };
@@ -1000,6 +1036,18 @@
 		04B904812742022A0026EFF1 /* UIDevice+HXDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+HXDevice.h"; sourceTree = "<group>"; };
 		04BA63E32599A2EA00F2C1E8 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		04BA63E42599A2EA00F2C1E8 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
+		04BA9B3227ED51AD0008EC17 /* HXHistoryLearnReportDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHistoryLearnReportDetailCell.h; sourceTree = "<group>"; };
+		04BA9B3327ED51AD0008EC17 /* HXHistoryLearnReportDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHistoryLearnReportDetailCell.m; sourceTree = "<group>"; };
+		04BA9B3527ED52CC0008EC17 /* HXLearnReportDetailHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLearnReportDetailHeadView.h; sourceTree = "<group>"; };
+		04BA9B3627ED52CC0008EC17 /* HXLearnReportDetailHeadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLearnReportDetailHeadView.m; sourceTree = "<group>"; };
+		04BA9B3827ED5BBE0008EC17 /* HXHistoryLearnReportDetailHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHistoryLearnReportDetailHeadView.h; sourceTree = "<group>"; };
+		04BA9B3927ED5BBE0008EC17 /* HXHistoryLearnReportDetailHeadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHistoryLearnReportDetailHeadView.m; sourceTree = "<group>"; };
+		04BA9B3B27ED6E630008EC17 /* HXSelectTimeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSelectTimeView.h; sourceTree = "<group>"; };
+		04BA9B3C27ED6E630008EC17 /* HXSelectTimeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSelectTimeView.m; sourceTree = "<group>"; };
+		04BA9B3E27ED724B0008EC17 /* HXSelectTimeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSelectTimeCell.h; sourceTree = "<group>"; };
+		04BA9B3F27ED724B0008EC17 /* HXSelectTimeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSelectTimeCell.m; sourceTree = "<group>"; };
+		04BEF76127EABBDB00FC1C16 /* HXDomainNameModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXDomainNameModel.h; sourceTree = "<group>"; };
+		04BEF76227EABBDB00FC1C16 /* HXDomainNameModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXDomainNameModel.m; sourceTree = "<group>"; };
 		04BFCB6025A6A4DB00B03A58 /* HXCwsCourseware.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXCwsCourseware.h; sourceTree = "<group>"; };
 		04BFCB6125A6A4DB00B03A58 /* HXCwsCourseware.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXCwsCourseware.m; sourceTree = "<group>"; };
 		04C3A2E625959A27008F32A4 /* HXExamDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamDetailViewController.h; sourceTree = "<group>"; };
@@ -1190,15 +1238,15 @@
 		04172F612653713F008D1C85 /* 首页 */ = {
 			isa = PBXGroup;
 			children = (
-				041EDEEE2654DCF700B11455 /* view */,
 				04172F6226537185008D1C85 /* HXHomePageViewController.h */,
 				04172F6326537185008D1C85 /* HXHomePageViewController.m */,
 				04172FA62653B48F008D1C85 /* HXHomePageChildViewController.h */,
-				0404ED8D26565D1F0001AA6A /* HXHomePageShareViewController.h */,
 				04172FA72653B48F008D1C85 /* HXHomePageChildViewController.m */,
+				0404ED8D26565D1F0001AA6A /* HXHomePageShareViewController.h */,
 				0404ED8E26565D1F0001AA6A /* HXHomePageShareViewController.m */,
 				044439852711934600CDA40B /* HXShowH5ImageViewController.h */,
 				044439862711934600CDA40B /* HXShowH5ImageViewController.m */,
+				041EDEEE2654DCF700B11455 /* view */,
 			);
 			path = "首页";
 			sourceTree = "<group>";
@@ -2112,6 +2160,7 @@
 		04913354260D83D800055D3D /* 学习 */ = {
 			isa = PBXGroup;
 			children = (
+				0492535627EC02C200E68E20 /* 学习报告 */,
 				0491335C260D899C00055D3D /* view */,
 				04913358260D854200055D3D /* HXStudyViewController.h */,
 				04913359260D854200055D3D /* HXStudyViewController.m */,
@@ -2260,6 +2309,51 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		0492535627EC02C200E68E20 /* 学习报告 */ = {
+			isa = PBXGroup;
+			children = (
+				0492536627EC3F8800E68E20 /* view */,
+				0492535727EC034500E68E20 /* HXLearnReportViewController.h */,
+				0492535827EC034500E68E20 /* HXLearnReportViewController.m */,
+				0492536D27EC5DED00E68E20 /* HXHistoryLearnReportViewController.h */,
+				0492536E27EC5DED00E68E20 /* HXHistoryLearnReportViewController.m */,
+				0492535A27EC0D1000E68E20 /* HXVideoLearnViewController.h */,
+				0492535B27EC0D1000E68E20 /* HXVideoLearnViewController.m */,
+				0492535D27EC0D6A00E68E20 /* HXPSZYViewController.h */,
+				0492535E27EC0D6A00E68E20 /* HXPSZYViewController.m */,
+				0492536027EC0D7F00E68E20 /* HXQMKSViewController.h */,
+				0492536127EC0D7F00E68E20 /* HXQMKSViewController.m */,
+				0492536327EC0D9400E68E20 /* HXLNZTViewController.h */,
+				0492536427EC0D9400E68E20 /* HXLNZTViewController.m */,
+				0492537027EC681500E68E20 /* HXLearnReportDetailViewController.h */,
+				0492537127EC681500E68E20 /* HXLearnReportDetailViewController.m */,
+			);
+			path = "学习报告";
+			sourceTree = "<group>";
+		};
+		0492536627EC3F8800E68E20 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				0492536727EC3FB300E68E20 /* HXLearnReportCell.h */,
+				0492536827EC3FB300E68E20 /* HXLearnReportCell.m */,
+				0492536A27EC5C5900E68E20 /* HXHistoryLearnReportCell.h */,
+				0492536B27EC5C5900E68E20 /* HXHistoryLearnReportCell.m */,
+				0492537327EC687400E68E20 /* HXLearnReportDetailCell.h */,
+				0492537427EC687400E68E20 /* HXLearnReportDetailCell.m */,
+				04BA9B3227ED51AD0008EC17 /* HXHistoryLearnReportDetailCell.h */,
+				04BA9B3327ED51AD0008EC17 /* HXHistoryLearnReportDetailCell.m */,
+				04BA9B3527ED52CC0008EC17 /* HXLearnReportDetailHeadView.h */,
+				04BA9B3627ED52CC0008EC17 /* HXLearnReportDetailHeadView.m */,
+				04BA9B3827ED5BBE0008EC17 /* HXHistoryLearnReportDetailHeadView.h */,
+				04BA9B3927ED5BBE0008EC17 /* HXHistoryLearnReportDetailHeadView.m */,
+				04BA9B3B27ED6E630008EC17 /* HXSelectTimeView.h */,
+				04BA9B3C27ED6E630008EC17 /* HXSelectTimeView.m */,
+				04BA9B3E27ED724B0008EC17 /* HXSelectTimeCell.h */,
+				04BA9B3F27ED724B0008EC17 /* HXSelectTimeCell.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		04936D4725931DBE0000ED74 /* 看课 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2298,6 +2392,8 @@
 		04CB3C1125906A890042A682 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				04BEF76127EABBDB00FC1C16 /* HXDomainNameModel.h */,
+				04BEF76227EABBDB00FC1C16 /* HXDomainNameModel.m */,
 				04663BA82615540800239120 /* HXVersionModel.h */,
 				04663BA92615540800239120 /* HXVersionModel.m */,
 				04CB3C1225906A960042A682 /* HXLiveModel.h */,
@@ -2745,6 +2841,7 @@
 				049D981B26140A6C009A6B5D /* HXGradientProgressView.m in Sources */,
 				0449A35C254C1174001A28D5 /* UIImage+Tint.m in Sources */,
 				0449A4D7254C11F6001A28D5 /* XHZoomingImageView.m in Sources */,
+				0492537227EC681500E68E20 /* HXLearnReportDetailViewController.m in Sources */,
 				0456139A2613067C001523C9 /* HXSelectDateHeaderView.m in Sources */,
 				0459C712258B02C7000555D4 /* HXLoginContentView.m in Sources */,
 				0417DEC2263A47E1007D1A83 /* HXPaymentDetailsInfoModel.m in Sources */,
@@ -2754,6 +2851,7 @@
 				046EF0462611821800A0B790 /* XLPageViewControllerConfig.m in Sources */,
 				04D793D0254FFA7100BCB358 /* HXLoginViewController.m in Sources */,
 				04EF93642623F02800B3723F /* HXMyNewsCell.m in Sources */,
+				0492537527EC687400E68E20 /* HXLearnReportDetailCell.m in Sources */,
 				0409D3852669F8C700802912 /* HXYiDongHeadInfoCell.m in Sources */,
 				04CE289D2591A67100FFF7CB /* HXCourseListTableViewCell.m in Sources */,
 				0491335F260D89EB00055D3D /* HXCustommNavView.m in Sources */,
@@ -2770,11 +2868,14 @@
 				0444398427117FBB00CDA40B /* HXColumnItemModel.m in Sources */,
 				041E42F6265CF47800E7F160 /* HXHeadMasterModel.m in Sources */,
 				04120F8D26B27F5900696C44 /* HXSelectHistoryTimeCell.m in Sources */,
+				04BA9B3727ED52CC0008EC17 /* HXLearnReportDetailHeadView.m in Sources */,
 				04172F6426537185008D1C85 /* HXHomePageViewController.m in Sources */,
 				049D8E0B269C33D900F0E219 /* HXMajorInfoModel.m in Sources */,
 				04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */,
 				0449A54E254C11F6001A28D5 /* EXTScope.m in Sources */,
+				04BEF76327EABBDB00FC1C16 /* HXDomainNameModel.m in Sources */,
 				0414606E2630199D0065B76B /* HXPaymentDetailModel.m in Sources */,
+				0492535927EC034500E68E20 /* HXLearnReportViewController.m in Sources */,
 				0480069326213301002F725F /* HXExamDateModel.m in Sources */,
 				0449A4C5254C11F6001A28D5 /* DOUAudioEventLoop.m in Sources */,
 				04D793C1254FA5D200BCB358 /* HXStartExamViewController.m in Sources */,
@@ -2789,8 +2890,10 @@
 				0449A528254C11F6001A28D5 /* OSCommonImage.m in Sources */,
 				0404ED8C2655FBA00001AA6A /* HXHomePageGuideCell.m in Sources */,
 				0408AF7026B3DBBE00CA16AD /* HXCourseToastView.m in Sources */,
+				04BA9B3A27ED5BBE0008EC17 /* HXHistoryLearnReportDetailHeadView.m in Sources */,
 				04708E60271E99D0004B2A04 /* HXLiveBroadcastModel.m in Sources */,
 				04146065262FCCFD0065B76B /* HXBannerModel.m in Sources */,
+				04BA9B3427ED51AD0008EC17 /* HXHistoryLearnReportDetailCell.m in Sources */,
 				04F3EA1D26243D8B004ACAF9 /* HXCourseDetailModel.m in Sources */,
 				043A607C2697DB1C00F9C15A /* HXYiDongTuiFeiViewController.m in Sources */,
 				04EF936A2623F6B500B3723F /* HXSystemNotificationCell.m in Sources */,
@@ -2825,6 +2928,7 @@
 				04FEF9EF265B976D003500C1 /* HXHeadMasterViewController.m in Sources */,
 				046F25B5261EF6D300E394C3 /* HXRegistFormViewController.m in Sources */,
 				04FD3D5A25AD72C100E157EA /* HXExam.m in Sources */,
+				0492535C27EC0D1000E68E20 /* HXVideoLearnViewController.m in Sources */,
 				04D793B5254FA5C400BCB358 /* AnswerObject.m in Sources */,
 				0449A4B9254C11F6001A28D5 /* DOUAudioAnalyzer.m in Sources */,
 				0414606B263019750065B76B /* HXPaymentModel.m in Sources */,
@@ -2853,6 +2957,7 @@
 				0449A542254C11F6001A28D5 /* ViewFrameAccessor.m in Sources */,
 				0442C88E2643CE5000E8148A /* HXUpLoadVoucherViewController.m in Sources */,
 				0449A358254C1174001A28D5 /* HXNavigationPopAnimation.m in Sources */,
+				0492536C27EC5C5900E68E20 /* HXHistoryLearnReportCell.m in Sources */,
 				0449A4E0254C11F6001A28D5 /* HXDictionary.m in Sources */,
 				0449A52F254C11F6001A28D5 /* CGContextCreator.m in Sources */,
 				04146068262FFF2A0065B76B /* HXPaidDetailCell.m in Sources */,
@@ -2902,6 +3007,7 @@
 				0449A4B8254C11F6001A28D5 /* DOUAudioStreamer+Options.m in Sources */,
 				0477CA37275F075900A99914 /* HXCommonSelectModel.m in Sources */,
 				046F25AC261ED14400E394C3 /* HXPaymentDtailsContainerViewController.m in Sources */,
+				04BA9B4027ED724B0008EC17 /* HXSelectTimeCell.m in Sources */,
 				0449A4C4254C11F6001A28D5 /* DOUAudioPlaybackItem.m in Sources */,
 				040581B62551564B0022A300 /* HXResetViewController.m in Sources */,
 				046EF0552611A39000A0B790 /* HXTeachPlanCell.m in Sources */,
@@ -2940,16 +3046,20 @@
 				043A60852697E53B00F9C15A /* HXChangeMajorYiDongDetailsViewController.m in Sources */,
 				0442C88B26437B1A00E8148A /* HXScanCodePaymentViewController.m in Sources */,
 				046EF04E2611886000A0B790 /* HXApplyCoursesViewController.m in Sources */,
+				0492536F27EC5DED00E68E20 /* HXHistoryLearnReportViewController.m in Sources */,
 				046EF0582611C69100A0B790 /* HXTeachPlanHeaderView.m in Sources */,
 				0490C76827858797007D0A24 /* HXStudentPaperModel.m in Sources */,
 				0449A54C254C11F6001A28D5 /* QRCodeReader.m in Sources */,
 				0449A366254C119B001A28D5 /* HXThemeSettingManager.m in Sources */,
+				04BA9B3D27ED6E630008EC17 /* HXSelectTimeView.m in Sources */,
 				04D793C2254FA5D200BCB358 /* HXExamSessionManager.m in Sources */,
 				04D5F819266DFEBE006ED11A /* HXRefundMethodCell.m in Sources */,
 				0409D3792669BD5B00802912 /* HXRefundDetailsViewController.m in Sources */,
 				0449A529254C11F6001A28D5 /* BitmapDrawManipulator.m in Sources */,
+				0492536227EC0D7F00E68E20 /* HXQMKSViewController.m in Sources */,
 				0417DEC5263AB864007D1A83 /* HXOrderDetailsViewController.m in Sources */,
 				04D5F816266DD11B006ED11A /* HXCostDetailsCell.m in Sources */,
+				0492535F27EC0D6A00E68E20 /* HXPSZYViewController.m in Sources */,
 				0449A325254BFE95001A28D5 /* main.m in Sources */,
 				0449A52E254C11F6001A28D5 /* CGImageContainer.m in Sources */,
 				0449A509254C11F6001A28D5 /* HXDBManager.m in Sources */,
@@ -2990,6 +3100,7 @@
 				0449A52C254C11F6001A28D5 /* BitmapScaleManipulator.m in Sources */,
 				042F51EF2648D97C000F13C8 /* HXKJCXXCourseListModel.m in Sources */,
 				04FD3D5F25AD732F00E157EA /* HXExamListCell.m in Sources */,
+				0492536527EC0D9400E68E20 /* HXLNZTViewController.m in Sources */,
 				0449A331254C0D47001A28D5 /* HXTabBarController.m in Sources */,
 				0449A524254C11F6001A28D5 /* RSGenerateOperation.m in Sources */,
 				04D793D9254FFDFD00BCB358 /* HXHomeViewController.m in Sources */,
@@ -3020,6 +3131,7 @@
 				04561397261305AB001523C9 /* HXExaminationResultsCell.m in Sources */,
 				04D793B4254FA5C400BCB358 /* ExamResultDetail.m in Sources */,
 				0449A4C0254C11F6001A28D5 /* DOUAudioLPCM.m in Sources */,
+				0492536927EC3FB300E68E20 /* HXLearnReportCell.m in Sources */,
 				045613942612FA77001523C9 /* HXCommonUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

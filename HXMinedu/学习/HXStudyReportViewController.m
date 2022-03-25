@@ -184,7 +184,7 @@
     HXStudyReportCell * studyReportCell = (HXStudyReportCell *)cell;
     NSDictionary *dic = self.sectionArray[indexPath.section];
     NSArray *list = [dic objectForKey:@"list"];
-    studyReportCell.cellType = HXNoneCornerRadiusType;
+    studyReportCell.cellType = [[dic objectForKey:@"cellType"] integerValue];
     if (indexPath.row == 0 && indexPath.row == list.count-1) {
         studyReportCell.cornerRadiusType = HXBothCornerRadiusType;
     }else if (indexPath.row == 0) {

@@ -135,6 +135,7 @@
             if (self.refreshInforBlock) {
                 self.refreshInforBlock(1);
             }
+            [self.navigationController popViewControllerAnimated:YES];
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];

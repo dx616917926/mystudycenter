@@ -224,7 +224,7 @@
     [self.userDefault removeObjectForKey:@"code"];
     [self.userDefault removeObjectForKey:@"userId"];
     [self.userDefault removeObjectForKey:@"currentYear"];
-    
+    [self.userDefault removeObjectForKey:KP_SERVER_KEY];
     ///清除所有的存储本地的课件记录数据
     NSDictionary *dic = [self.userDefault dictionaryRepresentation];
     for (NSString *key in dic) {

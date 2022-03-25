@@ -97,7 +97,7 @@
     //【初始化sdk】如果没有使用 IDFA 直接传 nil
     [JPUSHService setupWithOption:launchOptions appKey:JPUSHAPPKEY
                           channel:@""
-                 apsForProduction:PRODUCTIONMODE
+                 apsForProduction:YES
             advertisingIdentifier:nil];
     
     /*集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - RegistrationID。JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
