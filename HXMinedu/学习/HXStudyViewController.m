@@ -302,6 +302,21 @@
 }
 
 
+//修改学习次数
+-(void)changeWatchVideoNum:(NSString *)studentCourseID{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"studentCourseID":HXSafeString(studentCourseID),
+        @"type":@(selectMajorModel.type)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_ChangeWatchVideoNum withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
 #pragma mark -  下拉刷新,重新获取报考类型专业列表
 -(void)pullDownRefrsh{
     [self getVersionandMajorList];
@@ -413,6 +428,7 @@
             vc.hidesBottomBarWhenPushed = YES;
             vc.type = type;
             vc.course_id = item.course_id;
+            vc.studentCourseID = item.studentCourseID;
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
@@ -600,6 +616,7 @@
                     playerVC.cws_param = learnRecordModel.cws_param;
                     [strongSelf.navigationController pushViewController:playerVC animated:YES];
                 }
+                [strongSelf changeWatchVideoNum:learnRecordModel.studentCourseID];
                 
             }else if(indexPath.section == 2){//昨天
                 HXLearnRecordModel *learnRecordModel = self.kjxxCourseListtModel.yesterdayList[indexPath.row];
@@ -623,6 +640,7 @@
                     playerVC.cws_param = learnRecordModel.cws_param;
                     [strongSelf.navigationController pushViewController:playerVC animated:YES];
                 }
+                [strongSelf changeWatchVideoNum:learnRecordModel.studentCourseID];
             }
         }
     }];

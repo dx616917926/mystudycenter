@@ -6,15 +6,21 @@
 //
 
 #import "HXLearnReportDetailViewController.h"
+#import "HXMoocViewController.h"
+#import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXLearnReportDetailCell.h"
 #import "HXHistoryLearnReportDetailCell.h"
 #import "HXLearnReportDetailHeadView.h"
 #import "HXHistoryLearnReportDetailHeadView.h"
-
+#import "HXLearnReportCourseDetailModel.h"
 @interface HXLearnReportDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong) UITableView *mainTableView;
 @property(nonatomic,strong) HXLearnReportDetailHeadView *learnReportDetailHeadView;
 @property(nonatomic,strong) HXHistoryLearnReportDetailHeadView *historyLearnReportDetailHeadView;
+
+@property(nonatomic,strong) NSMutableArray *dataArray;
+
+@property(nonatomic,strong) HXLearnReportCourseDetailModel *learnReportCourseDetailModel;
 
 @end
 
@@ -23,8 +29,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    //UI
     [self createUI];
+    if (self.cellType == HXKeJianXueXiReportType) {
+        //获取学习报告课件详情
+        [self getLearnReportKjInfo];
+    }else{
+        //获取学习报告考试详情
+        [self getLearnReportExamInfo];
+    }
 }
 
 #pragma mark - Setter
@@ -36,12 +49,105 @@
     _cellType = cellType;
 }
 
+-(void)setModuleName:(NSString *)ModuleName{
+    _ModuleName = ModuleName;
+}
+
+-(void)setLearnCourseItemModel:(HXLearnCourseItemModel *)learnCourseItemModel{
+    _learnCourseItemModel = learnCourseItemModel;
+}
+
+#pragma mark - 刷新
 -(void)pullDownRefrsh{
-    [self.mainTableView.mj_header endRefreshing];
+    if (self.cellType == HXKeJianXueXiReportType) {
+        //获取学习报告课件详情
+        [self getLearnReportKjInfo];
+    }else{
+        //获取学习报告考试详情
+        [self getLearnReportExamInfo];
+    }
 }
 
 -(void)loadMoreData{
     [self.mainTableView.mj_footer endRefreshing];
+}
+
+//修改学习次数
+-(void)changeWatchVideoNum:(NSString *)studentCourseID{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"studentCourseID":HXSafeString(studentCourseID),
+        @"type":@(selectMajorModel.type)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_ChangeWatchVideoNum withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+
+//获取学习报告课件详情
+-(void)getLearnReportKjInfo{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"major_id":HXSafeString(selectMajorModel.major_id),
+        @"type":@(selectMajorModel.type),
+        @"course_id":HXSafeString(self.learnCourseItemModel.course_id),
+        @"courseCode":HXSafeString(self.learnCourseItemModel.courseCode)
+    };
+    [self.view showLoading];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetLearnReportKjInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_header endRefreshing];
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.learnReportCourseDetailModel = [HXLearnReportCourseDetailModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [self refreshUI];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_header endRefreshing];
+        [self.view hideLoading];
+    }];
+}
+
+//获取学习报告考试详情
+-(void)getLearnReportExamInfo{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"major_id":HXSafeString(selectMajorModel.major_id),
+        @"type":@(selectMajorModel.type),
+        @"examType":@(self.learnCourseItemModel.examType),
+        @"courseCode":HXSafeString(self.learnCourseItemModel.courseCode)
+    };
+    [self.view showLoading];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetLearnReportExamInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_header endRefreshing];
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.learnReportCourseDetailModel = [HXLearnReportCourseDetailModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [self refreshUI];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_header endRefreshing];
+        [self.view hideLoading];
+    }];
+}
+
+
+
+-(void)refreshUI{
+    self.learnReportCourseDetailModel.courseName = self.learnCourseItemModel.courseName;
+    if (self.isHistory) {
+        self.historyLearnReportDetailHeadView.learnReportCourseDetailModel = self.learnReportCourseDetailModel;
+    }else{
+        self.learnReportDetailHeadView.learnReportCourseDetailModel = self.learnReportCourseDetailModel;
+    }
+    [self.mainTableView reloadData];
 }
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
@@ -50,7 +156,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.isHistory?3:10;
+    return  (self.cellType == HXKeJianXueXiReportType?self.learnReportCourseDetailModel.learnItemDetailList.count:self.learnReportCourseDetailModel.learnExamItemDetailList.count);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -68,6 +174,15 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.cellType = self.cellType;
+        if (self.cellType == HXKeJianXueXiReportType) {
+            if (indexPath.row<self.self.learnReportCourseDetailModel.learnItemDetailList.count) {
+                cell.learnItemDetailModel = self.self.learnReportCourseDetailModel.learnItemDetailList[indexPath.row];
+            }
+        }else{
+            if (indexPath.row<self.self.learnReportCourseDetailModel.learnExamItemDetailList.count) {
+                cell.learnItemDetailModel = self.self.learnReportCourseDetailModel.learnExamItemDetailList[indexPath.row];
+            }
+        }
         return cell;
     }else{
         static NSString *learnReportDetailCellIdentifier = @"HXLearnReportDetailCellIdentifier";
@@ -77,6 +192,15 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.cellType = self.cellType;
+        if (self.cellType == HXKeJianXueXiReportType) {
+            if (indexPath.row<self.self.learnReportCourseDetailModel.learnItemDetailList.count) {
+                cell.learnItemDetailModel = self.self.learnReportCourseDetailModel.learnItemDetailList[indexPath.row];
+            }
+        }else{
+            if (indexPath.row<self.self.learnReportCourseDetailModel.learnExamItemDetailList.count) {
+                cell.learnItemDetailModel = self.self.learnReportCourseDetailModel.learnExamItemDetailList[indexPath.row];
+            }
+        }
         return cell;
     }
 }
@@ -84,6 +208,32 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (self.cellType == HXKeJianXueXiReportType) {
+        if (indexPath.row<self.self.learnReportCourseDetailModel.learnItemDetailList.count) {
+            HXLearnItemDetailModel *learnItemDetailModel = self.self.learnReportCourseDetailModel.learnItemDetailList[indexPath.row];
+            if ([learnItemDetailModel.stemCode isEqualToString:@"MOOC"]) {
+                HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
+                moocVc.titleName = self.learnCourseItemModel.courseName;
+                moocVc.moocUrl = [learnItemDetailModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                moocVc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:moocVc animated:YES];
+            }else{
+                TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                if (@available(iOS 13.0, *)) {
+                    playerVC.barStyle = UIStatusBarStyleDarkContent;
+                } else {
+                    playerVC.barStyle = UIStatusBarStyleDefault;
+                }
+                playerVC.barStyle = UIStatusBarStyleDefault;
+                playerVC.showLearnFinishStyle = YES;
+                playerVC.hidesBottomBarWhenPushed = YES;
+                if ([HXCommonUtil isNull:learnItemDetailModel.cws_param]) return;
+                playerVC.cws_param = learnItemDetailModel.cws_param;
+                [self.navigationController pushViewController:playerVC animated:YES];
+            }
+            [self changeWatchVideoNum:self.learnReportCourseDetailModel.studentCourseID];
+        }
+    }
 }
 
 
@@ -97,49 +247,15 @@
     
     [self.view addSubview:self.mainTableView];
     if (self.isHistory) {
-        switch (self.cellType) {
-            case HXKeJianXueXiReportType:
-                self.sc_navigationBar.title = @"视频历史学习报告";
-                break;
-            case HXPingShiZuoYeReportType:
-                self.sc_navigationBar.title = @"作业历史学习报告";
-                break;
-            case HXQiMoKaoShiReportType:
-                self.sc_navigationBar.title = @"考试历史学习报告";
-                break;
-            case HXLiNianZhenTiReportType:
-                self.sc_navigationBar.title = @"真题历史学习报告";
-                break;
-                
-            default:
-                break;
-        }
+        self.sc_navigationBar.title = [NSString stringWithFormat:@"%@历史学习报告",self.learnCourseItemModel.courseName];
         self.mainTableView.tableHeaderView = self.historyLearnReportDetailHeadView;
         self.historyLearnReportDetailHeadView.cellType = self.cellType;
     
     }else{
-        switch (self.cellType) {
-            case HXKeJianXueXiReportType:
-                self.sc_navigationBar.title = @"视频学习报告";
-                break;
-            case HXPingShiZuoYeReportType:
-                self.sc_navigationBar.title = @"作业学习报告";
-                break;
-            case HXQiMoKaoShiReportType:
-                self.sc_navigationBar.title = @"考试学习报告";
-                break;
-            case HXLiNianZhenTiReportType:
-                self.sc_navigationBar.title = @"真题学习报告";
-                break;
-                
-            default:
-                break;
-        }
+        self.sc_navigationBar.title = [NSString stringWithFormat:@"%@学习报告",self.learnCourseItemModel.courseName];
         self.mainTableView.tableHeaderView = self.learnReportDetailHeadView;
         self.learnReportDetailHeadView.cellType = self.cellType;
     }
-    
-    
   
     // 下拉刷新
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
@@ -147,12 +263,19 @@
     header.automaticallyChangeAlpha = YES;
     //设置header
     self.mainTableView.mj_header = header;
-    
-    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    self.mainTableView.mj_footer = footer;
-    self.mainTableView.mj_footer.hidden = YES;
+//
+//    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+//    self.mainTableView.mj_footer = footer;
+//    self.mainTableView.mj_footer.hidden = YES;
 }
 
+#pragma mark - LazyLoad
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 
 - (UITableView *)mainTableView {
     if (!_mainTableView) {

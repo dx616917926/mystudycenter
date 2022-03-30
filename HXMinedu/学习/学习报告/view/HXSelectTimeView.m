@@ -20,7 +20,7 @@
 //记录初始选择
 @property(nonatomic,assign) NSInteger selectIndex;
 @property(nonatomic,assign) BOOL isRefresh;
-@property(nonatomic,strong) HXExamDateModel *selectExamDateModel;
+@property(nonatomic,strong) HXHistoryTimeModel *dateModel;
 
 @end
 
@@ -38,10 +38,10 @@
 -(void)setDataArray:(NSArray *)dataArray{
     _dataArray = dataArray;
     [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        HXExamDateModel *model = obj;
+        HXHistoryTimeModel *model = obj;
         if (model.isSelected) {
             self.selectIndex = idx;
-            self.selectExamDateModel = model;
+            self.dateModel = model;
             *stop = YES;
             return;
         }
@@ -82,7 +82,7 @@
         [self.bigBackGroundView updateLayout];
     } completion:^(BOOL finished) {
         if (self.selectTimeCallBack) {
-            self.selectTimeCallBack(self.isRefresh,self.selectExamDateModel);
+            self.selectTimeCallBack(self.isRefresh,self.dateModel);
         }
         [self removeFromSuperview];
         [self.maskView removeFromSuperview];
@@ -172,8 +172,8 @@
         cell = [[HXSelectTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectTimeCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    HXExamDateModel *examDateModel = self.dataArray[indexPath.row];
-    cell.examDateModel = examDateModel;
+    HXHistoryTimeModel *dateModel = self.dataArray[indexPath.row];
+    cell.dateModel = dateModel;
     return cell;
 }
 
@@ -181,11 +181,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     ///重置选择
     [self.dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        HXExamDateModel *model = obj;
+        HXHistoryTimeModel *model = obj;
         if (indexPath.row == idx) {
             self.selectIndex = idx;
             model.isSelected = YES;
-            self.selectExamDateModel = model;
+            self.dateModel = model;
         }else{
             model.isSelected = NO;
         }

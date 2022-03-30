@@ -42,51 +42,78 @@
     }
     return self;
 }
+
+
+
 #pragma mark - setter
 -(void)setCellType:(HXLearnReportCellType)cellType{
     _cellType = cellType;
-    switch (cellType) {
+    
+}
+
+-(void)setLearnItemDetailModel:(HXLearnItemDetailModel *)learnItemDetailModel{
+    
+    _learnItemDetailModel = learnItemDetailModel;
+    
+    if (self.cellType == HXKeJianXueXiReportType) {
+        self.iconImageView.image = [UIImage imageNamed:@"videolearn_icon"];
+    }else if(self.cellType == HXPingShiZuoYeReportType) {
+        self.iconImageView.image = [UIImage imageNamed:@"pszy_icon"];
+    }else if(self.cellType == HXPingShiZuoYeReportType) {
+        self.iconImageView.image = [UIImage imageNamed:@"qmks_icon"];
+    }else if(self.cellType == HXPingShiZuoYeReportType) {
+        self.iconImageView.image = [UIImage imageNamed:@"lnzt_icon"];
+    }
+    
+    switch (self.cellType) {
         case HXKeJianXueXiReportType:
         {
-            self.iconImageView.image = [UIImage imageNamed:@"videolearn_icon"];
-            [self.stateBtn setTitle:@"已完成" forState:UIControlStateNormal];
-            [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0x1A9E3B, 1) forState:UIControlStateNormal];
-            [self.stateBtn setImage:[UIImage imageNamed:@"finishstate_icon"] forState:UIControlStateNormal];
-            self.finishNumLabel.text = @"100%";
+            self.titleNameLabel.text =HXSafeString(learnItemDetailModel.catalogTitle);
+            if (learnItemDetailModel.videoTime == 0) {
+                self.gradientProgressView.progress = 0;
+            }else{
+                float progress = (self.learnItemDetailModel.accumulativeTime*1.0/self.learnItemDetailModel.videoTime);
+                self.gradientProgressView.progress = (progress>1?1:progress);
+            }
+            if (self.gradientProgressView.progress ==1) {
+                [self.stateBtn setTitle:@"已学完" forState:UIControlStateNormal];
+                [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0x1A9E3B, 1) forState:UIControlStateNormal];
+                [self.stateBtn setImage:[UIImage imageNamed:@"finishstate_icon"] forState:UIControlStateNormal];
+                self.finishNumLabel.text = @"100%";
+            }else if (self.gradientProgressView.progress==0) {
+                [self.stateBtn setTitle:@"未学习" forState:UIControlStateNormal];
+                [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0xDF4C3C, 1) forState:UIControlStateNormal];
+                [self.stateBtn setImage:[UIImage imageNamed:@"nofinishstate_icon"] forState:UIControlStateNormal];
+                self.finishNumLabel.text = @"0.0%";
+            }else{
+                [self.stateBtn setTitle:@"学习中" forState:UIControlStateNormal];
+                [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0xFF7934, 1) forState:UIControlStateNormal];
+                [self.stateBtn setImage:[UIImage imageNamed:@"xuexizhongstate_icon"] forState:UIControlStateNormal];
+                self.finishNumLabel.text = [NSString stringWithFormat:@"%f",self.gradientProgressView.progress*100];
+            }
+            
         }
             break;
         case HXPingShiZuoYeReportType:
-       
-        {
-            self.iconImageView.image = [UIImage imageNamed:@"pszy_icon"];
-            [self.stateBtn setTitle:@"学习中" forState:UIControlStateNormal];
-            [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0xFF7934, 1) forState:UIControlStateNormal];
-            [self.stateBtn setImage:[UIImage imageNamed:@"xuexizhongstate_icon"] forState:UIControlStateNormal];
-            self.finishNumLabel.text = @"45.9%";
-        }
-
-            break;
         case HXQiMoKaoShiReportType:
-       
-        {
-            self.iconImageView.image = [UIImage imageNamed:@"qmks_icon"];
-            [self.stateBtn setTitle:@"未完成" forState:UIControlStateNormal];
-            [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0x1A9E3B, 1) forState:UIControlStateNormal];
-            [self.stateBtn setImage:[UIImage imageNamed:@"nofinishstate_icon"] forState:UIControlStateNormal];
-            self.finishNumLabel.text = @"0.0%";
-        }
-
-            break;
         case HXLiNianZhenTiReportType:
-       
         {
-            self.iconImageView.image = [UIImage imageNamed:@"lnzt_icon"];
-            [self.stateBtn setTitle:@"学习中" forState:UIControlStateNormal];
-            [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0xFF7934, 1) forState:UIControlStateNormal];
-            [self.stateBtn setImage:[UIImage imageNamed:@"xuexizhongstate_icon"] forState:UIControlStateNormal];
-            self.finishNumLabel.text = @"100%";
+            self.titleNameLabel.text =HXSafeString(learnItemDetailModel.examName);
+    
+            if (self.learnItemDetailModel.state == 1) {
+                [self.stateBtn setTitle:@"已完成" forState:UIControlStateNormal];
+                [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0x1A9E3B, 1) forState:UIControlStateNormal];
+                [self.stateBtn setImage:[UIImage imageNamed:@"finishstate_icon"] forState:UIControlStateNormal];
+                self.finishNumLabel.text = [NSString stringWithFormat:@"%@",self.learnItemDetailModel.score];
+                self.gradientProgressView.progress = 1;
+            }else if (self.learnItemDetailModel.state == 0) {
+                [self.stateBtn setTitle:@"未完成" forState:UIControlStateNormal];
+                [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0xDF4C3C, 1) forState:UIControlStateNormal];
+                [self.stateBtn setImage:[UIImage imageNamed:@"nofinishstate_icon"] forState:UIControlStateNormal];
+                self.finishNumLabel.text = @"";
+                self.gradientProgressView.progress = 0;
+            }
         }
-
             break;
         default:
             break;
@@ -173,7 +200,6 @@
         _titleNameLabel.textColor = COLOR_WITH_ALPHA(0x5A5A5A, 1);
         _titleNameLabel.font = HXFont(16);
         _titleNameLabel.textAlignment = NSTextAlignmentLeft;
-        _titleNameLabel.text = @"第一章 反对外国侵略的斗争";
     }
     return _titleNameLabel;
 }
@@ -183,6 +209,7 @@
         _gradientProgressView = [[HXGradientProgressView alloc] initWithFrame:CGRectMake(0, 0, _kpw(250), 14)];
         _gradientProgressView.bgProgressColor = COLOR_WITH_ALPHA(0xE5E5E5, 1);
         _gradientProgressView.colorArr = @[COLOR_WITH_ALPHA(0x3EADFF, 1),COLOR_WITH_ALPHA(0x15E88D, 1)];
+        _gradientProgressView.progress = 0;
     }
     return _gradientProgressView;
 }

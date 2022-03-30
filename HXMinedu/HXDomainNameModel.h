@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 //机构logo
 @property(nonatomic, copy) NSString *LogoUrl;
 
+@property(nonatomic, assign) BOOL isSelected;
+
 @end
 
 NS_ASSUME_NONNULL_END

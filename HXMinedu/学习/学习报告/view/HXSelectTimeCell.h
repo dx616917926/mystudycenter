@@ -6,11 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HXExamDateModel.h"
+#import "HXHistoryTimeModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXSelectTimeCell : UITableViewCell
-@property(nonatomic,strong) HXExamDateModel *examDateModel;
+@property(nonatomic,strong) HXHistoryTimeModel *dateModel;
 @end
 
 NS_ASSUME_NONNULL_END

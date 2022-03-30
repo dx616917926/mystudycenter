@@ -6,9 +6,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HXExamDateModel.h"
+#import "HXHistoryTimeModel.h"
 NS_ASSUME_NONNULL_BEGIN
-typedef void (^SelectTimeCallBack)(BOOL isRefresh,HXExamDateModel *selectExamDateModel);
+typedef void (^SelectTimeCallBack)(BOOL isRefresh,HXHistoryTimeModel *selectExamDateModel);
 
 @interface HXSelectTimeView : UIView
 

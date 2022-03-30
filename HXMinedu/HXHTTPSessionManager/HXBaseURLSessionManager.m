@@ -67,6 +67,8 @@
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[HXCheckUpdateTool sharedInstance] checkUpdate];
                 }];
+                //退出登录
+                [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
             }else if(![dictionary boolValueForKey:@"Success"] ){
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message];
             }
@@ -113,7 +115,8 @@
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[HXCheckUpdateTool sharedInstance] checkUpdate];
                 }];
-
+                //退出登录
+                [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
             }else if(![dictionary boolValueForKey:@"Success"] ){
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message];
             }
@@ -156,6 +159,8 @@
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[HXCheckUpdateTool sharedInstance] checkUpdate];
                 }];
+                //退出登录
+                [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
             }else if(![dictionary boolValueForKey:@"Success"] ){
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message];
             }

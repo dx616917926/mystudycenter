@@ -34,6 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) NSString *course_id;
 
+//开课ID
+@property(nonatomic, strong) NSString *studentCourseID;
+
 //自己增加的，判断是否在时间范围内
 @property(nonatomic, assign) BOOL isInTime;
 

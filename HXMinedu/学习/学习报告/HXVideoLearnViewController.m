@@ -43,7 +43,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.isHistory?3:10;
+    return self.learnCourseItemList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -61,6 +61,9 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.cellType = HXKeJianXueXiReportType;
+        if (indexPath.row<self.learnCourseItemList.count) {
+            cell.learnCourseItemModel = self.learnCourseItemList[indexPath.row];
+        }
         return cell;
     }else{
         static NSString *learnReportCellIdentifier = @"HXLearnReportCellIdentifier";
@@ -70,6 +73,9 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.cellType = HXKeJianXueXiReportType;
+        if (indexPath.row<self.learnCourseItemList.count) {
+            cell.learnCourseItemModel = self.learnCourseItemList[indexPath.row];
+        }
         return cell;
     }
 }
@@ -78,7 +84,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HXLearnReportDetailViewController *vc = [[HXLearnReportDetailViewController alloc] init];
+    vc.ModuleName = self.ModuleName;
     vc.isHistory = self.isHistory;
+    if (indexPath.row<self.learnCourseItemList.count) {
+        vc.learnCourseItemModel = self.learnCourseItemList[indexPath.row];
+    }
     vc.cellType = HXKeJianXueXiReportType;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -96,16 +106,16 @@
   
     
     
-    // 下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
-    // 设置自动切换透明度(在导航栏下面自动隐藏)
-    header.automaticallyChangeAlpha = YES;
-    //设置header
-    self.mainTableView.mj_header = header;
-    
-    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    self.mainTableView.mj_footer = footer;
-    self.mainTableView.mj_footer.hidden = YES;
+//    // 下拉刷新
+//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
+//    // 设置自动切换透明度(在导航栏下面自动隐藏)
+//    header.automaticallyChangeAlpha = YES;
+//    //设置header
+//    self.mainTableView.mj_header = header;
+//    
+//    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+//    self.mainTableView.mj_footer = footer;
+//    self.mainTableView.mj_footer.hidden = YES;
 }
 
 

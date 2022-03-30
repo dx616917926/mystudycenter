@@ -45,55 +45,80 @@
     }
     return self;
 }
-#pragma mark - setter
--(void)setCellType:(HXLearnReportCellType)cellType{
-    _cellType = cellType;
-    switch (cellType) {
+#pragma mark - Setter
+-(void)setLearnCourseItemModel:(HXLearnCourseItemModel *)learnCourseItemModel{
+    _learnCourseItemModel = learnCourseItemModel;
+    
+    self.titleNameLabel.text = HXSafeString(learnCourseItemModel.courseName);
+    
+    if ([learnCourseItemModel.revision isEqualToString:@"VIP"]) {
+        self.dengJiLabel.textColor = COLOR_WITH_ALPHA(0xFF7934, 1);
+    }else{
+        self.dengJiLabel.textColor = COLOR_WITH_ALPHA(0x5699FF, 1);
+    }
+    self.dengJiLabel.text = HXSafeString(learnCourseItemModel.revision);
+    
+    if (self.learnCourseItemModel.type == 1) {
+        if (learnCourseItemModel.generalChapter == 0) {
+            self.gradientProgressView.progress = 0;
+        }else{
+            float progress = (self.learnCourseItemModel.chaptersCompletedNumber*1.0/self.learnCourseItemModel.generalChapter);
+            self.gradientProgressView.progress = (progress>1?1:progress);
+        }
+    }else{
+        if (learnCourseItemModel.testPaperNumber == 0) {
+            self.gradientProgressView.progress = 0;
+        }else{
+            float progress = (self.learnCourseItemModel.testPaperCompletedNumber*1.0/self.learnCourseItemModel.testPaperNumber);
+            self.gradientProgressView.progress = (progress>1?1:progress);
+        }
+    }
+    
+    switch (self.cellType) {
         case HXKeJianXueXiReportType:
         {
             self.iconImageView.image = [UIImage imageNamed:@"historyvideolearn_icon"];
-            [self.totalNumBtn setTitle:@"共30章" forState:UIControlStateNormal];
-            self.ciShuLabel.text = @"学习次数：10";
-            self.dengJiLabel.text = @"精品";
-            self.finishNumLabel.text = @"已学习66章";
+            [self.totalNumBtn setTitle:[NSString stringWithFormat:@"共%ld章",(long)self.learnCourseItemModel.generalChapter] forState:UIControlStateNormal];
+            self.ciShuLabel.text = [NSString stringWithFormat:@"学习次数：%ld",(long)self.learnCourseItemModel.studiesNumber];
+            self.finishNumLabel.text = [NSString stringWithFormat:@"已学习%ld章",(long)self.learnCourseItemModel.chaptersCompletedNumber];
         }
             break;
         case HXPingShiZuoYeReportType:
-       
         {
             self.iconImageView.image = [UIImage imageNamed:@"historypszy_icon"];
-            [self.totalNumBtn setTitle:@"共10套" forState:UIControlStateNormal];
-            self.ciShuLabel.text = @"练习次数：5";
+            [self.totalNumBtn setTitle:[NSString stringWithFormat:@"共%ld套",(long)self.learnCourseItemModel.testPaperNumber] forState:UIControlStateNormal];
+            self.ciShuLabel.text = [NSString stringWithFormat:@"练习次数：%ld",(long)self.learnCourseItemModel.exercisesNumber];
             self.dengJiLabel.text = nil;
-            self.finishNumLabel.text = @"已完成2套";
+            self.finishNumLabel.text = [NSString stringWithFormat:@"已完成%ld套",(long)self.learnCourseItemModel.testPaperCompletedNumber];
         }
-
             break;
         case HXQiMoKaoShiReportType:
-       
         {
             self.iconImageView.image = [UIImage imageNamed:@"historyqmks_icon"];
-            [self.totalNumBtn setTitle:@"共10套" forState:UIControlStateNormal];
-            self.ciShuLabel.text = @"考试次数：5";
+            [self.totalNumBtn setTitle:[NSString stringWithFormat:@"共%ld套",(long)self.learnCourseItemModel.testPaperNumber] forState:UIControlStateNormal];
+            self.ciShuLabel.text = [NSString stringWithFormat:@"考试次数：%ld",(long)self.learnCourseItemModel.exercisesNumber];
             self.dengJiLabel.text = nil;
-            self.finishNumLabel.text = @"已完成2套";
+            self.finishNumLabel.text = [NSString stringWithFormat:@"已完成%ld套",(long)self.learnCourseItemModel.testPaperCompletedNumber];
         }
-
             break;
         case HXLiNianZhenTiReportType:
-       
         {
             self.iconImageView.image = [UIImage imageNamed:@"historylnzt_icon"];
-            [self.totalNumBtn setTitle:@"共10套" forState:UIControlStateNormal];
-            self.ciShuLabel.text = @"练习次数：5";
+            [self.totalNumBtn setTitle:[NSString stringWithFormat:@"共%ld套",(long)self.learnCourseItemModel.testPaperNumber] forState:UIControlStateNormal];
+            self.ciShuLabel.text = [NSString stringWithFormat:@"练习次数：%ld",(long)self.learnCourseItemModel.exercisesNumber];
             self.dengJiLabel.text = nil;
-            self.finishNumLabel.text = @"已完成2套";
+            self.finishNumLabel.text = [NSString stringWithFormat:@"已完成%ld套",(long)self.learnCourseItemModel.testPaperCompletedNumber];
         }
-
             break;
         default:
             break;
     }
+    
+}
+
+-(void)setCellType:(HXLearnReportCellType)cellType{
+    _cellType = cellType;
+    
 }
 
 #pragma mark - UI
@@ -175,7 +200,7 @@
         _titleNameLabel.textColor = COLOR_WITH_ALPHA(0x5A5A5A, 1);
         _titleNameLabel.font = HXFont(16);
         _titleNameLabel.textAlignment = NSTextAlignmentLeft;
-        _titleNameLabel.text = @"国际财务管理";
+        
     }
     return _titleNameLabel;
 }
@@ -185,6 +210,7 @@
         _gradientProgressView = [[HXGradientProgressView alloc] initWithFrame:CGRectMake(0, 0, _kpw(250), 14)];
         _gradientProgressView.bgProgressColor = COLOR_WITH_ALPHA(0xE5E5E5, 1);
         _gradientProgressView.colorArr = @[COLOR_WITH_ALPHA(0xFE955F, 1),COLOR_WITH_ALPHA(0xFFBE68, 1)];
+        _gradientProgressView.progress = 0;
     }
     return _gradientProgressView;
 }

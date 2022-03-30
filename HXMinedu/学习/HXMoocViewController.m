@@ -24,8 +24,7 @@
 {
     [super loadView];
     
-   
-    
+
 }
 
 - (void)viewDidLoad {

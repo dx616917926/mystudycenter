@@ -34,7 +34,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    return self.learnCourseItemList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -52,6 +52,9 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.cellType = HXPingShiZuoYeReportType;
+        if (indexPath.row<self.learnCourseItemList.count) {
+            cell.learnCourseItemModel = self.learnCourseItemList[indexPath.row];
+        }
         return cell;
     }else{
         static NSString *learnReportCellIdentifier = @"HXLearnReportCellIdentifier";
@@ -61,6 +64,9 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.cellType = HXPingShiZuoYeReportType;
+        if (indexPath.row<self.learnCourseItemList.count) {
+            cell.learnCourseItemModel = self.learnCourseItemList[indexPath.row];
+        }
         return cell;
     }
 }
@@ -69,7 +75,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HXLearnReportDetailViewController *vc = [[HXLearnReportDetailViewController alloc] init];
+    vc.ModuleName = self.ModuleName;
     vc.isHistory = self.isHistory;
+    if (indexPath.row<self.learnCourseItemList.count) {
+        vc.learnCourseItemModel = self.learnCourseItemList[indexPath.row];
+    }
     vc.cellType = HXPingShiZuoYeReportType;
     [self.navigationController pushViewController:vc animated:YES];
 }

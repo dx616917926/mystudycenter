@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HXLearnCourseItemModel.h"
 typedef enum : NSUInteger {
     HXKeJianXueXiReportType = 1,
     HXPingShiZuoYeReportType = 2,
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HXLearnReportCell : UITableViewCell
 
 @property(nonatomic,assign) HXLearnReportCellType cellType;
+@property(nonatomic,strong) HXLearnCourseItemModel *learnCourseItemModel;
 
 @end
 

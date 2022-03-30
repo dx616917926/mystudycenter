@@ -12,10 +12,16 @@
 #import "HXQMKSViewController.h"
 #import "HXLNZTViewController.h"
 #import "YNPageViewController.h"
+#import "HXLearnReportModel.h"
+#import "HXNoDataTipView.h"
 
 @interface HXLearnReportViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
-@property (nonatomic, strong) NSArray *titles;
-@property (nonatomic, strong) NSArray *childVcs;
+
+@property(nonatomic,strong) HXNoDataTipView *noDataTipView;
+@property(nonatomic,strong) UIButton *popBackBtn;
+
+@property (nonatomic, strong) NSMutableArray *titles;
+@property (nonatomic, strong) NSMutableArray *childVcs;
 @property (nonatomic, strong) YNPageConfigration *configration;
 @property (nonatomic, strong) YNPageViewController *pageViewVc;
 //头部
@@ -26,6 +32,9 @@
 @property (nonatomic, strong) UILabel *geYanLabel;
 @property (nonatomic, strong) UIButton *historyReportBtn;
 
+@property (nonatomic, strong) HXLearnReportModel *learnReportModel;
+
+
 @end
 
 @implementation HXLearnReportViewController
@@ -33,9 +42,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    //布局
-    [self createUI];
+    //获取学习报告
+    [self getLearnReport];
 }
 
 
@@ -46,6 +54,90 @@
         return UIStatusBarStyleDefault;
     }
     
+}
+
+#pragma mark -  获取学习报告
+-(void)getLearnReport{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"major_id":HXSafeString(selectMajorModel.major_id),
+        @"type":@(selectMajorModel.type),
+        @"createDate":@""//历史版本时间，有值为历史学习报告 空值为学习报告
+    };
+    [self.view showLoading];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_LearnReport  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.learnReportModel = [HXLearnReportModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            if (self.learnReportModel.learnModuleList.count>0) {
+                [self.noDataTipView removeFromSuperview];
+                [self.popBackBtn removeFromSuperview];
+                [self refreshUI];
+            }else{
+                [self.view addSubview:self.noDataTipView];
+                [self.view addSubview:self.popBackBtn];
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+    }];
+}
+
+#pragma mark - UI
+-(void)refreshUI{
+    
+    [self.titles removeAllObjects];
+    [self.childVcs removeAllObjects];
+    
+    for (HXLearnModuleModel *learnModuleModel in self.learnReportModel.learnModuleList) {
+        if (learnModuleModel.learnCourseItemList.count>0) {
+            [self.titles addObject:learnModuleModel.ModuleName];
+            switch (learnModuleModel.type) {
+                case 1:
+                {
+                    HXVideoLearnViewController *vc = [[HXVideoLearnViewController alloc] init];
+                    vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
+                    vc.ModuleName = learnModuleModel.ModuleName;
+                    [self.childVcs addObject:vc];
+                }
+                    break;
+                case 2:
+                {
+                    HXPSZYViewController *vc = [[HXPSZYViewController alloc] init];
+                    vc.ModuleName = learnModuleModel.ModuleName;
+                    vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
+                    [self.childVcs addObject:vc];
+                }
+                    break;
+                case 3:
+                {
+                    HXQMKSViewController *vc = [[HXQMKSViewController alloc] init];
+                    vc.ModuleName = learnModuleModel.ModuleName;
+                    vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
+                    [self.childVcs addObject:vc];
+                }
+                    break;
+                case 4:
+                {
+                    HXLNZTViewController *vc = [[HXLNZTViewController alloc] init];
+                    vc.isHistory = (self.learnReportModel.isHisVersion==1?YES:NO);
+                    vc.ModuleName = learnModuleModel.ModuleName;
+                    vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
+                    [self.childVcs addObject:vc];
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    //设置控制器
+    [self setupPageVC];
+    //控制历史学习报告按钮显示与隐藏
+    self.historyReportBtn.hidden = (self.learnReportModel.isHisVersion==1?NO:YES);
 }
 
 #pragma mark - Event
@@ -61,12 +153,6 @@
     
 }
 
-#pragma mark - UI
--(void)createUI{
-    //设置控制器
-    [self setupPageVC];
-    
-}
 - (void)setupPageVC {
     YNPageConfigration *configration = [YNPageConfigration defaultConfig];
     configration.pageStyle = YNPageStyleSuspensionCenter;
@@ -110,48 +196,6 @@
     
 }
 
-- (NSArray *)childVcs{
-    NSMutableArray *childVcs = [NSMutableArray array];
-    for (int i = 0; i<self.titles.count; i++) {
-        switch (i) {
-            case 0:
-            {
-                HXVideoLearnViewController *vc = [[HXVideoLearnViewController alloc] init];
-                [childVcs addObject:vc];
-            }
-                break;
-            case 1:
-            {
-                HXPSZYViewController *vc = [[HXPSZYViewController alloc] init];
-                [childVcs addObject:vc];
-            }
-                break;
-            case 2:
-            {
-                HXQMKSViewController *vc = [[HXQMKSViewController alloc] init];
-                [childVcs addObject:vc];
-            }
-                break;
-            case 3:
-            {
-                HXLNZTViewController *vc = [[HXLNZTViewController alloc] init];
-                [childVcs addObject:vc];
-            }
-                break;
-    
-            default:
-                break;
-        }
-       
-    }
-    return childVcs;
-}
-
-- (NSArray *)titles {
-    return @[@"视频学习", @"平时作业", @"期末考试", @"历年真题"];
-}
-
-
 
 
 #pragma mark - YNPageViewControllerDataSource
@@ -178,6 +222,20 @@
 }
 
 #pragma mark - LazyLoad
+-(NSMutableArray *)titles{
+    if (!_titles) {
+        _titles = [NSMutableArray array];
+    }
+    return _titles;
+}
+
+-(NSMutableArray *)childVcs{
+    if (!_childVcs) {
+        _childVcs = [NSMutableArray array];
+    }
+    return _childVcs;
+}
+
 -(UIView *)headerView{
     if (!_headerView) {
         _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*0.533)];
@@ -290,7 +348,23 @@
     return _historyReportBtn;
 }
 
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight)];
+        _noDataTipView.tipTitle = @"暂无数据~";
+    }
+    return _noDataTipView;
+}
 
+-(UIButton *)popBackBtn{
+    if (!_popBackBtn) {
+        _popBackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _popBackBtn.frame = CGRectMake(0, 44, 60, 40);
+        [_popBackBtn setImage:[UIImage imageNamed:@"navi_blackback"] forState:UIControlStateNormal];
+        [_popBackBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _popBackBtn;
+}
 
 /*
 #pragma mark - Navigation

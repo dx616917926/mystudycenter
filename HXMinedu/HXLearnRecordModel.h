@@ -26,6 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSDictionary *mooc_param;
 //MOOC为慕课课程
 @property(nonatomic, strong) NSString *StemCode;
+//课程包
+@property(nonatomic, strong) NSString *Revision;
+//章节
+@property(nonatomic, strong) NSString *CatalogTitle;
+//开课ID
+@property(nonatomic, strong) NSString *studentCourseID;
 
 @end
 

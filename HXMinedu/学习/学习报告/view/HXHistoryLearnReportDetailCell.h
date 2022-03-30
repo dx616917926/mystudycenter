@@ -7,12 +7,14 @@
 
 #import <UIKit/UIKit.h>
 #import "HXLearnReportCell.h"
+#import "HXLearnItemDetailModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXHistoryLearnReportDetailCell : UITableViewCell
 
 @property(nonatomic,assign) HXLearnReportCellType cellType;
+@property(nonatomic,strong) HXLearnItemDetailModel *learnItemDetailModel;
 
 @end
 

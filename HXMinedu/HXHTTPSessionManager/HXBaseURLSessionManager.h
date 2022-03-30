@@ -70,10 +70,16 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXPOST_UpdateStudentFile                               @"/MD/StuInfo/uploadStudentFile"
 
 //获取隐私协议
-#define HXPOST_Get_PrivacyUrl                                @"/MD/StuInfo/getPrivacyUrl"
+#define HXPOST_Get_PrivacyUrl                                @"/api/Student/GetPrivacyUrl"
 
 //获取学习报告
 #define HXPOST_Get_LearnReport                             @"/MD/StuInfo/getLearnReport"
+
+//获取学习报告课件详情
+#define HXPOST_GetLearnReportKjInfo                             @"/MD/StuInfo/getLearnReportKjInfo"
+
+//获取学习报告考试详情
+#define HXPOST_GetLearnReportExamInfo                             @"/MD/StuInfo/getLearnReportExamInfo"
 
 //获取历史学习报告
 #define HXPOST_Get_HistoryLearnReport                           @"/MD/StuInfo/gethisLearnReport"
@@ -182,6 +188,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //上传论文
 #define HXPOST_UploadStudentPaperFile                                   @"/MD/StuPaper/UploadStudentPaperFile"
+
+//修改学习次数
+#define HXPOST_ChangeWatchVideoNum                                      @"/MD/StuInfo/ChangeWatchVideoNum"
 
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager

@@ -109,6 +109,7 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
             item.StemCode = courseModel.StemCode;
             item.courseName = courseModel.courseName;
             item.course_id = courseModel.course_id;
+            item.studentCourseID = courseModel.studentCourseID;
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.containerView addSubview:btn];
             

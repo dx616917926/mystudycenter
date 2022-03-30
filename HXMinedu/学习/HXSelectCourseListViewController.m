@@ -71,6 +71,21 @@
     }];
 }
 
+//修改学习次数
+-(void)changeWatchVideoNum{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"studentCourseID":HXSafeString(self.studentCourseID),
+        @"type":@(selectMajorModel.type)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_ChangeWatchVideoNum withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
 #pragma mark - <HXSelectCourseCellDelegate>
 -(void)handleItem:(HXModelItem *)item{
     //课件学习模块,先判断登陆状态
@@ -98,6 +113,8 @@
                 playerVC.hidesBottomBarWhenPushed = YES;
                 [strongSelf.navigationController pushViewController:playerVC animated:YES];
             }
+            //修改学习次数
+            [strongSelf changeWatchVideoNum];
             
         }
     }];

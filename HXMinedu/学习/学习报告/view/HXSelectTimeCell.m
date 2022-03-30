@@ -34,10 +34,10 @@
     return self;
 }
 
--(void)setExamDateModel:(HXExamDateModel *)examDateModel{
-    _examDateModel = examDateModel;
-    self.dateLabel.text = examDateModel.examDate;
-    self.bgView.backgroundColor = examDateModel.isSelected?COLOR_WITH_ALPHA(0xEFEFEF, 1):COLOR_WITH_ALPHA(0xFFFFFF, 1);
+-(void)setDateModel:(HXHistoryTimeModel *)dateModel{
+    _dateModel = dateModel;
+    self.dateLabel.text = dateModel.createDate;
+    self.bgView.backgroundColor = dateModel.isSelected?COLOR_WITH_ALPHA(0xEFEFEF, 1):COLOR_WITH_ALPHA(0xFFFFFF, 1);
 }
 
 #pragma mark - UI

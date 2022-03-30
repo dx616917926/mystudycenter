@@ -12,10 +12,11 @@
 #import "HXLNZTViewController.h"
 #import "YNPageViewController.h"
 #import "HXSelectTimeView.h"
+#import "HXLearnReportModel.h"
 
 @interface HXHistoryLearnReportViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
-@property (nonatomic, strong) NSArray *titles;
-@property (nonatomic, strong) NSArray *childVcs;
+@property (nonatomic, strong) NSMutableArray *titles;
+@property (nonatomic, strong) NSMutableArray *childVcs;
 @property (nonatomic, strong) YNPageConfigration *configration;
 @property (nonatomic, strong) YNPageViewController *pageViewVc;
 //头部
@@ -30,6 +31,8 @@
 
 @property(strong,nonatomic) NSMutableArray *timeList;
 
+@property (nonatomic, strong) HXLearnReportModel *learnReportModel;
+
 @end
 
 @implementation HXHistoryLearnReportViewController
@@ -37,9 +40,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //获取历史版本时间
+    [self getStuHisVersionTime];
     
-    //布局
-    [self createUI];
 }
 
 
@@ -64,20 +67,125 @@
     [self.selectTimeView show];
     ///选择日期回调
     WeakSelf(weakSelf);
-    self.selectTimeView.selectTimeCallBack = ^(BOOL isRefresh, HXExamDateModel * _Nonnull selectExamDateModel) {
+    self.selectTimeView.selectTimeCallBack = ^(BOOL isRefresh, HXHistoryTimeModel * _Nonnull selectExamDateModel) {
         if (isRefresh){
-            [weakSelf.selectTimeBtn setTitle:selectExamDateModel.examDate forState:UIControlStateNormal];
+            [weakSelf.selectTimeBtn setTitle:selectExamDateModel.createDate forState:UIControlStateNormal];
+            //刷新数据
+            [weakSelf getLearnReport:selectExamDateModel];
         }
     };
     
 }
 
+#pragma mark -  获取历史版本时间
+-(void)getStuHisVersionTime{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"major_id":HXSafeString(selectMajorModel.major_id),
+        @"type":@(selectMajorModel.type)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_StuHisVersionTime  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXHistoryTimeModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.timeList removeAllObjects];
+            [self.timeList addObjectsFromArray:array];
+            //默认选择第一个
+            HXHistoryTimeModel *model = self.timeList.firstObject;
+            model.isSelected = YES;
+            //获取历史学习报告
+            [self getLearnReport:model];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+
+#pragma mark -  获取历史学习报告
+-(void)getLearnReport:(HXHistoryTimeModel *)historyTimeModel{
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"major_id":HXSafeString(selectMajorModel.major_id),
+        @"type":@(selectMajorModel.type),
+        @"createDate":HXSafeString(historyTimeModel.createDate)//历史版本时间，有值为历史学习报告 空值为学习报告
+    };
+    [self.view showLoading];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_LearnReport  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.view hideLoading];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.learnReportModel = [HXLearnReportModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [self refreshUI];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.view hideLoading];
+    }];
+}
+
 #pragma mark - UI
--(void)createUI{
+-(void)refreshUI{
+    
+    [self.titles removeAllObjects];
+    [self.childVcs removeAllObjects];
+    
+    //刷新数据页面、所有View、菜单栏、headerView - 默认移除缓存控制器
+    [self.pageViewVc reloadData];
+    
+    for (HXLearnModuleModel *learnModuleModel in self.learnReportModel.learnModuleList) {
+        if (learnModuleModel.learnCourseItemList.count>0) {
+            [self.titles addObject:learnModuleModel.ModuleName];
+            switch (learnModuleModel.type) {
+                case 1:
+                {
+                    HXVideoLearnViewController *vc = [[HXVideoLearnViewController alloc] init];
+                    vc.isHistory = YES;
+                    vc.ModuleName = learnModuleModel.ModuleName;
+                    vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
+                    [self.childVcs addObject:vc];
+                }
+                    break;
+                case 2:
+                {
+                    HXPSZYViewController *vc = [[HXPSZYViewController alloc] init];
+                    vc.isHistory = YES;
+                    vc.ModuleName = learnModuleModel.ModuleName;
+                    vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
+                    [self.childVcs addObject:vc];
+                }
+                    break;
+                case 3:
+                {
+                    HXQMKSViewController *vc = [[HXQMKSViewController alloc] init];
+                    vc.isHistory = YES;
+                    vc.ModuleName = learnModuleModel.ModuleName;
+                    vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
+                    [self.childVcs addObject:vc];
+                }
+                    break;
+                case 4:
+                {
+                    HXLNZTViewController *vc = [[HXLNZTViewController alloc] init];
+                    vc.isHistory = YES;
+                    vc.ModuleName = learnModuleModel.ModuleName;
+                    vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
+                    [self.childVcs addObject:vc];
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
     //设置控制器
     [self setupPageVC];
-    
 }
+
 - (void)setupPageVC {
     YNPageConfigration *configration = [YNPageConfigration defaultConfig];
     configration.pageStyle = YNPageStyleSuspensionCenter;
@@ -121,50 +229,6 @@
     
 }
 
-- (NSArray *)childVcs{
-    NSMutableArray *childVcs = [NSMutableArray array];
-    for (int i = 0; i<self.titles.count; i++) {
-        switch (i) {
-            case 0:
-            {
-                HXVideoLearnViewController *vc = [[HXVideoLearnViewController alloc] init];
-                vc.isHistory = YES;
-                [childVcs addObject:vc];
-            }
-                break;
-            case 1:
-            {
-                HXPSZYViewController *vc = [[HXPSZYViewController alloc] init];
-                vc.isHistory = YES;
-                [childVcs addObject:vc];
-            }
-                break;
-            case 2:
-            {
-                HXQMKSViewController *vc = [[HXQMKSViewController alloc] init];
-                vc.isHistory = YES;
-                [childVcs addObject:vc];
-            }
-                break;
-            case 3:
-            {
-                HXLNZTViewController *vc = [[HXLNZTViewController alloc] init];
-                vc.isHistory = YES;
-                [childVcs addObject:vc];
-            }
-                break;
-    
-            default:
-                break;
-        }
-       
-    }
-    return childVcs;
-}
-
-- (NSArray *)titles {
-    return @[@"视频学习", @"平时作业", @"期末考试", @"历年真题"];
-}
 
 
 
@@ -196,14 +260,24 @@
 -(NSMutableArray *)timeList{
     if (!_timeList) {
         _timeList = [NSMutableArray array];
-        for (int i=0; i<7; i++) {
-            HXExamDateModel *model = [HXExamDateModel new];
-            model.examDate = [NSString stringWithFormat:@"2020-%d-20 至 2020-%d-01",i+1,i+2];
-            [_timeList addObject:model];
-        }
     }
     return _timeList;
 }
+
+-(NSMutableArray *)titles{
+    if (!_titles) {
+        _titles = [NSMutableArray array];
+    }
+    return _titles;
+}
+
+-(NSMutableArray *)childVcs{
+    if (!_childVcs) {
+        _childVcs = [NSMutableArray array];
+    }
+    return _childVcs;
+}
+
 -(UIView *)headerView{
     if (!_headerView) {
         _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*0.533)];
