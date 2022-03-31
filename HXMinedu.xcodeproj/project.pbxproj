@@ -281,13 +281,6 @@
 		047422AE276099BC002D68B0 /* HXZiZhuOrderDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047422AD276099BC002D68B0 /* HXZiZhuOrderDetailsViewController.m */; };
 		047422B12760A43E002D68B0 /* HXZiZhuJiaoFeiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047422B02760A43E002D68B0 /* HXZiZhuJiaoFeiCell.m */; };
 		047593EF26FD9E8A00D206E9 /* WKWebView+HXWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047593ED26FD9E8A00D206E9 /* WKWebView+HXWebView.m */; };
-		0475940026FDA47300D206E9 /* UMCommonLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593F326FDA47300D206E9 /* UMCommonLog.framework */; };
-		0475940126FDA47300D206E9 /* UMCommonLog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047593F426FDA47300D206E9 /* UMCommonLog.bundle */; };
-		0475940226FDA47300D206E9 /* UMAPM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593F726FDA47300D206E9 /* UMAPM.framework */; };
-		0475940326FDA47300D206E9 /* UTDID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593FA26FDA47300D206E9 /* UTDID.framework */; };
-		0475940426FDA47300D206E9 /* UMRemoteConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593FD26FDA47300D206E9 /* UMRemoteConfig.framework */; };
-		0475940526FDA47300D206E9 /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593FE26FDA47300D206E9 /* UMCommon.framework */; };
-		0475940626FDA47300D206E9 /* UMDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047593FF26FDA47300D206E9 /* UMDevice.framework */; };
 		0477CA2E275EFA3500A99914 /* HXPictureInforConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA2D275EFA3500A99914 /* HXPictureInforConfirmViewController.m */; };
 		0477CA31275F06DC00A99914 /* HXCommonSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA30275F06DC00A99914 /* HXCommonSelectView.m */; };
 		0477CA34275F071400A99914 /* HXCommonSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA32275F071300A99914 /* HXCommonSelectCell.m */; };
@@ -304,6 +297,13 @@
 		048843A527F5A5550010C5D0 /* HXExamErrorReportView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048843A327F5A5550010C5D0 /* HXExamErrorReportView.m */; };
 		048843AA27F5A6290010C5D0 /* HXFloatButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048843A927F5A6290010C5D0 /* HXFloatButtonView.m */; };
 		048843AE27F5A7F90010C5D0 /* HXPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048843AD27F5A7F90010C5D0 /* HXPlaceholderTextView.m */; };
+		048843BF27F5B64C0010C5D0 /* UMCommonLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048843B227F5B64C0010C5D0 /* UMCommonLog.framework */; };
+		048843C027F5B64C0010C5D0 /* UMCommonLog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 048843B327F5B64C0010C5D0 /* UMCommonLog.bundle */; };
+		048843C127F5B64C0010C5D0 /* UMAPM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048843B627F5B64C0010C5D0 /* UMAPM.framework */; };
+		048843C227F5B64C0010C5D0 /* UTDID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048843B927F5B64C0010C5D0 /* UTDID.framework */; };
+		048843C327F5B64D0010C5D0 /* UMRemoteConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048843BC27F5B64C0010C5D0 /* UMRemoteConfig.framework */; };
+		048843C427F5B64D0010C5D0 /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048843BD27F5B64C0010C5D0 /* UMCommon.framework */; };
+		048843C527F5B64D0010C5D0 /* UMDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048843BE27F5B64C0010C5D0 /* UMDevice.framework */; };
 		04893BAC275DB92A005CB6C5 /* HXMyGraduationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04893BAB275DB92A005CB6C5 /* HXMyGraduationViewController.m */; };
 		048C66962670AAD400977A4F /* HXStudentRefundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C66952670AAD400977A4F /* HXStudentRefundModel.m */; };
 		048C66992670B55000977A4F /* HXStudentRefundDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C66982670B55000977A4F /* HXStudentRefundDetailsModel.m */; };
@@ -943,13 +943,6 @@
 		047422B02760A43E002D68B0 /* HXZiZhuJiaoFeiCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXZiZhuJiaoFeiCell.m; sourceTree = "<group>"; };
 		047593ED26FD9E8A00D206E9 /* WKWebView+HXWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+HXWebView.m"; sourceTree = "<group>"; };
 		047593EE26FD9E8A00D206E9 /* WKWebView+HXWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKWebView+HXWebView.h"; sourceTree = "<group>"; };
-		047593F326FDA47300D206E9 /* UMCommonLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommonLog.framework; sourceTree = "<group>"; };
-		047593F426FDA47300D206E9 /* UMCommonLog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMCommonLog.bundle; sourceTree = "<group>"; };
-		047593F726FDA47300D206E9 /* UMAPM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMAPM.framework; sourceTree = "<group>"; };
-		047593FA26FDA47300D206E9 /* UTDID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UTDID.framework; sourceTree = "<group>"; };
-		047593FD26FDA47300D206E9 /* UMRemoteConfig.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMRemoteConfig.framework; sourceTree = "<group>"; };
-		047593FE26FDA47300D206E9 /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommon.framework; sourceTree = "<group>"; };
-		047593FF26FDA47300D206E9 /* UMDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMDevice.framework; sourceTree = "<group>"; };
 		0477CA2C275EFA3500A99914 /* HXPictureInforConfirmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPictureInforConfirmViewController.h; sourceTree = "<group>"; };
 		0477CA2D275EFA3500A99914 /* HXPictureInforConfirmViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPictureInforConfirmViewController.m; sourceTree = "<group>"; };
 		0477CA2F275F06DC00A99914 /* HXCommonSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXCommonSelectView.h; sourceTree = "<group>"; };
@@ -982,6 +975,13 @@
 		048843A927F5A6290010C5D0 /* HXFloatButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXFloatButtonView.m; sourceTree = "<group>"; };
 		048843AC27F5A7F90010C5D0 /* HXPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXPlaceholderTextView.h; sourceTree = "<group>"; };
 		048843AD27F5A7F90010C5D0 /* HXPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXPlaceholderTextView.m; sourceTree = "<group>"; };
+		048843B227F5B64C0010C5D0 /* UMCommonLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommonLog.framework; sourceTree = "<group>"; };
+		048843B327F5B64C0010C5D0 /* UMCommonLog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMCommonLog.bundle; sourceTree = "<group>"; };
+		048843B627F5B64C0010C5D0 /* UMAPM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMAPM.framework; sourceTree = "<group>"; };
+		048843B927F5B64C0010C5D0 /* UTDID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UTDID.framework; sourceTree = "<group>"; };
+		048843BC27F5B64C0010C5D0 /* UMRemoteConfig.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMRemoteConfig.framework; sourceTree = "<group>"; };
+		048843BD27F5B64C0010C5D0 /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommon.framework; sourceTree = "<group>"; };
+		048843BE27F5B64C0010C5D0 /* UMDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMDevice.framework; sourceTree = "<group>"; };
 		04893BAA275DB92A005CB6C5 /* HXMyGraduationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXMyGraduationViewController.h; sourceTree = "<group>"; };
 		04893BAB275DB92A005CB6C5 /* HXMyGraduationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXMyGraduationViewController.m; sourceTree = "<group>"; };
 		048C66942670AAD400977A4F /* HXStudentRefundModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudentRefundModel.h; sourceTree = "<group>"; };
@@ -1192,23 +1192,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0475940626FDA47300D206E9 /* UMDevice.framework in Frameworks */,
-				0475940426FDA47300D206E9 /* UMRemoteConfig.framework in Frameworks */,
 				049EA51227BA13B00075EC17 /* CFNetwork.framework in Frameworks */,
 				049EA51727BA13D80075EC17 /* CFNetwork.framework in Frameworks */,
 				049EA50E27BA13810075EC17 /* WebKit.framework in Frameworks */,
 				043F49AF260836AF006E304D /* TXMoviePlayer.framework in Frameworks */,
 				0497C523262D317700C096FD /* CoreGraphics.framework in Frameworks */,
+				048843C227F5B64C0010C5D0 /* UTDID.framework in Frameworks */,
 				049EA51627BA13CB0075EC17 /* SystemConfiguration.framework in Frameworks */,
+				048843C127F5B64C0010C5D0 /* UMAPM.framework in Frameworks */,
+				048843BF27F5B64C0010C5D0 /* UMCommonLog.framework in Frameworks */,
+				048843C427F5B64D0010C5D0 /* UMCommon.framework in Frameworks */,
 				04B7CD6127B9F63900E9000E /* UserNotifications.framework in Frameworks */,
 				049EA51427BA13C10075EC17 /* CoreTelephony.framework in Frameworks */,
-				0475940526FDA47300D206E9 /* UMCommon.framework in Frameworks */,
+				048843C327F5B64D0010C5D0 /* UMRemoteConfig.framework in Frameworks */,
 				5402E7E5284CAF80DC24B23E /* Pods_HXMinedu.framework in Frameworks */,
-				0475940226FDA47300D206E9 /* UMAPM.framework in Frameworks */,
 				0497C521262D316000C096FD /* Security.framework in Frameworks */,
-				0475940326FDA47300D206E9 /* UTDID.framework in Frameworks */,
+				048843C527F5B64D0010C5D0 /* UMDevice.framework in Frameworks */,
 				049EA51027BA13980075EC17 /* StoreKit.framework in Frameworks */,
-				0475940026FDA47300D206E9 /* UMCommonLog.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1540,9 +1540,9 @@
 		0449A368254C11B3001A28D5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				048843AF27F5B64C0010C5D0 /* UMeng_v7.3.6 */,
 				048843AB27F5A7F90010C5D0 /* HXPlaceholderTextView */,
 				048843A727F5A6290010C5D0 /* HXFloatButtonView */,
-				047593F026FDA47300D206E9 /* UMeng_v7.3.5 */,
 				04D5F7F7266DB35D006ED11A /* HXCustomView */,
 				041C4B572657804800D82DB8 /* HXShareManager */,
 				045613912612FA42001523C9 /* HXCommonUtil */,
@@ -2092,84 +2092,6 @@
 			path = view;
 			sourceTree = "<group>";
 		};
-		047593F026FDA47300D206E9 /* UMeng_v7.3.5 */ = {
-			isa = PBXGroup;
-			children = (
-				047593F126FDA47300D206E9 /* umcommonlog */,
-				047593F526FDA47300D206E9 /* apm */,
-				047593F826FDA47300D206E9 /* thirdparties */,
-				047593FB26FDA47300D206E9 /* common */,
-			);
-			path = UMeng_v7.3.5;
-			sourceTree = "<group>";
-		};
-		047593F126FDA47300D206E9 /* umcommonlog */ = {
-			isa = PBXGroup;
-			children = (
-				047593F226FDA47300D206E9 /* umcommonlog_ios_2.0.0 */,
-			);
-			path = umcommonlog;
-			sourceTree = "<group>";
-		};
-		047593F226FDA47300D206E9 /* umcommonlog_ios_2.0.0 */ = {
-			isa = PBXGroup;
-			children = (
-				047593F326FDA47300D206E9 /* UMCommonLog.framework */,
-				047593F426FDA47300D206E9 /* UMCommonLog.bundle */,
-			);
-			path = umcommonlog_ios_2.0.0;
-			sourceTree = "<group>";
-		};
-		047593F526FDA47300D206E9 /* apm */ = {
-			isa = PBXGroup;
-			children = (
-				047593F626FDA47300D206E9 /* apm_ios_1.4.2 */,
-			);
-			path = apm;
-			sourceTree = "<group>";
-		};
-		047593F626FDA47300D206E9 /* apm_ios_1.4.2 */ = {
-			isa = PBXGroup;
-			children = (
-				047593F726FDA47300D206E9 /* UMAPM.framework */,
-			);
-			path = apm_ios_1.4.2;
-			sourceTree = "<group>";
-		};
-		047593F826FDA47300D206E9 /* thirdparties */ = {
-			isa = PBXGroup;
-			children = (
-				047593F926FDA47300D206E9 /* thirdparties_ios_1.0.5 */,
-			);
-			path = thirdparties;
-			sourceTree = "<group>";
-		};
-		047593F926FDA47300D206E9 /* thirdparties_ios_1.0.5 */ = {
-			isa = PBXGroup;
-			children = (
-				047593FA26FDA47300D206E9 /* UTDID.framework */,
-			);
-			path = thirdparties_ios_1.0.5;
-			sourceTree = "<group>";
-		};
-		047593FB26FDA47300D206E9 /* common */ = {
-			isa = PBXGroup;
-			children = (
-				047593FC26FDA47300D206E9 /* common_ios_7.3.5 */,
-			);
-			path = common;
-			sourceTree = "<group>";
-		};
-		047593FC26FDA47300D206E9 /* common_ios_7.3.5 */ = {
-			isa = PBXGroup;
-			children = (
-				047593FD26FDA47300D206E9 /* UMRemoteConfig.framework */,
-				047593FE26FDA47300D206E9 /* UMCommon.framework */,
-				047593FF26FDA47300D206E9 /* UMDevice.framework */,
-			);
-			path = common_ios_7.3.5;
-			sourceTree = "<group>";
-		};
 		047E12B52559238F0000F8C8 /* cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2213,6 +2135,84 @@
 				048843AD27F5A7F90010C5D0 /* HXPlaceholderTextView.m */,
 			);
 			path = HXPlaceholderTextView;
+			sourceTree = "<group>";
+		};
+		048843AF27F5B64C0010C5D0 /* UMeng_v7.3.6 */ = {
+			isa = PBXGroup;
+			children = (
+				048843B027F5B64C0010C5D0 /* umcommonlog */,
+				048843B427F5B64C0010C5D0 /* apm */,
+				048843B727F5B64C0010C5D0 /* thirdparties */,
+				048843BA27F5B64C0010C5D0 /* common */,
+			);
+			path = UMeng_v7.3.6;
+			sourceTree = "<group>";
+		};
+		048843B027F5B64C0010C5D0 /* umcommonlog */ = {
+			isa = PBXGroup;
+			children = (
+				048843B127F5B64C0010C5D0 /* umcommonlog_ios_2.0.0 */,
+			);
+			path = umcommonlog;
+			sourceTree = "<group>";
+		};
+		048843B127F5B64C0010C5D0 /* umcommonlog_ios_2.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				048843B227F5B64C0010C5D0 /* UMCommonLog.framework */,
+				048843B327F5B64C0010C5D0 /* UMCommonLog.bundle */,
+			);
+			path = umcommonlog_ios_2.0.0;
+			sourceTree = "<group>";
+		};
+		048843B427F5B64C0010C5D0 /* apm */ = {
+			isa = PBXGroup;
+			children = (
+				048843B527F5B64C0010C5D0 /* apm_ios_1.6.3 */,
+			);
+			path = apm;
+			sourceTree = "<group>";
+		};
+		048843B527F5B64C0010C5D0 /* apm_ios_1.6.3 */ = {
+			isa = PBXGroup;
+			children = (
+				048843B627F5B64C0010C5D0 /* UMAPM.framework */,
+			);
+			path = apm_ios_1.6.3;
+			sourceTree = "<group>";
+		};
+		048843B727F5B64C0010C5D0 /* thirdparties */ = {
+			isa = PBXGroup;
+			children = (
+				048843B827F5B64C0010C5D0 /* thirdparties_ios_1.0.5 */,
+			);
+			path = thirdparties;
+			sourceTree = "<group>";
+		};
+		048843B827F5B64C0010C5D0 /* thirdparties_ios_1.0.5 */ = {
+			isa = PBXGroup;
+			children = (
+				048843B927F5B64C0010C5D0 /* UTDID.framework */,
+			);
+			path = thirdparties_ios_1.0.5;
+			sourceTree = "<group>";
+		};
+		048843BA27F5B64C0010C5D0 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				048843BB27F5B64C0010C5D0 /* common_ios_7.3.6 */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		048843BB27F5B64C0010C5D0 /* common_ios_7.3.6 */ = {
+			isa = PBXGroup;
+			children = (
+				048843BC27F5B64C0010C5D0 /* UMRemoteConfig.framework */,
+				048843BD27F5B64C0010C5D0 /* UMCommon.framework */,
+				048843BE27F5B64C0010C5D0 /* UMDevice.framework */,
+			);
+			path = common_ios_7.3.6;
 			sourceTree = "<group>";
 		};
 		04913354260D83D800055D3D /* 学习 */ = {
@@ -2779,7 +2779,7 @@
 				0459C716258B02E2000555D4 /* HXLoginContentView.xib in Resources */,
 				0449A4DC254C11F6001A28D5 /* save_icon_highlighted@2x.png in Resources */,
 				0449A51E254C11F6001A28D5 /* increment.png in Resources */,
-				0475940126FDA47300D206E9 /* UMCommonLog.bundle in Resources */,
+				048843C027F5B64C0010C5D0 /* UMCommonLog.bundle in Resources */,
 				0449A4DB254C11F6001A28D5 /* save_icon@2x.png in Resources */,
 				0449A322254BFE95001A28D5 /* LaunchScreen.storyboard in Resources */,
 				0449A538254C11F6001A28D5 /* toum.png in Resources */,
@@ -3369,10 +3369,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HXMinedu/TXMoviePlayer",
-					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.5/umcommonlog/umcommonlog_ios_2.0.0",
-					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.5/apm/apm_ios_1.4.2",
-					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.5/thirdparties/thirdparties_ios_1.0.5",
-					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.5/common/common_ios_7.3.5",
+					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.6/umcommonlog/umcommonlog_ios_2.0.0",
+					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.6/apm/apm_ios_1.6.3",
+					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.6/thirdparties/thirdparties_ios_1.0.5",
+					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.6/common/common_ios_7.3.6",
 				);
 				GCC_PREFIX_HEADER = HXMinedu/PrefixHeader.pch;
 				INFOPLIST_FILE = HXMinedu/Info.plist;
@@ -3405,10 +3405,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HXMinedu/TXMoviePlayer",
-					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.5/umcommonlog/umcommonlog_ios_2.0.0",
-					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.5/apm/apm_ios_1.4.2",
-					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.5/thirdparties/thirdparties_ios_1.0.5",
-					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.5/common/common_ios_7.3.5",
+					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.6/umcommonlog/umcommonlog_ios_2.0.0",
+					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.6/apm/apm_ios_1.6.3",
+					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.6/thirdparties/thirdparties_ios_1.0.5",
+					"$(PROJECT_DIR)/HXMinedu/UMeng_v7.3.6/common/common_ios_7.3.6",
 				);
 				GCC_PREFIX_HEADER = HXMinedu/PrefixHeader.pch;
 				INFOPLIST_FILE = HXMinedu/Info.plist;
