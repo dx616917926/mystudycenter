@@ -159,7 +159,7 @@
         if ([success isEqualToString:@"1"]) {
             //NSLog(@"%@",[dictionary objectForKey:@"url"]);
 
-            HXStartExamViewController  *svc = [[HXStartExamViewController  alloc]init];
+            HXStartExamViewController  *svc = [[HXStartExamViewController alloc] init];
             svc.examUrl = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"url"]];
             svc.userExam = [dictionary objectForKey:@"userExam"];
             svc.examTitle = _examTitle;
@@ -167,7 +167,7 @@
             svc.isEnterExam = NO;
             svc.isAllowSeeAnswer = [[dictionary objectForKey:@"allowSeeAnswer"] boolValue];
             svc.examBasePath = [dictionary objectForKey:@"context"];
-            
+            svc.examAdminPath = [dictionary objectForKey:@"exam_main_server"];
             [self.navigationController pushViewController:svc animated:YES];
             
         }else

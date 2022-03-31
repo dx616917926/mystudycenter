@@ -23,9 +23,10 @@
 #import "XHImageViewer.h"
 #import "UIImageView+AFNetworking.h"
 #import <UMCommon/MobClick.h>
+#import "HXFloatButtonView.h"
+#import "HXExamErrorReportView.h"
 
-
-@interface HXStartExamViewController ()<HXPainterViewControllerDelegate,XHImageViewerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
+@interface HXStartExamViewController ()<HXPainterViewControllerDelegate,XHImageViewerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,HXFloatButtonViewDelegate>{
     
     UIView *menuView;//目录视图 点击目录出现 再次点击消失
     
@@ -127,8 +128,9 @@
 
 @property(nonatomic, strong) NSMutableDictionary *userAnswers;  //存放答题结果信息, 用于网页显示和客户端判卷
 @property(nonatomic, strong) NSMutableDictionary *rightAnswers; //题目正确答案和分数
-@property(nonatomic, assign) int subPosition;          //复合题子题位置
+@property(nonatomic, assign) int subPosition;                   //复合题子题位置
 @property(nonatomic, strong) HXQuestionInfo * curQuestion;      //当前显示的题目信息
+@property(nonatomic, strong) HXFloatButtonView *errorReportButton;//错误反馈按钮
 @end
 
 #define SplitViewBottomMargin (IS_iPhoneX?400:0)
@@ -279,6 +281,11 @@
     //发送统计信息
     [MobClick event:@"ExamViewEvent" attributes:@{@"title":_examTitle,@"type":type}];
     
+    //错题反馈按钮
+    if (self.examAdminPath) {
+        [self createErrorReportButtonView];
+    }
+    
     //引导页
     [self createGuideImageView];
     
@@ -377,6 +384,16 @@
     {
         //考试
         return [self.userExam stringValueForKey:@"userExamId"];
+    }
+}
+
+/// 创建错题反馈按钮
+- (void)createErrorReportButtonView {
+    if (!self.errorReportButton) {
+        self.errorReportButton = [[HXFloatButtonView alloc] initWithFrame:CGRectMake(kScreenWidth - 70, kScreenHeight - 120, 60, 60)];
+        self.errorReportButton.delegate = self;
+        self.errorReportButton.contentImage = [UIImage imageNamed:@"exam_error_report_btn"];
+        [self.view addSubview:self.errorReportButton];
     }
 }
 
@@ -658,6 +675,10 @@
  准备提交试卷
  */
 - (void)prepareSubmitTheExampaper {
+    
+    //移除残留的错题反馈窗口
+    UIView *lastReportView = [self.tabBarController.view viewWithTag:HXExamErrorReportViewTag];
+    [lastReportView removeFromSuperview];
     
     //直接提交试卷
     [[[UIApplication sharedApplication] keyWindow] showLoading];
@@ -2774,7 +2795,31 @@
     }
 }
 
+#pragma mark - HXFloatButtonViewDelegate
 
+/// 点击了悬浮按钮
+- (void)didClickFloatButtonView:(HXFloatButtonView *)floatView
+{
+    if (floatView == self.errorReportButton) {
+        
+        if (self.curQuestion && self.examAdminPath) {
+            
+            NSString *questionId = [NSString stringWithFormat:@"%d",self.curQuestion._id];
+            
+            if ([self.curQuestion isComplex] && self.subPosition >= 0) {
+                //
+                HXQuestionInfo *sub = [self.curQuestion.subs objectAtIndex:self.subPosition];
+                questionId = [NSString stringWithFormat:@"%d",sub._id];
+            }
+            //弹出错题反馈界面
+            HXExamErrorReportView *reportView = [[HXExamErrorReportView alloc] init];
+            reportView.examBasePath = self.examAdminPath;
+            reportView.questionId = questionId;
+            reportView.userExamId = [self userExamId];
+            [reportView showInViewController:self];
+        }
+    }
+}
 
 /// 检查题目是否拆分成功，并上报给友盟统计
 /// 判断依据：是否包含多个class：ui-question-independency
