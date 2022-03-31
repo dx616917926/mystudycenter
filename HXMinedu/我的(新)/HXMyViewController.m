@@ -451,7 +451,7 @@
     .topEqualToView(self.headerImageView)
     .leftSpaceToView(self.headerImageView, 16)
     .heightIs(20);
-    [self.nameLabel setSingleLineAutoResizeWithMaxWidth:80];
+    [self.nameLabel setSingleLineAutoResizeWithMaxWidth:120];
     
     self.collectInfoBtn.sd_layout
     .leftSpaceToView(self.nameLabel, 10)

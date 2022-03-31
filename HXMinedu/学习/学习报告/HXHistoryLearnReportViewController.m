@@ -13,8 +13,13 @@
 #import "YNPageViewController.h"
 #import "HXSelectTimeView.h"
 #import "HXLearnReportModel.h"
+#import "HXNoDataTipView.h"
 
 @interface HXHistoryLearnReportViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
+
+@property(nonatomic,strong) HXNoDataTipView *noDataTipView;
+@property(nonatomic,strong) UIButton *popBackBtn;
+
 @property (nonatomic, strong) NSMutableArray *titles;
 @property (nonatomic, strong) NSMutableArray *childVcs;
 @property (nonatomic, strong) YNPageConfigration *configration;
@@ -120,10 +125,18 @@
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             self.learnReportModel = [HXLearnReportModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
-            [self refreshUI];
+            if (self.learnReportModel.learnModuleList.count>0) {
+                [self.noDataTipView removeFromSuperview];
+                [self.popBackBtn removeFromSuperview];
+                [self refreshUI];
+            }else{
+                [self.view addSubview:self.noDataTipView];
+                [self.view addSubview:self.popBackBtn];
+            }
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];
+        [self.navigationController popViewControllerAnimated:YES];
     }];
 }
 
@@ -379,6 +392,23 @@
     return _selectTimeView;
 }
 
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight)];
+        _noDataTipView.tipTitle = @"暂无数据~";
+    }
+    return _noDataTipView;
+}
+
+-(UIButton *)popBackBtn{
+    if (!_popBackBtn) {
+        _popBackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _popBackBtn.frame = CGRectMake(0, 44, 60, 40);
+        [_popBackBtn setImage:[UIImage imageNamed:@"navi_blackback"] forState:UIControlStateNormal];
+        [_popBackBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _popBackBtn;
+}
 
 /*
 #pragma mark - Navigation

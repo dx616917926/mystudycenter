@@ -82,6 +82,7 @@
         }
     } failure:^(NSError * _Nonnull error) {
         [self.view hideLoading];
+        [self.navigationController popViewControllerAnimated:YES];
     }];
 }
 

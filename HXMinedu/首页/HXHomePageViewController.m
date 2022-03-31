@@ -18,8 +18,10 @@
 #import "HXHomePageColumnModel.h"
 #import "HXVersionModel.h"
 #import "HXColumnItemModel.h"
+#import "HXNoDataTipView.h"
 
 @interface HXHomePageViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
+@property(nonatomic,strong) HXNoDataTipView *noDataTipView;
 //自定义导航
 @property (nonatomic, strong) UIView *navView;
 //头部
@@ -31,7 +33,7 @@
 @property(nonatomic,strong) UIView *messageRedDot;
 @property(nonatomic,strong) UILabel *messageCountLabel;
 @property(nonatomic,strong)   WMZBannerView *bannerView;
-
+@property(nonatomic,strong)   YNPageViewController *pageVc;
 //栏目数据源
 @property (nonatomic, strong) NSMutableArray *columnList;
 
@@ -42,6 +44,7 @@
 @property (nonatomic, strong) NSArray *h5URLs;
 //未读消息数量
 @property(nonatomic,assign) NSInteger messageCount;
+
 @end
 
 @implementation HXHomePageViewController
@@ -205,6 +208,7 @@
 
 #pragma mark - 获取首页栏目
 -(void)getHomePageSettingsList{
+   
     HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
         @"version_id":HXSafeString(selectMajorModel.versionId),
@@ -221,9 +225,11 @@
             [self.columnList addObjectsFromArray:list];
             //设置子控制器
             if (self.columnList.count>0) {
+                [self.noDataTipView removeFromSuperview];
                 [self.headerView removeFromSuperview];
                 [self setupPageVC];
             }else{
+                [self.view addSubview:self.noDataTipView];
                 [self.view addSubview:self.headerView];
             }
         }
@@ -275,18 +281,18 @@
     configration.suspenOffsetY = kNavigationBarHeight-44;
     
     
-    YNPageViewController *vc = [YNPageViewController pageViewControllerWithControllers:self.getArrayVCs
-                                                                                titles:[self getArrayTitles]
-                                                                                config:configration];
+    self.pageVc = [YNPageViewController pageViewControllerWithControllers:[self getArrayVCs ]
+                                                                    titles:[self getArrayTitles]
+                                                                    config:configration];
     
-    vc.dataSource = self;
-    vc.delegate = self;
-    vc.headerView = self.headerView;
+    self.pageVc.dataSource = self;
+    self.pageVc.delegate = self;
+    self.pageVc.headerView = self.headerView;
     /// 指定默认选择index 页面
-    vc.pageIndex = 0;
+    self.pageVc.pageIndex = 0;
     
     /// 作为子控制器加入到当前控制器
-    [vc addSelfToParentViewController:self];
+    [self.pageVc addSelfToParentViewController:self];
     
     [self.view addSubview:self.navView];
     
@@ -528,7 +534,13 @@
 }
 
 
-
+-(HXNoDataTipView *)noDataTipView{
+    if (!_noDataTipView) {
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight)];
+        _noDataTipView.tipTitle = @"暂无数据~";
+    }
+    return _noDataTipView;
+}
 
 
 

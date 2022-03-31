@@ -46,6 +46,7 @@
 
 -(void)clickButton:(UIButton *)sender{
     HXModelItem *item = self.courseModel.modules.firstObject;
+    item.StemCode = self.courseModel.StemCode;
     if (self.delegate && [self.delegate respondsToSelector:@selector(handleItem:)]) {
         [self.delegate handleItem:item];
     }
