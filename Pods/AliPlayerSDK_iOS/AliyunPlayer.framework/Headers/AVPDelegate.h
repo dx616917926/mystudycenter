@@ -104,6 +104,18 @@
 - (void)onCurrentUtcTimeUpdate:(AliPlayer *)player time:(int64_t)time;
 
 /**
+ @brief 视频当前播放缓存命中回调
+ @param player 播放器player指针
+ @param size 文件大小
+ */
+/****
+ @brief Current playback cached file size callback.
+ @param player Player pointer.
+ @param size file size.
+ */
+- (void)onLocalCacheLoaded:(AliPlayer *)player size:(int64_t)size;
+
+/**
  @brief 视频缓存位置回调
  @param player 播放器player指针
  @param position 视频当前缓存位置
@@ -326,7 +338,21 @@
 
 @end
 
+/**
+ @brief 埋点事件参数回调
+ */
+/****
+ @brief Event report params
+*/
 @protocol AVPEventReportParamsDelegate <NSObject>
+/**
+ @brief 回调
+ @param params  埋点事件参数
+ */
+/****
+ @brief call back
+ @param params  event params
+*/
 -(void)onEventReportParams:(NSDictionary<NSString *, NSString *>*)params;
 @end
 #endif /* AVPDelegate_h */
