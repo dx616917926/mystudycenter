@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define HXEXAM_RESET_COOKIE @"/student/exam/resource/jsession"  //给wkwebview重置cookie
 
+#define HXEXAM_ERROR_REPORT @"/exam-admin/feedback/addFeedbackForm"  //提交错题反馈
+
 //EXAM
 #define MY_EXAM_BUNDLE_NAME @"statics.bundle"
 #define MY_EXAM_BUNDLE_PATH [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:MY_EXAM_BUNDLE_NAME]

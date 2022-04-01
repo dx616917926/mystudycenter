@@ -14,9 +14,9 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - AliPlayerSDK_iOS (5.4.3.0-15301379):
-    - AliPlayerSDK_iOS/AliPlayerSDK (= 5.4.3.0-15301379)
-  - AliPlayerSDK_iOS/AliPlayerSDK (5.4.3.0-15301379)
+  - AliPlayerSDK_iOS (5.4.5.0):
+    - AliPlayerSDK_iOS/AliPlayerSDK (= 5.4.5.0)
+  - AliPlayerSDK_iOS/AliPlayerSDK (5.4.5.0)
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
@@ -31,13 +31,13 @@ PODS:
   - HXPhotoPicker (3.1.9):
     - HXPhotoPicker/Default (= 3.1.9)
   - HXPhotoPicker/Default (3.1.9)
-  - HXViewHUD (0.2.0)
+  - HXViewHUD (0.3.0)
   - IQKeyboardManager (6.5.6)
   - JCore (3.1.2)
   - JPush (4.4.0):
     - JCore (>= 2.0.0)
   - Masonry (1.1.0)
-  - MJExtension (3.2.4)
+  - MJExtension (3.4.1)
   - MJRefresh (3.1.14.1)
   - MMLayout (0.1.0)
   - SDAutoLayout (2.2.1)
@@ -56,18 +56,18 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0.1)
-  - AliPlayerSDK_iOS (= 5.4.3.0-15301379)
+  - AliPlayerSDK_iOS (~> 5.4.5.0)
   - FMDB (~> 2.6.2)
   - GKCover (~> 2.6.0)
   - GKPhotoBrowser (~> 2.1.9)
   - hpple (~> 0.2.0)
   - HXPhotoPicker (~> 3.1.9)
-  - HXViewHUD (~> 0.2.0)
+  - HXViewHUD (~> 0.3.0)
   - IQKeyboardManager (~> 6.5.6)
   - JCore
   - JPush
   - Masonry (= 1.1.0)
-  - MJExtension (= 3.2.4)
+  - MJExtension (= 3.4.1)
   - MJRefresh (= 3.1.14.1)
   - MMLayout (= 0.1.0)
   - SDAutoLayout (~> 2.2.1)
@@ -109,18 +109,18 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  AliPlayerSDK_iOS: c561c39535641683848f0c9adfbb667ad575c13a
+  AliPlayerSDK_iOS: 8cdfea2ec4b6393afa607826c766d9a2ba0a9323
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   GKCover: deebd6a5c0caf85e00f7fa5e3b57ccb110e030ec
   GKPhotoBrowser: c45231edd9ec79f031c412c646af46419d997c97
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   HXPhotoPicker: e1816ff27f17c3926f6e83aebbb9f4b329324f0b
-  HXViewHUD: d27c1e93a43ad9c07924f582c4b3826f1032394f
+  HXViewHUD: 997eb62baf78fdc5bb4a8457ad3e9504f1fde617
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   JCore: bde439310a00c7a0770955b20c9160a042db0db5
   JPush: b7d00f2cc78766e76c8abb30a5741fe94d21e5bc
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MJExtension: 88e0900751b6cac8de1cf724ca9838a0b28d5acb
+  MJExtension: 17c313c9fc5d6de6591c3417aaeef55e95e0be82
   MJRefresh: 238e6a37e2dba12160ee3b79f6d2a2b26abcab42
   MMLayout: 7caa6fe2ebfd018ec49ab3ac2409b454c3687995
   SDAutoLayout: 8bf6b3bbc8b01f775d4defbb4fda2ace805461be
@@ -133,6 +133,6 @@ SPEC CHECKSUMS:
   YBPopupMenu: 3a02e89860bb0568ba477aee609bc3f25e5bd339
   YNPageViewController: 33040d429adf0b415d4449ffeec848d8339934ea
 
-PODFILE CHECKSUM: 4e9acfe0bdf8be864ca6168e937c9c4e601ebe9a
+PODFILE CHECKSUM: 087fdbcdc89dabdffcb7984b2ebb7d60dbc84331
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
