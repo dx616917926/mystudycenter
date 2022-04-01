@@ -16,7 +16,8 @@
     static HXBaseURLSessionManager *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:HXSafeURL(KHXUserDefaultsForValue(KP_SERVER_KEY))];
+        NSString *baseUreStr = ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? KHX_URL_MAIN : KHXUserDefaultsForValue(KP_SERVER_KEY));
+        _sharedClient = [[HXBaseURLSessionManager alloc] initWithBaseURL:HXSafeURL(baseUreStr)];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         //请求头设置
         NSString *version = [NSString stringWithFormat:@"%@_%@",kPlatformName,APP_BUILDVERSION];
@@ -61,7 +62,7 @@
             NSString*message = [dictionary stringValueForKey:@"Message"];
             if ([statusCode isEqualToString:@"1000"]) {//StatusCode 1000登录失败，1001登录成功
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                    [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
                 }];
             }else if([statusCode isEqualToString:@"999"]){//999 强制更新
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
@@ -109,14 +110,13 @@
             NSString*message = [dictionary stringValueForKey:@"Message"];
             if ([statusCode isEqualToString:@"1000"]) {//StatusCode 1000登录失败，1001登录成功
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SHOWLOGIN object:nil];
+                    [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
                 }];
             }else if([statusCode isEqualToString:@"999"]){//999 强制更新
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message completionBlock:^{
                     [[HXCheckUpdateTool sharedInstance] checkUpdate];
                 }];
-                //退出登录
-                [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
+                
             }else if(![dictionary boolValueForKey:@"Success"] ){
                 [[[UIApplication sharedApplication] keyWindow] showErrorWithMessage:message];
             }

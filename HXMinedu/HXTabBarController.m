@@ -30,11 +30,15 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = kControllerViewBackgroundColor;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLogin) name:SHOWLOGIN object:nil];
+    [HXNotificationCenter addObserver:self selector:@selector(showLogin) name:SHOWLOGIN object:nil];
 
     self.rootArray = [[NSMutableArray alloc] init];
     self.tabBar.tintColor = [UIColor blackColor];
     self.delegate = self;
+}
+
+-(void)dealloc{
+    [HXNotificationCenter removeObserver:self];
 }
 
 -(void)viewDidAppear:(BOOL)animated

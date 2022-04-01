@@ -103,7 +103,7 @@
                 if (![HXCommonUtil isNull:model.DomainName]) {
                     //修改baseURL
                     [HXUserDefaults setObject:HXSafeString(HXSafeString(model.DomainName)) forKey:KP_SERVER_KEY];
-                    [HXBaseURLSessionManager setBaseURLStr:KHXUserDefaultsForValue(KP_SERVER_KEY)];
+                    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(HXSafeString(model.DomainName))];
                     [self login];
                 }else{
                     [self.view showErrorWithMessage:@"域名不存在"];
@@ -116,10 +116,10 @@
 
 }
 
+
+#pragma mark - 登录请求
 -(void)login{
-    //修改baseURL
-    [HXUserDefaults setObject:@"https://demo.hlw-study.com" forKey:KP_SERVER_KEY];
-    [HXBaseURLSessionManager setBaseURLStr:KHXUserDefaultsForValue(KP_SERVER_KEY)];
+   
     NSLog(@"服务器地址: %@", KHXUserDefaultsForValue(KP_SERVER_KEY));
     WeakSelf(weakSelf);
     [self.view showLoadingWithMessage:@"登录中…"];
@@ -133,10 +133,10 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [weakSelf.view hideLoading];
                 //发送登录成功的通知
-                [[NSNotificationCenter defaultCenter] postNotificationName:LOGINSUCCESS object:nil];
+                [HXNotificationCenter postNotificationName:LOGINSUCCESS object:nil];
                 [weakSelf dismissViewControllerAnimated:YES completion:^{
                 }];
-
+                //修改更控制器
                 [[[UIApplication sharedApplication].delegate window] setRootViewController:[(AppDelegate*)[UIApplication sharedApplication].delegate tabBarController]];
                 //登录成功设置别名
                 [JPUSHService setAlias:@"minedu" completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
@@ -177,11 +177,13 @@
         return;
     }
     
+#if kHXISFenKuLogin
+    [self getDomainNameList];
+#else
     [self login];
+#endif
     
-//    //先获取域名
-//    [self getDomainNameList];
-    
+
 }
 
 -(void)selectJiGou:(UIButton *)sender{
@@ -200,7 +202,7 @@
     }
     //修改baseURL
     [HXUserDefaults setObject:HXSafeString(HXSafeString(self.seletDomainNameModel.DomainName)) forKey:KP_SERVER_KEY];
-    [HXBaseURLSessionManager setBaseURLStr:KHXUserDefaultsForValue(KP_SERVER_KEY)];
+    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(HXSafeString(self.seletDomainNameModel.DomainName))];
     [self login];
 }
 
@@ -462,8 +464,8 @@
     
 #ifdef DEBUG
     //测试账号
-    self.userNameTextField.text = @"230125199705208570";// @"430481198904251252";// @"436201199808050605";  @"430621199908080707"   @"430111199909090952" @"436210199807070740"//430406198006108968//430223198208226562//430522200201023319//430522200201020141//141414201601020304//152923198111156978//440621199702053422 @"430381200306190101"//630122200210165979//450922200301122931//430702200108303028//140224200311030012//410328196202098816//430381200306190101
-    self.passwordTextField.text = @"230125199705208570";
+    self.userNameTextField.text = @"440621199702053422";// @"430481198904251252";// @"436201199808050605";  @"430621199908080707"   @"430111199909090952" @"436210199807070740"//430406198006108968//430223198208226562//430522200201023319//430522200201020141//141414201601020304//152923198111156978//440621199702053422 @"430381200306190101"//630122200210165979//450922200301122931//430702200108303028//140224200311030012//410328196202098816//430381200306190101//440882198608235067
+    self.passwordTextField.text = @"440621199702053422";
 #endif
 }
 
@@ -883,11 +885,7 @@
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
             
         }]];
-        [controller addAction:[UIAlertAction actionWithTitle:@"Free测试服" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [HXUserDefaults setObject:kHXCDNFreeServer forKey:KP_SERVER_KEY];
-            NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
-            
-        }]];
+       
         [controller addAction:[UIAlertAction actionWithTitle:@"LWJ主机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [HXUserDefaults setObject:kHXDevelopLWJEServer forKey:KP_SERVER_KEY];
             NSLog(@"切换到服务器: %@", KHX_URL_MAIN);
