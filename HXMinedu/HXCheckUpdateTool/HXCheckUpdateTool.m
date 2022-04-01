@@ -66,8 +66,7 @@
             self.ishow = NO;
             [viewController.view showErrorWithMessage:@"检查版本更新失败！"];
         } else {
-            //退出登录
-            [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
+          
             NSLog(@"%@ %@", response, responseObject);
             NSDictionary * rightDic = responseObject;
             NSString *localVersion = APP_BUILDVERSION;
@@ -93,6 +92,9 @@
             NSLog(@"\n当前版本:%@\n服务器版本:%@\n更新日志:%@",localVersion,newVersion,featureStr);
 
             if ([newVersion intValue] > [localVersion intValue]) {
+                //退出登录
+                [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
+                
                 self.hasNewVersion = YES;
                 self.updateUrl = [rightDic stringValueForKey:@"updateUrl"];
                 //弹提示框

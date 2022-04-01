@@ -389,8 +389,8 @@
 #pragma mark - HXStudyTableHeaderViewDelegate
 -(void)handleEventWithFlag:(NSInteger)flag{
     if (flag == 0) {//学习报告
-        HXStudyReportViewController *vc = [[HXStudyReportViewController alloc] init];
-//        vc.sc_navigationBarHidden = YES;//隐藏导航栏
+        HXLearnReportViewController *vc = [[HXLearnReportViewController alloc] init];
+        vc.sc_navigationBarHidden = YES;//隐藏导航栏
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }else if(flag == 1){//公告
