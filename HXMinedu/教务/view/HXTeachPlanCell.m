@@ -115,7 +115,7 @@
     
     self.courseNameLabel.sd_layout
     .leftSpaceToView(self.bigBackgroundView, _kpw(28))
-    .topSpaceToView(self.bigBackgroundView, 20)
+    .topSpaceToView(self.bigBackgroundView, 30)
     .heightIs(22);
     [self.courseNameLabel setSingleLineAutoResizeWithMaxWidth:_kpw(180)];
     
@@ -169,7 +169,7 @@
     .widthEqualToHeight();
     
     //设置bigBackgroundView自适应高度
-    [self.bigBackgroundView setupAutoHeightWithBottomView:self.tongkaoLabel bottomMargin:23];
+    [self.bigBackgroundView setupAutoHeightWithBottomView:self.tongkaoLabel bottomMargin:35];
     self.shadowBackgroundView.sd_layout
     .topEqualToView(self.bigBackgroundView)
     .leftEqualToView(self.bigBackgroundView)

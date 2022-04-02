@@ -9,9 +9,8 @@
 #import "CustomIOSAlertView.h"
 
 @interface HXCheckUpdateTool ()
-{
-    BOOL donotCheckVersionAgain;
-}
+
+@property(nonatomic, assign) BOOL donotCheckVersionAgain;
 @property(nonatomic, strong) NSString *updateUrl;
 @property(nonatomic, assign) BOOL forceUpgrade;
 @property(nonatomic, strong) CustomIOSAlertView *myAlertView;
@@ -39,11 +38,7 @@
  检查是否有新版本
  */
 - (void)checkUpdate {
-    
-    if (!donotCheckVersionAgain&&!self.ishow) {
-        self.ishow = YES;
-        [self checkUpdateWithInController:nil];        
-    }
+    [self checkUpdateWithInController:nil];
 }
 
 - (void)checkUpdateWithInController:(UIViewController *)viewController {
@@ -56,7 +51,7 @@
     request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     request.HTTPMethod = @"GET";
     request.timeoutInterval = 15;
-
+    
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
         //
     } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
@@ -66,7 +61,7 @@
             self.ishow = NO;
             [viewController.view showErrorWithMessage:@"检查版本更新失败！"];
         } else {
-          
+            
             NSLog(@"%@ %@", response, responseObject);
             NSDictionary * rightDic = responseObject;
             NSString *localVersion = APP_BUILDVERSION;
@@ -90,49 +85,47 @@
             }
             
             NSLog(@"\n当前版本:%@\n服务器版本:%@\n更新日志:%@",localVersion,newVersion,featureStr);
-
+            
             if ([newVersion intValue] > [localVersion intValue]) {
+                self.ishow = NO;
+                self.donotCheckVersionAgain = NO;
                 //退出登录
                 [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
                 
                 self.hasNewVersion = YES;
                 self.updateUrl = [rightDic stringValueForKey:@"updateUrl"];
-                //弹提示框
-                self.myAlertView = [[CustomIOSAlertView alloc] init];
-                self.myAlertView.containerView = [self createViewWith:newVersionLabel andWithFeatures:featureStr AndWithFeatureCount:features.count];
-                WeakSelf(weakSelf);
+                NSString *message = [NSString stringWithFormat:@"最新版本为%@，是否更新？",newVersionLabel];
+                NSString *contents= [features componentsJoinedByString:@"\n"];
+                NSString *showContent = [NSString stringWithFormat:@"%@\n%@",message,contents];
                 //判断是否是强制更新
                 if ([isForce isEqualToString:@"1"]) {
+                    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:showContent preferredStyle:UIAlertControllerStyleAlert];
                     
-                    [self.myAlertView setButtonTitles:[NSMutableArray arrayWithObjects:@"立即更新",nil]];
-                    [self.myAlertView show];
-                    
-                    __weak NSString *updateStr = self.updateUrl;
-                    [self.myAlertView setOnButtonTouchUpInside:^(CustomIOSAlertView *alertView, int buttonIndex) {
-                        weakSelf.ishow = NO;
-                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateStr]];
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"立即更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
+                        
                     }];
+                    [alertVC addAction:okAction];
+                    if ([UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController) {
+                        [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:alertVC animated:YES completion:nil];
+                    }else{
+                        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertVC animated:YES completion:nil];
+                    }
                     
                 }else{
                     
-                    [self.myAlertView setButtonTitles:[NSMutableArray arrayWithObjects:@"暂不",@"立即更新",nil]];
-                    [self.myAlertView show];
-                    
-                    __weak NSString *updateStr = self.updateUrl ;
-                    [self.myAlertView setOnButtonTouchUpInside:^(CustomIOSAlertView *alertView, int buttonIndex) {
-                        weakSelf.ishow = NO;
-                        if (buttonIndex == 0)
-                        {
-                            [alertView close];
-                            self->donotCheckVersionAgain = YES;
-                        }else{
-                            if(updateStr)
-                            {
-                                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateStr]];
-                                [alertView close];
-                            }
-                        }
+                    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:showContent preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"立即更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
                     }];
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"暂不" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        
+                    }];
+                    [alertVC addAction:okAction];
+                    [alertVC addAction:cancelAction];
+                    [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:alertVC animated:YES completion:nil];
                 }
             }else{
                 self.ishow = NO;

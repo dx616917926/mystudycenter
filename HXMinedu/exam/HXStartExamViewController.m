@@ -282,9 +282,9 @@
     [MobClick event:@"ExamViewEvent" attributes:@{@"title":_examTitle,@"type":type}];
     
     //错题反馈按钮
-//    if (self.examAdminPath) {
-//        [self createErrorReportButtonView];
-//    }
+    if (self.examAdminPath) {
+        [self createErrorReportButtonView];
+    }
     
     //引导页
     [self createGuideImageView];
