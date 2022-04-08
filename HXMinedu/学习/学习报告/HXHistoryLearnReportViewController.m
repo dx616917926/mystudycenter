@@ -146,8 +146,9 @@
     [self.titles removeAllObjects];
     [self.childVcs removeAllObjects];
     
-    //刷新数据页面、所有View、菜单栏、headerView - 默认移除缓存控制器
-    [self.pageViewVc reloadData];
+    //从父类控制器里面移除自己
+    [self.pageViewVc removeSelfViewController];
+    
     
     for (HXLearnModuleModel *learnModuleModel in self.learnReportModel.learnModuleList) {
         if (learnModuleModel.learnCourseItemList.count>0) {
@@ -197,6 +198,9 @@
     
     //设置控制器
     [self setupPageVC];
+    
+    //刷新数据页面、所有View、菜单栏、headerView - 默认移除缓存控制器
+    [self.pageViewVc reloadData];
 }
 
 - (void)setupPageVC {

@@ -102,8 +102,8 @@
             }else{//只有一个域名默认选择第一个登陆
                 if (![HXCommonUtil isNull:model.DomainName]) {
                     //修改baseURL
-                    [HXUserDefaults setObject:HXSafeString(HXSafeString(model.DomainName)) forKey:KP_SERVER_KEY];
-                    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(HXSafeString(model.DomainName))];
+                    [HXUserDefaults setObject:HXSafeString(model.DomainName) forKey:KP_SERVER_KEY];
+                    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(model.DomainName)];
                     [self login];
                 }else{
                     [self.view showErrorWithMessage:@"域名不存在"];
@@ -199,10 +199,13 @@
     if (self.seletDomainNameModel==nil) {
         [self.view showTostWithMessage:@"请选择登陆的机构"];
         return;
+    }else if ([HXCommonUtil isNull:self.seletDomainNameModel.DomainName]) {
+        [self.view showTostWithMessage:@"域名不存在"];
+        return;
     }
     //修改baseURL
-    [HXUserDefaults setObject:HXSafeString(HXSafeString(self.seletDomainNameModel.DomainName)) forKey:KP_SERVER_KEY];
-    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(HXSafeString(self.seletDomainNameModel.DomainName))];
+    [HXUserDefaults setObject:HXSafeString(self.seletDomainNameModel.DomainName) forKey:KP_SERVER_KEY];
+    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(self.seletDomainNameModel.DomainName)];
     [self login];
 }
 
@@ -465,13 +468,12 @@
 #ifdef DEBUG
    
     if (kHXAPPEdition == kHXReleaseEdition) {
-        self.userNameTextField.text = @"440882198608235067";
-        self.passwordTextField.text = @"440882198608235067";
+        self.userNameTextField.text = @"430505199003141234";//430505199003141234,622326199712220019
+        self.passwordTextField.text = @"430505199003141234";
     }else{
-        self.userNameTextField.text = @"430717199908184417";
-        self.passwordTextField.text = @"430717199908184417";
+        self.userNameTextField.text = @"141414201201020001";
+        self.passwordTextField.text = @"141414201201020001";//500243197908029235
     }
-    // @"430481198904251252";// @"436201199808050605";  @"430621199908080707"   @"430111199909090952" @"436210199807070740"//430406198006108968//430223198208226562//430522200201023319//430522200201020141//141414201601020304//152923198111156978//440621199702053422 @"430381200306190101"//630122200210165979//450922200301122931//430702200108303028//140224200311030012//410328196202098816//430381200306190101//440882198608235067
 #endif
 }
 
