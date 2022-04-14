@@ -468,11 +468,11 @@
 #ifdef DEBUG
    
     if (kHXAPPEdition == kHXReleaseEdition) {
-        self.userNameTextField.text = @"430505199003141234";//430505199003141234,622326199712220019
-        self.passwordTextField.text = @"430505199003141234";
+        self.userNameTextField.text = @"430802199801093428";//430505199003141234,622326199712220019//430802199801093428
+        self.passwordTextField.text = @"430802199801093428";
     }else{
-        self.userNameTextField.text = @"141414201201020001";
-        self.passwordTextField.text = @"141414201201020001";//500243197908029235
+        self.userNameTextField.text = @"430122199408036037";
+        self.passwordTextField.text = @"430122199408036037";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
     }
 #endif
 }

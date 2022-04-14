@@ -74,7 +74,6 @@
     WeakSelf(weakSelf);
     self.selectTimeView.selectTimeCallBack = ^(BOOL isRefresh, HXHistoryTimeModel * _Nonnull selectExamDateModel) {
         if (isRefresh){
-            [weakSelf.selectTimeBtn setTitle:selectExamDateModel.createDate forState:UIControlStateNormal];
             //刷新数据
             [weakSelf getLearnReport:selectExamDateModel];
         }
@@ -128,7 +127,7 @@
             if (self.learnReportModel.learnModuleList.count>0) {
                 [self.noDataTipView removeFromSuperview];
                 [self.popBackBtn removeFromSuperview];
-                [self refreshUI];
+                [self refreshUI:historyTimeModel];
             }else{
                 [self.view addSubview:self.noDataTipView];
                 [self.view addSubview:self.popBackBtn];
@@ -141,7 +140,9 @@
 }
 
 #pragma mark - UI
--(void)refreshUI{
+-(void)refreshUI:(HXHistoryTimeModel *)historyTimeModel{
+    
+    [self.selectTimeBtn setTitle:HXSafeString(historyTimeModel.createDate) forState:UIControlStateNormal];
     
     [self.titles removeAllObjects];
     [self.childVcs removeAllObjects];
@@ -158,6 +159,7 @@
                 {
                     HXVideoLearnViewController *vc = [[HXVideoLearnViewController alloc] init];
                     vc.isHistory = YES;
+                    vc.createDate = HXSafeString(historyTimeModel.createDate);
                     vc.ModuleName = learnModuleModel.ModuleName;
                     vc.learnCourseItemList = learnModuleModel.learnCourseItemList;
                     [self.childVcs addObject:vc];
@@ -382,7 +384,7 @@
         _selectTimeBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
         _selectTimeBtn.titleLabel.font = HXFont(16);
         [_selectTimeBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
-        [_selectTimeBtn setTitle:@"2020-12-01 至 2021-07-26" forState:UIControlStateNormal];
+        [_selectTimeBtn setTitle:@"" forState:UIControlStateNormal];
         [_selectTimeBtn setImage:[UIImage imageNamed:@"selecttime_icon"] forState:UIControlStateNormal];
         [_selectTimeBtn addTarget:self action:@selector(selectTime:) forControlEvents:UIControlEventTouchUpInside];
     }

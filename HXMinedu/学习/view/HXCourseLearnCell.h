@@ -16,7 +16,8 @@ typedef enum : NSUInteger {
     HXKeJianXueXiClickType = 1,//课件学习
     HXPingShiZuoYeClickType = 2,//平时作业
     HXQiMoKaoShiClickType = 3,//期末考试
-    HXLiNianZhenTiClickType = 4//历年真题
+    HXLiNianZhenTiClickType = 4,//历年真题
+    HXZiLiaoClickType = 5//电子资料
 } HXClickType;
 
 

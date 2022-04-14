@@ -45,6 +45,10 @@
     _isHistory = isHistory;
 }
 
+-(void)setCreateDate:(NSString *)createDate{
+    _createDate = createDate;
+}
+
 -(void)setCellType:(HXLearnReportCellType)cellType{
     _cellType = cellType;
 }
@@ -96,7 +100,8 @@
         @"major_id":HXSafeString(selectMajorModel.major_id),
         @"type":@(selectMajorModel.type),
         @"course_id":HXSafeString(self.learnCourseItemModel.course_id),
-        @"courseCode":HXSafeString(self.learnCourseItemModel.courseCode)
+        @"courseCode":HXSafeString(self.learnCourseItemModel.courseCode),
+        @"createDate":(self.isHistory?HXSafeString(self.createDate):@"")
     };
     [self.view showLoading];
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetLearnReportKjInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
@@ -208,7 +213,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (self.cellType == HXKeJianXueXiReportType) {
+    if (self.cellType == HXKeJianXueXiReportType&&!self.isHistory) {
         if (indexPath.row<self.self.learnReportCourseDetailModel.learnItemDetailList.count) {
             HXLearnItemDetailModel *learnItemDetailModel = self.self.learnReportCourseDetailModel.learnItemDetailList[indexPath.row];
             if ([learnItemDetailModel.stemCode isEqualToString:@"MOOC"]) {

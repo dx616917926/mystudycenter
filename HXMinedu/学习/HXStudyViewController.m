@@ -14,6 +14,7 @@
 #import "HXLearnReportViewController.h"
 #import "HXSystemNotificationViewController.h"
 #import "HXExamListViewController.h"
+#import "HXElectronicDataViewController.h"
 #import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXMoocViewController.h"
 #import "HXCommonWebViewController.h"
@@ -212,7 +213,7 @@
     }];
 }
 
-//获取课程列表
+//获取课程学习列表
 -(void)getCourseList{
     dispatch_group_enter(self.dispatchGroup);
     HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
@@ -235,7 +236,7 @@
     }];
 }
 
-//获取学习记录
+//获取上次学到哪学习记录
 -(void)getLearningRecordList{
     dispatch_group_enter(self.dispatchGroup);
     HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
@@ -416,7 +417,7 @@
     
 }
 
-#pragma mark - <HXCourseLearnCellDelegate>
+#pragma mark - <HXCourseLearnCellDelegate>视频、作业、考试、资料
 -(void)handleType:(HXClickType)type withItem:(HXModelItem *)item{
     switch (type) {
         case HXKeJianXueXiClickType://课件学习
@@ -481,6 +482,17 @@
             }else{
                 [self.view showTostWithMessage:@"暂不支持此模块"];
             }
+        }
+            break;
+        case HXZiLiaoClickType://电子资料
+        {   if (!item.isInTime) {
+            [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
+            return;
+        }
+            HXElectronicDataViewController *vc = [[HXElectronicDataViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.studentCourseID = item.studentCourseID;
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             
@@ -558,7 +570,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0) {//
         static NSString *courseLearnCellIdentifier = @"HXCourseLearnCellIdentifier";
         HXCourseLearnCell *cell = [tableView dequeueReusableCellWithIdentifier:courseLearnCellIdentifier];
         if (!cell) {

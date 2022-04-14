@@ -48,6 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取课程课件学习列表
 #define HXPOST_GetCourseKjList                               @"/MD/StuCourse/getCourseKjList"
 
+//获取课程教学资料列表
+#define HXPOST_GetTeachingMaterialsList                               @"/MD/StuCourse/getTeachingMaterialsList"
+
 //获取学习记录
 #define HXPOST_GetLearningRecordList                        @"/MD/StuCourse/getLearningRecordList"
 
