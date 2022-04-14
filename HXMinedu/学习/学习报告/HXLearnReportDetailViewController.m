@@ -31,13 +31,12 @@
     // Do any additional setup after loading the view.
     //UI
     [self createUI];
-    if (self.cellType == HXKeJianXueXiReportType) {
-        //获取学习报告课件详情
-        [self getLearnReportKjInfo];
-    }else{
-        //获取学习报告考试详情
-        [self getLearnReportExamInfo];
-    }
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self pullDownRefrsh];
 }
 
 #pragma mark - Setter

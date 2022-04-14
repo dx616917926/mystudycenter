@@ -156,7 +156,7 @@
     
     self.totalNumBtn.sd_layout
     .centerYEqualToView(self.titleNameLabel)
-    .leftSpaceToView(self.titleNameLabel, 15);
+    .leftSpaceToView(self.titleNameLabel, 10);
     [self.totalNumBtn setupAutoSizeWithHorizontalPadding:9 buttonHeight:20];
     self.totalNumBtn.sd_cornerRadiusFromHeightRatio =@0.5;
     
