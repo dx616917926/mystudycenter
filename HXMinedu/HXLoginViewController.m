@@ -187,11 +187,18 @@
 }
 
 -(void)selectJiGou:(UIButton *)sender{
+    
     if (self.maskView.superview) {
         [self.maskView removeFromSuperview];
     }else{
         [self.jiGouView addSubview:self.maskView];
     }
+    //重置frame，数据变了，防止布局没改变
+    CGSize size = CGSizeMake(kScreenWidth-110, (self.domainNameList.count*50>300?230:self.domainNameList.count*50));
+    CGRect frame = self.maskView.frame;
+    frame.size = size;
+    self.maskView.frame = frame;
+    [self.jiGouTableView reloadData];
 }
 
 //确定
@@ -269,7 +276,9 @@
     if (!cell) {
         cell = [[HXSelectJiGouCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectJiGouCellIdentifier];
     }
-    cell.domainNameModel = self.domainNameList[indexPath.row];
+    if (indexPath.row<self.domainNameList.count) {
+        cell.domainNameModel = self.domainNameList[indexPath.row];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -465,16 +474,16 @@
 #endif
     
     
-#ifdef DEBUG
-   
-    if (kHXAPPEdition == kHXReleaseEdition) {
-        self.userNameTextField.text = @"430802199801093428";//430505199003141234,622326199712220019//430802199801093428
-        self.passwordTextField.text = @"430802199801093428";
-    }else{
-        self.userNameTextField.text = @"430122199408036037";
-        self.passwordTextField.text = @"430122199408036037";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
-    }
-#endif
+//#ifdef DEBUG
+//   
+//    if (kHXAPPEdition == kHXReleaseEdition) {
+//        self.userNameTextField.text = @"52010319920927406X";//430505199003141234,622326199712220019//430802199801093428//52010319920927406
+//        self.passwordTextField.text = @"52010319920927406X";
+//    }else{
+//        self.userNameTextField.text = @"430122199408036037";
+//        self.passwordTextField.text = @"430122199408036037";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
+//    }
+//#endif
 }
 
 #pragma mark - lazyload
@@ -823,7 +832,7 @@
 
 -(UIView *)maskView{
     if (!_maskView) {
-        _maskView = [[UIView alloc] initWithFrame:CGRectMake(80, CGRectGetMinY(self.line3.frame)+1, kScreenWidth-110, 100)];
+        _maskView = [[UIView alloc] initWithFrame:CGRectMake(80, CGRectGetMinY(self.line3.frame)+1, kScreenWidth-110, (self.domainNameList.count*50>300?230:self.domainNameList.count*50))];
         _maskView.backgroundColor = COLOR_WITH_ALPHA(0xFFFFFF, 1);
         _maskView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.15).CGColor;
         _maskView.layer.shadowOffset = CGSizeMake(0, 3);
@@ -852,7 +861,7 @@
         }
         _jiGouTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         _jiGouTableView.scrollIndicatorInsets = _jiGouTableView.contentInset;
-        _jiGouTableView.showsVerticalScrollIndicator = NO;
+        _jiGouTableView.showsVerticalScrollIndicator = YES;
     }
     return _jiGouTableView;
     
