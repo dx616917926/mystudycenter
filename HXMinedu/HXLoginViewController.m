@@ -90,7 +90,6 @@
         @"personId":HXSafeString(self.userNameTextField.text)
     };
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetDomainNameList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-        
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [self.domainNameList removeAllObjects];
@@ -107,11 +106,12 @@
                     [self login];
                 }else{
                     [self.view showErrorWithMessage:@"域名不存在"];
+                    self.loginBtn.userInteractionEnabled = YES;
                 }
             }
         }
     } failure:^(NSError * _Nonnull error) {
-        
+        self.loginBtn.userInteractionEnabled = YES;
     }];
 
 }
@@ -124,7 +124,7 @@
     WeakSelf(weakSelf);
     [self.view showLoadingWithMessage:@"登录中…"];
     [HXBaseURLSessionManager doLoginWithUserName:self.userNameTextField.text andPassword:self.passwordTextField.text success:^(NSDictionary * _Nonnull dictionary) {
-        
+       
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [HXPublicParamTool sharedInstance].isLogin = YES;
@@ -146,10 +146,11 @@
                 [weakSelf previousBtnClick];
             });
         }else{
+            weakSelf.loginBtn.userInteractionEnabled = YES;
             [weakSelf.view hideLoading];
         }
     } failure:^(NSString * _Nonnull messsage) {
-        //
+        weakSelf.loginBtn.userInteractionEnabled = YES;
         [weakSelf.view showErrorWithMessage:messsage];
     }];
 }
@@ -158,21 +159,24 @@
 
 #pragma mark - Event
 - (void)loginButtonClick{
-    
+    self.loginBtn.userInteractionEnabled = NO;
     [self.userNameTextField resignFirstResponder];
     [self.passwordTextField resignFirstResponder];
     
     if (!self.agreeAppBtn.selected) {
+        self.loginBtn.userInteractionEnabled = YES;
         [self.view showTostWithMessage:@"请先阅读并同意《用户协议隐私政策》"];
         return;
     }
     
     if ([HXCommonUtil isNull:self.userNameTextField.text]) {
+        self.loginBtn.userInteractionEnabled = YES;
         [self.view showTostWithMessage:@"用户名必须填写"];
         return;
     }
     
     if ([HXCommonUtil isNull:self.passwordTextField.text]) {
+        self.loginBtn.userInteractionEnabled = YES;
         [self.view showTostWithMessage:@"密码必须填写"];
         return;
     }
@@ -186,6 +190,7 @@
 
 }
 
+//选择机构
 -(void)selectJiGou:(UIButton *)sender{
     
     if (self.maskView.superview) {
@@ -218,6 +223,7 @@
 
 //返回上一步
 -(void)previousBtnClick{
+    self.loginBtn.userInteractionEnabled = YES;
     self.seletDomainNameModel = nil;
     self.jiGouNameBtn.selected = NO;
     [self.jiGouNameBtn setTitle:@"" forState:UIControlStateNormal];
@@ -474,16 +480,16 @@
 #endif
     
     
-//#ifdef DEBUG
-//   
-//    if (kHXAPPEdition == kHXReleaseEdition) {
-//        self.userNameTextField.text = @"52010319920927406X";//430505199003141234,622326199712220019//430802199801093428//52010319920927406
-//        self.passwordTextField.text = @"52010319920927406X";
-//    }else{
-//        self.userNameTextField.text = @"430122199408036037";
-//        self.passwordTextField.text = @"430122199408036037";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
-//    }
-//#endif
+#ifdef DEBUG
+
+    if (kHXAPPEdition == kHXReleaseEdition) {
+        self.userNameTextField.text = @"430522199904217816";//430505199003141234//622326199712220019//430802199801093428//52010319920927406//320612201906143942//52010319920927406X//431322200310310621
+        self.passwordTextField.text = @"430522199904217816";
+    }else{
+        self.userNameTextField.text = @"430122199408036037";
+        self.passwordTextField.text = @"430122199408036037";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
+    }
+#endif
 }
 
 #pragma mark - lazyload
@@ -651,7 +657,7 @@
     return _privacyBtn;
 }
 
-
+#pragma mark - 选择机构弹框
 -(UIView *)jiGouView{
     if (!_jiGouView) {
         _jiGouView = [[UIView alloc] initWithFrame:self.view.bounds];

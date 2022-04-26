@@ -56,6 +56,12 @@
 
 }
 
+
+///长按显示域名
+-(void)showDomainName:(UILongPressGestureRecognizer *)pres{
+    [self.view showTostWithMessage:[NSString stringWithFormat:@"当前域名:%@",([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? KHX_URL_MAIN : KHXUserDefaultsForValue(KP_SERVER_KEY))] hideAfter:2];
+}
+
 #pragma mark - UI
 -(void)createUI{
    
@@ -71,7 +77,11 @@
     [self.view addSubview:self.copyrightLabel];
     
     
-   
+#ifdef DEBUG
+    UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showDomainName:)];
+    press.minimumPressDuration = 0.5;
+    [self.logeImageView addGestureRecognizer:press];
+#endif
    
     self.logeImageView.sd_layout
     .centerXEqualToView(self.view)
@@ -138,6 +148,7 @@
     if (!_logeImageView) {
         _logeImageView = [[UIImageView alloc] init];
         _logeImageView.image = [UIImage imageNamed:@"version_logo"];
+        _logeImageView.userInteractionEnabled = YES;
     }
     return _logeImageView;
 }

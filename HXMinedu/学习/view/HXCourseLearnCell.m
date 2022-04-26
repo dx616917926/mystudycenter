@@ -123,7 +123,7 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
             }
             //将数据关联按钮
             objc_setAssociatedObject(btn, &BtnWithItemKey, item, OBJC_ASSOCIATION_RETAIN);
-            btn.titleLabel.font = HXFont(_kpAdaptationWidthFont(13));
+            btn.titleLabel.font = HXFont(13);
             [btn setTitleColor:(item.isInTime?COLOR_WITH_ALPHA(0x5699FF, 1):COLOR_WITH_ALPHA(0x787878, 1)) forState:UIControlStateNormal];
             [btn setBackgroundColor:(item.isInTime?COLOR_WITH_ALPHA(0xEFF7FF, 1):COLOR_WITH_ALPHA(0xF2F2F2, 1))];
             [btn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
@@ -152,8 +152,8 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
             
             btn.sd_layout
             .topEqualToView(self.containerView)
-            .leftSpaceToView(self.containerView, 20+i*(55+_kpw(10)))
-            .widthIs(55)
+            .leftSpaceToView(self.containerView, 20+i*(60+_kpw(10)))
+            .widthIs(60)
             .heightIs(25);
             btn.sd_cornerRadius = @2;
             
