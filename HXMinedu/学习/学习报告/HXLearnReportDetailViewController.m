@@ -143,6 +143,20 @@
 }
 
 
+//获取系统时间
+-(void)getSystemTime:(void (^)(NSString *currentDateStr))callBack{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetSystemTime withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            callBack([dictionary stringValueForKey:@"Data"]);
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+
 
 -(void)refreshUI{
     self.learnReportCourseDetailModel.courseName = self.learnCourseItemModel.courseName;
@@ -214,28 +228,36 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (self.cellType == HXKeJianXueXiReportType&&!self.isHistory) {
         if (indexPath.row<self.self.learnReportCourseDetailModel.learnItemDetailList.count) {
-            HXLearnItemDetailModel *learnItemDetailModel = self.self.learnReportCourseDetailModel.learnItemDetailList[indexPath.row];
-            if ([learnItemDetailModel.stemCode isEqualToString:@"MOOC"]) {
-                HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
-                moocVc.titleName = self.learnCourseItemModel.courseName;
-                moocVc.moocUrl = [learnItemDetailModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
-                moocVc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:moocVc animated:YES];
-            }else{
-                TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                if (@available(iOS 13.0, *)) {
-                    playerVC.barStyle = UIStatusBarStyleDarkContent;
-                } else {
-                    playerVC.barStyle = UIStatusBarStyleDefault;
+            [self getSystemTime:^(NSString *currentDateStr) {
+                if ([HXCommonUtil compareDate:currentDateStr withDate:self.learnReportCourseDetailModel.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:self.learnReportCourseDetailModel.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
+                    
+                    HXLearnItemDetailModel *learnItemDetailModel = self.self.learnReportCourseDetailModel.learnItemDetailList[indexPath.row];
+                    if ([learnItemDetailModel.stemCode isEqualToString:@"MOOC"]) {
+                        HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
+                        moocVc.titleName = self.learnCourseItemModel.courseName;
+                        moocVc.moocUrl = [learnItemDetailModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                        moocVc.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:moocVc animated:YES];
+                    }else{
+                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                        if (@available(iOS 13.0, *)) {
+                            playerVC.barStyle = UIStatusBarStyleDarkContent;
+                        } else {
+                            playerVC.barStyle = UIStatusBarStyleDefault;
+                        }
+                        playerVC.barStyle = UIStatusBarStyleDefault;
+                        playerVC.showLearnFinishStyle = YES;
+                        playerVC.hidesBottomBarWhenPushed = YES;
+                        if ([HXCommonUtil isNull:learnItemDetailModel.cws_param]) return;
+                        playerVC.cws_param = learnItemDetailModel.cws_param;
+                        [self.navigationController pushViewController:playerVC animated:YES];
+                    }
+                    [self changeWatchVideoNum:self.learnReportCourseDetailModel.studentCourseID];
+                
+                }else{
+                    [self.view showTostWithMessage:@"课件学习不在时间范围内"];
                 }
-                playerVC.barStyle = UIStatusBarStyleDefault;
-                playerVC.showLearnFinishStyle = YES;
-                playerVC.hidesBottomBarWhenPushed = YES;
-                if ([HXCommonUtil isNull:learnItemDetailModel.cws_param]) return;
-                playerVC.cws_param = learnItemDetailModel.cws_param;
-                [self.navigationController pushViewController:playerVC animated:YES];
-            }
-            [self changeWatchVideoNum:self.learnReportCourseDetailModel.studentCourseID];
+            }];
         }
     }
 }

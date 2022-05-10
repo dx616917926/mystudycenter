@@ -20,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSInteger learnTime;
 //已学时间
 @property(nonatomic, assign) NSInteger learnDuration;
+//课件开始时间
+@property(nonatomic, strong) NSString *StartDate;
+//课件结束时间
+@property(nonatomic, strong) NSString *EndDate;
 //新课件系统的参数
 @property(nonatomic, strong) NSDictionary *cws_param;
 //慕课课件系统的参数

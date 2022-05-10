@@ -318,6 +318,19 @@
     }];
 }
 
+//获取系统时间
+-(void)getSystemTime:(void (^)(NSString *currentDateStr))callBack{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetSystemTime withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            callBack([dictionary stringValueForKey:@"Data"]);
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
 #pragma mark -  下拉刷新,重新获取报考类型专业列表
 -(void)pullDownRefrsh{
     [self getVersionandMajorList];
@@ -421,78 +434,62 @@
 -(void)handleType:(HXClickType)type withItem:(HXModelItem *)item{
     switch (type) {
         case HXKeJianXueXiClickType://课件学习
-        {   if (!item.isInTime) {
-            [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
-            return;
-        }
-            HXSelectCourseListViewController *vc = [[HXSelectCourseListViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            vc.type = type;
-            vc.course_id = item.course_id;
-            vc.studentCourseID = item.studentCourseID;
-            [self.navigationController pushViewController:vc animated:YES];
+        {
+            [self getSystemTime:^(NSString *currentDateStr) {
+                if ([HXCommonUtil compareDate:currentDateStr withDate:item.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:item.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
+                    HXSelectCourseListViewController *vc = [[HXSelectCourseListViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    vc.type = type;
+                    vc.course_id = item.course_id;
+                    vc.studentCourseID = item.studentCourseID;
+                    [self.navigationController pushViewController:vc animated:YES];
+                
+                }else{
+                    [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
+                }
+            }];
+           
         }
             break;
         case HXPingShiZuoYeClickType://平时作业
         case HXQiMoKaoShiClickType://期末考试
         case HXLiNianZhenTiClickType://历年真题
         {
-            if (!item.isInTime) {
-                [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
-                return;
-            }
-            if ([item.Type isEqualToString:@"1"]) {
-                //课件学习模块,先判断登陆状态
-                WeakSelf(weakSelf);
-                [self getLoginStatus:^(BOOL status) {
-                    StrongSelf(strongSelf);
-                    if (status) {
-                        if ([item.StemCode isEqualToString:@"MOOC"]) {//慕课
-                            HXMoocViewController *vc = [[HXMoocViewController alloc] init];
-                            vc.titleName = item.courseName;
-                            vc.moocUrl = [item.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
-                            vc.hidesBottomBarWhenPushed = YES;
-                            [strongSelf.navigationController pushViewController:vc animated:YES];
-                            
-                        }else{
-                            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                            if (@available(iOS 13.0, *)) {
-                                playerVC.barStyle = UIStatusBarStyleDarkContent;
-                            } else {
-                                playerVC.barStyle = UIStatusBarStyleDefault;
-                            }
-                            playerVC.cws_param = item.cws_param;
-                            playerVC.barStyle = UIStatusBarStyleDefault;
-                            playerVC.showLearnFinishStyle = YES;
-                            playerVC.hidesBottomBarWhenPushed = YES;
-                            [strongSelf.navigationController pushViewController:playerVC animated:YES];
-                        }
-                        
+            if ([item.Type isEqualToString:@"2"]) {
+                [self getSystemTime:^(NSString *currentDateStr) {
+                    if ([HXCommonUtil compareDate:currentDateStr withDate:item.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:item.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
+                        //考试模块
+                        HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
+                        listVC.authorizeUrl = item.ExamUrl;
+                        listVC.title = item.ModuleName;
+                        listVC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:listVC animated:YES];
+
+                    }else{
+                        [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
                     }
                 }];
-                
-                
-            }else if ([item.Type isEqualToString:@"2"]) {
-                //考试模块
-                HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
-                listVC.authorizeUrl = item.ExamUrl;
-                listVC.title = item.ModuleName;
-                listVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:listVC animated:YES];
+            
             }else{
                 [self.view showTostWithMessage:@"暂不支持此模块"];
             }
         }
             break;
         case HXZiLiaoClickType://电子资料
-        {   if (!item.isInTime) {
-            [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
-            return;
-        }
-            HXElectronicDataViewController *vc = [[HXElectronicDataViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            vc.studentCourseID = item.studentCourseID;
-            [self.navigationController pushViewController:vc animated:YES];
+        {
+            [self getSystemTime:^(NSString *currentDateStr) {
+                if ([HXCommonUtil compareDate:currentDateStr withDate:item.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:item.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
+                    
+                    HXElectronicDataViewController *vc = [[HXElectronicDataViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    vc.studentCourseID = item.studentCourseID;
+                    [self.navigationController pushViewController:vc animated:YES];
+        
+                }else{
+                    [self.view showTostWithMessage:[NSString stringWithFormat:@"%@不在时间范围内",item.ModuleName]];
+                }
+            }];
+           
         }
             break;
             
@@ -608,51 +605,71 @@
         if (status) {
             if (indexPath.section == 1) {//今天
                 HXLearnRecordModel *learnRecordModel = self.kjxxCourseListtModel.nowadaysList[indexPath.row];
-                if ([learnRecordModel.StemCode isEqualToString:@"MOOC"]) {
-                    HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
-                    moocVc.titleName = learnRecordModel.courseName;
-                    moocVc.moocUrl = [learnRecordModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
-                    moocVc.hidesBottomBarWhenPushed = YES;
-                    [strongSelf.navigationController pushViewController:moocVc animated:YES];
-                }else{
-                    TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                    if (@available(iOS 13.0, *)) {
-                        playerVC.barStyle = UIStatusBarStyleDarkContent;
-                    } else {
-                        playerVC.barStyle = UIStatusBarStyleDefault;
+                
+                [self getSystemTime:^(NSString *currentDateStr) {
+                    if ([HXCommonUtil compareDate:currentDateStr withDate:learnRecordModel.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:learnRecordModel.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
+                        
+                        if ([learnRecordModel.StemCode isEqualToString:@"MOOC"]) {
+                            HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
+                            moocVc.titleName = learnRecordModel.courseName;
+                            moocVc.moocUrl = [learnRecordModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                            moocVc.hidesBottomBarWhenPushed = YES;
+                            [strongSelf.navigationController pushViewController:moocVc animated:YES];
+                        }else{
+                            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                            if (@available(iOS 13.0, *)) {
+                                playerVC.barStyle = UIStatusBarStyleDarkContent;
+                            } else {
+                                playerVC.barStyle = UIStatusBarStyleDefault;
+                            }
+                            playerVC.barStyle = UIStatusBarStyleDefault;
+                            playerVC.showLearnFinishStyle = YES;
+                            playerVC.hidesBottomBarWhenPushed = YES;
+                            if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
+                            playerVC.cws_param = learnRecordModel.cws_param;
+                            [strongSelf.navigationController pushViewController:playerVC animated:YES];
+                        }
+                        [strongSelf changeWatchVideoNum:learnRecordModel.studentCourseID];
+            
+                    }else{
+                        [self.view showTostWithMessage:@"课件学习不在时间范围内"];
                     }
-                    playerVC.barStyle = UIStatusBarStyleDefault;
-                    playerVC.showLearnFinishStyle = YES;
-                    playerVC.hidesBottomBarWhenPushed = YES;
-                    if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
-                    playerVC.cws_param = learnRecordModel.cws_param;
-                    [strongSelf.navigationController pushViewController:playerVC animated:YES];
-                }
-                [strongSelf changeWatchVideoNum:learnRecordModel.studentCourseID];
+                }];
+                
+
                 
             }else if(indexPath.section == 2){//昨天
                 HXLearnRecordModel *learnRecordModel = self.kjxxCourseListtModel.yesterdayList[indexPath.row];
-                if ([learnRecordModel.StemCode isEqualToString:@"MOOC"]) {
-                    HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
-                    moocVc.titleName = learnRecordModel.courseName;
-                    moocVc.moocUrl = [learnRecordModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
-                    moocVc.hidesBottomBarWhenPushed = YES;
-                    [strongSelf.navigationController pushViewController:moocVc animated:YES];
-                }else{
-                    TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                    if (@available(iOS 13.0, *)) {
-                        playerVC.barStyle = UIStatusBarStyleDarkContent;
-                    } else {
-                        playerVC.barStyle = UIStatusBarStyleDefault;
+                
+                [self getSystemTime:^(NSString *currentDateStr) {
+                    if ([HXCommonUtil compareDate:currentDateStr withDate:learnRecordModel.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:learnRecordModel.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
+                        
+                        if ([learnRecordModel.StemCode isEqualToString:@"MOOC"]) {
+                            HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
+                            moocVc.titleName = learnRecordModel.courseName;
+                            moocVc.moocUrl = [learnRecordModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                            moocVc.hidesBottomBarWhenPushed = YES;
+                            [strongSelf.navigationController pushViewController:moocVc animated:YES];
+                        }else{
+                            TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                            if (@available(iOS 13.0, *)) {
+                                playerVC.barStyle = UIStatusBarStyleDarkContent;
+                            } else {
+                                playerVC.barStyle = UIStatusBarStyleDefault;
+                            }
+                            playerVC.barStyle = UIStatusBarStyleDefault;
+                            playerVC.showLearnFinishStyle = YES;
+                            playerVC.hidesBottomBarWhenPushed = YES;
+                            if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
+                            playerVC.cws_param = learnRecordModel.cws_param;
+                            [strongSelf.navigationController pushViewController:playerVC animated:YES];
+                        }
+                        [strongSelf changeWatchVideoNum:learnRecordModel.studentCourseID];
+            
+                    }else{
+                        [self.view showTostWithMessage:@"课件学习不在时间范围内"];
                     }
-                    playerVC.barStyle = UIStatusBarStyleDefault;
-                    playerVC.showLearnFinishStyle = YES;
-                    playerVC.hidesBottomBarWhenPushed = YES;
-                    if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
-                    playerVC.cws_param = learnRecordModel.cws_param;
-                    [strongSelf.navigationController pushViewController:playerVC animated:YES];
-                }
-                [strongSelf changeWatchVideoNum:learnRecordModel.studentCourseID];
+                }];
             }
         }
     }];

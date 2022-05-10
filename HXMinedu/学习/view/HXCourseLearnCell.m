@@ -103,7 +103,6 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
     }else{
         self.containerView.sd_layout.heightIs(46);
         
-        NSString *currentDateStr = [HXCommonUtil getCurrentDateWithFormatterStr:@"yyyy-MM-dd HH:mm:ss"];
         
         for (int i= 0; i<courseModel.modules.count; i++) {
             
@@ -115,38 +114,32 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.containerView addSubview:btn];
             
-            //是否在时间范围内
-            if ([HXCommonUtil compareDate:currentDateStr withDate:item.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:item.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
-                item.isInTime = YES;
-            }else{
-                item.isInTime = NO;
-            }
             //将数据关联按钮
             objc_setAssociatedObject(btn, &BtnWithItemKey, item, OBJC_ASSOCIATION_RETAIN);
             btn.titleLabel.font = HXFont(13);
-            [btn setTitleColor:(item.isInTime?COLOR_WITH_ALPHA(0x5699FF, 1):COLOR_WITH_ALPHA(0x787878, 1)) forState:UIControlStateNormal];
-            [btn setBackgroundColor:(item.isInTime?COLOR_WITH_ALPHA(0xEFF7FF, 1):COLOR_WITH_ALPHA(0xF2F2F2, 1))];
+            [btn setTitleColor:COLOR_WITH_ALPHA(0x5699FF, 1) forState:UIControlStateNormal];
+            [btn setBackgroundColor:COLOR_WITH_ALPHA(0xEFF7FF, 1)];
             [btn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
             if ([item.ExamCourseType isEqualToString:@"1"]) {//课件学习
                 [btn setTitle:@"视频" forState:UIControlStateNormal];
                 btn.tag = 7777;
-                [btn setImage:(item.isInTime?[UIImage imageNamed:@"kejian_icon"]:[UIImage imageNamed:@"kejian_garyicon"]) forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"kejian_icon"] forState:UIControlStateNormal];
             }else if ([item.ExamCourseType isEqualToString:@"2"]) {//平时作业
                 [btn setTitle:@"作业" forState:UIControlStateNormal];
                 btn.tag = 8888;
-                [btn setImage:(item.isInTime?[UIImage imageNamed:@"pingshi_icon"]:[UIImage imageNamed:@"pingshi_garyicon"])forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"pingshi_icon"]forState:UIControlStateNormal];
             }else if ([item.ExamCourseType isEqualToString:@"3"]) {//期末考试
                 [btn setTitle:@"模考" forState:UIControlStateNormal];
                 btn.tag = 9999;
-                [btn setImage:(item.isInTime?[UIImage imageNamed:@"qimo_icon"]:[UIImage imageNamed:@"qimo_garyicon"]) forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"qimo_icon"] forState:UIControlStateNormal];
             }else if ([item.ExamCourseType isEqualToString:@"4"]) {//历年真题
                 [btn setTitle:@"真题" forState:UIControlStateNormal];
                 btn.tag = 1010;
-                [btn setImage:(item.isInTime?[UIImage imageNamed:@"zhenti_icon"]:[UIImage imageNamed:@"zhenti_garyicon"]) forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"zhenti_icon"] forState:UIControlStateNormal];
             }else if ([item.ExamCourseType isEqualToString:@"5"]) {//电子资料
                 [btn setTitle:@"资料" forState:UIControlStateNormal];
                 btn.tag = 1011;
-                [btn setImage:(item.isInTime?[UIImage imageNamed:@"dianziziliao_icon"]:[UIImage imageNamed:@"dianziziliao_garyicon"]) forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"dianziziliao_icon"] forState:UIControlStateNormal];
             }
             
             

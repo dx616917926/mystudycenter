@@ -78,22 +78,8 @@
     [self.courseTypeButton setTitle:HXSafeString(courseModel.revision) forState:UIControlStateNormal];
     
     HXModelItem *item = courseModel.modules.firstObject;
-    NSString *currentDateStr = [HXCommonUtil getCurrentDateWithFormatterStr:@"yyyy-MM-dd HH:mm:ss"];
-    if (item!=nil) {
-        //是否在时间范围内
-        if ([HXCommonUtil compareDate:currentDateStr withDate:item.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:item.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
-            item.isInTime = YES;
-        }else{
-            item.isInTime = NO;
-        }
-        if (item.isInTime) {
-            self.clickButton.enabled = YES;
-            self.clickButton.backgroundColor = COLOR_WITH_ALPHA(0x5699FF, 1);
-        }else{
-            self.clickButton.enabled = NO;
-            self.clickButton.backgroundColor = COLOR_WITH_ALPHA(0xE8E8E8, 1);
-        }
-    }
+    self.clickButton.enabled = YES;
+    self.clickButton.backgroundColor = COLOR_WITH_ALPHA(0x5699FF, 1);
     self.timeLabel.text = [NSString stringWithFormat:@"课程有效期：%@-%@",item.StartDate,item.EndDate];
 }
 

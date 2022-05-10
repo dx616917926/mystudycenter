@@ -42,6 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取课程列表
 #define HXPOST_Get_Course_List                                @"/MD/StuCourse/getCourseList"
 
+//获取系统时间
+#define HXPOST_GetSystemTime                                @"/MD/StuCourse/getSystemTime"
+
 //获取报考课程列表
 #define HXPOST_Get_ExamDateSignInfo_List                      @"/MD/StuScoreInfo/getExamDateSignInfoList"
 
@@ -49,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXPOST_GetCourseKjList                               @"/MD/StuCourse/getCourseKjList"
 
 //获取课程教学资料列表
-#define HXPOST_GetTeachingMaterialsList                               @"/MD/StuCourse/getTeachingMaterialsList"
+#define HXPOST_GetTeachingMaterialsList                      @"/MD/StuCourse/getTeachingMaterialsList"
 
 //获取学习记录
 #define HXPOST_GetLearningRecordList                        @"/MD/StuCourse/getLearningRecordList"
