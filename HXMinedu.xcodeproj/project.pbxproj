@@ -43,6 +43,7 @@
 		04191B68266F67FA00652E9D /* HXRegistFormModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04191B67266F67FA00652E9D /* HXRegistFormModel.m */; };
 		041A54F0263BB3080049C2EC /* HXVoucherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A54EF263BB3080049C2EC /* HXVoucherViewController.m */; };
 		041ABDD125AE8A590094CCFA /* exam.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041ABDD025AE8A590094CCFA /* exam.xcassets */; };
+		041ABF812851F68200000637 /* launchscreen_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 041ABF802851F68200000637 /* launchscreen_logo.png */; };
 		041C4B5A2657806D00D82DB8 /* HXShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C4B592657806D00D82DB8 /* HXShareManager.m */; };
 		041E42F3265CEF1B00E7F160 /* HXHeadMasterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041E42F2265CEF1B00E7F160 /* HXHeadMasterCell.m */; };
 		041E42F6265CF47800E7F160 /* HXHeadMasterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 041E42F5265CF47800E7F160 /* HXHeadMasterModel.m */; };
@@ -236,8 +237,6 @@
 		0458E6BD27546E5A007E5E3B /* HXMoocViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0458E6BC27546E5A007E5E3B /* HXMoocViewController.m */; };
 		0459C712258B02C7000555D4 /* HXLoginContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0459C711258B02C7000555D4 /* HXLoginContentView.m */; };
 		0459C716258B02E2000555D4 /* HXLoginContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0459C715258B02E2000555D4 /* HXLoginContentView.xib */; };
-		0459C72D258B51E1000555D4 /* launch_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72B258B51E1000555D4 /* launch_logo@3x.png */; };
-		0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0459C72C258B51E1000555D4 /* launch_logo@2x.png */; };
 		045FA186259D67AF00910575 /* HXUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045FA185259D67AF00910575 /* HXUserInfoViewController.m */; };
 		04643747277AA521002448CD /* HXFileTypeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04643746277AA521002448CD /* HXFileTypeInfoModel.m */; };
 		0466380F275DDC57000730B2 /* HXDissertationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0466380E275DDC57000730B2 /* HXDissertationCell.m */; };
@@ -505,6 +504,7 @@
 		041A54EE263BB3080049C2EC /* HXVoucherViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXVoucherViewController.h; sourceTree = "<group>"; };
 		041A54EF263BB3080049C2EC /* HXVoucherViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXVoucherViewController.m; sourceTree = "<group>"; };
 		041ABDD025AE8A590094CCFA /* exam.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = exam.xcassets; sourceTree = "<group>"; };
+		041ABF802851F68200000637 /* launchscreen_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen_logo.png; sourceTree = "<group>"; };
 		041C4B582657806D00D82DB8 /* HXShareManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXShareManager.h; sourceTree = "<group>"; };
 		041C4B592657806D00D82DB8 /* HXShareManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXShareManager.m; sourceTree = "<group>"; };
 		041E42F1265CEF1B00E7F160 /* HXHeadMasterCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHeadMasterCell.h; sourceTree = "<group>"; };
@@ -861,8 +861,6 @@
 		0459C710258B02C7000555D4 /* HXLoginContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLoginContentView.h; sourceTree = "<group>"; };
 		0459C711258B02C7000555D4 /* HXLoginContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLoginContentView.m; sourceTree = "<group>"; };
 		0459C715258B02E2000555D4 /* HXLoginContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXLoginContentView.xib; sourceTree = "<group>"; };
-		0459C72B258B51E1000555D4 /* launch_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@3x.png"; sourceTree = "<group>"; };
-		0459C72C258B51E1000555D4 /* launch_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo@2x.png"; sourceTree = "<group>"; };
 		045FA184259D67AF00910575 /* HXUserInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXUserInfoViewController.h; sourceTree = "<group>"; };
 		045FA185259D67AF00910575 /* HXUserInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXUserInfoViewController.m; sourceTree = "<group>"; };
 		04643745277AA521002448CD /* HXFileTypeInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXFileTypeInfoModel.h; sourceTree = "<group>"; };
@@ -1508,6 +1506,7 @@
 		0449A335254C0F45001A28D5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				041ABF802851F68200000637 /* launchscreen_logo.png */,
 				0449A338254C0F99001A28D5 /* HXDefines.h */,
 				04730B712762E85500B0E820 /* HXNotificationNameDefines.h */,
 				0449A336254C0F76001A28D5 /* PrefixHeader.pch */,
@@ -1538,8 +1537,6 @@
 				0449A350254C1174001A28D5 /* UIImage+Tint.m */,
 				0449A356254C1174001A28D5 /* UIViewController+HXNavigation.h */,
 				0449A34C254C1174001A28D5 /* UIViewController+HXNavigation.m */,
-				0459C72C258B51E1000555D4 /* launch_logo@2x.png */,
-				0459C72B258B51E1000555D4 /* launch_logo@3x.png */,
 			);
 			path = HXNavigation;
 			sourceTree = "<group>";
@@ -2810,6 +2807,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041ABF812851F68200000637 /* launchscreen_logo.png in Resources */,
 				043E05B425A43959005FABD4 /* userInfoView.html in Resources */,
 				04CE289E2591A67100FFF7CB /* HXCourseListTableViewCell.xib in Resources */,
 				0449A519254C11F6001A28D5 /* 样式-画笔.png in Resources */,
@@ -2840,7 +2838,6 @@
 				040581BD255156AF0022A300 /* HXResetTableViewCell.xib in Resources */,
 				0449A4DD254C11F6001A28D5 /* menu_icon_highlighted.png in Resources */,
 				0449A4D9254C11F6001A28D5 /* menu_icon.png in Resources */,
-				0459C72D258B51E1000555D4 /* launch_logo@3x.png in Resources */,
 				0449A510254C11F6001A28D5 /* painter_bg@2x.png in Resources */,
 				0449A512254C11F6001A28D5 /* 样式-橡皮擦.png in Resources */,
 				0449A520254C11F6001A28D5 /* painter_share@2x.png in Resources */,
@@ -2859,7 +2856,6 @@
 				043E05CA25A46AFC005FABD4 /* HXVertifyCodeContentView.xib in Resources */,
 				04E34D742601D0100003002A /* TXExamPopView.xcassets in Resources */,
 				0449A51D254C11F6001A28D5 /* painter_text@2x.png in Resources */,
-				0459C72E258B51E1000555D4 /* launch_logo@2x.png in Resources */,
 				0449A50C254C11F6001A28D5 /* painter_line@2x.png in Resources */,
 				04492FCF25943BFE00BA722A /* HXCoursewareCell.xib in Resources */,
 				0449A547254C11F6001A28D5 /* but_audio_play.png in Resources */,
@@ -3408,7 +3404,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Shuo Li (55J4Q86345)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3425,7 +3421,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读developer";
@@ -3444,7 +3440,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Huaxia Dadi Long-distance Education Network Service Co., Ltd.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3461,7 +3457,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读--Distribution";

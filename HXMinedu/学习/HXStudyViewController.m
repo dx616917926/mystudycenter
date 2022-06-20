@@ -436,6 +436,7 @@
         case HXKeJianXueXiClickType://课件学习
         {
             [self getSystemTime:^(NSString *currentDateStr) {
+                
                 if ([HXCommonUtil compareDate:currentDateStr withDate:item.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:item.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
                     HXSelectCourseListViewController *vc = [[HXSelectCourseListViewController alloc] init];
                     vc.hidesBottomBarWhenPushed = YES;

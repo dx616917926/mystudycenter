@@ -72,7 +72,9 @@
     }
     self.tongkaoLabel.text = HXSafeString(teachCourseModel.checkLookName);
     if (![HXCommonUtil isNull:teachCourseModel.finalScore]) {
-        self.tongkaoNumLabel.attributedText = [HXCommonUtil getAttributedStringWith:teachCourseModel.finalScore needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:16],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x2C2C2E, 1)} content:([teachCourseModel.finalScore isEqual:@"暂无成绩"]?@"暂无成绩":[teachCourseModel.finalScore stringByAppendingString:@" 分"]) defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x2C2C2E, 1)}];
+        self.tongkaoNumLabel.attributedText = [HXCommonUtil getAttributedStringWith:teachCourseModel.finalScore needAttributed:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:16],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x2C2C2E, 1)} content:([teachCourseModel.finalScore isEqual:@"暂无成绩"]?@"暂无成绩":teachCourseModel.finalScore) defaultAttributed:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:COLOR_WITH_ALPHA(0x2C2C2E, 1)}];
+    }else{
+        self.tongkaoNumLabel.attributedText = nil;
     }
     self.resultImageView.image = (teachCourseModel.IsPass==1?[UIImage imageNamed:@"success_icon"]:[UIImage imageNamed:@"fail_icon"]);
     //控制网学显示

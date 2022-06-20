@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>学习中心</string>
+	<string>M学习中心</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -53,6 +53,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>
@@ -71,12 +73,12 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>拍照</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>使用位置</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>保存图片到相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>访问相册</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>此标识符将用于向您发送个性化广告</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

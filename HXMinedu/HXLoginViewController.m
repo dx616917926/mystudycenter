@@ -109,6 +109,8 @@
                     self.loginBtn.userInteractionEnabled = YES;
                 }
             }
+        }else{
+            self.loginBtn.userInteractionEnabled = YES;
         }
     } failure:^(NSError * _Nonnull error) {
         self.loginBtn.userInteractionEnabled = YES;
@@ -483,9 +485,9 @@
 #ifdef DEBUG
 
     if (kHXAPPEdition == kHXReleaseEdition) {
-        self.userNameTextField.text = @"652702201808187344";//430505199003141234//622326199712220019//430802199801093428//52010319920927406//320612201906143942//52010319920927406X//431322200310310621//430522199904217816//430981188709092022
+        self.userNameTextField.text = @"520626199903064417";//430505199003141234//622326199712220019//430802199801093428//52010319920927406//320612201906143942//52010319920927406X//431322200310310621//430522199904217816//430981188709092022
 
-        self.passwordTextField.text = @"652702201808187344";
+        self.passwordTextField.text = @"520626199903064417";
     }else{
         self.userNameTextField.text = @"430122199408036037";
         self.passwordTextField.text = @"430122199408036037";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
