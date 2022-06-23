@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 //是否是有效的正则表达式
 +(BOOL)isValidateRegularExpression:(NSString *)strDestination byExpression:(NSString *)strExpression;
 
+//删除空白字符
+-(NSString *)trim;
 @end
 
 NS_ASSUME_NONNULL_END
