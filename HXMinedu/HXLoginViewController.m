@@ -186,6 +186,7 @@
 #if kHXISFenKuLogin
     [self getDomainNameList];
 #else
+    [HXBaseURLSessionManager setBaseURLStr:KHX_URL_MAIN];
     [self login];
 #endif
     
@@ -489,8 +490,8 @@
 
         self.passwordTextField.text = @"520626199903064417";
     }else{
-        self.userNameTextField.text = @"430122199408036037";
-        self.passwordTextField.text = @"430122199408036037";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
+        self.userNameTextField.text = @"430423199201012365";
+        self.passwordTextField.text = @"430423199201012365";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
     }
 #endif
 }

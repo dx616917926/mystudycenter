@@ -28,7 +28,7 @@
 
 ///////////////////////// 提交App Store 审核时需要修改的内容 ////////////////////////
 
-#define     kHXISFenKuLogin         1   //是否分库登录:   1:是   0:否
+#define     kHXISFenKuLogin         0   //是否分库登录:   1:是   0:否
 
 #define     KHX_API_Domain          @"https://midapi.hlw-study.com"//获取分库的域名
 
@@ -38,7 +38,7 @@
 #define     kHXDevelopLWJEdition    3     //李文军主机
 #define     kHXChangeEdition        100   //支持切换服务器(长按登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试)
 
-#define     kHXAPPEdition           kHXReleaseEdition
+#define     kHXAPPEdition           kHXDevelopOPEdition
 
 #if (kHXAPPEdition == kHXChangeEdition)
 #define    kHXCanChangeServer       1   //长按切换登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试

@@ -183,6 +183,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取支付类型
 #define HXPOST_GetPayType                                               @"/MD/StuPayInfo/GetPayType"
 
+//获取银联支付账号套
+#define HXPOST_GetPayTypeAliPay                                               @"/MD/StuPayInfo/GetPayTypeAliPay"
+
 //获取学生论文
 #define HXPOST_GetStudentPaper                                          @"/MD/StuPaper/getStudentPaper"
 
