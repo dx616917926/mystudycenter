@@ -24,6 +24,11 @@
 //结转合计
 @property(nonatomic,strong) UILabel *jieZhuanLabel;
 @property(nonatomic,strong) UILabel *jieZhuanMoneyLabel;
+@property(nonatomic,strong) UIView *line2;
+//结转后应退
+@property(nonatomic,strong) UILabel *yingTuiLabel;
+@property(nonatomic,strong) UILabel *yingTuiMoneyLabel;
+
 
 @property(nonatomic,strong) UIView *footerView;
 @property(nonatomic,strong) UIImageView *bigFooterWhiteImageView;
@@ -59,6 +64,7 @@
             self.zzyAndZcpModel.jiezhuanMajorInfoModel.isRecent = YES;
             self.yinJiaoMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",self.zzyAndZcpModel.payMoneyTotal];
             self.jieZhuanMoneyLabel.text =[NSString stringWithFormat:@"¥%.2f",self.zzyAndZcpModel.costMoneyTotal];
+            self.yingTuiMoneyLabel.text =[NSString stringWithFormat:@"¥%.2f",self.zzyAndZcpModel.refundTotal];
             [self.mainTableView reloadData];
         }
     } failure:^(NSError * _Nonnull error) {
@@ -240,6 +246,9 @@
         [self.bigHeaderWhiteImageView addSubview:self.yinJiaoMoneyLabel];
         [self.bigHeaderWhiteImageView addSubview:self.jieZhuanLabel];
         [self.bigHeaderWhiteImageView addSubview:self.jieZhuanMoneyLabel];
+        [self.bigHeaderWhiteImageView addSubview:self.line2];
+        [self.bigHeaderWhiteImageView addSubview:self.yingTuiLabel];
+        [self.bigHeaderWhiteImageView addSubview:self.yingTuiMoneyLabel];
        
         
         self.xinPayMentInfoLabel.sd_layout
@@ -250,7 +259,13 @@
         
         self.line1.sd_layout
         .topSpaceToView(self.bigHeaderWhiteImageView, 55)
-        .leftSpaceToView(self.bigHeaderWhiteImageView, (kScreenWidth-20)/2)
+        .leftSpaceToView(self.bigHeaderWhiteImageView, (kScreenWidth-20)/3)
+        .widthIs(1)
+        .heightIs(28);
+        
+        self.line2.sd_layout
+        .topSpaceToView(self.bigHeaderWhiteImageView, 55)
+        .leftSpaceToView(self.bigHeaderWhiteImageView, 2*(kScreenWidth-20)/3)
         .widthIs(1)
         .heightIs(28);
         
@@ -269,13 +284,25 @@
         self.jieZhuanLabel.sd_layout
         .topEqualToView(self.yinJiaoLabel)
         .leftSpaceToView(self.line1, 0)
-        .rightSpaceToView(self.bigHeaderWhiteImageView, 0)
+        .rightSpaceToView(self.line2, 0)
         .heightRatioToView(self.yinJiaoLabel, 1);
         
         self.jieZhuanMoneyLabel.sd_layout
         .topEqualToView(self.yinJiaoMoneyLabel)
         .leftEqualToView(self.jieZhuanLabel)
         .rightEqualToView(self.jieZhuanLabel)
+        .heightRatioToView(self.yinJiaoMoneyLabel, 1);
+        
+        self.yingTuiLabel.sd_layout
+        .topEqualToView(self.yinJiaoLabel)
+        .leftSpaceToView(self.line2, 0)
+        .rightSpaceToView(self.bigHeaderWhiteImageView, 0)
+        .heightRatioToView(self.yinJiaoLabel, 1);
+        
+        self.yingTuiMoneyLabel.sd_layout
+        .topEqualToView(self.yinJiaoMoneyLabel)
+        .leftEqualToView(self.yingTuiLabel)
+        .rightEqualToView(self.yingTuiLabel)
         .heightRatioToView(self.yinJiaoMoneyLabel, 1);
         
         
@@ -354,7 +381,36 @@
     return _jieZhuanMoneyLabel;
 }
 
+-(UIView *)line2{
+    if (!_line2) {
+        _line2 = [[UIView alloc] init];
+        _line2.backgroundColor = COLOR_WITH_ALPHA(0x979797, 1);
+    }
+    return _line2;
+}
 
+
+-(UILabel *)yingTuiLabel{
+    if (!_yingTuiLabel) {
+        _yingTuiLabel = [[UILabel alloc] init];
+        _yingTuiLabel.textAlignment = NSTextAlignmentCenter;
+        _yingTuiLabel.font = HXBoldFont(12);
+        _yingTuiLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+        _yingTuiLabel.text = @"结转后应退";
+    }
+    return _yingTuiLabel;
+}
+
+-(UILabel *)yingTuiMoneyLabel{
+    if (!_yingTuiMoneyLabel) {
+        _yingTuiMoneyLabel = [[UILabel alloc] init];
+        _yingTuiMoneyLabel.textAlignment = NSTextAlignmentCenter;
+        _yingTuiMoneyLabel.font = HXFont(12);
+        _yingTuiMoneyLabel.textColor = COLOR_WITH_ALPHA(0xFE664B, 1);
+
+    }
+    return _yingTuiMoneyLabel;
+}
 
 
 -(UIView *)footerView{

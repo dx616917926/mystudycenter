@@ -48,12 +48,20 @@
     //23审核中 4已通过 5已驳回
     switch (yiDongInfoModel.reviewstatus) {
         case 0://待确认
-        case 1://已确认
         {
-            self.markBtn1.hidden = YES;
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xFFF5DA, 1);
+            [self.markBtn1 setTitle:@"待确认" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0xFE664B, 1) forState:UIControlStateNormal];
         }
             break;
-    
+        case 1://已确认
+        {
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"已通过" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
+        }
             break;
         case 2://审核中
         case 3://待终审
@@ -76,7 +84,10 @@
         
         case 5://已驳回
         {
-            self.markBtn1.hidden = YES;
+            self.markBtn1.hidden = NO;
+            self.markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
+            [self.markBtn1 setTitle:@"已驳回" forState:UIControlStateNormal];
+            [self.markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
         }
             break;
         default:
@@ -220,7 +231,6 @@
         _markBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
         _markBtn1.titleLabel.font = HXBoldFont(12);
         _markBtn1.backgroundColor = COLOR_WITH_ALPHA(0xC8FACB, 1);
-        [_markBtn1 setTitle:@"确认无误" forState:UIControlStateNormal];
         [_markBtn1 setTitleColor:COLOR_WITH_ALPHA(0x4DC656, 1) forState:UIControlStateNormal];
     }
     return _markBtn1;

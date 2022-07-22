@@ -58,7 +58,7 @@
         webViewConfig.userContentController = wkUController;
         
         //视频页面播放支持
-        webViewConfig.allowsInlineMediaPlayback = YES;
+        webViewConfig.allowsInlineMediaPlayback = NO;
         //关闭画中画播放模式
         webViewConfig.allowsPictureInPictureMediaPlayback = NO;
         _wkWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth,kScreenHeight - kNavigationBarHeight) configuration:webViewConfig];
