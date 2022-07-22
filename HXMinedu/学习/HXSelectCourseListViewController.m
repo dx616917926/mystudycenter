@@ -24,6 +24,11 @@
     // Do any additional setup after loading the view.
     //UI
     [self createUI];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     //获取课程考试列表
     [self pullDownRefrsh];
 }

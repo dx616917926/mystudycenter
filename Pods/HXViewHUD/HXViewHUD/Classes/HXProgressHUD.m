@@ -624,18 +624,21 @@ static const CGFloat HXDefaultDetailsLabelFontSize = 12.f;
 - (void)setMode:(HXProgressHUDMode)mode {
     if (mode != _mode) {
         
-        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        NSURL *url = [bundle URLForResource:@"HXViewHUD" withExtension:@"bundle"];
-        NSBundle *imageBundle = [NSBundle bundleWithURL:url];
+        static NSBundle *resourceBundle = nil;
+         if (!resourceBundle) {
+             NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
+             NSString *resourcePath = [mainBundle pathForResource:@"HXViewHUD" ofType:@"bundle"];
+             resourceBundle = [NSBundle bundleWithPath:resourcePath] ?: mainBundle;
+         }
         
         if (mode == HXProgressHUDModeSuccess) {
             _mode = HXProgressHUDModeCustomView;
-            UIImage* successImage = [UIImage imageWithContentsOfFile:[imageBundle pathForResource:@"success" ofType:@"png"]];
+            UIImage* successImage = [UIImage imageNamed:@"success" inBundle:resourceBundle compatibleWithTraitCollection:nil];
             [self setCustomView:[[UIImageView alloc] initWithImage:successImage]];
             self.userInteractionEnabled = NO;
         }else if (mode == HXProgressHUDModeError){
             _mode = HXProgressHUDModeCustomView;
-            UIImage* errorImage = [UIImage imageWithContentsOfFile:[imageBundle pathForResource:@"error" ofType:@"png"]];
+            UIImage* errorImage = [UIImage imageNamed:@"error" inBundle:resourceBundle compatibleWithTraitCollection:nil];
             [self setCustomView:[[UIImageView alloc] initWithImage:errorImage]];
             self.userInteractionEnabled = NO;
         }else

@@ -308,10 +308,9 @@
     }else{
         [df setDateFormat:formatterStr];
     }
-    NSDate *dt1 = [[NSDate alloc] init];
-    NSDate *dt2 = [[NSDate alloc] init];
-    dt1 = [df dateFromString:date1];
-    dt2 = [df dateFromString:date2];
+    
+    NSDate *dt1 = [df dateFromString:date1];
+    NSDate *dt2 =  [df dateFromString:date2];
     NSComparisonResult result = [dt1 compare:dt2];
     switch (result){
             //date2比date1大

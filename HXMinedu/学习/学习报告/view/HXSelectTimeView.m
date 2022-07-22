@@ -190,7 +190,7 @@
             model.isSelected = NO;
         }
     }];
-    self.isRefresh = (self.selectIndex == indexPath.row);
+    self.isRefresh = (self.selectIndex!= indexPath.row);
     [self.tableView reloadData];
 }
 -(UITableView *)tableView{

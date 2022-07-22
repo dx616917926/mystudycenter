@@ -126,7 +126,6 @@
         HXStudentYiDongModel *studentYiDongModel = self.dataList[indexPath.row];
         cell.studentYiDongModel = studentYiDongModel;
     }
-   
     return cell;
 }
 

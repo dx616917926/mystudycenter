@@ -8,6 +8,7 @@
 #import "HXLunWenViewController.h"
 #import "HXStudentPaperModel.h"
 #import <QuickLook/QuickLook.h>
+#import "HXFileDownloadManager.h"
 
 @interface HXLunWenViewController ()<UIDocumentPickerDelegate,QLPreviewControllerDataSource>
 
@@ -164,7 +165,7 @@
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     // 1. 创建会话管理者
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    
+
     // 2. 创建下载路径和请求对象
     NSURL *URL = [NSURL URLWithString:downLoadUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
@@ -174,7 +175,7 @@
 
     //下载文件
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress){
-        
+
     } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
         NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];

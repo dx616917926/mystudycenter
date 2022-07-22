@@ -31,18 +31,21 @@
     // Do any additional setup after loading the view.
     //UI
     [self createUI];
-    if (self.cellType == HXKeJianXueXiReportType) {
-        //获取学习报告课件详情
-        [self getLearnReportKjInfo];
-    }else{
-        //获取学习报告考试详情
-        [self getLearnReportExamInfo];
-    }
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self pullDownRefrsh];
 }
 
 #pragma mark - Setter
 -(void)setIsHistory:(BOOL)isHistory{
     _isHistory = isHistory;
+}
+
+-(void)setCreateDate:(NSString *)createDate{
+    _createDate = createDate;
 }
 
 -(void)setCellType:(HXLearnReportCellType)cellType{
@@ -96,7 +99,8 @@
         @"major_id":HXSafeString(selectMajorModel.major_id),
         @"type":@(selectMajorModel.type),
         @"course_id":HXSafeString(self.learnCourseItemModel.course_id),
-        @"courseCode":HXSafeString(self.learnCourseItemModel.courseCode)
+        @"courseCode":HXSafeString(self.learnCourseItemModel.courseCode),
+        @"createDate":(self.isHistory?HXSafeString(self.createDate):@"")
     };
     [self.view showLoading];
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetLearnReportKjInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
@@ -135,6 +139,20 @@
     } failure:^(NSError * _Nonnull error) {
         [self.mainTableView.mj_header endRefreshing];
         [self.view hideLoading];
+    }];
+}
+
+
+//获取系统时间
+-(void)getSystemTime:(void (^)(NSString *currentDateStr))callBack{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetSystemTime withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            callBack([dictionary stringValueForKey:@"Data"]);
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
     }];
 }
 
@@ -208,30 +226,38 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (self.cellType == HXKeJianXueXiReportType) {
+    if (self.cellType == HXKeJianXueXiReportType&&!self.isHistory) {
         if (indexPath.row<self.self.learnReportCourseDetailModel.learnItemDetailList.count) {
-            HXLearnItemDetailModel *learnItemDetailModel = self.self.learnReportCourseDetailModel.learnItemDetailList[indexPath.row];
-            if ([learnItemDetailModel.stemCode isEqualToString:@"MOOC"]) {
-                HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
-                moocVc.titleName = self.learnCourseItemModel.courseName;
-                moocVc.moocUrl = [learnItemDetailModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
-                moocVc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:moocVc animated:YES];
-            }else{
-                TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-                if (@available(iOS 13.0, *)) {
-                    playerVC.barStyle = UIStatusBarStyleDarkContent;
-                } else {
-                    playerVC.barStyle = UIStatusBarStyleDefault;
+            [self getSystemTime:^(NSString *currentDateStr) {
+                if ([HXCommonUtil compareDate:currentDateStr withDate:self.learnReportCourseDetailModel.StartDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==-1&&[HXCommonUtil compareDate:currentDateStr withDate:self.learnReportCourseDetailModel.EndDate formatterStr:@"yyyy-MM-dd HH:mm:ss"]==1) {
+                    
+                    HXLearnItemDetailModel *learnItemDetailModel = self.self.learnReportCourseDetailModel.learnItemDetailList[indexPath.row];
+                    if ([learnItemDetailModel.stemCode isEqualToString:@"MOOC"]) {
+                        HXMoocViewController *moocVc = [[HXMoocViewController alloc] init];
+                        moocVc.titleName = self.learnCourseItemModel.courseName;
+                        moocVc.moocUrl = [learnItemDetailModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
+                        moocVc.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:moocVc animated:YES];
+                    }else{
+                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                        if (@available(iOS 13.0, *)) {
+                            playerVC.barStyle = UIStatusBarStyleDarkContent;
+                        } else {
+                            playerVC.barStyle = UIStatusBarStyleDefault;
+                        }
+                        playerVC.barStyle = UIStatusBarStyleDefault;
+                        playerVC.showLearnFinishStyle = YES;
+                        playerVC.hidesBottomBarWhenPushed = YES;
+                        if ([HXCommonUtil isNull:learnItemDetailModel.cws_param]) return;
+                        playerVC.cws_param = learnItemDetailModel.cws_param;
+                        [self.navigationController pushViewController:playerVC animated:YES];
+                    }
+                    [self changeWatchVideoNum:self.learnReportCourseDetailModel.studentCourseID];
+                
+                }else{
+                    [self.view showTostWithMessage:@"课件学习不在时间范围内"];
                 }
-                playerVC.barStyle = UIStatusBarStyleDefault;
-                playerVC.showLearnFinishStyle = YES;
-                playerVC.hidesBottomBarWhenPushed = YES;
-                if ([HXCommonUtil isNull:learnItemDetailModel.cws_param]) return;
-                playerVC.cws_param = learnItemDetailModel.cws_param;
-                [self.navigationController pushViewController:playerVC animated:YES];
-            }
-            [self changeWatchVideoNum:self.learnReportCourseDetailModel.studentCourseID];
+            }];
         }
     }
 }

@@ -117,12 +117,25 @@ OBJC_EXPORT
  */
 @property (nonatomic, assign) BOOL enableSEI;
 
+/**
+ @brief 是否开启本地缓存
+ */
+/****
+ @brief Enable or disable local cache.
+ */
+@property(nonatomic, assign) BOOL enableLocalCache;
+
 /* set the video format for renderFrame callback
  * vtb decoder only, equal to OSType, not be supported by other decoder
   * support 420v 420f y420 BGRA
 * */
 @property (nonatomic, assign) int pixelBufferOutputFormat;
-
+/**
+ @brief  HLS直播时，起播分片位置。
+ */
+/****
+ @brief  The start playing index of fragments, when HLS is live.
+ */
 @property(nonatomic, assign) int liveStartIndex;
 /**
  @brief 禁用Audio.
@@ -155,6 +168,23 @@ OBJC_EXPORT
  @brief set the maximum backward buffer duration of the player.
  */
 @property(nonatomic, assign) uint64_t mMAXBackwardDuration;
+
+
+/**
+ @brief 优先保证音频播放；在网络带宽不足的情况下，优先保障音频的播放，目前只在dash直播流中有效（视频已经切换到了最低码率）
+ */
+/****
+ @brief prefer audio playback; prefer audio playback when under insufficient network bandwidth. At present, it is only effective in dash live stream (the video has been switched to the lowest bit rate)
+ */
+@property (nonatomic, assign) BOOL preferAudio;
+
+/**
+ @brief 播放器实例是否可以使用http dns进行解析，-1 表示跟随全局设置，0 disable
+ */
+/****
+ @brief whether enable http dns, -1 : as globel setting
+ */
+@property(nonatomic, assign) int enableHttpDns;
 
 @end
 

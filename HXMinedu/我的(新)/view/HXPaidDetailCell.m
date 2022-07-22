@@ -110,7 +110,8 @@
 }
 
 #pragma mark - Event
-///查看凭证 PDFType: 1、已支付待确认,交易凭证     2、已完成,收款凭证    3、已完成,发票凭证
+///查看凭证 PDFType: 1、收款凭证     2、交易凭证    3、发票凭证
+///订单类型 orderStatus: -1-已支付待确认   1-已完成   0-未完成  2-已结转
 -(void)checkVoucher:(UIButton *)sender{
     //-1 已支付待确认 1-已完成 0-未完成
     NSInteger pDFType = 99;
@@ -118,12 +119,12 @@
     if (self.paymentDetailModel.orderStatus == 1&&![HXCommonUtil isNull:self.paymentDetailModel.invoiceurl]) {//已完成,发票凭证
         pDFType = 3;
         url = self.paymentDetailModel.invoiceurl;
-    }else if (self.paymentDetailModel.orderStatus == -1&&![HXCommonUtil isNull:self.paymentDetailModel.receiptUrl]) {//已支付待确认,交易凭证
-        url = self.paymentDetailModel.receiptUrl;
-        pDFType = 1;
-    }else if (self.paymentDetailModel.orderStatus == 1&&![HXCommonUtil isNull:self.paymentDetailModel.proofUrl]){//已完成,收款凭证
-        pDFType = 2;
+    }else if (self.paymentDetailModel.orderStatus == -1&&![HXCommonUtil isNull:self.paymentDetailModel.proofUrl]) {//已支付待确认,交易凭证
         url = self.paymentDetailModel.proofUrl;
+        pDFType = 2;
+    }else if (self.paymentDetailModel.orderStatus == 1&&![HXCommonUtil isNull:self.paymentDetailModel.receiptUrl]){//已完成,收款凭证
+        pDFType = 1;
+        url = self.paymentDetailModel.receiptUrl;
     }
     if (pDFType!=99&&self.delegate && [self.delegate respondsToSelector:@selector(paidDetailCell:checkVoucher:pDFType:)]) {
         [self.delegate paidDetailCell:self checkVoucher:url pDFType:pDFType];

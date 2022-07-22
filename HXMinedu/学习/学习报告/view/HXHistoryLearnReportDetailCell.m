@@ -85,7 +85,7 @@
                 [self.stateBtn setTitle:@"学习中" forState:UIControlStateNormal];
                 [self.stateBtn setTitleColor:COLOR_WITH_ALPHA(0xFF7934, 1) forState:UIControlStateNormal];
                 [self.stateBtn setImage:[UIImage imageNamed:@"xuexizhongstate_icon"] forState:UIControlStateNormal];
-                self.finishNumLabel.text = [NSString stringWithFormat:@"%f",self.gradientProgressView.progress*100];
+                self.finishNumLabel.text = [NSString stringWithFormat:@"%.1f%%",self.gradientProgressView.progress*100];
             }
             
         }
