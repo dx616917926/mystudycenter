@@ -23,9 +23,12 @@
 #import "XHImageViewer.h"
 #import "UIImageView+AFNetworking.h"
 #import <UMCommon/MobClick.h>
+#import "HXFloatButtonView.h"
+#import "HXExamErrorReportView.h"
+#import <CommonCrypto/CommonDigest.h>
+#import "NSString+HXString.h"
 
-
-@interface HXStartExamViewController ()<HXPainterViewControllerDelegate,XHImageViewerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
+@interface HXStartExamViewController ()<HXPainterViewControllerDelegate,XHImageViewerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,HXFloatButtonViewDelegate>{
     
     UIView *menuView;//目录视图 点击目录出现 再次点击消失
     
@@ -127,8 +130,9 @@
 
 @property(nonatomic, strong) NSMutableDictionary *userAnswers;  //存放答题结果信息, 用于网页显示和客户端判卷
 @property(nonatomic, strong) NSMutableDictionary *rightAnswers; //题目正确答案和分数
-@property(nonatomic, assign) int subPosition;          //复合题子题位置
+@property(nonatomic, assign) int subPosition;                   //复合题子题位置
 @property(nonatomic, strong) HXQuestionInfo * curQuestion;      //当前显示的题目信息
+@property(nonatomic, strong) HXFloatButtonView *errorReportButton;//错误反馈按钮
 @end
 
 #define SplitViewBottomMargin (IS_iPhoneX?400:0)
@@ -279,6 +283,11 @@
     //发送统计信息
     [MobClick event:@"ExamViewEvent" attributes:@{@"title":_examTitle,@"type":type}];
     
+    //错题反馈按钮
+    if (self.examAdminPath) {
+        [self createErrorReportButtonView];
+    }
+    
     //引导页
     [self createGuideImageView];
     
@@ -377,6 +386,16 @@
     {
         //考试
         return [self.userExam stringValueForKey:@"userExamId"];
+    }
+}
+
+/// 创建错题反馈按钮
+- (void)createErrorReportButtonView {
+    if (!self.errorReportButton) {
+        self.errorReportButton = [[HXFloatButtonView alloc] initWithFrame:CGRectMake(kScreenWidth - 70, kScreenHeight - 120, 60, 60)];
+        self.errorReportButton.delegate = self;
+        self.errorReportButton.contentImage = [UIImage imageNamed:@"exam_error_report_btn"];
+        [self.view addSubview:self.errorReportButton];
     }
 }
 
@@ -659,6 +678,10 @@
  */
 - (void)prepareSubmitTheExampaper {
     
+    //移除残留的错题反馈窗口
+    UIView *lastReportView = [self.tabBarController.view viewWithTag:HXExamErrorReportViewTag];
+    [lastReportView removeFromSuperview];
+    
     //直接提交试卷
     [[[UIApplication sharedApplication] keyWindow] showLoading];
     isFinal =NO;
@@ -783,7 +806,7 @@
         data.attach = @"";
     }
     
-    NSString *url = [NSString stringWithFormat:@"%@%@%@/%ld",self.examBasePath,HXEXAM_MYANSWER_SAVE,[self.userExam objectForKey:@"userExamId"],data.questionId];
+    NSString *url = [NSString stringWithFormat:@"%@%@%@/%ld",self.examBasePath,HXEXAM_MYANSWER_SAVE_NEW,[self userExamId],data.questionId];
     
     NSString *tmp = [NSString stringWithFormat:@"%@",[self.userExam objectForKey:@"clientJudge"] ];
     float score = 0.0f;
@@ -799,7 +822,41 @@
         }
     }
     
-    NSDictionary *dic = @{@"psqId":[NSNumber numberWithInteger:data.paperSuitQuestionId],@"questionId":[NSNumber numberWithInteger:data.questionId],@"answer":data.answer,@"right":right ,@"score":[NSNumber numberWithFloat:score],@"attach":data.attach};
+    NSDate *date = [NSDate date];//获取当前时间
+    NSTimeInterval time = [date timeIntervalSince1970]*1000;// *1000 是精确到毫秒
+    NSString *timeString = [NSString stringWithFormat:@"%.0f",time];
+    
+    NSString *key = [NSString stringWithFormat:@"%ld%@",data.questionId,[self userExamId]];
+    NSMutableString *value = [NSMutableString string];
+    if (data.answer.length>0) {
+        if (data.answer.trim.length>0) {
+            [value appendFormat:@"answer=%@",data.answer];
+        }
+    }
+    if (data.attach.length>0) {
+        if (value.length>0) {
+            [value appendString:@"&"];
+        }
+        [value appendFormat:@"attach=%@",data.attach];
+    }
+    if (value.length>0) {
+        [value appendString:@"&"];
+    }
+    [value appendFormat:@"psqId=%@",[NSNumber numberWithInteger:data.paperSuitQuestionId]];
+    
+    [value appendFormat:@"&questionId=%@",[NSNumber numberWithInteger:data.questionId]];
+    
+    [value appendFormat:@"&right=%@",right];
+    
+    [value appendFormat:@"&score=%@",[NSNumber numberWithFloat:score]];
+    
+    [value appendFormat:@"&stime=%@",timeString];
+
+    [value appendFormat:@"&key=%@",key];
+    
+    NSString *m = [self MD5StringWithKey:value];
+    
+    NSDictionary *dic = @{@"psqId":[NSNumber numberWithInteger:data.paperSuitQuestionId],@"questionId":[NSNumber numberWithInteger:data.questionId],@"answer":data.answer,@"right":right,@"score":[NSNumber numberWithFloat:score],@"attach":data.attach,@"stime":timeString,@"m":m};
 
     [HXExamSessionManager postDataWithNSString:url withDictionary:dic success:^(NSDictionary *dictionary) {
         
@@ -2774,7 +2831,31 @@
     }
 }
 
+#pragma mark - HXFloatButtonViewDelegate
 
+/// 点击了悬浮按钮
+- (void)didClickFloatButtonView:(HXFloatButtonView *)floatView
+{
+    if (floatView == self.errorReportButton) {
+        
+        if (self.curQuestion && self.examAdminPath) {
+            
+            NSString *questionId = [NSString stringWithFormat:@"%d",self.curQuestion._id];
+            
+            if ([self.curQuestion isComplex] && self.subPosition >= 0) {
+                //
+                HXQuestionInfo *sub = [self.curQuestion.subs objectAtIndex:self.subPosition];
+                questionId = [NSString stringWithFormat:@"%d",sub._id];
+            }
+            //弹出错题反馈界面
+            HXExamErrorReportView *reportView = [[HXExamErrorReportView alloc] init];
+            reportView.examBasePath = self.examAdminPath;
+            reportView.questionId = questionId;
+            reportView.userExamId = [self userExamId];
+            [reportView showInViewController:self];
+        }
+    }
+}
 
 /// 检查题目是否拆分成功，并上报给友盟统计
 /// 判断依据：是否包含多个class：ui-question-independency
@@ -2789,6 +2870,21 @@
         [MobClick event:@"ExamQuestionError" attributes:@{@"title":_examTitle,@"qid":[NSString stringWithFormat:@"%@-%d",tempTitleText,question._id]}];
         NSLog(@"⚠️检测到题目拆分失败！⚠️");
     }
+}
+
+-(NSString *)MD5StringWithKey:(NSString*)key
+{
+    if (key == nil || key.length ==0) {
+        return @"";
+    }
+    const char *str = [key UTF8String];
+    unsigned char r[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, (CC_LONG)strlen(str), r);
+    NSString *md5str = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x"
+                        "%02x%02x%02x%02x%02x%02x",
+                        r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9],
+                        r[10], r[11], r[12], r[13], r[14], r[15]];
+    return md5str;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

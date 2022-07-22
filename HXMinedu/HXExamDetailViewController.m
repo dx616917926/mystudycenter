@@ -434,7 +434,8 @@
                     svc.examTitle = title;
                     svc.isStartExam = YES;
                     svc.isEnterExam = YES;
-                    svc.examBasePath = [dic objectForKey:@"context"];
+                    svc.examBasePath = [dictionary objectForKey:@"context"];
+                    svc.examAdminPath = [dictionary objectForKey:@"exam_main_server"];
                     [self.navigationController pushViewController:svc animated:YES];
                     
                 }else
@@ -488,8 +489,8 @@
                     svc.examTitle = [dic objectForKey:@"examName"];
                     svc.isStartExam = NO;
                     svc.isEnterExam = YES;
-                    svc.examBasePath = [dic objectForKey:@"context"];
-                    
+                    svc.examBasePath = [dictionary objectForKey:@"context"];
+                    svc.examAdminPath = [dictionary objectForKey:@"exam_main_server"];
                     [self.navigationController pushViewController:svc animated:YES];
                     
                 }else
@@ -536,8 +537,8 @@
             svc.isStartExam = NO;
             svc.isEnterExam = NO;
             svc.isAllowSeeAnswer = [[dictionary objectForKey:@"allowSeeAnswer"] boolValue];
-            svc.examBasePath = [dicSource objectForKey:@"context"];
-            
+            svc.examBasePath = [dictionary objectForKey:@"context"];
+            svc.examAdminPath = [dictionary objectForKey:@"exam_main_server"];
             [self.navigationController pushViewController:svc animated:YES];
             
         }else

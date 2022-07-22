@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HXVideoLearnViewController : HXBaseViewController
 @property(nonatomic,assign) BOOL isHistory;
+///有创建时间为历史学习报告
+@property(nonatomic, copy) NSString *createDate;
 @property(nonatomic,strong) UITableView *mainTableView;
 ///模块名称
 @property(nonatomic, copy) NSString *ModuleName;

@@ -90,7 +90,6 @@
         @"personId":HXSafeString(self.userNameTextField.text)
     };
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetDomainNameList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-        
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [self.domainNameList removeAllObjects];
@@ -102,16 +101,19 @@
             }else{//只有一个域名默认选择第一个登陆
                 if (![HXCommonUtil isNull:model.DomainName]) {
                     //修改baseURL
-                    [HXUserDefaults setObject:HXSafeString(HXSafeString(model.DomainName)) forKey:KP_SERVER_KEY];
-                    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(HXSafeString(model.DomainName))];
+                    [HXUserDefaults setObject:HXSafeString(model.DomainName) forKey:KP_SERVER_KEY];
+                    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(model.DomainName)];
                     [self login];
                 }else{
                     [self.view showErrorWithMessage:@"域名不存在"];
+                    self.loginBtn.userInteractionEnabled = YES;
                 }
             }
+        }else{
+            self.loginBtn.userInteractionEnabled = YES;
         }
     } failure:^(NSError * _Nonnull error) {
-        
+        self.loginBtn.userInteractionEnabled = YES;
     }];
 
 }
@@ -124,7 +126,7 @@
     WeakSelf(weakSelf);
     [self.view showLoadingWithMessage:@"登录中…"];
     [HXBaseURLSessionManager doLoginWithUserName:self.userNameTextField.text andPassword:self.passwordTextField.text success:^(NSDictionary * _Nonnull dictionary) {
-        
+       
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             [HXPublicParamTool sharedInstance].isLogin = YES;
@@ -146,10 +148,11 @@
                 [weakSelf previousBtnClick];
             });
         }else{
+            weakSelf.loginBtn.userInteractionEnabled = YES;
             [weakSelf.view hideLoading];
         }
     } failure:^(NSString * _Nonnull messsage) {
-        //
+        weakSelf.loginBtn.userInteractionEnabled = YES;
         [weakSelf.view showErrorWithMessage:messsage];
     }];
 }
@@ -158,21 +161,24 @@
 
 #pragma mark - Event
 - (void)loginButtonClick{
-    
+    self.loginBtn.userInteractionEnabled = NO;
     [self.userNameTextField resignFirstResponder];
     [self.passwordTextField resignFirstResponder];
     
     if (!self.agreeAppBtn.selected) {
+        self.loginBtn.userInteractionEnabled = YES;
         [self.view showTostWithMessage:@"请先阅读并同意《用户协议隐私政策》"];
         return;
     }
     
     if ([HXCommonUtil isNull:self.userNameTextField.text]) {
+        self.loginBtn.userInteractionEnabled = YES;
         [self.view showTostWithMessage:@"用户名必须填写"];
         return;
     }
     
     if ([HXCommonUtil isNull:self.passwordTextField.text]) {
+        self.loginBtn.userInteractionEnabled = YES;
         [self.view showTostWithMessage:@"密码必须填写"];
         return;
     }
@@ -180,18 +186,27 @@
 #if kHXISFenKuLogin
     [self getDomainNameList];
 #else
+    [HXBaseURLSessionManager setBaseURLStr:KHX_URL_MAIN];
     [self login];
 #endif
     
 
 }
 
+//选择机构
 -(void)selectJiGou:(UIButton *)sender{
+    
     if (self.maskView.superview) {
         [self.maskView removeFromSuperview];
     }else{
         [self.jiGouView addSubview:self.maskView];
     }
+    //重置frame，数据变了，防止布局没改变
+    CGSize size = CGSizeMake(kScreenWidth-110, (self.domainNameList.count*50>300?230:self.domainNameList.count*50));
+    CGRect frame = self.maskView.frame;
+    frame.size = size;
+    self.maskView.frame = frame;
+    [self.jiGouTableView reloadData];
 }
 
 //确定
@@ -199,15 +214,19 @@
     if (self.seletDomainNameModel==nil) {
         [self.view showTostWithMessage:@"请选择登陆的机构"];
         return;
+    }else if ([HXCommonUtil isNull:self.seletDomainNameModel.DomainName]) {
+        [self.view showTostWithMessage:@"域名不存在"];
+        return;
     }
     //修改baseURL
-    [HXUserDefaults setObject:HXSafeString(HXSafeString(self.seletDomainNameModel.DomainName)) forKey:KP_SERVER_KEY];
-    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(HXSafeString(self.seletDomainNameModel.DomainName))];
+    [HXUserDefaults setObject:HXSafeString(self.seletDomainNameModel.DomainName) forKey:KP_SERVER_KEY];
+    [HXBaseURLSessionManager setBaseURLStr:HXSafeString(self.seletDomainNameModel.DomainName)];
     [self login];
 }
 
 //返回上一步
 -(void)previousBtnClick{
+    self.loginBtn.userInteractionEnabled = YES;
     self.seletDomainNameModel = nil;
     self.jiGouNameBtn.selected = NO;
     [self.jiGouNameBtn setTitle:@"" forState:UIControlStateNormal];
@@ -266,7 +285,9 @@
     if (!cell) {
         cell = [[HXSelectJiGouCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectJiGouCellIdentifier];
     }
-    cell.domainNameModel = self.domainNameList[indexPath.row];
+    if (indexPath.row<self.domainNameList.count) {
+        cell.domainNameModel = self.domainNameList[indexPath.row];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -463,9 +484,15 @@
     
     
 #ifdef DEBUG
-    //测试账号
-    self.userNameTextField.text = @"440621199702053422";// @"430481198904251252";// @"436201199808050605";  @"430621199908080707"   @"430111199909090952" @"436210199807070740"//430406198006108968//430223198208226562//430522200201023319//430522200201020141//141414201601020304//152923198111156978//440621199702053422 @"430381200306190101"//630122200210165979//450922200301122931//430702200108303028//140224200311030012//410328196202098816//430381200306190101//440882198608235067
-    self.passwordTextField.text = @"440621199702053422";
+
+    if (kHXAPPEdition == kHXReleaseEdition) {
+        self.userNameTextField.text = @"441424199401021205";//430505199003141234//622326199712220019//430802199801093428//52010319920927406//320612201906143942//52010319920927406X//431322200310310621//430522199904217816//430981188709092022
+
+        self.passwordTextField.text = @"441424199401021205";
+    }else{
+        self.userNameTextField.text = @"430102199003073010";
+        self.passwordTextField.text = @"430102199003073010";//141414201201020001//500243197908029235//43022320030327006X//530125197405062014//141414200001090386
+    }
 #endif
 }
 
@@ -634,7 +661,7 @@
     return _privacyBtn;
 }
 
-
+#pragma mark - 选择机构弹框
 -(UIView *)jiGouView{
     if (!_jiGouView) {
         _jiGouView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -815,7 +842,7 @@
 
 -(UIView *)maskView{
     if (!_maskView) {
-        _maskView = [[UIView alloc] initWithFrame:CGRectMake(80, CGRectGetMinY(self.line3.frame)+1, kScreenWidth-110, 100)];
+        _maskView = [[UIView alloc] initWithFrame:CGRectMake(80, CGRectGetMinY(self.line3.frame)+1, kScreenWidth-110, (self.domainNameList.count*50>300?230:self.domainNameList.count*50))];
         _maskView.backgroundColor = COLOR_WITH_ALPHA(0xFFFFFF, 1);
         _maskView.layer.shadowColor = COLOR_WITH_ALPHA(0x000000, 0.15).CGColor;
         _maskView.layer.shadowOffset = CGSizeMake(0, 3);
@@ -844,7 +871,7 @@
         }
         _jiGouTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         _jiGouTableView.scrollIndicatorInsets = _jiGouTableView.contentInset;
-        _jiGouTableView.showsVerticalScrollIndicator = NO;
+        _jiGouTableView.showsVerticalScrollIndicator = YES;
     }
     return _jiGouTableView;
     

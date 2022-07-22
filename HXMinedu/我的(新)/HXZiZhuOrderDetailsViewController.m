@@ -28,6 +28,11 @@
 @property(nonatomic,strong) NSMutableArray *paymentTypeTitles;
 @property(nonatomic,strong) NSString *payTypeId;
 
+//银联支付账号套数据源
+@property(nonatomic,strong) NSMutableArray *shanghuTaoTypeList;
+@property(nonatomic,strong) NSMutableArray *shanghuTaoTypeTitles;
+@property(nonatomic,strong) NSString *shanghuTaoTypeId;
+
 @property(strong,nonatomic) UITableView *mainTableView;
 
 @property(strong,nonatomic) UIView *orderDetailsTableHeaderView;
@@ -41,6 +46,8 @@
 @property(nonatomic,strong) UIButton *paymentMethodBtn;
 @property(nonatomic,strong) UILabel *paymentTypeLabel;//支付类型：
 @property(nonatomic,strong) UIButton *paymentTypeBtn;
+//商户信息：
+@property(nonatomic,strong) UIButton *shanghuTaoTypeBtn;
 @property(nonatomic,strong) UILabel *yingjiaoTotalLabel;//本次应缴合计：
 @property(nonatomic,strong) UILabel *yingjiaoTotalMoneyLabel;
 @property(nonatomic,strong) UILabel *xuJiaoNaLabel;//需缴款：
@@ -97,10 +104,51 @@
                 HXCommonSelectModel *payModel = self.paymentMethodList.firstObject;
                 self.payModeId = payModel.value;
                 [self.paymentMethodBtn setTitle:payModel.text forState:UIControlStateNormal];
-                //获取支付类型
-                [self getPayType:self.payModeId];
+                //获取银联支付账号套
+                [self getPayTypeAliPay];
             }
             
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+    }];
+}
+
+#pragma mark -  获取银联支付账号套
+-(void)getPayTypeAliPay{
+    NSDictionary *paramsDic = @{
+        @"version_id":HXSafeString(self.paidDetailsInfoModel.version_id),
+        @"major_id":HXSafeString(self.paidDetailsInfoModel.major_id),
+        @"type":@(self.paidDetailsInfoModel.type),
+       
+    };
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetPayTypeAliPay withDictionary:paramsDic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            [self.shanghuTaoTypeList removeAllObjects];
+            NSArray *list = [HXCommonSelectModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (list.count>0) {
+                [self.shanghuTaoTypeList addObjectsFromArray:list];
+                [self.shanghuTaoTypeTitles removeAllObjects];
+                [self.shanghuTaoTypeList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    HXCommonSelectModel *model = obj;
+                    [self.shanghuTaoTypeTitles addObject:model.text];
+                }];
+                HXCommonSelectModel *shanghuTaoModel = self.shanghuTaoTypeList.firstObject;
+                if ([self.payModeId integerValue]==1) {
+                    self.shanghuTaoTypeId = shanghuTaoModel.value;
+                    [self.shanghuTaoTypeBtn setTitle:shanghuTaoModel.text forState:UIControlStateNormal];
+                    self.shanghuTaoTypeBtn.sd_layout.heightIs(26);
+                }else{
+                    self.shanghuTaoTypeId = nil;
+                    self.shanghuTaoTypeBtn.sd_layout.heightIs(0);
+                }
+            }else{
+                [self.shanghuTaoTypeTitles removeAllObjects];
+                self.shanghuTaoTypeId = @"";
+                [self.shanghuTaoTypeBtn setTitle:nil forState:UIControlStateNormal];
+            }
         }
     } failure:^(NSError * _Nonnull error) {
        
@@ -215,6 +263,18 @@
     }];
 }
 
+//商户信息
+-(void)showShanghuTaoTypeMenu:(UIButton *)sender{
+    
+    [YBPopupMenu showRelyOnView:sender titles:self.shanghuTaoTypeTitles icons:nil menuWidth:150 otherSettings:^(YBPopupMenu *popupMenu) {
+        popupMenu.tag = 6666;
+        popupMenu.itemHeight = 35;
+        popupMenu.delegate = self;
+        popupMenu.isShowShadow = NO;
+    }];
+}
+
+
 -(void)pushPaymentVC:(UIButton *)sender{
     
      __block NSMutableArray *ordrInfoArr = [NSMutableArray array];
@@ -237,6 +297,7 @@
         @"type":@(self.paidDetailsInfoModel.type),
         @"PayMode_id":HXSafeString(self.payModeId),
         @"PayType_id":HXSafeString(self.payTypeId),
+        @"PayTypeAlipay":HXSafeString(self.shanghuTaoTypeId),
         @"ordrInfoArr":ordrInfoArr
     };
     NSLog(@"%@",paramsDic);
@@ -332,14 +393,25 @@
         HXCommonSelectModel *model = self.paymentMethodList[index];
         [self.paymentMethodBtn setTitle:model.text forState:UIControlStateNormal];
         self.payModeId = model.value;
-        [self getPayType:self.payModeId];
-        
+        //value为1时，才需要展示银联支付账号套.，显示商户信息
+        if ([self.payModeId integerValue]==1) {
+            HXCommonSelectModel *shanghuTaoModel = self.shanghuTaoTypeList.firstObject;
+            self.shanghuTaoTypeId = shanghuTaoModel.value;
+            [self.shanghuTaoTypeBtn setTitle:shanghuTaoModel.text forState:UIControlStateNormal];
+            self.shanghuTaoTypeBtn.sd_layout.heightIs(26);
+        }else{
+            self.shanghuTaoTypeId = nil;
+            self.shanghuTaoTypeBtn.sd_layout.heightIs(0);
+        }
+    }else if (ybPopupMenu.tag == 6666) {//商户信息
+        HXCommonSelectModel *model = self.shanghuTaoTypeList[index];
+        [self.shanghuTaoTypeBtn setTitle:model.text forState:UIControlStateNormal];
+        self.shanghuTaoTypeId = model.value;
     }else if (ybPopupMenu.tag == 9999) {//支付类型
         HXCommonSelectModel *model = self.paymentTypeList[index];
         [self.paymentTypeBtn setTitle:model.text forState:UIControlStateNormal];
         self.payTypeId = model.value;
     }
-    
 }
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
@@ -424,6 +496,20 @@
         _paymentTypeTitles = [NSMutableArray array];
     }
     return _paymentTypeTitles;
+}
+
+-(NSMutableArray *)shanghuTaoTypeList{
+    if (!_shanghuTaoTypeList) {
+        _shanghuTaoTypeList = [NSMutableArray array];
+    }
+    return _shanghuTaoTypeList;
+}
+
+-(NSMutableArray *)shanghuTaoTypeTitles{
+    if (!_shanghuTaoTypeTitles) {
+        _shanghuTaoTypeTitles = [NSMutableArray array];
+    }
+    return _shanghuTaoTypeTitles;
 }
 
 -(UITableView *)mainTableView{
@@ -518,12 +604,11 @@
 
 -(UIView *)orderDetailsTableFooterView{
     if (!_orderDetailsTableFooterView) {
-        _orderDetailsTableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 190)];
+        _orderDetailsTableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
         _orderDetailsTableFooterView.backgroundColor = [UIColor clearColor];
         [_orderDetailsTableFooterView addSubview:self.paymentMethodLabel];
         [_orderDetailsTableFooterView addSubview:self.paymentMethodBtn];
-//        [_orderDetailsTableFooterView addSubview:self.paymentTypeLabel];
-//        [_orderDetailsTableFooterView addSubview:self.paymentTypeBtn];
+        [_orderDetailsTableFooterView addSubview:self.shanghuTaoTypeBtn];
         [_orderDetailsTableFooterView addSubview:self.yingjiaoTotalLabel];
         [_orderDetailsTableFooterView addSubview:self.yingjiaoTotalMoneyLabel];
         [_orderDetailsTableFooterView addSubview:self.xuJiaoNaLabel];
@@ -540,7 +625,7 @@
         
         self.paymentMethodBtn.sd_layout
         .centerYEqualToView(self.paymentMethodLabel)
-        .rightSpaceToView(_orderDetailsTableFooterView, 10)
+        .leftSpaceToView(self.paymentMethodLabel, 10)
         .heightIs(26)
         .widthIs(100);
         self.paymentMethodBtn.sd_cornerRadius = @4;
@@ -558,32 +643,25 @@
         .heightIs(20);
         
         
-        //支付类型
-//        self.paymentTypeLabel.sd_layout
-//        .topSpaceToView(self.paymentMethodLabel, 17)
-//        .leftEqualToView(self.paymentMethodLabel)
-//        .heightRatioToView(self.paymentMethodLabel, 1);
-//        [self.paymentTypeLabel setSingleLineAutoResizeWithMaxWidth:120];
-//
-//
-//        self.paymentTypeBtn.sd_layout
-//        .centerYEqualToView(self.paymentTypeLabel)
-//        .rightEqualToView(self.paymentMethodBtn)
-//        .heightIs(26)
-//        .widthIs(100);
-//        self.paymentTypeBtn.sd_cornerRadius = @4;
-//
-//        self.paymentTypeBtn.imageView.sd_layout
-//        .rightSpaceToView(self.paymentTypeBtn, 5)
-//        .centerYEqualToView(self.paymentTypeBtn)
-//        .heightIs(6)
-//        .widthIs(8);
-//
-//        self.paymentTypeBtn.titleLabel.sd_layout
-//        .centerYEqualToView(self.paymentTypeBtn)
-//        .leftSpaceToView(self.paymentTypeBtn, 5)
-//        .rightSpaceToView(self.paymentTypeBtn.imageView, 0)
-//        .heightIs(20);
+        //商户信息
+        self.shanghuTaoTypeBtn.sd_layout
+        .centerYEqualToView(self.paymentMethodBtn)
+        .leftSpaceToView(self.paymentMethodBtn, 20)
+        .heightIs(0)
+        .widthIs(150);
+        self.shanghuTaoTypeBtn.sd_cornerRadius = @4;
+
+        self.shanghuTaoTypeBtn.imageView.sd_layout
+        .rightSpaceToView(self.shanghuTaoTypeBtn, 5)
+        .centerYEqualToView(self.shanghuTaoTypeBtn)
+        .heightIs(6)
+        .widthIs(8);
+
+        self.shanghuTaoTypeBtn.titleLabel.sd_layout
+        .centerYEqualToView(self.shanghuTaoTypeBtn)
+        .leftSpaceToView(self.shanghuTaoTypeBtn, 5)
+        .rightSpaceToView(self.shanghuTaoTypeBtn.imageView, 0)
+        .heightIs(20);
         
         
         self.yingjiaoTotalLabel.sd_layout
@@ -663,6 +741,23 @@
         [_paymentTypeBtn addTarget:self action:@selector(showPaymentTypeMenu:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _paymentTypeBtn;
+}
+
+
+-(UIButton *)shanghuTaoTypeBtn{
+    if (!_shanghuTaoTypeBtn) {
+        _shanghuTaoTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _shanghuTaoTypeBtn.clipsToBounds = YES;
+        _shanghuTaoTypeBtn.layer.borderWidth = 1;
+        _shanghuTaoTypeBtn.layer.borderColor = COLOR_WITH_ALPHA(0x5699FF, 1).CGColor;
+        _shanghuTaoTypeBtn.backgroundColor = [UIColor clearColor];
+        _shanghuTaoTypeBtn.titleLabel.font = HXFont(14);
+        _shanghuTaoTypeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [_shanghuTaoTypeBtn setTitleColor:COLOR_WITH_ALPHA(0x5699FF, 1) forState:UIControlStateNormal];
+        [_shanghuTaoTypeBtn setImage:[UIImage imageNamed:@"bluetriangle_icon"] forState:UIControlStateNormal];
+        [_shanghuTaoTypeBtn addTarget:self action:@selector(showShanghuTaoTypeMenu:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _shanghuTaoTypeBtn;
 }
 
 

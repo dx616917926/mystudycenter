@@ -29,6 +29,10 @@
     _isHistory = isHistory;
 }
 
+-(void)setCreateDate:(NSString *)createDate{
+    _createDate = createDate;
+}
+
 -(void)pullDownRefrsh{
     [self.mainTableView.mj_header endRefreshing];
 }
@@ -88,6 +92,9 @@
     vc.isHistory = self.isHistory;
     if (indexPath.row<self.learnCourseItemList.count) {
         vc.learnCourseItemModel = self.learnCourseItemList[indexPath.row];
+    }
+    if (self.isHistory) {
+        vc.createDate = self.createDate;
     }
     vc.cellType = HXKeJianXueXiReportType;
     [self.navigationController pushViewController:vc animated:YES];

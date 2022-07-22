@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define HXEXAM_MYANSWER_SAVE  @"/student/exam/myanswer/save/"  // 保存答案：在回答试卷的时候，每答一道题都会将该题的信息保存下来（题目的id，试卷和题目的关联id（paperSuitQuestionId），还有answer），在回答下一道题的时候会将这道题提交（并且当clientjudge为true时，要进行客户端判卷，用 考试试卷 中 下载正确答案 接口的数据 进行对比，得到分数）     {basePath}+“/student/exam/myanswer/save/”+{userExamId}+”/”+questionId
 
+#define HXEXAM_MYANSWER_SAVE_NEW  @"/student/exam/myanswer/newSave/"  //新版接口，加入参数md5校验 m
+
 #define HXPOST_ANSWER_FILE  @"/student/exam/question/attaches/upload/filePath/form/"  //把问题附件上传到临时服务器，返回一个tempFIleName 路径值。
 
 #define HXMODULE_EXAMS_LIST  @"/exam-admin/home/my/module/exams/list/"  //1.    获取模块考试数据   +page +”?”+ param +”&pageCount=”+ pageCount
@@ -37,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXEXAM_RESULT_JSON  @"/exam-admin/home/my/exam/view/result/json/"  //2.考试记录数据   +{examId}
 
 #define HXEXAM_RESET_COOKIE @"/student/exam/resource/jsession"  //给wkwebview重置cookie
+
+#define HXEXAM_ERROR_REPORT @"/exam-admin/feedback/addFeedbackForm"  //提交错题反馈
 
 //EXAM
 #define MY_EXAM_BUNDLE_NAME @"statics.bundle"

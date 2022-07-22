@@ -11,7 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXLearnReportCourseDetailModel : NSObject
-
+//课件开始时间
+@property(nonatomic, copy) NSString *StartDate;
+//课件结束时间
+@property(nonatomic, copy) NSString *EndDate;
 ///课程名
 @property(nonatomic, copy) NSString *courseName;
 ///课件id
