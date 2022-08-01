@@ -285,7 +285,7 @@
         if ([dic[@"isShow"] integerValue] ==1) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;
-            btn.titleLabel.font = HXFont(_kpAdaptationWidthFont(12));
+            btn.titleLabel.font = HXFont(12);
             btn.tag = [dic[@"handleEventTag"] integerValue];
             [btn setTitle:dic[@"title"] forState:UIControlStateNormal];
             [btn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
@@ -624,7 +624,7 @@
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.textColor = [UIColor whiteColor];
-        _nameLabel.font = HXBoldFont(_kpAdaptationWidthFont(18));
+        _nameLabel.font = HXBoldFont(18);
         
     }
     return _nameLabel;
@@ -634,7 +634,7 @@
     if (!_phoneBtn) {
         _phoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _phoneBtn.hidden = YES;
-        _phoneBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(12));
+        _phoneBtn.titleLabel.font = HXFont(12);
         _phoneBtn.backgroundColor = COLOR_WITH_ALPHA(0xB8DCF9, 1);
         [_phoneBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
@@ -645,7 +645,7 @@
 -(UIButton *)collectInfoBtn{
     if (!_collectInfoBtn) {
         _collectInfoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _collectInfoBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(10));
+        _collectInfoBtn.titleLabel.font = HXFont(10);
         _collectInfoBtn.backgroundColor = COLOR_WITH_ALPHA(0xffffff, 1);
         [_collectInfoBtn setTitleColor:COLOR_WITH_ALPHA(0x4BA4FE, 1) forState:UIControlStateNormal];
         [_collectInfoBtn setTitle:@"去采集个人信息 >" forState:UIControlStateNormal];
@@ -750,7 +750,7 @@
             NSDictionary *dic = self.bujuArray[i];
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;
-            btn.titleLabel.font = HXFont(_kpAdaptationWidthFont(12));
+            btn.titleLabel.font = HXFont(12);
             btn.tag = [dic[@"handleEventTag"] integerValue];
             [btn setTitle:dic[@"title"] forState:UIControlStateNormal];
             [btn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];

@@ -290,7 +290,7 @@
         _versionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _versionBtn.tag = 9004;
         _versionBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-        _versionBtn.titleLabel.font = HXBoldFont(_kpAdaptationWidthFont(12));
+        _versionBtn.titleLabel.font = HXBoldFont(12);
         [_versionBtn setImage:[UIImage imageNamed:@"arrow_blue"] forState:UIControlStateNormal];
         [_versionBtn setTitleColor: COLOR_WITH_ALPHA(0x4BA4FE, 1) forState:UIControlStateNormal];
         [_versionBtn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
