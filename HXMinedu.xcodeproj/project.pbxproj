@@ -365,6 +365,7 @@
 		04C3A2F62595BAF1008F32A4 /* HXExamDetailTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04C3A2F52595BAF1008F32A4 /* HXExamDetailTopView.xib */; };
 		04C3A2FB2595C282008F32A4 /* HXExamRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C3A2F92595C282008F32A4 /* HXExamRecordCell.m */; };
 		04C3A2FC2595C282008F32A4 /* HXExamRecordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04C3A2FA2595C282008F32A4 /* HXExamRecordCell.xib */; };
+		04C6D5FC289A449000837FA4 /* minedu.crt in Resources */ = {isa = PBXBuildFile; fileRef = 04C6D5FB289A449000837FA4 /* minedu.crt */; };
 		04C782202807F54800095919 /* HXElectronicDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C7821F2807F54800095919 /* HXElectronicDataModel.m */; };
 		04CB3C0F25906A500042A682 /* HXLiveDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CB3C0E25906A500042A682 /* HXLiveDetailViewController.m */; };
 		04CB3C1425906A960042A682 /* HXLiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CB3C1325906A960042A682 /* HXLiveModel.m */; };
@@ -1101,6 +1102,7 @@
 		04C3A2F82595C282008F32A4 /* HXExamRecordCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXExamRecordCell.h; sourceTree = "<group>"; };
 		04C3A2F92595C282008F32A4 /* HXExamRecordCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXExamRecordCell.m; sourceTree = "<group>"; };
 		04C3A2FA2595C282008F32A4 /* HXExamRecordCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HXExamRecordCell.xib; sourceTree = "<group>"; };
+		04C6D5FB289A449000837FA4 /* minedu.crt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = minedu.crt; sourceTree = "<group>"; };
 		04C7821E2807F54800095919 /* HXElectronicDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXElectronicDataModel.h; sourceTree = "<group>"; };
 		04C7821F2807F54800095919 /* HXElectronicDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXElectronicDataModel.m; sourceTree = "<group>"; };
 		04CB3C0D25906A500042A682 /* HXLiveDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLiveDetailViewController.h; sourceTree = "<group>"; };
@@ -1713,6 +1715,7 @@
 		0449A3CF254C11F4001A28D5 /* TXMoviePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				04C6D5FB289A449000837FA4 /* minedu.crt */,
 				04E34D6F2601D00A0003002A /* TXMoviePlayer.framework */,
 				04E34D722601D0100003002A /* TXExamPopView.xcassets */,
 				04E34D712601D0100003002A /* TXMoviePlayer.xcassets */,
@@ -2842,6 +2845,7 @@
 				0449A512254C11F6001A28D5 /* 样式-橡皮擦.png in Resources */,
 				0449A520254C11F6001A28D5 /* painter_share@2x.png in Resources */,
 				04FD3D6025AD732F00E157EA /* HXExamListCell.xib in Resources */,
+				04C6D5FC289A449000837FA4 /* minedu.crt in Resources */,
 				0449A521254C11F6001A28D5 /* painter_bg2@2x.png in Resources */,
 				0449A51C254C11F6001A28D5 /* decrement@2x.png in Resources */,
 				0449A513254C11F6001A28D5 /* increment@2x.png in Resources */,

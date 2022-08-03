@@ -12,7 +12,7 @@ target 'HXMinedu' do
   pod 'SDWebImage', '~> 5.10.0'
   pod 'MMLayout', '0.1.0'
   pod 'FMDB', '~> 2.6.2'
-  pod 'AliPlayerSDK_iOS', '~> 5.4.5.0'
+  pod 'AliPlayerSDK_iOS', '~> 5.4.7.1'
   pod 'MJExtension', '3.4.1'
   pod 'HXViewHUD', '~> 0.3.0'
   pod 'SDAutoLayout', '~> 2.2.1'
