@@ -84,14 +84,14 @@
     [self.bigBackGroundView addSubview:self.gradientProgressView];
 
     
-    self.bigBackGroundView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, _kpw(23), 5, _kpw(23)));
+    self.bigBackGroundView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(0, 23, 5, 23));
     self.bigBackGroundView.layer.cornerRadius = 8;
     
     self.courseImageView.sd_layout
     .topSpaceToView(self.bigBackGroundView, 20)
     .leftSpaceToView(self.bigBackGroundView, 20)
-    .widthIs(_kpw(130))
-    .heightIs(_kpw(83));
+    .widthIs(130)
+    .heightIs(83);
     self.courseImageView.sd_cornerRadius = @4;
     
     self.jingpinLabel.sd_layout
@@ -140,7 +140,7 @@
     self.gradientProgressView.sd_layout
     .topSpaceToView(self.courseImageView, 13)
     .leftEqualToView(self.courseImageView)
-    .widthIs(_kpw(295))
+    .widthIs(295)
     .heightIs(18);
     [self.gradientProgressView updateLayout];
     
@@ -230,7 +230,7 @@
 
 -(HXGradientProgressView *)gradientProgressView{
     if (!_gradientProgressView) {
-        _gradientProgressView = [[HXGradientProgressView alloc] initWithFrame:CGRectMake(0, 0, _kpw(295), 18)];
+        _gradientProgressView = [[HXGradientProgressView alloc] initWithFrame:CGRectMake(0, 0, 29, 18)];
         _gradientProgressView.bgProgressColor = COLOR_WITH_ALPHA(0xEFEFEF, 1);
     }
     return _gradientProgressView;

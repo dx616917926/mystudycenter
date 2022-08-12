@@ -114,6 +114,12 @@ NS_ASSUME_NONNULL_BEGIN
 //确认订单信息V2
 #define HXPOST_Get_ConfirmOrder                          @"/MD/StuPayInfo/ConfirmOrderV2"
 
+//删除订单
+#define HXPOST_DeleteByOrderNum                          @"/MD/StuPayInfo/DeleteByOrderNum"
+
+//修改订单状态
+#define HXPOST_UpdateByOrderNum                          @"/MD/StuPayInfo/UpdateByOrderNum"
+
 //上传交易凭证V2
 #define HXPOST_UploadProofFile                          @"/MD/StuPayInfo/uploadProofFileV2"
 

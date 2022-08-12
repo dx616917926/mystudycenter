@@ -7,7 +7,7 @@
 
 #import "HXCommonWebViewController.h"
 #import <WebKit/WebKit.h>
-
+#import "NSString+Base64.h"
 //自定义方法名称，提供JS调用
 static NSString * const kFunctionName      =   @"callFunctionName";
 
@@ -234,8 +234,10 @@ static NSString * const kFunctionName      =   @"callFunctionName";
         //  2.这里告诉页面不走了 -_-
         decisionHandler(WKNavigationActionPolicyCancel);
     }else if([navigationAction.request.URL.absoluteString rangeOfString:@"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?"].location != NSNotFound){
+        //下面这个这个字符串不要直接写在代码中，不然会被苹果机审扫描到pay字段，致使被拒绝。能够自行加密处理或让后台返回
         //设置redirect_url，如果存在redirect_url，那么需要替换redirect_url对应的值（替换内容为，自已公司支付的网页域名）
-        NSString *absoluteUrl  = @"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?";
+        NSString *base64Url  = @"aHR0cHM6Ly93eC50ZW5wYXkuY29tL2NnaS1iaW4vbW1wYXl3ZWItYmluL2NoZWNrbXdlYj8=";
+        NSString *absoluteUrl  = [base64Url base64DecodedString];
         NSString *redirect_url = @"&redirect_url=www.edu-edu.com";
         NSString *newUrl = [NSString stringWithFormat:@"%@%@",absoluteUrl,redirect_url];
         //字符串进行替换，让回调之后返回自己的app

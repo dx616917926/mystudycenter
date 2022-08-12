@@ -96,9 +96,9 @@
     
     
     self.bigBackgroundView.sd_layout
-    .leftSpaceToView(self.contentView, _kpw(20))
+    .leftSpaceToView(self.contentView, 20)
     .topSpaceToView(self.contentView, 10)
-    .rightSpaceToView(self.contentView, _kpw(20))
+    .rightSpaceToView(self.contentView, 20)
     .bottomSpaceToView(self.contentView, 10);
     self.bigBackgroundView.sd_cornerRadius = @8;
     
@@ -112,8 +112,8 @@
     self.courseImageView.sd_layout
     .topSpaceToView(self.bigBackgroundView, 15)
     .leftSpaceToView(self.bigBackgroundView, 15)
-    .widthIs(_kpw(134))
-    .heightIs(_kpw(92));
+    .widthIs(134)
+    .heightIs(95);
     self.courseImageView.sd_cornerRadius = @4;
     
 
@@ -134,7 +134,7 @@
     .leftEqualToView(self.courseNameLabel)
     .bottomEqualToView(self.courseImageView)
     .widthIs(100)
-    .heightIs(_kpw(30));
+    .heightIs(25);
     self.clickButton.sd_cornerRadiusFromHeightRatio = @0.5;
     
     self.timeLabel.sd_layout

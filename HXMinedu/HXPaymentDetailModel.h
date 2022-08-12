@@ -50,7 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *proofUrl;
 ///发票凭证url
 @property(nonatomic, copy) NSString *invoiceurl;
-
+///订单属性 1报名  2结转  3自助缴费  4导入 其它续缴  为自助缴费时才可删除订单
+@property(nonatomic, assign) NSInteger isMb;
 //是否选中
 @property(nonatomic, assign) BOOL isSeleted;
 

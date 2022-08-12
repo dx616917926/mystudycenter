@@ -137,6 +137,21 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
 
 #pragma mark - Event
 -(void)upLoadVoucher:(UIButton *)sender{
+    
+    NSDictionary *dic = @{
+        @"orderNum":HXSafeString(self.orderNum),
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_UpdateByOrderNum withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+
+    }];
+    
     HXUpLoadVoucherViewController *vc = [[HXUpLoadVoucherViewController alloc] init];
     vc.scanCodePaymentModel = self.scanCodePaymentModel;
     [self.navigationController pushViewController:vc animated:YES];
