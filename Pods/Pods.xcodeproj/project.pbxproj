@@ -16,7 +16,6 @@
 				9CAC50BD6FCA85190B19D32DA4A51C9F /* PBXTargetDependency */,
 			);
 			name = JPush;
-			productName = JPush;
 		};
 		849570DFC27665175463482CD1A7929F /* AliPlayerSDK_iOS */ = {
 			isa = PBXAggregateTarget;
@@ -26,7 +25,6 @@
 			dependencies = (
 			);
 			name = AliPlayerSDK_iOS;
-			productName = AliPlayerSDK_iOS;
 		};
 		8554F6236D2AA202CF58503D2DF29730 /* WechatOpenSDK */ = {
 			isa = PBXAggregateTarget;
@@ -36,7 +34,6 @@
 			dependencies = (
 			);
 			name = WechatOpenSDK;
-			productName = WechatOpenSDK;
 		};
 		D504B99928659EA67A1C3A9E981EB8FF /* JCore */ = {
 			isa = PBXAggregateTarget;
@@ -46,7 +43,6 @@
 			dependencies = (
 			);
 			name = JCore;
-			productName = JCore;
 		};
 /* End PBXAggregateTarget section */
 
@@ -657,7 +653,7 @@
 		E2897BC3D7FAFD2B16E77EE6D79A8724 /* SDImageAssetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEED0DB4330C1082F5865D0747276768 /* SDImageAssetManager.m */; };
 		E3226C305B708F68460A437B3A73C0DE /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1328B3BE1CA5E078A20206CD012097 /* IQToolbar.m */; };
 		E33B631ADB9C696C44703BC269E28F25 /* UIImage+GIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 72655B4815214856F08FE97DDB24B171 /* UIImage+GIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E3DC857EAC8DBDBC1393AE0A0B0EE08D /* HXViewHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */; };
+		E3DC857EAC8DBDBC1393AE0A0B0EE08D /* HXViewHUD-HXViewHUD in Resources */ = {isa = PBXBuildFile; fileRef = BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD-HXViewHUD */; };
 		E4201F28BCE49874A92FC24F1209C48D /* UIImage+Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = D7761A04AC49898127B1F2928CD167EF /* UIImage+Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E4B539A0FDEEB415FC6EBCB8EDD13ABE /* HXPhotoEditStickerTrashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D24924AA650FFFF9EC64FB5038FAF1 /* HXPhotoEditStickerTrashView.m */; };
 		E4E14C2965BD1C690B40C8D3257177F5 /* MJRefreshHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 777F59F075354494E4A2A05C12699EAA /* MJRefreshHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1429,7 +1425,7 @@
 		9C059A90D40AEB12CD4D305271BA83B3 /* AliyunPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliyunPlayer.framework; sourceTree = "<group>"; };
 		9C35734E3CA4F6AFF1065EAC3028203C /* TFHppleElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
 		9CF8B56F6B03AFF927C4CCA583260E88 /* YNPageViewController-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YNPageViewController-umbrella.h"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DCA24D40FF06FD3C3761084516E4F0C /* HXPhotoEditSplashMaskLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HXPhotoEditSplashMaskLayer.m; path = HXPhotoPicker/HXPhotoEdit/View/HXPhotoEditSplashMaskLayer.m; sourceTree = "<group>"; };
 		9E222871F7E6102B5BDDB223396B1EA2 /* SDCollectionViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDCollectionViewCell.h; path = SDCycleScrollView/Lib/SDCycleScrollView/SDCollectionViewCell.h; sourceTree = "<group>"; };
 		9E4CB44FCD0F55D52A0E66510B42A2CE /* SDWebImageError.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageError.m; path = SDWebImage/Core/SDWebImageError.m; sourceTree = "<group>"; };
@@ -1520,7 +1516,7 @@
 		BB9DD47F5A5152CB87710E25E26DD64A /* WebViewJavascriptBridge-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WebViewJavascriptBridge-prefix.pch"; sourceTree = "<group>"; };
 		BBB36AC2B99DB3DF8F4C375EA1FBD0DA /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+MASAdditions.m"; path = "Masonry/NSArray+MASAdditions.m"; sourceTree = "<group>"; };
 		BC10A3B88DC5FA8EA6958C9B447590F8 /* SDImageAWebPCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageAWebPCoder.m; path = SDWebImage/Core/SDImageAWebPCoder.m; sourceTree = "<group>"; };
-		BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HXViewHUD.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD-HXViewHUD */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "HXViewHUD-HXViewHUD"; path = HXViewHUD.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCBB8583FD6BD5922496C70F65DF749F /* MJRefreshHeader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MJRefreshHeader.m; path = MJRefresh/Base/MJRefreshHeader.m; sourceTree = "<group>"; };
 		BCC34B16ECD6715D5C12312CB7A35794 /* SDImageCachesManagerOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCachesManagerOperation.m; path = SDWebImage/Private/SDImageCachesManagerOperation.m; sourceTree = "<group>"; };
 		BD147F25B8EF9285A1B3DDB39311B1CD /* YNPageCollectionView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YNPageCollectionView.h; path = YNPageViewController/YNPageViewController/Libs/YNPageViewController/View/YNPageCollectionView.h; sourceTree = "<group>"; };
@@ -1970,6 +1966,7 @@
 				E4359A5F666FED468C4F35DEB8021AA8 /* UIView+SDExtension.m */,
 				AB580796E315127F0C60E053DB975106 /* Support Files */,
 			);
+			name = SDCycleScrollView;
 			path = SDCycleScrollView;
 			sourceTree = "<group>";
 		};
@@ -2007,6 +2004,7 @@
 				7E67572EA93E149291A4FB89FA41FFCA /* Resources */,
 				9EF0D07CCB65AF0D55AF0A474F791F22 /* Support Files */,
 			);
+			name = YYStarView;
 			path = YYStarView;
 			sourceTree = "<group>";
 		};
@@ -2037,6 +2035,7 @@
 				CE231677F196F4E5DD239655FA761780 /* Frameworks */,
 				547B2E9153C0830875DF24E327A6AE9F /* Support Files */,
 			);
+			name = WechatOpenSDK;
 			path = WechatOpenSDK;
 			sourceTree = "<group>";
 		};
@@ -2067,6 +2066,7 @@
 				57694553722E21F3DEEC32F9A4557D99 /* Support Files */,
 				D1F1A1A18492DDF3A905D35B81E36D87 /* UIKit */,
 			);
+			name = AFNetworking;
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
@@ -2096,6 +2096,7 @@
 				0C72236CE0E34E894F5394C7E0AF8501 /* standard */,
 				66B099534D243E79CBF0DAA6FDB26C6C /* Support Files */,
 			);
+			name = FMDB;
 			path = FMDB;
 			sourceTree = "<group>";
 		};
@@ -2126,6 +2127,7 @@
 				6ECE4484A611ADC1D4C79B852DF8C536 /* YBRectConst.m */,
 				C433E440ED37C833C1F23EF2CC98145B /* Support Files */,
 			);
+			name = YBPopupMenu;
 			path = YBPopupMenu;
 			sourceTree = "<group>";
 		};
@@ -2296,6 +2298,7 @@
 				FD1E47212749D7291C93FA9F7866F750 /* NSString+MJExtension.m */,
 				4501A2FA583C8CDE7ADCD70121CE7F3B /* Support Files */,
 			);
+			name = MJExtension;
 			path = MJExtension;
 			sourceTree = "<group>";
 		};
@@ -2317,6 +2320,7 @@
 				12027FBA0D9E1DF487D6A5E40E16FD21 /* WMZBannerView.m */,
 				EC9FC7A786A692265AF7826C928C9BBA /* Support Files */,
 			);
+			name = WMZBanner;
 			path = WMZBanner;
 			sourceTree = "<group>";
 		};
@@ -2335,6 +2339,7 @@
 				794CC4A8973FAD531A5236F73583F7F8 /* Frameworks */,
 				2A50C627ADF1879E90E7ED918DE8E5EB /* Support Files */,
 			);
+			name = JPush;
 			path = JPush;
 			sourceTree = "<group>";
 		};
@@ -2374,6 +2379,7 @@
 				A329B85D69164AFEB8BCED19B6727204 /* Core */,
 				433ABF190501A098A9A22A5E153007F0 /* Support Files */,
 			);
+			name = SDWebImage;
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
@@ -2383,6 +2389,7 @@
 				6FE1E9C4D35D81496925AF9B7483C83F /* AliPlayerSDK */,
 				1FBC4E73A0C6DF6F04CFBA45F3397CD7 /* Support Files */,
 			);
+			name = AliPlayerSDK_iOS;
 			path = AliPlayerSDK_iOS;
 			sourceTree = "<group>";
 		};
@@ -2404,6 +2411,7 @@
 				839823B36E0FEBB23C8509FF082BD8AD /* UIView+GKExtension.m */,
 				066E0ECD2CC96AC3F8D7DC09C9DAE4B8 /* Support Files */,
 			);
+			name = GKCover;
 			path = GKCover;
 			sourceTree = "<group>";
 		};
@@ -2440,6 +2448,7 @@
 				C7F15AF4DE41C9EB5B4D30381B0BB44F /* UIView+SDAutoLayout.m */,
 				8C53FA4445153F542B841E0047F72A8D /* Support Files */,
 			);
+			name = SDAutoLayout;
 			path = SDAutoLayout;
 			sourceTree = "<group>";
 		};
@@ -2511,6 +2520,7 @@
 				3910121E4DD4DCDA413879C2163F4225 /* WKWebViewJavascriptBridge.m */,
 				9572FCF7A8A180306F3FAEB2913CD3DE /* Support Files */,
 			);
+			name = WebViewJavascriptBridge;
 			path = WebViewJavascriptBridge;
 			sourceTree = "<group>";
 		};
@@ -2574,6 +2584,7 @@
 				6195885C942E82F74FA98C07ABBCCCAF /* Resources */,
 				C64491671902C8A7E313C2BB73C3BF4B /* Support Files */,
 			);
+			name = MJRefresh;
 			path = MJRefresh;
 			sourceTree = "<group>";
 		};
@@ -2615,6 +2626,7 @@
 				1511BDE6F5E672BA12DFBA6702A4F6CE /* Frameworks */,
 				7C308709106A66121FD9C743B110128D /* Support Files */,
 			);
+			name = JCore;
 			path = JCore;
 			sourceTree = "<group>";
 		};
@@ -2640,6 +2652,7 @@
 				9BFA320559B0DE3D331A57AE400FE534 /* SD */,
 				6680C72B9D20A9811497DAEF13BAB91B /* Support Files */,
 			);
+			name = GKPhotoBrowser;
 			path = GKPhotoBrowser;
 			sourceTree = "<group>";
 		};
@@ -2841,6 +2854,7 @@
 				61C838F9C6564B622407DACF886FE170 /* YNPageViewController.m */,
 				D3575AF295A271D858C5FBA8DD0C2C8C /* Support Files */,
 			);
+			name = YNPageViewController;
 			path = YNPageViewController;
 			sourceTree = "<group>";
 		};
@@ -2854,6 +2868,7 @@
 				906C2EAE75B8E5451B87A2242146B963 /* Resources */,
 				478E939817300FD165BCCB63A52E3EDF /* Support Files */,
 			);
+			name = HXViewHUD;
 			path = HXViewHUD;
 			sourceTree = "<group>";
 		};
@@ -2918,6 +2933,7 @@
 				C8DAC0B7C5F761194D96AEBB28E3E413 /* Default */,
 				47A06E43F1712CF8C3E13FBCE228FC2D /* Support Files */,
 			);
+			name = HXPhotoPicker;
 			path = HXPhotoPicker;
 			sourceTree = "<group>";
 		};
@@ -2928,6 +2944,7 @@
 				28E4F7CC894BA20B4BAEA7744739BD92 /* UIView+MMLayout.m */,
 				7A81609BD72B80D0F643C594BB34AB22 /* Support Files */,
 			);
+			name = MMLayout;
 			path = MMLayout;
 			sourceTree = "<group>";
 		};
@@ -2979,6 +2996,7 @@
 				CF6F9BDDBE9773333E60E24F9B8B2978 /* IQUIViewController+Additions.m */,
 				84D0297161A213DD3C8DA3504FBFF683 /* Support Files */,
 			);
+			name = IQKeyboardManager;
 			path = IQKeyboardManager;
 			sourceTree = "<group>";
 		};
@@ -3232,6 +3250,7 @@
 				1B10C006FDC12E3CE589F7D67157C1E3 /* ViewController+MASAdditions.m */,
 				7371C016B8C804C6EA7590DB6D588794 /* Support Files */,
 			);
+			name = Masonry;
 			path = Masonry;
 			sourceTree = "<group>";
 		};
@@ -3329,7 +3348,7 @@
 				E08913ABA999BE7E8F5D1EED249BBD46 /* hpple */,
 				24DDD4A0849B06C0942057220E1E81B2 /* HXPhotoPicker */,
 				C41180B62B7B37EB492B54EE6E6A82AE /* HXViewHUD */,
-				BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */,
+				BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD-HXViewHUD */,
 				98527D7196957AAB07B79E2E2AFDE23E /* IQKeyboardManager */,
 				1FFED36A657123030ABB700256D73F15 /* Masonry */,
 				2B276B0A79173A1D6E83C9B4FB9A4A57 /* MJExtension */,
@@ -3364,6 +3383,7 @@
 				1084C484F01F12ADA4FAF6A2287161A9 /* Resources */,
 				986A87496CD30FF895A425190194A909 /* Support Files */,
 			);
+			name = SGQRCode;
 			path = SGQRCode;
 			sourceTree = "<group>";
 		};
@@ -3401,6 +3421,7 @@
 				DC42F1E8DA7D32C075F840384D27C2B4 /* XPathQuery.m */,
 				44774645365B9C8798FB154DC03EC835 /* Support Files */,
 			);
+			name = hpple;
 			path = hpple;
 			sourceTree = "<group>";
 		};
@@ -3982,7 +4003,7 @@
 			);
 			name = "HXViewHUD-HXViewHUD";
 			productName = HXViewHUD;
-			productReference = BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */;
+			productReference = BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD-HXViewHUD */;
 			productType = "com.apple.product-type.bundle";
 		};
 		2035A387A5D5D85BEF7F693731454A3D /* SGQRCode */ = {
@@ -4343,8 +4364,8 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 10.0";
@@ -4548,7 +4569,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3DC857EAC8DBDBC1393AE0A0B0EE08D /* HXViewHUD.bundle in Resources */,
+				E3DC857EAC8DBDBC1393AE0A0B0EE08D /* HXViewHUD-HXViewHUD in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6108,7 +6129,6 @@
 			baseConfigurationReference = 7425ACE4E0FD59104A30C28FDC4842BC /* HXViewHUD.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HXViewHUD";
-				DEVELOPMENT_TEAM = S6PPR257T5;
 				IBSC_MODULE = HXViewHUD;
 				INFOPLIST_FILE = "Target Support Files/HXViewHUD/ResourceBundle-HXViewHUD-HXViewHUD-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -6722,7 +6742,6 @@
 			baseConfigurationReference = FE78A935D167134AFBFAFB9B508295BB /* HXViewHUD.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HXViewHUD";
-				DEVELOPMENT_TEAM = S6PPR257T5;
 				IBSC_MODULE = HXViewHUD;
 				INFOPLIST_FILE = "Target Support Files/HXViewHUD/ResourceBundle-HXViewHUD-HXViewHUD-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
