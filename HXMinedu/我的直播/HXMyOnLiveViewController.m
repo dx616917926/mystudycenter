@@ -8,9 +8,10 @@
 #import "HXMyOnLiveViewController.h"
 #import "HXKeChengContainerViewController.h"
 #import "HXKeChengHuiFangViewController.h"
+#import "HXCommonWebViewController.h"
 #import "HXKeChengKeJieCell.h"
 
-@interface HXMyOnLiveViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HXMyOnLiveViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 @property(nonatomic,strong) UIView *topContainerView;
 @property(nonatomic,strong) UIButton *keChengBtn;
@@ -33,6 +34,8 @@
 @property(nonatomic,strong) NSMutableArray *dataArray;
 @property(nonatomic,strong) NSMutableArray *searchArray;
 
+@property(nonatomic,assign) NSInteger pageIndex;
+
 @end
 
 @implementation HXMyOnLiveViewController
@@ -42,6 +45,8 @@
     // Do any additional setup after loading the view.
     //UI
     [self createUI];
+    //直播列表
+    [self loadData];
 }
 
 #pragma mark - Event
@@ -70,34 +75,103 @@
     
 }
 
+
+#pragma mark - 获取直播列表
+-(void)loadData{
+    self.isSearchMode = NO;
+    self.pageIndex = 1;
+    NSDictionary *dic = @{
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15),
+        @"keyValue":@""
+    };
+
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetNewLiveList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+       
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (array.count == 15) {
+                self.mainTableView.mj_footer.hidden = NO;
+            }else{
+                self.mainTableView.mj_footer.hidden = YES;
+            }
+            if (array.count == 0) {
+                [self.mainTableView addSubview:self.noDataView];
+            }else{
+                [self.noDataView removeFromSuperview];
+            }
+            [self.dataArray removeAllObjects];
+            [self.dataArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+            [self.mainTableView setContentOffset:CGPointZero animated:NO];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+        [self.mainTableView.mj_header endRefreshing];
+    }];
+    
+}
+
+-(void)loadMoreData{
+    self.pageIndex++;
+   
+    NSDictionary *dic = @{
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15),
+        @"keyValue":@""
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetNewLiveList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_footer endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (array.count == 15) {
+                self.mainTableView.mj_footer.hidden = NO;
+            }else{
+                self.mainTableView.mj_footer.hidden = YES;
+            }
+            [self.dataArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_footer endRefreshing];
+        self.pageIndex--;
+    }];
+}
+
 -(void)search:(UIButton *)sender{
     self.keyValue = self.searchTextField.text;
     self.isSearchMode = YES;
     [self.view endEditing:YES];
-    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
     NSDictionary *dic = @{
-        @"version_id":HXSafeString(selectMajorModel.versionId),
-        @"major_id":HXSafeString(selectMajorModel.major_id),
         @"pageIndex":@(1),
         @"pageSize":@(100),
         @"keyValue":HXSafeString(self.keyValue)
     };
 
-//    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetLiveList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-//
-//        [self.mainTableView.mj_header endRefreshing];
-//        BOOL success = [dictionary boolValueForKey:@"Success"];
-//        if (success) {
-//            NSArray *array = [HXLiveBroadcastModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
-//            [self.searchArray removeAllObjects];
-//            [self.searchArray addObjectsFromArray:array];
-//            [self.mainTableView reloadData];
-//            [self.mainTableView setContentOffset:CGPointZero animated:NO];
-//        }
-//    } failure:^(NSError * _Nonnull error) {
-//
-//        [self.mainTableView.mj_header endRefreshing];
-//    }];
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetNewLiveList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.searchArray removeAllObjects];
+            [self.searchArray addObjectsFromArray:array];
+            if (array.count == 0) {
+                [self.mainTableView addSubview:self.noDataView];
+            }else{
+                [self.noDataView removeFromSuperview];
+            }
+            [self.mainTableView reloadData];
+            [self.mainTableView setContentOffset:CGPointZero animated:NO];
+        }
+    } failure:^(NSError * _Nonnull error) {
+
+        [self.mainTableView.mj_header endRefreshing];
+    }];
 }
 
 
@@ -118,6 +192,12 @@
     }else{
         self.mainTableView.mj_footer.hidden = YES;
     }
+    
+    if (self.dataArray.count == 0) {
+        [self.mainTableView addSubview:self.noDataView];
+    }else{
+        [self.noDataView removeFromSuperview];
+    }
     [self.mainTableView reloadData];
     return YES;
 }
@@ -137,7 +217,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 18;//(self.isSearchMode?self.searchArray.count : self.dataArray.count);
+    return (self.isSearchMode?self.searchArray.count : self.dataArray.count);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -155,13 +235,23 @@
         cell = [[HXKeChengKeJieCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:keChengKeJieCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    cell.liveBroadcastModel = (self.isSearchMode?self.searchArray[indexPath.row]:self.dataArray[indexPath.row]);
+    cell.keJieModel = (self.isSearchMode?self.searchArray[indexPath.row]:self.dataArray[indexPath.row]);
     return cell;
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HXKeJieModel *keJieModel = (self.isSearchMode?self.searchArray[indexPath.row]:self.dataArray[indexPath.row]);
+    if (keJieModel.LiveState == 1) {
+        HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+        webViewVC.urlString = keJieModel.liveUrl;
+        webViewVC.cuntomTitle = keJieModel.ClassName;
+        webViewVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webViewVC animated:YES];
+    }else{
+        [self.view showTostWithMessage:@"暂未开播"];
+    }
 }
 
 
@@ -302,12 +392,12 @@
     [self.mainTableView updateLayout];
     
     // 刷新
-//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
-//    header.automaticallyChangeAlpha = YES;
-//    self.mainTableView.mj_header = header;
-//    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-//    self.mainTableView.mj_footer = footer;
-//    self.mainTableView.mj_footer.hidden = YES;
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
+    header.automaticallyChangeAlpha = YES;
+    self.mainTableView.mj_header = header;
+    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    self.mainTableView.mj_footer = footer;
+    self.mainTableView.mj_footer.hidden = YES;
    
 }
 
@@ -416,6 +506,7 @@
 -(UITextField *)searchTextField{
     if (!_searchTextField) {
         _searchTextField = [[UITextField alloc] init];
+        _searchTextField.delegate = self;
         _searchTextField.font = HXFont(14);
         _searchTextField.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"搜索课程名称、教师名称" attributes:

@@ -285,6 +285,7 @@
 		0477CA31275F06DC00A99914 /* HXCommonSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA30275F06DC00A99914 /* HXCommonSelectView.m */; };
 		0477CA34275F071400A99914 /* HXCommonSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA32275F071300A99914 /* HXCommonSelectCell.m */; };
 		0477CA37275F075900A99914 /* HXCommonSelectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA36275F075900A99914 /* HXCommonSelectModel.m */; };
+		047BF8EF28ADCF60000F3089 /* HXKejieCalendarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 047BF8EE28ADCF60000F3089 /* HXKejieCalendarModel.m */; };
 		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
 		048000D427F296770071C596 /* HXLearnReportCourseDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048000D327F296770071C596 /* HXLearnReportCourseDetailModel.m */; };
 		048000D727F29B970071C596 /* HXLearnItemDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048000D627F29B970071C596 /* HXLearnItemDetailModel.m */; };
@@ -305,6 +306,7 @@
 		048843C427F5B64D0010C5D0 /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048843BD27F5B64C0010C5D0 /* UMCommon.framework */; };
 		048843C527F5B64D0010C5D0 /* UMDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048843BE27F5B64C0010C5D0 /* UMDevice.framework */; };
 		04893BAC275DB92A005CB6C5 /* HXMyGraduationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04893BAB275DB92A005CB6C5 /* HXMyGraduationViewController.m */; };
+		048AC4C828ACB7BE0068664B /* HXKeJieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048AC4C728ACB7BE0068664B /* HXKeJieModel.m */; };
 		048C66962670AAD400977A4F /* HXStudentRefundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C66952670AAD400977A4F /* HXStudentRefundModel.m */; };
 		048C66992670B55000977A4F /* HXStudentRefundDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C66982670B55000977A4F /* HXStudentRefundDetailsModel.m */; };
 		048EA6732761EF51009A7A9F /* HXFeeEditItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EA6722761EF51009A7A9F /* HXFeeEditItemCell.m */; };
@@ -975,6 +977,8 @@
 		0477CA35275F075900A99914 /* HXCommonSelectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXCommonSelectModel.h; sourceTree = "<group>"; };
 		0477CA36275F075900A99914 /* HXCommonSelectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCommonSelectModel.m; sourceTree = "<group>"; };
 		0478C47725AC379800ECECBD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		047BF8ED28ADCF60000F3089 /* HXKejieCalendarModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXKejieCalendarModel.h; sourceTree = "<group>"; };
+		047BF8EE28ADCF60000F3089 /* HXKejieCalendarModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXKejieCalendarModel.m; sourceTree = "<group>"; };
 		047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewCell.h; sourceTree = "<group>"; };
 		047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXHomeViewCell.m; sourceTree = "<group>"; };
 		048000D227F296770071C596 /* HXLearnReportCourseDetailModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLearnReportCourseDetailModel.h; sourceTree = "<group>"; };
@@ -1007,6 +1011,8 @@
 		048843BE27F5B64C0010C5D0 /* UMDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMDevice.framework; sourceTree = "<group>"; };
 		04893BAA275DB92A005CB6C5 /* HXMyGraduationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXMyGraduationViewController.h; sourceTree = "<group>"; };
 		04893BAB275DB92A005CB6C5 /* HXMyGraduationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXMyGraduationViewController.m; sourceTree = "<group>"; };
+		048AC4C628ACB7BE0068664B /* HXKeJieModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXKeJieModel.h; sourceTree = "<group>"; };
+		048AC4C728ACB7BE0068664B /* HXKeJieModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXKeJieModel.m; sourceTree = "<group>"; };
 		048C66942670AAD400977A4F /* HXStudentRefundModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudentRefundModel.h; sourceTree = "<group>"; };
 		048C66952670AAD400977A4F /* HXStudentRefundModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudentRefundModel.m; sourceTree = "<group>"; };
 		048C66972670B55000977A4F /* HXStudentRefundDetailsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudentRefundDetailsModel.h; sourceTree = "<group>"; };
@@ -1508,6 +1514,7 @@
 		0449A306254BFE92001A28D5 = {
 			isa = PBXGroup;
 			children = (
+				04172F612653713F008D1C85 /* 首页 */,
 				0449A311254BFE92001A28D5 /* HXMinedu */,
 				0449A310254BFE92001A28D5 /* Products */,
 				83AE1E7929AE2C14C588E83F /* Pods */,
@@ -1527,7 +1534,6 @@
 			isa = PBXGroup;
 			children = (
 				0497C525262D36F100C096FD /* HXMinedu.entitlements */,
-				04172F612653713F008D1C85 /* 首页 */,
 				04913357260D845A00055D3D /* 我的(新) */,
 				04A740F728A38C2000FC4F98 /* 我的直播 */,
 				04913356260D843200055D3D /* 直播(新) */,
@@ -2283,6 +2289,17 @@
 			path = common_ios_7.3.6;
 			sourceTree = "<group>";
 		};
+		048AC4C528ACB7940068664B /* model */ = {
+			isa = PBXGroup;
+			children = (
+				048AC4C628ACB7BE0068664B /* HXKeJieModel.h */,
+				048AC4C728ACB7BE0068664B /* HXKeJieModel.m */,
+				047BF8ED28ADCF60000F3089 /* HXKejieCalendarModel.h */,
+				047BF8EE28ADCF60000F3089 /* HXKejieCalendarModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		04913354260D83D800055D3D /* 学习 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2512,7 +2529,7 @@
 		04A740F728A38C2000FC4F98 /* 我的直播 */ = {
 			isa = PBXGroup;
 			children = (
-				04A740FC28A38C2000FC4F98 /* view */,
+				048AC4C528ACB7940068664B /* model */,
 				04A740F828A38C2000FC4F98 /* 回放 */,
 				04A740FA28A38C2000FC4F98 /* 课程 */,
 				04A740FD28A38C2000FC4F98 /* 作业 */,
@@ -2571,13 +2588,6 @@
 			);
 			name = view;
 			path = "../课程/view";
-			sourceTree = "<group>";
-		};
-		04A740FC28A38C2000FC4F98 /* view */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = view;
 			sourceTree = "<group>";
 		};
 		04A740FD28A38C2000FC4F98 /* 作业 */ = {
@@ -3075,6 +3085,7 @@
 				0449A35E254C1174001A28D5 /* UIControl+BlocksKit.m in Sources */,
 				041FE0E826147B4900696D5C /* HXRightSectionHeadView.m in Sources */,
 				0442C8912643D3AC00E8148A /* HXScanCodePaymentModel.m in Sources */,
+				047BF8EF28ADCF60000F3089 /* HXKejieCalendarModel.m in Sources */,
 				0444398127117ED800CDA40B /* HXHomePageColumnModel.m in Sources */,
 				046F25AF261ED39F00E394C3 /* HXPaymentDtailChildViewController.m in Sources */,
 				04191B68266F67FA00652E9D /* HXRegistFormModel.m in Sources */,
@@ -3252,6 +3263,7 @@
 				04D5F7F6266DAA84006ED11A /* HXCustomToastView.m in Sources */,
 				0449A563254C13AB001A28D5 /* HXBaseViewController.m in Sources */,
 				0409D3822669D9CD00802912 /* HXMajorInfoCell.m in Sources */,
+				048AC4C828ACB7BE0068664B /* HXKeJieModel.m in Sources */,
 				04CE28A22591C3A900FFF7CB /* HXCourseModel.m in Sources */,
 				0449A553254C11F6001A28D5 /* HXCircularProgressView.m in Sources */,
 				040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */,

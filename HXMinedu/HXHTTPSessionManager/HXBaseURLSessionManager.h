@@ -207,6 +207,14 @@ NS_ASSUME_NONNULL_BEGIN
 //修改学习次数
 #define HXPOST_ChangeWatchVideoNum                                      @"/MD/StuInfo/ChangeWatchVideoNum"
 
+//直播列表
+#define HXPOST_GetNewLiveList                                           @"/MD/Live/getLiveList"
+
+//获取直播日历
+#define HXPOST_GetOnliveCalendar                                        @"/MD/Live/getOnliveCalendar"
+
+//获取直播日历详情
+#define HXPOST_GetOnliveCalendarInfo                                    @"/MD/Live/getOnliveCalendarInfo"
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

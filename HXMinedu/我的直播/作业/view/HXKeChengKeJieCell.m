@@ -6,6 +6,7 @@
 //
 
 #import "HXKeChengKeJieCell.h"
+#import "SDWebImage.h"
 
 @interface HXKeChengKeJieCell ()
 @property(nonatomic,strong) UIView *shadowBackgroundView;
@@ -40,7 +41,26 @@
 }
 
 #pragma mark - Seeter
-
+-(void)setKeJieModel:(HXKeJieModel *)keJieModel{
+    _keJieModel = keJieModel;
+    
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keJieModel.imgUrl]] placeholderImage:nil];
+    ///直播状态 0待开始  1直播中
+    if (keJieModel.LiveState==1) {
+        self.stateImageView.image = [UIImage imageNamed:@"onlive_icon"];
+    }else{
+        self.stateImageView.image = [UIImage imageNamed:@"daikaishi_icon"];
+    }
+    
+    self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
+    self.teacherNameLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
+    if (keJieModel.LiveType==1) {
+        self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@ (%@)",HXSafeString(keJieModel.ClassBeginDate),HXSafeString(keJieModel.ClassBeginTime),HXSafeString(keJieModel.ClassTimeSpan)];
+    }else{
+        self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@",HXSafeString(keJieModel.ClassBeginDate),HXSafeString(keJieModel.ClassBeginTime)];
+    }
+    
+}
 
 #pragma mark - UI
 -(void)createUI{
@@ -53,9 +73,6 @@
     [self.bigBackgroundView addSubview:self.timeLabel];
     
 
-
-
-    
     self.bigBackgroundView.sd_layout.spaceToSuperView(UIEdgeInsetsMake(5, 20, 5, 20));
     self.bigBackgroundView.sd_cornerRadius = @8;
     
@@ -132,7 +149,7 @@
 -(UIImageView *)stateImageView{
     if (!_stateImageView) {
         _stateImageView = [[UIImageView alloc] init];
-        _stateImageView.image = [UIImage imageNamed:@"onlive_icon"];
+        
     }
     return _stateImageView;
 }
@@ -146,7 +163,7 @@
         _keJieNameLabel.font = HXBoldFont(14);
         _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _keJieNameLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _keJieNameLabel.text = @"自学考试大学语文公开课-1";
+       
     }
     return _keJieNameLabel;
 }
@@ -157,7 +174,7 @@
         _teacherNameLabel.textAlignment = NSTextAlignmentLeft;
         _teacherNameLabel.font = HXFont(11);
         _teacherNameLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _teacherNameLabel.text = @"授课教师：李老师";
+        
     }
     return _teacherNameLabel;
 }
@@ -168,7 +185,7 @@
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _timeLabel.font = HXFont(11);
         _timeLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _timeLabel.text = @"上课时间：2022/07/21 星期四 10:00 (40分钟)";
+        
     }
     return _timeLabel;
 }

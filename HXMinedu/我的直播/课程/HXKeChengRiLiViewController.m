@@ -26,6 +26,19 @@
 
 @property(strong,nonatomic) UIView *noDataView;
 
+@property(strong,nonatomic) NSMutableArray <HXKejieCalendarModel*>*dataArray;
+@property(strong,nonatomic) NSMutableArray *keJieArray;
+
+@property(strong,nonatomic) HXKejieCalendarModel *selectKejieCalendarModel;
+@property (nonatomic, strong) NSString *dateTime;          //获取获取直播日历详情的日期
+@property (nonatomic, strong) NSString *todayDateTime;    //今天日期
+@property(nonatomic,assign) NSInteger pageIndex;
+
+@property (nonatomic, assign) NSInteger year;            //年
+@property (nonatomic, assign) NSInteger month;           //月
+@property (nonatomic, assign) NSInteger day;             //日
+
+@property(strong,nonatomic)  NSArray *weeks;
 @end
 
 @implementation HXKeChengRiLiViewController
@@ -36,19 +49,189 @@
     
     //
     [self createUI];
+    //
+    self.weeks = @[@"星期天",@"星期一",@"星期二",@"星期三",@"星期四",@"星期五",@"星期六"];
+    //计算当前天
+    [self computeDateToday];
+    
+    
+    
 }
+
+
+#pragma mark - 计算今天
+- (void)computeDateToday {
+    
+    NSDate *date = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *currentDate = [formatter stringFromDate:date];
+    self.dateTime = currentDate;
+    self.todayDateTime = currentDate;
+    
+    NSArray *yearMonthDay = [currentDate componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+    self.year = [yearMonthDay[0] integerValue];
+    self.month = [yearMonthDay[1] integerValue];
+    self.day = [yearMonthDay[2] integerValue];
+    self.selectKejieCalendarModel = [HXKejieCalendarModel new];
+    self.selectKejieCalendarModel.Date = currentDate;
+    self.selectKejieCalendarModel.IsMonth = 1;
+    
+    self.yearMonthLabel.text = [currentDate substringToIndex:7];
+    //获取直播日历
+    [self getOnliveCalendar];
+   
+}
+
+
+#pragma mark - 获取直播日历
+-(void)getOnliveCalendar{
+    
+    NSDictionary *dic = @{
+        @"dateTime":HXSafeString(self.dateTime)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveCalendar  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXKejieCalendarModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                HXKejieCalendarModel *model = obj;
+                if ([model.Date isEqualToString:self.dateTime]) {
+                    model.IsSelect= YES;
+                    //获取直播日历详情
+                    self.selectKejieCalendarModel = model;
+                    [self getOnliveCalendarInfo];
+                    *stop = YES;
+                    return;
+                }
+            }];
+            
+            [self.dataArray removeAllObjects];
+            [self.dataArray addObjectsFromArray:array];
+            [self.monthCollectionView reloadData];
+            
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+        
+    }];
+    
+}
+
+#pragma mark - 获取直播日历详情
+-(void)getOnliveCalendarInfo{
+    
+    self.pageIndex = 1;
+    NSDictionary *dic = @{
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15),
+        @"dateTime":HXSafeString(self.selectKejieCalendarModel.Date)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveCalendarInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.keJieArray removeAllObjects];
+            [self.keJieArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+            if (array.count>0) {
+                HXKeJieModel *model = self.keJieArray.firstObject;
+                if (model.ClassBeginDate.length>=5) {
+                    NSString *date = [model.ClassBeginDate substringFromIndex:5];
+                    NSString *week = self.weeks[model.Week];
+                    self.selectRiQiLabel.text = [NSString stringWithFormat:@"%@ %@",date,week];
+                }
+                self.numLabel.text = [NSString stringWithFormat:@"直播课节(%lu)",(unsigned long)self.keJieArray.count];
+                self.mainTableView.tableFooterView = nil;
+            }else{
+                self.mainTableView.tableFooterView = self.noDataView;
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_header endRefreshing];
+    }];
+    
+}
+
+-(void)loadMoreData{
+    self.pageIndex++;
+    
+    NSDictionary *dic = @{
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15),
+        @"dateTime":HXSafeString(self.selectKejieCalendarModel.Date)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetNewLiveList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_footer endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            if (array.count == 15) {
+                self.mainTableView.mj_footer.hidden = NO;
+            }else{
+                self.mainTableView.mj_footer.hidden = YES;
+            }
+            [self.keJieArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_footer endRefreshing];
+        self.pageIndex--;
+    }];
+}
+
+#pragma mark - Event
+-(void)lastMonth:(UIButton *)sender{
+    if (self.month == 1) {
+        self.month = 12 ;
+        self.year --;
+    }else {
+        self.month -- ;
+    }
+    self.dateTime = [NSString stringWithFormat:@"%ld-%02ld-01",(long)self.year,self.month];
+    self.yearMonthLabel.text = [self.dateTime substringToIndex:7];
+    //获取直播日历
+    [self getOnliveCalendar];
+}
+
+-(void)nextMonth:(UIButton *)sender{
+    if (self.month == 12) {
+        self.month = 1 ;
+        self.year ++;
+    }else {
+        self.month ++ ;
+    }
+    self.dateTime = [NSString stringWithFormat:@"%ld-%02ld-01",(long)self.year,self.month];
+    self.yearMonthLabel.text = [self.dateTime substringToIndex:7];
+    //获取直播日历
+    [self getOnliveCalendar];
+}
+
+-(void)backToday:(UIButton *)sender{
+    [self computeDateToday];
+}
+
+
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+    return self.keJieArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 76;
+    return self.keJieArray.count>0?76:0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -56,7 +239,7 @@
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return self.headerSectionView;
+    return self.keJieArray.count>0?self.headerSectionView:nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -67,6 +250,7 @@
         cell = [[HXRiLiKeJieCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:riLiKeJieCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.keJieModel = self.keJieArray[indexPath.row];
     return cell;
 }
 
@@ -82,46 +266,70 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return 30;
+    return self.dataArray.count;
     
     
 }
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     HXDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HXDayCell class]) forIndexPath:indexPath];
-    cell.dayLabel.text = [NSString stringWithFormat:@"%02ld",(indexPath.row+1)];
+    
+    cell.kejieCalendarModel = self.dataArray[indexPath.row];
     return cell;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-
-    
+    HXKejieCalendarModel *model = self.dataArray[indexPath.row];
+    if (model.IsMonth==1) {
+        [self.dataArray enumerateObjectsUsingBlock:^(HXKejieCalendarModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.IsSelect = NO;
+        }];
+        model.IsSelect = YES;
+        self.selectKejieCalendarModel = model;
+        [collectionView reloadData];
+        //获取直播日历详情
+        [self getOnliveCalendarInfo];
+    }
 }
 
 #pragma mark - UI
 -(void)createUI{
-
+    
     [self.view addSubview:self.mainTableView];
     self.mainTableView.sd_layout
-    .topSpaceToView(self.view, 0)
-    .leftEqualToView(self.view)
-    .rightEqualToView(self.view)
-    .bottomSpaceToView(self.view, 0);
+        .topSpaceToView(self.view, 0)
+        .leftEqualToView(self.view)
+        .rightEqualToView(self.view)
+        .bottomSpaceToView(self.view, 0);
     
     
-//    // 下拉刷新
-//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
-//    // 设置自动切换透明度(在导航栏下面自动隐藏)
-//    header.automaticallyChangeAlpha = YES;
-//    //设置header
-//    self.mainTableView.mj_header = header;
-//
-//    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-//    self.mainTableView.mj_footer = footer;
-//    self.mainTableView.mj_footer.hidden = YES;
+    //    // 下拉刷新
+    //    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
+    //    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    //    header.automaticallyChangeAlpha = YES;
+    //    //设置header
+    //    self.mainTableView.mj_header = header;
+    //
+    //    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    //    self.mainTableView.mj_footer = footer;
+    //    self.mainTableView.mj_footer.hidden = YES;
 }
 
+
+#pragma mark - LazyLoad
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+
+-(NSMutableArray *)keJieArray{
+    if (!_keJieArray) {
+        _keJieArray = [NSMutableArray array];
+    }
+    return _keJieArray;
+}
 
 - (UITableView *)mainTableView {
     if (!_mainTableView) {
@@ -147,7 +355,7 @@
         _mainTableView.contentInset = UIEdgeInsetsMake(0, 0, kScreenBottomMargin, 0);
         _mainTableView.scrollIndicatorInsets = _mainTableView.contentInset;
         _mainTableView.tableHeaderView = self.riLiTableHeaderView;
-       
+        
     }
     return _mainTableView;
 }
@@ -165,67 +373,67 @@
         [_riLiTableHeaderView addSubview:self.monthCollectionView];
         
         self.topLine.sd_layout
-        .topEqualToView(_riLiTableHeaderView)
-        .leftEqualToView(_riLiTableHeaderView)
-        .rightEqualToView(_riLiTableHeaderView)
-        .heightIs(10);
+            .topEqualToView(_riLiTableHeaderView)
+            .leftEqualToView(_riLiTableHeaderView)
+            .rightEqualToView(_riLiTableHeaderView)
+            .heightIs(10);
         
         
         self.yearMonthLabel.sd_layout
-        .topSpaceToView(self.topLine, 25)
-        .centerXEqualToView(_riLiTableHeaderView)
-        .widthIs(80)
-        .heightIs(22);
+            .topSpaceToView(self.topLine, 25)
+            .centerXEqualToView(_riLiTableHeaderView)
+            .widthIs(80)
+            .heightIs(22);
         
         self.lastMonthBtn.sd_layout
-        .centerYEqualToView(self.yearMonthLabel)
-        .rightSpaceToView(self.yearMonthLabel, 5)
-        .widthIs(40)
-        .heightIs(20);
+            .centerYEqualToView(self.yearMonthLabel)
+            .rightSpaceToView(self.yearMonthLabel, 5)
+            .widthIs(40)
+            .heightIs(20);
         
         self.nextMonthBtn.sd_layout
-        .centerYEqualToView(self.yearMonthLabel)
-        .leftSpaceToView(self.yearMonthLabel, 5)
-        .widthRatioToView(self.lastMonthBtn, 1)
-        .heightRatioToView(self.lastMonthBtn, 1);
+            .centerYEqualToView(self.yearMonthLabel)
+            .leftSpaceToView(self.yearMonthLabel, 5)
+            .widthRatioToView(self.lastMonthBtn, 1)
+            .heightRatioToView(self.lastMonthBtn, 1);
         
         self.todayBtn.sd_layout
-        .centerYEqualToView(self.yearMonthLabel)
-        .rightSpaceToView(_riLiTableHeaderView, 14)
-        .widthIs(54)
-        .heightIs(27);
+            .centerYEqualToView(self.yearMonthLabel)
+            .rightSpaceToView(_riLiTableHeaderView, 14)
+            .widthIs(54)
+            .heightIs(27);
         
         self.todayBtn.sd_cornerRadius = @4;
         
         self.weekContainerView.sd_layout
-        .topSpaceToView(self.yearMonthLabel, 20)
-        .leftEqualToView(_riLiTableHeaderView)
-        .rightEqualToView(_riLiTableHeaderView)
-        .heightIs(30);
+            .topSpaceToView(self.yearMonthLabel, 20)
+            .leftEqualToView(_riLiTableHeaderView)
+            .rightEqualToView(_riLiTableHeaderView)
+            .heightIs(30);
         float width = (kScreenWidth-80)/7;
-        NSArray *weeks = @[@"日",@"一",@"二",@"三",@"四",@"五",@"六"];
+        NSArray *weeks = @[@"一",@"二",@"三",@"四",@"五",@"六",@"日"];
         for (int i=0;i<weeks.count;i++ ) {
             UILabel *label = [[UILabel alloc] init];
             label.textAlignment = NSTextAlignmentCenter;
             label.font = HXFont(12);
             label.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
             label.text = weeks[i];
-            if(i==0||i==weeks.count-1){
+            if(i==weeks.count-2||i==weeks.count-1){
                 label.textColor = COLOR_WITH_ALPHA(0xEE1F1F, 1);
             }
             [self.weekContainerView addSubview:label];
             label.sd_layout
-            .centerYEqualToView(self.weekContainerView)
-            .leftSpaceToView(self.weekContainerView, 10+i*(width+10))
-            .widthIs(width)
-            .heightIs(30);
+                .centerYEqualToView(self.weekContainerView)
+                .leftSpaceToView(self.weekContainerView, 10+i*(width+10))
+                .widthIs(width)
+                .heightIs(30);
         }
         
         self.monthCollectionView.sd_layout
-        .topSpaceToView(self.weekContainerView, 5)
-        .leftEqualToView(_riLiTableHeaderView)
-        .rightEqualToView(_riLiTableHeaderView)
-        .bottomSpaceToView(_riLiTableHeaderView, 10);
+            .topSpaceToView(self.weekContainerView, 5)
+            .leftEqualToView(_riLiTableHeaderView)
+            .rightEqualToView(_riLiTableHeaderView)
+            .bottomSpaceToView(_riLiTableHeaderView, 10);
         
         
     }
@@ -247,7 +455,7 @@
         _yearMonthLabel.font = HXFont(17);
         _yearMonthLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
         _yearMonthLabel.textAlignment = NSTextAlignmentCenter;
-        _yearMonthLabel.text = @"2022-07";
+        
     }
     return _yearMonthLabel;
 }
@@ -279,7 +487,7 @@
         _todayBtn.layer.borderColor = COLOR_WITH_ALPHA(0x4988FD, 1).CGColor;
         [_todayBtn setTitleColor:COLOR_WITH_ALPHA(0x4988FD, 1) forState:UIControlStateNormal];
         [_todayBtn setTitle:@"今天" forState:UIControlStateNormal];
-        [_todayBtn addTarget:self action:@selector(nextMonth:) forControlEvents:UIControlEventTouchUpInside];
+        [_todayBtn addTarget:self action:@selector(backToday:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _todayBtn;
 }
@@ -311,7 +519,7 @@
         ///注册cell、段头
         [_monthCollectionView registerClass:[HXDayCell class]
                  forCellWithReuseIdentifier:NSStringFromClass([HXDayCell class])];
-
+        
     }
     return _monthCollectionView;;
 }
@@ -324,16 +532,16 @@
         [_headerSectionView addSubview:self.numLabel];
         
         self.selectRiQiLabel.sd_layout
-        .topSpaceToView(_headerSectionView, 18)
-        .leftSpaceToView(_headerSectionView, 30)
-        .rightSpaceToView(_headerSectionView, 30)
-        .heightIs(24);
+            .topSpaceToView(_headerSectionView, 18)
+            .leftSpaceToView(_headerSectionView, 30)
+            .rightSpaceToView(_headerSectionView, 30)
+            .heightIs(24);
         
         self.numLabel.sd_layout
-        .bottomSpaceToView(_headerSectionView, 10)
-        .leftSpaceToView(_headerSectionView, 30)
-        .rightSpaceToView(_headerSectionView, 30)
-        .heightIs(22);
+            .bottomSpaceToView(_headerSectionView, 10)
+            .leftSpaceToView(_headerSectionView, 30)
+            .rightSpaceToView(_headerSectionView, 30)
+            .heightIs(22);
         
     }
     return _headerSectionView;
@@ -346,7 +554,7 @@
         _selectRiQiLabel.font = HXBoldFont(17);
         _selectRiQiLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
         _selectRiQiLabel.textAlignment = NSTextAlignmentLeft;
-        _selectRiQiLabel.text = @"07/18 星期二";
+        
     }
     return _selectRiQiLabel;
 }
@@ -357,7 +565,7 @@
         _numLabel.font = HXFont(15);
         _numLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
         _numLabel.textAlignment = NSTextAlignmentLeft;
-        _numLabel.text = @"直播课节(3)";
+        
     }
     return _numLabel;
 }
@@ -379,17 +587,17 @@
         [_noDataView addSubview:tipLabel];
         
         imageView.sd_layout
-        .topSpaceToView(_noDataView, 13)
-        .centerXEqualToView(_noDataView)
-        .widthIs(224)
-        .heightIs(253);
+            .topSpaceToView(_noDataView, 13)
+            .centerXEqualToView(_noDataView)
+            .widthIs(224)
+            .heightIs(253);
         
         tipLabel.sd_layout
-        .topSpaceToView(imageView, 10)
-        .leftEqualToView(_noDataView)
-        .rightEqualToView(_noDataView)
-        .heightIs(22);
-    
+            .topSpaceToView(imageView, 10)
+            .leftEqualToView(_noDataView)
+            .rightEqualToView(_noDataView)
+            .heightIs(22);
+        
     }
     return _noDataView;
 }
@@ -397,13 +605,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

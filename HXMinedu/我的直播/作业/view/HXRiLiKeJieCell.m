@@ -44,7 +44,30 @@
 }
 
 #pragma mark - Seeter
-
+-(void)setKeJieModel:(HXKeJieModel *)keJieModel{
+    
+    _keJieModel = keJieModel;
+    self.huiFangButton.hidden = self.goLearnButton.hidden = self.zhiBoButton.hidden = YES;
+    self.beginTimeLabel.text = HXSafeString(keJieModel.ClassBeginTime);
+    self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
+    self.teacherLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
+    if (keJieModel.LiveType==1) {
+        self.beginTimeLabel.sd_layout.centerYEqualToView(self.bigBackgroundView).offset(-12);
+        self.shiChangLabel.text = HXSafeString(keJieModel.ClassTimeSpan);
+    }else{
+        self.beginTimeLabel.sd_layout.centerYEqualToView(self.bigBackgroundView).offset(0);
+        self.shiChangLabel.text = nil;
+    }
+    /////直播状态 0待开始 1直播中 2已结束
+    if (keJieModel.LiveState==1) {
+        self.zhiBoButton.hidden = NO;
+    }else if (keJieModel.LiveState==2) {
+        self.huiFangButton.hidden = NO;
+    }else{
+        self.goLearnButton.hidden =NO;
+    }
+    
+}
 
 #pragma mark - Event
 
@@ -74,7 +97,7 @@
     .heightIs(54);
     
     self.beginTimeLabel.sd_layout
-    .topSpaceToView(self.bigBackgroundView, 14)
+    .centerYEqualToView(self.bigBackgroundView).offset(-12)
     .leftSpaceToView(self.bigBackgroundView, 10)
     .rightSpaceToView(self.fenGeLine, 0)
     .heightIs(22);
@@ -110,11 +133,15 @@
     .widthRatioToView(self.huiFangButton, 1)
     .heightRatioToView(self.huiFangButton, 1);
     
+    self.goLearnButton.sd_cornerRadiusFromHeightRatio = @0.5;
+    
     self.zhiBoButton.sd_layout
     .centerYEqualToView(self.huiFangButton)
     .centerXEqualToView(self.huiFangButton)
     .widthRatioToView(self.huiFangButton, 1)
     .heightRatioToView(self.huiFangButton, 1);
+    
+    self.zhiBoButton.sd_cornerRadiusFromHeightRatio = @0.5;
     
     
     self.keJieNameLabel.sd_layout
@@ -157,7 +184,7 @@
         _beginTimeLabel.textAlignment = NSTextAlignmentCenter;
         _beginTimeLabel.font = HXFont(14);
         _beginTimeLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _beginTimeLabel.text = @"10:30";
+        
     }
     return _beginTimeLabel;
 }
@@ -169,7 +196,7 @@
         _shiChangLabel.font = HXFont(11);
         _shiChangLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _shiChangLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _shiChangLabel.text = @"60分钟";
+        
     }
     return _shiChangLabel;
 }
@@ -190,7 +217,7 @@
         _keJieNameLabel.font = HXBoldFont(14);
         _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _keJieNameLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _keJieNameLabel.text = @"自学考试大学语文公开课-1";
+        
     }
     return _keJieNameLabel;
 }
@@ -201,7 +228,7 @@
         _teacherLabel.textAlignment = NSTextAlignmentLeft;
         _teacherLabel.font = HXFont(11);
         _teacherLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _teacherLabel.text = @"授课教师：李老师";
+        
     }
     return _teacherLabel;
 }
