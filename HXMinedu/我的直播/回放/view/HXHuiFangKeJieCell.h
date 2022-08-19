@@ -6,23 +6,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HXKeJieModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 
 @protocol HXHuiFangKeJieCellDelegate <NSObject>
 
-/// 点评
-- (void)dianPingWithModel;
+/// 点评/查看点评
+- (void)dianPingWithModel:(HXKeJieModel *)keJieModel;
 
-/// 查看点评
-- (void)checkDianPingWithModel;
 
 @end
 
 @interface HXHuiFangKeJieCell : UITableViewCell
 
 @property(nonatomic, weak) id<HXHuiFangKeJieCellDelegate> delegate;
+
+@property(nonatomic,strong) HXKeJieModel *keJieModel;
 
 @end
 

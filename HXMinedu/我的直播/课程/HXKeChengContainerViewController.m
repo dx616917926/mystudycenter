@@ -38,6 +38,7 @@
 
 -(void)search:(UIButton *)sender{
     HXSearchKeChengViewController *vc = [[HXSearchKeChengViewController alloc] init];
+    vc.type =1;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

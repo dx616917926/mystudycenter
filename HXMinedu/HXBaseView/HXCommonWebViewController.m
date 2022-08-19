@@ -44,6 +44,7 @@ static NSString * const kFunctionName      =   @"callFunctionName";
 
 #pragma mark - 初始化webView
 - (void)initWebViewSettings {
+    
     //webview配置
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     config.allowsInlineMediaPlayback = YES;
@@ -65,6 +66,13 @@ static NSString * const kFunctionName      =   @"callFunctionName";
     [self loadDataWithUrl:self.urlString];
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     [self.view addSubview:_webView];
+    
+    if (@available(iOS 11.0, *)) {
+        _webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
     
 }
 

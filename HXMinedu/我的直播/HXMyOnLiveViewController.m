@@ -8,6 +8,7 @@
 #import "HXMyOnLiveViewController.h"
 #import "HXKeChengContainerViewController.h"
 #import "HXKeChengHuiFangViewController.h"
+#import "HXZuoYeViewController.h"
 #import "HXCommonWebViewController.h"
 #import "HXKeChengKeJieCell.h"
 
@@ -64,6 +65,13 @@
         case 7002:
         {
             HXKeChengHuiFangViewController *vc = [[HXKeChengHuiFangViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case 7003:
+        {
+            HXZuoYeViewController *vc = [[HXZuoYeViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -243,15 +251,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HXKeJieModel *keJieModel = (self.isSearchMode?self.searchArray[indexPath.row]:self.dataArray[indexPath.row]);
-    if (keJieModel.LiveState == 1) {
-        HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-        webViewVC.urlString = keJieModel.liveUrl;
-        webViewVC.cuntomTitle = keJieModel.ClassName;
-        webViewVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webViewVC animated:YES];
-    }else{
-        [self.view showTostWithMessage:@"暂未开播"];
-    }
+    HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+    webViewVC.urlString = @"https://live.eeo.cn/pc.html?courseKey=24cd54b2889dbb23&lessonid=502116347";//keJieModel.liveUrl;
+    webViewVC.cuntomTitle = keJieModel.ClassName;
+    webViewVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webViewVC animated:YES];
 }
 
 

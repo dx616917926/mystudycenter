@@ -7,12 +7,18 @@
 
 #import "HXAllKeChengViewController.h"
 #import "HXKeChengListViewController.h"
+#import "HXCommonWebViewController.h"
 #import "HXKeChengHeaderView.h"
 #import "HXKeChengCell.h"
 
 @interface HXAllKeChengViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong) UIView *noDataView;
+
+@property(nonatomic,strong) NSMutableArray *dataArray;
+@property(nonatomic,assign) NSInteger pageIndex;
+
+@property(nonatomic,assign) NSInteger keChengNum;
 
 @end
 
@@ -23,6 +29,79 @@
     // Do any additional setup after loading the view.
     //
     [self createUI];
+    //获取直播课程列表
+    [self loadData];
+}
+
+#pragma mark - 获取直播课程列表
+-(void)loadData{
+    
+    self.pageIndex = 1;
+    NSDictionary *dic = @{
+        @"keyValue":@"",
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15),
+        @"type":@(1)//1全部课程 2回放
+    };
+
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveMealList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+       
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        NSDictionary *data = [dictionary objectForKey:@"Data"];
+        if (success) {
+            NSInteger rowCount = [[data stringValueForKey:@"rowCount"] integerValue];
+            self.keChengNum = rowCount;
+            NSArray *array = [HXKeChengModel mj_objectArrayWithKeyValuesArray:[data objectForKey:@"t_OnliveMealList_app"]];
+            if (array.count == 15) {
+                self.mainTableView.mj_footer.hidden = NO;
+            }else{
+                self.mainTableView.mj_footer.hidden = YES;
+            }
+            if (array.count == 0) {
+                [self.mainTableView addSubview:self.noDataView];
+            }else{
+                [self.noDataView removeFromSuperview];
+            }
+            [self.dataArray removeAllObjects];
+            [self.dataArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+        [self.mainTableView.mj_header endRefreshing];
+    }];
+    
+}
+
+-(void)loadMoreData{
+    
+    self.pageIndex++;
+    NSDictionary *dic = @{
+        @"keyValue":@"",
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15),
+        @"type":@(1)//1全部课程 2回放
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveMealList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_footer endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        NSDictionary *data = [dictionary objectForKey:@"Data"];
+        if (success) {
+            NSArray *array = [HXKeChengModel mj_objectArrayWithKeyValuesArray:[data objectForKey:@"t_OnliveMealList_app"]];
+            if (array.count == 15) {
+                self.mainTableView.mj_footer.hidden = NO;
+            }else{
+                self.mainTableView.mj_footer.hidden = YES;
+            }
+            [self.dataArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_footer endRefreshing];
+        self.pageIndex--;
+    }];
 }
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
@@ -31,7 +110,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return self.dataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -53,6 +132,7 @@
     if (!headerView) {
         headerView = [[HXKeChengHeaderView alloc] initWithReuseIdentifier:keChengHeaderViewIdentifier];
     }
+    headerView.numLabel.text =[NSString stringWithFormat:@"(%ld)",(long)self.keChengNum];
     return headerView;
 }
 
@@ -65,17 +145,37 @@
         cell = [[HXKeChengCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:keChengCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    cell.liveBroadcastModel = (self.isSearchMode?self.searchArray[indexPath.row]:self.dataArray[indexPath.row]);
+    cell.keChengModel = self.dataArray[indexPath.row];
     return cell;
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    HXKeChengListViewController *vc= [[HXKeChengListViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    HXKeChengModel *keChengModel = self.dataArray[indexPath.row];
+    ///直播类型 1ClassIn   2保利威     保利威直接跳转页面直播     ClassIn进入下一页面展示课节
+    if (keChengModel.LiveType==1) {
+        HXKeChengListViewController *vc= [[HXKeChengListViewController alloc] init];
+        vc.MealName = keChengModel.MealName;
+        vc.mealGuid = keChengModel.MealGuid;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+        webViewVC.urlString = keChengModel.liveUrl;
+        webViewVC.cuntomTitle = keChengModel.MealName;
+        webViewVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webViewVC animated:YES];
+    }
+   
 }
 
+#pragma mark - LazyLaod
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 
 #pragma mark - UI
 -(void)createUI{
@@ -88,19 +188,18 @@
     .bottomSpaceToView(self.view, 0);
     [self.mainTableView updateLayout];
     
-//    // 下拉刷新
-//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
-//    // 设置自动切换透明度(在导航栏下面自动隐藏)
-//    header.automaticallyChangeAlpha = YES;
-//    //设置header
-//    self.mainTableView.mj_header = header;
-//
-//    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-//    self.mainTableView.mj_footer = footer;
-//    self.mainTableView.mj_footer.hidden = YES;
+    // 下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
+    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    header.automaticallyChangeAlpha = YES;
+    //设置header
+    self.mainTableView.mj_header = header;
+
+    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    self.mainTableView.mj_footer = footer;
+    self.mainTableView.mj_footer.hidden = YES;
     
-    
-    
+
 }
 
 

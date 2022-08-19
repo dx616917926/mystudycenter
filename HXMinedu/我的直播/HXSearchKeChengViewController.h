@@ -10,6 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXSearchKeChengViewController : HXBaseViewController
+//1全部课程   2回放
+@property(nonatomic,assign)  NSInteger type;
 
 @end
 

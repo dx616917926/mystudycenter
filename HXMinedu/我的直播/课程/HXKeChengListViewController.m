@@ -6,11 +6,14 @@
 //
 
 #import "HXKeChengListViewController.h"
+#import "HXCommonWebViewController.h"
 #import "HXKeChengKeJieCell.h"
 
 @interface HXKeChengListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong) UITableView *mainTableView;
+
+@property(nonatomic,strong) NSMutableArray *dataArray;
 
 @end
 
@@ -21,9 +24,41 @@
     // Do any additional setup after loading the view.
     //
     [self createUI];
+    //获取直播课程详情
+    [self loadData];
 }
 
+#pragma mark - Setter
+- (void)setMealName:(NSString *)MealName{
+    _MealName = MealName;
+}
 
+- (void)setMealGuid:(NSString *)mealGuid{
+    _mealGuid = mealGuid;
+}
+
+#pragma mark - 获取直播课程详情
+-(void)loadData{
+    NSDictionary *dic = @{
+        @"mealGuid":HXSafeString(self.mealGuid)
+    };
+
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveMealInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+       
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            [self.dataArray removeAllObjects];
+            [self.dataArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_header endRefreshing];
+    }];
+    
+}
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -31,7 +66,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 18;//(self.isSearchMode?self.searchArray.count : self.dataArray.count);
+    return self.dataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -49,19 +84,24 @@
         cell = [[HXKeChengKeJieCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:keChengKeJieCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    cell.liveBroadcastModel = (self.isSearchMode?self.searchArray[indexPath.row]:self.dataArray[indexPath.row]);
+    cell.keJieModel = self.dataArray[indexPath.row];
     return cell;
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HXKeJieModel *keJieModel = self.dataArray[indexPath.row];
+    HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+    webViewVC.urlString = keJieModel.liveUrl;
+    webViewVC.cuntomTitle = keJieModel.ClassName;
+    webViewVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webViewVC animated:YES];
 }
-
 
 #pragma mark - UI
 -(void)createUI{
-    self.sc_navigationBar.title = @"自学考试大学语文公开课";
+    self.sc_navigationBar.title = self.MealName;
     [self.view addSubview:self.mainTableView];
     self.mainTableView.sd_layout
     .topSpaceToView(self.view, kNavigationBarHeight)
@@ -70,23 +110,24 @@
     .bottomSpaceToView(self.view, 0);
     [self.mainTableView updateLayout];
     
-//    // 下拉刷新
-//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
-//    // 设置自动切换透明度(在导航栏下面自动隐藏)
-//    header.automaticallyChangeAlpha = YES;
-//    //设置header
-//    self.mainTableView.mj_header = header;
-//
-//    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-//    self.mainTableView.mj_footer = footer;
-//    self.mainTableView.mj_footer.hidden = YES;
-    
-    
-    
+    // 下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
+    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    header.automaticallyChangeAlpha = YES;
+    //设置header
+    self.mainTableView.mj_header = header;
+
 }
 
 
-#pragma mark - LazyLoad
+#pragma mark - LazyLaod
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+
 - (UITableView *)mainTableView {
     if (!_mainTableView) {
         _mainTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];

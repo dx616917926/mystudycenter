@@ -10,7 +10,6 @@
 @interface HXKeChengHeaderView ()
 @property(nonatomic,strong) UIControl *bigBackgroundControl;
 @property(nonatomic,strong) UILabel *titleLabel;
-@property(nonatomic,strong) UILabel *numLabel;
 @property(nonatomic,strong) UIImageView *foldImageView;
 @property(nonatomic,strong) UIView *bottomLineView;
 
@@ -92,7 +91,7 @@
         _numLabel.textAlignment = NSTextAlignmentLeft;
         _numLabel.font = HXFont(14);
         _numLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _numLabel.text = @"(3)";
+        
     }
     return _numLabel;
 }

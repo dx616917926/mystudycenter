@@ -44,11 +44,27 @@
 
 #pragma mark - Seeter
 
+- (void)setKeJieModel:(HXKeJieModel *)keJieModel{
+    
+    _keJieModel = keJieModel;
+    
+    self.riQiLabel.text = HXSafeString(keJieModel.ClassBeginDate);
+    self.timeLabel.text = HXSafeString(keJieModel.ClassBeginTime);
+    self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
+    self.teacherLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
+    
+    if (keJieModel.IsEvaluate==1) {
+        [self.dianPingButton setImage:[UIImage imageNamed:@"checkdianping_icon"] forState:UIControlStateNormal];
+    }else{
+        [self.dianPingButton setImage:[UIImage imageNamed:@"dianping_icon"] forState:UIControlStateNormal];
+    }
+}
+
 
 #pragma mark - Event
 -(void)dianPing:(UIButton *)sender{
-    if(self.delegate && [self.delegate respondsToSelector:@selector(dianPingWithModel)]){
-        [self.delegate dianPingWithModel];
+    if(self.delegate && [self.delegate respondsToSelector:@selector(dianPingWithModel:)]){
+        [self.delegate dianPingWithModel:self.keJieModel];
     }
 }
 
@@ -141,7 +157,7 @@
         _riQiLabel.textAlignment = NSTextAlignmentCenter;
         _riQiLabel.font = HXFont(14);
         _riQiLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _riQiLabel.text = @"07/26";
+        
     }
     return _riQiLabel;
 }
@@ -153,7 +169,7 @@
         _timeLabel.font = HXFont(11);
         _timeLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _timeLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _timeLabel.text = @"10:30";
+        
     }
     return _timeLabel;
 }
@@ -174,7 +190,7 @@
         _keJieNameLabel.font = HXBoldFont(14);
         _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _keJieNameLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _keJieNameLabel.text = @"自学考试大学语文公开课-1";
+        
     }
     return _keJieNameLabel;
 }
@@ -185,7 +201,7 @@
         _teacherLabel.textAlignment = NSTextAlignmentLeft;
         _teacherLabel.font = HXFont(11);
         _teacherLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _teacherLabel.text = @"授课教师：李老师";
+        
     }
     return _teacherLabel;
 }
@@ -193,7 +209,6 @@
 -(UIButton *)dianPingButton{
     if (!_dianPingButton) {
         _dianPingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_dianPingButton setImage:[UIImage imageNamed:@"dianping_icon"] forState:UIControlStateNormal];
         [_dianPingButton addTarget:self action:@selector(dianPing:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _dianPingButton;

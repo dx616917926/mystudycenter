@@ -6,6 +6,7 @@
 //
 
 #import "HXKeChengCell.h"
+#import "SDWebImage.h"
 
 @interface HXKeChengCell ()
 
@@ -42,6 +43,17 @@
 }
 
 #pragma mark - Seeter
+
+-(void)setKeChengModel:(HXKeChengModel *)keChengModel{
+    _keChengModel = keChengModel;
+    
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keChengModel.imgUrl]] placeholderImage:nil];
+    
+    self.keChengNameLabel.text = HXSafeString(keChengModel.MealName);
+    self.shiYongTypeLabel.text = [NSString stringWithFormat:@"适用类型：%@",keChengModel.MealApplyTypeName];
+    self.totalNumLabel.text = [NSString stringWithFormat:@"总课节数：%ld节",keChengModel.ClassNum];
+    self.unfinishNumLabel.text = [NSString stringWithFormat:@"待完成课节数：%ld节",keChengModel.UndoneClassNum];
+}
 
 
 #pragma mark - UI
@@ -144,7 +156,7 @@
         _keChengNameLabel.font = HXBoldFont(14);
         _keChengNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _keChengNameLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _keChengNameLabel.text = @"自学考试大学语文公开课";
+       
     }
     return _keChengNameLabel;
 }
@@ -155,7 +167,7 @@
         _shiYongTypeLabel.textAlignment = NSTextAlignmentLeft;
         _shiYongTypeLabel.font = HXFont(11);
         _shiYongTypeLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _shiYongTypeLabel.text = @"适用类型：自学考试；成人考试";
+        
     }
     return _shiYongTypeLabel;
 }
@@ -166,7 +178,7 @@
         _totalNumLabel.textAlignment = NSTextAlignmentLeft;
         _totalNumLabel.font = HXFont(11);
         _totalNumLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _totalNumLabel.text = @"总课节数：5节";
+        
     }
     return _totalNumLabel;
 }
@@ -177,7 +189,7 @@
         _unfinishNumLabel.textAlignment = NSTextAlignmentLeft;
         _unfinishNumLabel.font = HXFont(11);
         _unfinishNumLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
-        _unfinishNumLabel.text = @"待完成课节数：3节";
+        
     }
     return _unfinishNumLabel;
 }

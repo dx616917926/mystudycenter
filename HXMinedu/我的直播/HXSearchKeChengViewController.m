@@ -7,6 +7,8 @@
 
 #import "HXSearchKeChengViewController.h"
 #import "HXKeChengListViewController.h"
+#import "HXHuiFangListViewController.h"
+#import "HXCommonWebViewController.h"
 #import "HXKeChengCell.h"
 
 
@@ -21,6 +23,7 @@
 @property(nonatomic,strong) UIView *noDataView;
 
 @property(nonatomic,strong) NSMutableArray *searchArray;
+@property(nonatomic,assign) NSInteger pageIndex;
 
 @end
 
@@ -34,6 +37,10 @@
     [self createUI];
 }
 
+-(void)dealloc{
+    [HXNotificationCenter removeObserver:self];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.view endEditing:YES];
@@ -45,45 +52,81 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - 搜索结果
--(void)searchResultWithStr:(NSString *)str{
-    if ([HXCommonUtil isNull:str]) {
+-(void)loadData{
+    if ([HXCommonUtil isNull:self.searchTextField.text]) {
         [self.searchArray removeAllObjects];
         [self.mainTableView reloadData];
         return;
     }
-    [self.searchArray removeAllObjects];
     
-//    NSDictionary *dic = @{
-//        @"pageIndex":@(1),
-//        @"pageSize":@(100),
-//        @"bmType":@(0),
-//        @"sourceId":@(0)
-//    };
-//    ////1学历  2非学历
-//    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetEnrollInfoList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
-//
-//        BOOL success = [dictionary boolValueForKey:@"Success"];
-//        if (success) {
-//            NSArray *array = [HXEnrollModel mj_objectArrayWithKeyValuesArray:t_enrollInfoList_app];
-//            if (array.count<=0 && str.length!=0) {
-//                [self.view addSubview:self.noDataView];
-//            }else{
-//                [self.noResultView removeFromSuperview];
-//                [self.searchArray removeAllObjects];
-//                [self.searchArray addObjectsFromArray:array];
-//                [self.mainTableView reloadData];
-//                [self.mainTableView setContentOffset:CGPointZero animated:NO];
-//            }
-//        }
-//    } failure:^(NSError * _Nonnull error) {
-//
-//    }];
+    self.pageIndex = 1;
+    NSDictionary *dic = @{
+        @"keyValue":HXSafeString(self.searchTextField.text),
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15),
+        @"type":@(self.type)//1全部课程 2回放
+    };
+
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveMealList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+       
+        [self.mainTableView.mj_header endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        NSDictionary *data = [dictionary objectForKey:@"Data"];
+        if (success) {
+            NSArray *array = [HXKeChengModel mj_objectArrayWithKeyValuesArray:[data objectForKey:@"t_OnliveMealList_app"]];
+            if (array.count == 15) {
+                self.mainTableView.mj_footer.hidden = NO;
+            }else{
+                self.mainTableView.mj_footer.hidden = YES;
+            }
+            if (array.count == 0) {
+                [self.mainTableView addSubview:self.noDataView];
+            }else{
+                [self.noDataView removeFromSuperview];
+            }
+            [self.searchArray removeAllObjects];
+            [self.searchArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+        [self.mainTableView.mj_header endRefreshing];
+    }];
+}
+
+-(void)loadMoreData{
+    
+    self.pageIndex++;
+    NSDictionary *dic = @{
+        @"keyValue":HXSafeString(self.searchTextField.text),
+        @"pageIndex":@(self.pageIndex),
+        @"pageSize":@(15),
+        @"type":@(self.type)//1全部课程 2回放
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveMealList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        [self.mainTableView.mj_footer endRefreshing];
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        NSDictionary *data = [dictionary objectForKey:@"Data"];
+        if (success) {
+            NSArray *array = [HXKeChengModel mj_objectArrayWithKeyValuesArray:[data objectForKey:@"t_OnliveMealList_app"]];
+            if (array.count == 15) {
+                self.mainTableView.mj_footer.hidden = NO;
+            }else{
+                self.mainTableView.mj_footer.hidden = YES;
+            }
+            [self.searchArray addObjectsFromArray:array];
+            [self.mainTableView reloadData];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self.mainTableView.mj_footer endRefreshing];
+        self.pageIndex--;
+    }];
 }
 
 #pragma mark - NSNotification
 -(void)textFieldTextDidChangeNotification:(NSNotification *)not{
-    UITextField *textField = not.object;
-    [self searchResultWithStr:textField.text];
+    [self loadData];
 }
 
 #pragma mark -<UITextFieldDelegate>
@@ -93,7 +136,7 @@
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.view endEditing:YES];
-    [self searchResultWithStr:textField.text];
+    [self loadData];
     return YES;
 }
 
@@ -107,7 +150,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return self.searchArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -126,14 +169,35 @@
         cell = [[HXKeChengCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:keChengCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.keChengModel = self.searchArray[indexPath.row];
     return cell;
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    HXKeChengListViewController *vc= [[HXKeChengListViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    HXKeChengModel *keChengModel = self.searchArray[indexPath.row];
+    ///直播类型 1ClassIn   2保利威     保利威直接跳转页面直播     ClassIn进入下一页面展示课节
+    if (keChengModel.LiveType==1) {
+        //1全部课程   2回放
+        if (self.type==1) {
+            HXKeChengListViewController *vc= [[HXKeChengListViewController alloc] init];
+            vc.MealName = keChengModel.MealName;
+            vc.mealGuid = keChengModel.MealGuid;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            HXHuiFangListViewController *vc= [[HXHuiFangListViewController alloc] init];
+            vc.MealName = keChengModel.MealName;
+            vc.mealGuid = keChengModel.MealGuid;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }else{
+        HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+        webViewVC.urlString = keChengModel.liveUrl;
+        webViewVC.cuntomTitle = keChengModel.MealName;
+        webViewVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webViewVC animated:YES];
+    }
 }
 
 

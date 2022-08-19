@@ -216,6 +216,12 @@ NS_ASSUME_NONNULL_BEGIN
 //获取直播日历详情
 #define HXPOST_GetOnliveCalendarInfo                                    @"/MD/Live/getOnliveCalendarInfo"
 
+//获取直播课程列表
+#define HXPOST_GetOnliveMealList                                        @"/MD/Live/getOnliveMealList"
+
+//获取直播课程详情
+#define HXPOST_GetOnliveMealInfo                                        @"/MD/Live/getOnliveMealInfo"
+
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 
 /**

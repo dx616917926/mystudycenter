@@ -6,6 +6,7 @@
 //
 
 #import "HXKeChengRiLiViewController.h"
+#import "HXCommonWebViewController.h"
 #import "HXRiLiKeJieCell.h"
 #import "HXDayCell.h"
 
@@ -136,11 +137,18 @@
         
         [self.mainTableView.mj_header endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
+        NSDictionary *data = [dictionary objectForKey:@"Data"];
         if (success) {
-            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            NSInteger rowCount = [[data stringValueForKey:@"rowCount"] integerValue];
+            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[data objectForKey:@"t_LiveInfo_app"]];
             [self.keJieArray removeAllObjects];
             [self.keJieArray addObjectsFromArray:array];
             [self.mainTableView reloadData];
+            if (array.count == 15) {
+                self.mainTableView.mj_footer.hidden = NO;
+            }else{
+                self.mainTableView.mj_footer.hidden = YES;
+            }
             if (array.count>0) {
                 HXKeJieModel *model = self.keJieArray.firstObject;
                 if (model.ClassBeginDate.length>=5) {
@@ -148,7 +156,7 @@
                     NSString *week = self.weeks[model.Week];
                     self.selectRiQiLabel.text = [NSString stringWithFormat:@"%@ %@",date,week];
                 }
-                self.numLabel.text = [NSString stringWithFormat:@"直播课节(%lu)",(unsigned long)self.keJieArray.count];
+                self.numLabel.text = [NSString stringWithFormat:@"直播课节(%lu)",(unsigned long)rowCount];
                 self.mainTableView.tableFooterView = nil;
             }else{
                 self.mainTableView.tableFooterView = self.noDataView;
@@ -172,8 +180,9 @@
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetNewLiveList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.mainTableView.mj_footer endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
+        NSDictionary *data = [dictionary objectForKey:@"Data"];
         if (success) {
-            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
+            NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[data objectForKey:@"t_LiveInfo_app"]];
             if (array.count == 15) {
                 self.mainTableView.mj_footer.hidden = NO;
             }else{
@@ -257,6 +266,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HXKeJieModel *keJieModel = self.keJieArray[indexPath.row];
+    HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+    webViewVC.urlString = keJieModel.liveUrl;
+    webViewVC.cuntomTitle = keJieModel.ClassName;
+    webViewVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webViewVC animated:YES];
 }
 
 #pragma mark - <UICollectionViewDataSource,UICollectionViewDelegate>
@@ -303,16 +318,16 @@
         .bottomSpaceToView(self.view, 0);
     
     
-    //    // 下拉刷新
-    //    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownRefrsh)];
-    //    // 设置自动切换透明度(在导航栏下面自动隐藏)
-    //    header.automaticallyChangeAlpha = YES;
-    //    //设置header
-    //    self.mainTableView.mj_header = header;
-    //
-    //    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    //    self.mainTableView.mj_footer = footer;
-    //    self.mainTableView.mj_footer.hidden = YES;
+        // 下拉刷新
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getOnliveCalendarInfo)];
+        // 设置自动切换透明度(在导航栏下面自动隐藏)
+        header.automaticallyChangeAlpha = YES;
+        //设置header
+        self.mainTableView.mj_header = header;
+    
+        MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        self.mainTableView.mj_footer = footer;
+        self.mainTableView.mj_footer.hidden = YES;
 }
 
 

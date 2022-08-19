@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *TeacherName;
 ///0-6（0:周末  1周一.....6周六）
 @property(nonatomic, assign) NSInteger Week;
+///是否评价 0否 1是
+@property(nonatomic, assign) NSInteger IsEvaluate;
 
 @end
 
