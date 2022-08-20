@@ -55,7 +55,7 @@
     self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
     self.teacherNameLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
     if (keJieModel.LiveType==1) {
-        self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@ (%@)",HXSafeString(keJieModel.ClassBeginDate),HXSafeString(keJieModel.ClassBeginTime),HXSafeString(keJieModel.ClassTimeSpan)];
+        self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@ (%@分钟)",HXSafeString(keJieModel.ClassBeginDate),HXSafeString(keJieModel.ClassBeginTime),HXSafeString(keJieModel.ClassTimeSpan)];
     }else{
         self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@",HXSafeString(keJieModel.ClassBeginDate),HXSafeString(keJieModel.ClassBeginTime)];
     }
@@ -81,8 +81,8 @@
     
     self.coverImageView.sd_layout
     .leftSpaceToView(self.bigBackgroundView, 10)
-    .topSpaceToView(self.bigBackgroundView, 15)
-    .bottomSpaceToView(self.bigBackgroundView, 15)
+    .topSpaceToView(self.bigBackgroundView, 12)
+    .bottomSpaceToView(self.bigBackgroundView, 12)
     .widthIs(92);
     self.coverImageView.sd_cornerRadius = @8;
     
@@ -96,16 +96,19 @@
     .topEqualToView(self.coverImageView)
     .leftSpaceToView(self.coverImageView, 10)
     .rightSpaceToView(self.stateImageView, 10)
-    .heightIs(20);
+    .autoHeightRatio(0);
+    [self.keJieNameLabel setMaxNumberOfLinesToShow:2];
     
-    self.teacherNameLabel.sd_layout
-    .topSpaceToView(self.keJieNameLabel, 9)
+
+    self.timeLabel.sd_layout
+    .bottomEqualToView(self.coverImageView)
     .leftEqualToView(self.keJieNameLabel)
     .rightSpaceToView(self.bigBackgroundView, 10)
     .heightIs(14);
     
-    self.timeLabel.sd_layout
-    .bottomEqualToView(self.coverImageView)
+    
+    self.teacherNameLabel.sd_layout
+    .bottomSpaceToView(self.timeLabel, 3)
     .leftEqualToView(self.keJieNameLabel)
     .rightSpaceToView(self.bigBackgroundView, 10)
     .heightIs(14);
@@ -163,7 +166,7 @@
         _keJieNameLabel.font = HXBoldFont(14);
         _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _keJieNameLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-       
+        _keJieNameLabel.numberOfLines = 0;
     }
     return _keJieNameLabel;
 }

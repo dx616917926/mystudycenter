@@ -40,7 +40,8 @@
 #pragma mark - 获取直播课程详情
 -(void)loadData{
     NSDictionary *dic = @{
-        @"mealGuid":HXSafeString(self.mealGuid)
+        @"mealGuid":HXSafeString(self.mealGuid),
+        @"type":@(1)//1全部课程 2回放
     };
 
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveMealInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {

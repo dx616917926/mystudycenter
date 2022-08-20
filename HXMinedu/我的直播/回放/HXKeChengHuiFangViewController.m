@@ -8,7 +8,6 @@
 #import "HXKeChengHuiFangViewController.h"
 #import "HXHuiFangListViewController.h"
 #import "HXSearchKeChengViewController.h"
-#import "HXKeChengListViewController.h"
 #import "HXCommonWebViewController.h"
 #import "HXKeChengHeaderView.h"
 #import "HXKeChengCell.h"
@@ -167,7 +166,9 @@
     HXKeChengModel *keChengModel = self.dataArray[indexPath.row];
     ///直播类型 1ClassIn   2保利威     保利威直接跳转页面直播     ClassIn进入下一页面展示课节
     if (keChengModel.LiveType==1) {
-        HXKeChengListViewController *vc= [[HXKeChengListViewController alloc] init];
+        HXHuiFangListViewController *vc= [[HXHuiFangListViewController alloc] init];
+        vc.MealName = keChengModel.MealName;
+        vc.mealGuid = keChengModel.MealGuid;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];

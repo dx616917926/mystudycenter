@@ -377,7 +377,7 @@
 
 -(UIView *)riLiTableHeaderView{
     if(!_riLiTableHeaderView){
-        _riLiTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 400)];
+        _riLiTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 390)];
         _riLiTableHeaderView.backgroundColor = UIColor.whiteColor;
         [_riLiTableHeaderView addSubview:self.topLine];
         [_riLiTableHeaderView addSubview:self.yearMonthLabel];
@@ -525,6 +525,7 @@
         layout.itemSize = CGSizeMake(width,50);
         _monthCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _monthCollectionView.backgroundColor = [UIColor clearColor];
+        _monthCollectionView.scrollEnabled = NO;
         _monthCollectionView.delegate = self;
         _monthCollectionView.dataSource = self;
         _monthCollectionView.showsVerticalScrollIndicator = NO;

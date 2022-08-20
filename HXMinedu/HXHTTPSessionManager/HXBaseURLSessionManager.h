@@ -222,6 +222,12 @@ NS_ASSUME_NONNULL_BEGIN
 //获取直播课程详情
 #define HXPOST_GetOnliveMealInfo                                        @"/MD/Live/getOnliveMealInfo"
 
+//获取保存直播点评
+#define HXPOST_SavaComment                                              @"/MD/Live/SavaComment"
+
+//获取直播点评详情
+#define HXPOST_GetOnliveStudentSatisfactionInfo                         @"/MD/Live/getOnliveStudentSatisfactionInfo"
+
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 
 /**

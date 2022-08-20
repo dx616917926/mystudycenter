@@ -70,6 +70,11 @@
     self.tiYanStarView.starScore = tiYanStarScore;
 }
 
+-(void)setSuggestion:(NSString *)suggestion{
+    _suggestion = suggestion;
+    self.textView.text = suggestion;
+}
+
 #pragma mark - <UITextViewDelegate>
 - (void)textViewDidChange:(UITextView *)textView{
     [HXCommonUtil limitIncludeChineseTextView:textView Length:100];

@@ -49,11 +49,11 @@
     _keJieModel = keJieModel;
     self.huiFangButton.hidden = self.goLearnButton.hidden = self.zhiBoButton.hidden = YES;
     self.beginTimeLabel.text = HXSafeString(keJieModel.ClassBeginTime);
-    self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
     self.teacherLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
+    self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
     if (keJieModel.LiveType==1) {
         self.beginTimeLabel.sd_layout.centerYEqualToView(self.bigBackgroundView).offset(-12);
-        self.shiChangLabel.text = HXSafeString(keJieModel.ClassTimeSpan);
+        self.shiChangLabel.text = [HXSafeString(keJieModel.ClassTimeSpan) stringByAppendingString:@"分钟"];
     }else{
         self.beginTimeLabel.sd_layout.centerYEqualToView(self.bigBackgroundView).offset(0);
         self.shiChangLabel.text = nil;
@@ -148,7 +148,8 @@
     .topSpaceToView(self.bigBackgroundView, 15)
     .leftSpaceToView(self.fenGeLine, 20)
     .rightSpaceToView(self.huiFangButton, 10)
-    .heightIs(22);
+    .autoHeightRatio(0);
+    [self.keJieNameLabel setMaxNumberOfLinesToShow:2];
     
     self.teacherLabel.sd_layout
     .topSpaceToView(self.keJieNameLabel, 6)
@@ -217,7 +218,7 @@
         _keJieNameLabel.font = HXBoldFont(14);
         _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _keJieNameLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        
+        _keJieNameLabel.numberOfLines = 0;
     }
     return _keJieNameLabel;
 }

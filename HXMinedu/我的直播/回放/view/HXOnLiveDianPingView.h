@@ -25,7 +25,7 @@ typedef void(^DianPingCallBack)(NSInteger fenGeStarScore,NSInteger contentStarSc
 @property (nonatomic, assign) CGFloat fenGeStarScore;
 @property (nonatomic, assign) CGFloat contentStarScore;
 @property (nonatomic, assign) CGFloat tiYanStarScore;
-
+@property (nonatomic, strong) NSString *suggestion;
 
 @property(nonatomic, copy) DianPingCallBack dianPingCallBack;
 

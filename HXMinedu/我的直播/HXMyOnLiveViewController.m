@@ -252,7 +252,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HXKeJieModel *keJieModel = (self.isSearchMode?self.searchArray[indexPath.row]:self.dataArray[indexPath.row]);
     HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-    webViewVC.urlString = @"https://live.eeo.cn/pc.html?courseKey=24cd54b2889dbb23&lessonid=502116347";//keJieModel.liveUrl;
+    webViewVC.urlString = keJieModel.liveUrl;
     webViewVC.cuntomTitle = keJieModel.ClassName;
     webViewVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webViewVC animated:YES];

@@ -10,7 +10,7 @@
 #import "HXCommonWebViewController.h"
 #import "HXHuiFangKeJieCell.h"
 #import "HXOnLiveDianPingView.h"
-
+#import "HXCommentModel.h"
 
 @interface HXHuiFangListViewController ()<UITableViewDelegate,UITableViewDataSource,HXHuiFangKeJieCellDelegate>
 
@@ -43,7 +43,8 @@
 #pragma mark - 获取直播课程详情
 -(void)loadData{
     NSDictionary *dic = @{
-        @"mealGuid":HXSafeString(self.mealGuid)
+        @"mealGuid":HXSafeString(self.mealGuid),
+        @"type":@(2)//1全部课程 2回放
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveMealInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
@@ -63,29 +64,72 @@
     
 }
 
-#pragma mark -  点评结果
--(void)dianPingResult{
-    HXDianPingSuccessViewController *vc = [[HXDianPingSuccessViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+#pragma mark -  保存直播点评
+-(void)dianPing:(NSInteger)fenGeStarScore contentStarScore:(NSInteger)contentStarScore tiYanStarScore:(NSInteger)tiYanStarScore jianYiContent:(NSString *)jianYiContent keJieModel:(HXKeJieModel *)keJieModel{
+    
+    NSDictionary *dic = @{
+        @"classGuid":HXSafeString(keJieModel.ClassGuid),
+        @"enrollId":HXSafeString(keJieModel.EnrollId),
+        @"SkfgSatisfactionScore":@(fenGeStarScore),
+        @"SknrSatisfactionScore":@(contentStarScore),
+        @"ZbtySatisfactionScore":@(tiYanStarScore),
+        @"Suggestion":HXSafeString(jianYiContent)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_SavaComment  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXDianPingSuccessViewController *vc = [[HXDianPingSuccessViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+    }];
+}
+
+#pragma mark - 获取直播点评详情
+-(void)checkDianPing:(HXKeJieModel *)keJieModel{
+    
+    NSDictionary *dic = @{
+        @"classGuid":HXSafeString(keJieModel.ClassGuid),
+        @"enrollId":HXSafeString(keJieModel.EnrollId),
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveStudentSatisfactionInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXCommentModel *model = [HXCommentModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            HXOnLiveDianPingView *onLiveDianPingView = [[HXOnLiveDianPingView alloc] init];
+            onLiveDianPingView.type = OnLiveDianPingViewTypeShow;
+            onLiveDianPingView.fenGeStarScore =[model.SkfgSatisfactionScore integerValue];
+            onLiveDianPingView.contentStarScore =[model.SknrSatisfactionScore integerValue];
+            onLiveDianPingView.tiYanStarScore =[model.ZbtySatisfactionScore integerValue];
+            onLiveDianPingView.suggestion = model.Suggestion;  
+            [onLiveDianPingView show];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+    }];
+    
+   
 }
 
 #pragma mark - <HXHuiFangKeJieCellDelegate>点评
 /// 点评/查看点评
 - (void)dianPingWithModel:(HXKeJieModel *)keJieModel{
-    HXOnLiveDianPingView *onLiveDianPingView = [[HXOnLiveDianPingView alloc] init];
     ///是否评价 0否 1是
     if (keJieModel.IsEvaluate==1) {
-        onLiveDianPingView.type = OnLiveDianPingViewTypeShow;
-        onLiveDianPingView.fenGeStarScore =2;
-        onLiveDianPingView.contentStarScore =1;
-        onLiveDianPingView.tiYanStarScore =2;
-        [onLiveDianPingView show];
+        [self checkDianPing:keJieModel];
     }else{
+        HXOnLiveDianPingView *onLiveDianPingView = [[HXOnLiveDianPingView alloc] init];
         onLiveDianPingView.type = OnLiveDianPingViewTypeeSelect;
         [onLiveDianPingView show];
+        WeakSelf(weakSelf);
         onLiveDianPingView.dianPingCallBack = ^(NSInteger fenGeStarScore, NSInteger contentStarScore, NSInteger tiYanStarScore, NSString * _Nonnull jianYiContent) {
             NSLog(@"授课风格:%ld   授课内容:%ld   直播体验:%ld  其他建议:%@",fenGeStarScore,contentStarScore,tiYanStarScore,jianYiContent);
-            [self dianPingResult];
+            [weakSelf dianPing:fenGeStarScore contentStarScore:contentStarScore tiYanStarScore:tiYanStarScore jianYiContent:jianYiContent keJieModel:keJieModel];
         };
     }
 }

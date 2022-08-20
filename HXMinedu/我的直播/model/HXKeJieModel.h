@@ -10,7 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXKeJieModel : NSObject
-
+///
+@property(nonatomic, strong) NSString *ClassGuid;
+///
+@property(nonatomic, strong) NSString *EnrollId;
 ///直播名称
 @property(nonatomic, strong) NSString *ClassName;
 ///直播开始日期

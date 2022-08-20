@@ -47,8 +47,11 @@
 - (void)setKeJieModel:(HXKeJieModel *)keJieModel{
     
     _keJieModel = keJieModel;
-    
-    self.riQiLabel.text = HXSafeString(keJieModel.ClassBeginDate);
+    if (keJieModel.ClassBeginDate.length>=5) {
+        self.riQiLabel.text = [HXSafeString(keJieModel.ClassBeginDate) substringFromIndex:5];
+    }else{
+        self.riQiLabel.text = nil;
+    }
     self.timeLabel.text = HXSafeString(keJieModel.ClassBeginTime);
     self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
     self.teacherLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
@@ -218,6 +221,7 @@
     if (!_huiFangButton) {
         _huiFangButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_huiFangButton setImage:[UIImage imageNamed:@"huifangsamll_icon"] forState:UIControlStateNormal];
+        _huiFangButton.userInteractionEnabled = NO;
     }
     return _huiFangButton;
 }
