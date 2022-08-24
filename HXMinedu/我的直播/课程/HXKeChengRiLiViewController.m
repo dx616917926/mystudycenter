@@ -133,6 +133,7 @@
         @"dateTime":HXSafeString(self.selectKejieCalendarModel.Date)
     };
     
+   
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveCalendarInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         
         [self.mainTableView.mj_header endRefreshing];
@@ -163,10 +164,12 @@
             }
         }
     } failure:^(NSError * _Nonnull error) {
+        
         [self.mainTableView.mj_header endRefreshing];
     }];
     
 }
+
 
 -(void)loadMoreData{
     self.pageIndex++;
@@ -240,11 +243,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.keJieArray.count>0?76:0;
+    return 76;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 85;
+    return self.keJieArray.count>0?85:0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -377,7 +380,7 @@
 
 -(UIView *)riLiTableHeaderView{
     if(!_riLiTableHeaderView){
-        _riLiTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 390)];
+        _riLiTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 385)];
         _riLiTableHeaderView.backgroundColor = UIColor.whiteColor;
         [_riLiTableHeaderView addSubview:self.topLine];
         [_riLiTableHeaderView addSubview:self.yearMonthLabel];
@@ -448,7 +451,7 @@
             .topSpaceToView(self.weekContainerView, 5)
             .leftEqualToView(_riLiTableHeaderView)
             .rightEqualToView(_riLiTableHeaderView)
-            .bottomSpaceToView(_riLiTableHeaderView, 10);
+            .bottomSpaceToView(_riLiTableHeaderView, 0);
         
         
     }

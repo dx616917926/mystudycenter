@@ -108,16 +108,28 @@
     
     
     self.dianPingButton.sd_layout
-    .topSpaceToView(self.bigBackgroundView, 10)
+    .topSpaceToView(self.bigBackgroundView, 0)
     .rightSpaceToView(self.bigBackgroundView, 10)
-    .widthIs(45)
-    .heightIs(20);
+    .widthIs(60)
+    .heightIs(40);
+    
+    self.dianPingButton.imageView.sd_layout
+    .centerYEqualToView(self.dianPingButton).offset(8)
+    .centerXEqualToView(self.dianPingButton)
+    .widthIs(15)
+    .heightEqualToWidth();
     
     self.huiFangButton.sd_layout
     .topSpaceToView(self.dianPingButton, 5)
     .centerXEqualToView(self.dianPingButton)
     .widthRatioToView(self.dianPingButton, 1)
     .heightRatioToView(self.dianPingButton, 1);
+    
+    self.huiFangButton.imageView.sd_layout
+    .centerYEqualToView(self.huiFangButton).offset(-12)
+    .centerXEqualToView(self.huiFangButton)
+    .widthIs(15)
+    .heightEqualToWidth();
     
     
     self.keJieNameLabel.sd_layout

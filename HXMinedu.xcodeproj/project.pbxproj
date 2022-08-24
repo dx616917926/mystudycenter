@@ -312,6 +312,9 @@
 		048AC4C828ACB7BE0068664B /* HXKeJieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048AC4C728ACB7BE0068664B /* HXKeJieModel.m */; };
 		048C66962670AAD400977A4F /* HXStudentRefundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C66952670AAD400977A4F /* HXStudentRefundModel.m */; };
 		048C66992670B55000977A4F /* HXStudentRefundDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C66982670B55000977A4F /* HXStudentRefundDetailsModel.m */; };
+		048CAC3628B5C29300C2BB6B /* HXLianXiUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048CAC3528B5C29300C2BB6B /* HXLianXiUsViewController.m */; };
+		048CAC3928B5C5C900C2BB6B /* HXLianXiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 048CAC3828B5C5C900C2BB6B /* HXLianXiCell.m */; };
+		048CAC3C28B5CB5500C2BB6B /* HXTouSuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048CAC3B28B5CB5500C2BB6B /* HXTouSuView.m */; };
 		048EA6732761EF51009A7A9F /* HXFeeEditItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EA6722761EF51009A7A9F /* HXFeeEditItemCell.m */; };
 		0490C76827858797007D0A24 /* HXStudentPaperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490C76727858797007D0A24 /* HXStudentPaperModel.m */; };
 		0491335A260D854200055D3D /* HXStudyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04913359260D854200055D3D /* HXStudyViewController.m */; };
@@ -1026,6 +1029,12 @@
 		048C66952670AAD400977A4F /* HXStudentRefundModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudentRefundModel.m; sourceTree = "<group>"; };
 		048C66972670B55000977A4F /* HXStudentRefundDetailsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudentRefundDetailsModel.h; sourceTree = "<group>"; };
 		048C66982670B55000977A4F /* HXStudentRefundDetailsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXStudentRefundDetailsModel.m; sourceTree = "<group>"; };
+		048CAC3428B5C29300C2BB6B /* HXLianXiUsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLianXiUsViewController.h; sourceTree = "<group>"; };
+		048CAC3528B5C29300C2BB6B /* HXLianXiUsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLianXiUsViewController.m; sourceTree = "<group>"; };
+		048CAC3728B5C5C900C2BB6B /* HXLianXiCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLianXiCell.h; sourceTree = "<group>"; };
+		048CAC3828B5C5C900C2BB6B /* HXLianXiCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLianXiCell.m; sourceTree = "<group>"; };
+		048CAC3A28B5CB5500C2BB6B /* HXTouSuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXTouSuView.h; sourceTree = "<group>"; };
+		048CAC3B28B5CB5500C2BB6B /* HXTouSuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXTouSuView.m; sourceTree = "<group>"; };
 		048EA6712761EF51009A7A9F /* HXFeeEditItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXFeeEditItemCell.h; sourceTree = "<group>"; };
 		048EA6722761EF51009A7A9F /* HXFeeEditItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXFeeEditItemCell.m; sourceTree = "<group>"; };
 		0490C76627858797007D0A24 /* HXStudentPaperModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXStudentPaperModel.h; sourceTree = "<group>"; };
@@ -1375,6 +1384,8 @@
 				041EDEF02654DD3E00B11455 /* HXHomeBannnerCell.m */,
 				0404ED8A2655FBA00001AA6A /* HXHomePageGuideCell.h */,
 				0404ED8B2655FBA00001AA6A /* HXHomePageGuideCell.m */,
+				048CAC3A28B5CB5500C2BB6B /* HXTouSuView.h */,
+				048CAC3B28B5CB5500C2BB6B /* HXTouSuView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -1427,6 +1438,8 @@
 				040A96A7263144FA0061481C /* HXUnPaidDetailCell.m */,
 				046F25B9261F030100E394C3 /* HXSetCell.h */,
 				046F25BA261F030100E394C3 /* HXSetCell.m */,
+				048CAC3728B5C5C900C2BB6B /* HXLianXiCell.h */,
+				048CAC3828B5C5C900C2BB6B /* HXLianXiCell.m */,
 				04687703261FF66000DA03C8 /* HXInfoConfirmCell.h */,
 				04687704261FF66000DA03C8 /* HXInfoConfirmCell.m */,
 				047422A327604339002D68B0 /* HXZiLiaoCell.h */,
@@ -2406,6 +2419,8 @@
 				04687707261FFC8A00DA03C8 /* HXConfirmViewController.m */,
 				046F25B6261EFFBE00E394C3 /* HXSetViewController.h */,
 				046F25B7261EFFBE00E394C3 /* HXSetViewController.m */,
+				048CAC3428B5C29300C2BB6B /* HXLianXiUsViewController.h */,
+				048CAC3528B5C29300C2BB6B /* HXLianXiUsViewController.m */,
 				04FEF9ED265B976D003500C1 /* HXHeadMasterViewController.h */,
 				04FEF9EE265B976D003500C1 /* HXHeadMasterViewController.m */,
 				04EF935F2623EF4600B3723F /* HXMyNewsViewController.h */,
@@ -3157,6 +3172,7 @@
 				049BD4CD27F1A702009BFE18 /* HXLearnCourseItemModel.m in Sources */,
 				049D8E0B269C33D900F0E219 /* HXMajorInfoModel.m in Sources */,
 				04D793DD254FFE1F00BCB358 /* HXLiveViewController.m in Sources */,
+				048CAC3628B5C29300C2BB6B /* HXLianXiUsViewController.m in Sources */,
 				0449A54E254C11F6001A28D5 /* EXTScope.m in Sources */,
 				04BEF76327EABBDB00FC1C16 /* HXDomainNameModel.m in Sources */,
 				0414606E2630199D0065B76B /* HXPaymentDetailModel.m in Sources */,
@@ -3330,6 +3346,7 @@
 				043A608B2698214400F9C15A /* HXOriginalPaymentInfoViewController.m in Sources */,
 				0449A4C3254C11F6001A28D5 /* DOUSimpleHTTPRequest.m in Sources */,
 				04566E4D267053B700847287 /* HXHistoricalDetailsCell.m in Sources */,
+				048CAC3C28B5CB5500C2BB6B /* HXTouSuView.m in Sources */,
 				04566E562670737700847287 /* HXStudentFileModel.m in Sources */,
 				0449A4C6254C11F6001A28D5 /* DOUAudioSpatialAnalyzer.m in Sources */,
 				04708E59271E60E1004B2A04 /* HXLiveBroadcastViewController.m in Sources */,
@@ -3422,6 +3439,7 @@
 				04A9A63528A6280D00608BD2 /* HXRiLiKeJieCell.m in Sources */,
 				0449A4BC254C11F6001A28D5 /* NSData+DOUMappedFile.m in Sources */,
 				0449A52A254C11F6001A28D5 /* BitmapCropManipulator.m in Sources */,
+				048CAC3928B5C5C900C2BB6B /* HXLianXiCell.m in Sources */,
 				041FE0E126147B0600696D5C /* HXCourseCell.m in Sources */,
 				041FE0C926146F3000696D5C /* HXLeftCell.m in Sources */,
 				04643747277AA521002448CD /* HXFileTypeInfoModel.m in Sources */,

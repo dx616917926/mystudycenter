@@ -29,6 +29,7 @@ target 'HXMinedu' do
   pod 'YYStarView'
   
   pod 'JCore'
-  pod 'JPush' 
+  pod 'JPush'
+#  pod 'GTSDK', '2.6.8.0-noidfa'
   
 end

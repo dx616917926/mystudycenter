@@ -44,7 +44,7 @@
 -(void)setKeJieModel:(HXKeJieModel *)keJieModel{
     _keJieModel = keJieModel;
     
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keJieModel.imgUrl]] placeholderImage:nil];
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keJieModel.imgUrl]] placeholderImage:[UIImage imageNamed:@"kechengzhanwei_bg"]];
     ///直播状态 0待开始  1直播中
     if (keJieModel.LiveState==1) {
         self.stateImageView.image = [UIImage imageNamed:@"onlive_icon"];
@@ -143,6 +143,7 @@
 -(UIImageView *)coverImageView{
     if (!_coverImageView) {
         _coverImageView = [[UIImageView alloc] init];
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
         _coverImageView.image = [UIImage imageNamed:@"kechengzhanwei_bg"];
         _coverImageView.clipsToBounds = YES;
     }

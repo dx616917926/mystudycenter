@@ -50,10 +50,10 @@
         self.bgView.backgroundColor = UIColor.clearColor;
         if (kejieCalendarModel.IsMonth==1) {
             self.dayLabel.textColor = (kejieCalendarModel.Qty>0?COLOR_WITH_ALPHA(0x4988FD, 1):COLOR_WITH_ALPHA(0x181414, 1));
+            self.numLabel.textColor = COLOR_WITH_ALPHA(0x4988FD, 1);
         }else{
-            self.dayLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
+            self.numLabel.textColor = self.dayLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
         }
-        self.numLabel.textColor = COLOR_WITH_ALPHA(0x4988FD, 1);
     }
 }
 

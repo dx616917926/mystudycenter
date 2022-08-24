@@ -48,6 +48,8 @@
     [self createUI];
     //直播列表
     [self loadData];
+    //登录成功的通知
+    [HXNotificationCenter addObserver:self selector:@selector(loadData) name:LOGINSUCCESS object:nil];
 }
 
 #pragma mark - Event

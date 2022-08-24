@@ -17,12 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *MealName;
 ///适用类型
 @property(nonatomic, strong) NSString *MealApplyTypeName;
-///
+///直播开始日期
 @property(nonatomic, strong) NSString *MealBeginDate;
-///
+///直播开始时间
 @property(nonatomic, strong) NSString *MealBeginTime;
 ///
 @property(nonatomic, strong) NSString *roomNumber;
+///授课教师
+@property(nonatomic, strong) NSString *TeacherName;
 ///总课节数
 @property(nonatomic, assign) NSInteger ClassNum;
 ///待完成课节数

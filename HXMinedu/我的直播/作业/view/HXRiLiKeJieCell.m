@@ -58,7 +58,7 @@
         self.beginTimeLabel.sd_layout.centerYEqualToView(self.bigBackgroundView).offset(0);
         self.shiChangLabel.text = nil;
     }
-    /////直播状态 0待开始 1直播中 2已结束
+    ///直播状态 0待开始  1直播中  2已结束
     if (keJieModel.LiveState==1) {
         self.zhiBoButton.hidden = NO;
     }else if (keJieModel.LiveState==2) {
@@ -244,6 +244,8 @@
         [_huiFangButton setTitleColor:COLOR_WITH_ALPHA(0x4988FD, 1) forState:UIControlStateNormal];
         [_huiFangButton setTitle:@"回放" forState:UIControlStateNormal];
         [_huiFangButton setImage:[UIImage imageNamed:@"huifangsamll_icon"] forState:UIControlStateNormal];
+        _huiFangButton.userInteractionEnabled = NO;
+        _huiFangButton.hidden = YES;
     }
     return _huiFangButton;
 }
@@ -256,6 +258,7 @@
         _goLearnButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         [_goLearnButton setTitleColor:COLOR_WITH_ALPHA(0xFFFFFF, 1) forState:UIControlStateNormal];
         [_goLearnButton setTitle:@"去上课" forState:UIControlStateNormal];
+        _goLearnButton.userInteractionEnabled = NO;
         _goLearnButton.hidden = YES;
     }
     return _goLearnButton;
@@ -269,6 +272,7 @@
         _zhiBoButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         [_zhiBoButton setTitleColor:COLOR_WITH_ALPHA(0xFFFFFF, 1) forState:UIControlStateNormal];
         [_zhiBoButton setTitle:@"直播中" forState:UIControlStateNormal];
+        _zhiBoButton.userInteractionEnabled = NO;
         _zhiBoButton.hidden = YES;
     }
     return _zhiBoButton;

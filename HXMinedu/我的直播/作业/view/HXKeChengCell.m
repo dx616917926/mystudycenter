@@ -17,6 +17,10 @@
 @property(nonatomic,strong) UILabel *shiYongTypeLabel;
 @property(nonatomic,strong) UILabel *totalNumLabel;
 @property(nonatomic,strong) UILabel *unfinishNumLabel;
+@property(nonatomic,strong) UILabel *teacherNameLabel;
+@property(nonatomic,strong) UILabel *timeLabel;
+
+
 @property(nonatomic,strong) UIView *bottomLine;
 
 @end
@@ -45,14 +49,27 @@
 #pragma mark - Seeter
 
 -(void)setKeChengModel:(HXKeChengModel *)keChengModel{
+    
     _keChengModel = keChengModel;
     
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keChengModel.imgUrl]] placeholderImage:nil];
+    self.shiYongTypeLabel.hidden = self.totalNumLabel.hidden = self.unfinishNumLabel.hidden = YES;
+    self.teacherNameLabel.hidden = self.timeLabel.hidden = YES;
+    
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keChengModel.imgUrl]] placeholderImage:[UIImage imageNamed:@"kechengzhanwei_bg"]];
     
     self.keChengNameLabel.text = HXSafeString(keChengModel.MealName);
-    self.shiYongTypeLabel.text = [NSString stringWithFormat:@"适用类型：%@",keChengModel.MealApplyTypeName];
-    self.totalNumLabel.text = [NSString stringWithFormat:@"总课节数：%ld节",keChengModel.ClassNum];
-    self.unfinishNumLabel.text = [NSString stringWithFormat:@"待完成课节数：%ld节",keChengModel.UndoneClassNum];
+    ///直播类型 1ClassIn  2保利威 保利威直接跳转页面直播 ClassIn进入下一页面展示课节
+    if (keChengModel.LiveType==1) {
+        self.shiYongTypeLabel.hidden = self.totalNumLabel.hidden = self.unfinishNumLabel.hidden = NO;
+        self.shiYongTypeLabel.text = [NSString stringWithFormat:@"适用类型：%@",keChengModel.MealApplyTypeName];
+        self.totalNumLabel.text = [NSString stringWithFormat:@"总课节数：%ld节",keChengModel.ClassNum];
+        self.unfinishNumLabel.text = [NSString stringWithFormat:@"待完成课节数：%ld节",keChengModel.UndoneClassNum];
+    }else{
+        self.teacherNameLabel.hidden = self.timeLabel.hidden = NO;
+        self.teacherNameLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keChengModel.TeacherName)];
+        self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@",HXSafeString(keChengModel.MealBeginDate),HXSafeString(keChengModel.MealBeginTime)];
+    }
+    
 }
 
 
@@ -65,6 +82,8 @@
     [self.bigBackgroundView addSubview:self.shiYongTypeLabel];
     [self.bigBackgroundView addSubview:self.totalNumLabel];
     [self.bigBackgroundView addSubview:self.unfinishNumLabel];
+    [self.bigBackgroundView addSubview:self.teacherNameLabel];
+    [self.bigBackgroundView addSubview:self.timeLabel];
     [self.bigBackgroundView addSubview:self.bottomLine];
     
 
@@ -110,6 +129,18 @@
     .rightEqualToView(self.keChengNameLabel)
     .heightRatioToView(self.shiYongTypeLabel, 1);
     
+    self.teacherNameLabel.sd_layout
+    .topSpaceToView(self.keChengNameLabel, 5)
+    .leftEqualToView(self.keChengNameLabel)
+    .rightEqualToView(self.keChengNameLabel)
+    .heightIs(14);
+    
+    self.timeLabel.sd_layout
+    .topSpaceToView(self.teacherNameLabel, 5)
+    .leftEqualToView(self.keChengNameLabel)
+    .rightEqualToView(self.keChengNameLabel)
+    .heightRatioToView(self.shiYongTypeLabel, 1);
+    
     self.bottomLine.sd_layout
     .bottomEqualToView(self.bigBackgroundView)
     .leftSpaceToView(self.bigBackgroundView, 10)
@@ -134,6 +165,7 @@
 -(UIImageView *)coverImageView{
     if (!_coverImageView) {
         _coverImageView = [[UIImageView alloc] init];
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
         _coverImageView.image = [UIImage imageNamed:@"kechengzhanwei_bg"];
         _coverImageView.clipsToBounds = YES;
     }
@@ -192,6 +224,28 @@
         
     }
     return _unfinishNumLabel;
+}
+
+-(UILabel *)teacherNameLabel{
+    if (!_teacherNameLabel) {
+        _teacherNameLabel = [[UILabel alloc] init];
+        _teacherNameLabel.textAlignment = NSTextAlignmentLeft;
+        _teacherNameLabel.font = HXFont(11);
+        _teacherNameLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
+        _teacherNameLabel.hidden = YES;
+    }
+    return _teacherNameLabel;
+}
+
+-(UILabel *)timeLabel{
+    if (!_timeLabel) {
+        _timeLabel = [[UILabel alloc] init];
+        _timeLabel.textAlignment = NSTextAlignmentLeft;
+        _timeLabel.font = HXFont(11);
+        _timeLabel.textColor = COLOR_WITH_ALPHA(0x9F9F9F, 1);
+        _timeLabel.hidden = YES;
+    }
+    return _timeLabel;
 }
 
 -(UIView *)bottomLine{

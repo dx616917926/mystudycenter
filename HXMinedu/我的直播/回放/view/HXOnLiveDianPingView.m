@@ -47,6 +47,10 @@
     return self;
 }
 
+-(void)dealloc{
+    [HXNotificationCenter removeObserver:self];
+}
+
 #pragma mark  - Setter
 -(void)setType:(OnLiveDianPingViewType)type{
     _type = type;
@@ -75,6 +79,20 @@
     self.textView.text = suggestion;
 }
 
+#pragma mark -NSNotification
+-(void)keyboardWillShow:(NSNotification*)note{
+   
+    self.whiteView.sd_layout.centerYEqualToView(self).offset(-kStatusBarHeight-70);
+    [self.whiteView updateLayout];
+}
+
+-(void)keyboardWillHide:(NSNotification*)note{
+    
+    self.whiteView.sd_layout.centerYEqualToView(self).offset(-kStatusBarHeight);
+    [self.whiteView updateLayout];
+}
+
+
 #pragma mark - <UITextViewDelegate>
 - (void)textViewDidChange:(UITextView *)textView{
     [HXCommonUtil limitIncludeChineseTextView:textView Length:100];
@@ -82,6 +100,11 @@
 
 #pragma mark - show
 -(void)show{
+    //监听键盘将要升起的通知
+    [HXNotificationCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    //监听键盘回收的通知
+    [HXNotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     [[UIApplication sharedApplication].keyWindow addSubview:self.maskView];
 }
 
