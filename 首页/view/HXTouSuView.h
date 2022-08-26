@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HXTouSuView : UIView
 
-@property(nonatomic,strong) NSString *phone;
 
 -(void)show;
 

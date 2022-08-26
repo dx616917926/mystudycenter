@@ -8,6 +8,8 @@
 #import "HXCommonWebViewController.h"
 #import <WebKit/WebKit.h>
 #import "NSString+Base64.h"
+
+
 //自定义方法名称，提供JS调用
 static NSString * const kFunctionName      =   @"callFunctionName";
 
@@ -17,9 +19,14 @@ static NSString * const kFunctionName      =   @"callFunctionName";
 @property (nonatomic, strong) WKUserContentController *userContentController;
 
 @property (nonatomic,strong) UIProgressView *progressView;  //设置加载进度条
+
+@property (nonatomic, strong) UIView *screenShotsTipView;
+
 @end
 
 @implementation HXCommonWebViewController
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,11 +43,42 @@ static NSString * const kFunctionName      =   @"callFunctionName";
     [super viewWillAppear:animated];
     //如果有js调用，开启
     //    [self addScriptMessageHandler];
+    
+    //检查当前设备是否处于录屏状态，这里应该是需要定时器来获取，否则只有加载的时候才会判断
+    UIScreen * sc = [UIScreen mainScreen];
+    if (@available(iOS 11.0, *)) {
+        if (sc.isCaptured) {
+            [self screenShots];
+        }
+        //注册通知，监测当前设备录屏状态发生变化
+        [HXNotificationCenter addObserver:self selector:@selector(screenShots) name:UIScreenCapturedDidChangeNotification  object:nil];
+    }
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     //    [self removeScriptMessageHandler];
 }
+
+
+#pragma mark - 录屏遮挡
+-(void)screenShots{
+    
+    UIScreen * sc = [UIScreen mainScreen];
+    if (@available(iOS 11.0, *)) {
+        if (sc.isCaptured) {
+//            [self.view addSubview:self.screenShotsTipView];
+            [self.view showTostWithMessage:@"为保护版权，请停止录屏操作！" hideAfter:2];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }else{
+//            [self.screenShotsTipView removeFromSuperview];
+        }
+    }
+}
+
+
+
 
 #pragma mark - 初始化webView
 - (void)initWebViewSettings {
@@ -299,9 +337,28 @@ static NSString * const kFunctionName      =   @"callFunctionName";
     return _progressView;
 }
 
+-(UIView *)screenShotsTipView{
+    if (!_screenShotsTipView) {
+        _screenShotsTipView = [[UIView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight)];
+        _screenShotsTipView.backgroundColor = UIColor.blackColor;
+        UILabel *tipLabel = [[UILabel alloc] init];
+        tipLabel.font = HXFont(17);
+        tipLabel.textAlignment = NSTextAlignmentCenter;
+        tipLabel.textColor = UIColor.whiteColor;
+        tipLabel.text = @"此页面禁止录屏，请关闭录屏功能";
+        [_screenShotsTipView addSubview:tipLabel];
+        tipLabel.sd_layout
+        .centerYEqualToView(_screenShotsTipView)
+        .leftSpaceToView(_screenShotsTipView, 10)
+        .rightSpaceToView(_screenShotsTipView, 10)
+        .heightIs(20);
+    }
+    return _screenShotsTipView;
+}
+
 - (void)dealloc {
     NSLog(@"web控制器释放！！！！");
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [HXNotificationCenter removeObserver:self];
     @try {
         [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
     } @catch (NSException *exception) {

@@ -76,7 +76,12 @@
 
 -(void)setSuggestion:(NSString *)suggestion{
     _suggestion = suggestion;
-    self.textView.text = suggestion;
+    if ([HXCommonUtil isNull:suggestion]) {
+        self.textView.text = @" ";
+    }else{
+        self.textView.text = suggestion;
+    }
+    
 }
 
 #pragma mark -NSNotification

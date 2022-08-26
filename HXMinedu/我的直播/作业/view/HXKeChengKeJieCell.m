@@ -96,22 +96,23 @@
     .topEqualToView(self.coverImageView)
     .leftSpaceToView(self.coverImageView, 10)
     .rightSpaceToView(self.stateImageView, 10)
-    .autoHeightRatio(0);
-    [self.keJieNameLabel setMaxNumberOfLinesToShow:2];
+    .heightIs(22);
+    
+    self.teacherNameLabel.sd_layout
+    .topSpaceToView(self.keJieNameLabel, 10)
+    .leftEqualToView(self.keJieNameLabel)
+    .rightSpaceToView(self.bigBackgroundView, 10)
+    .heightIs(14);
     
 
     self.timeLabel.sd_layout
-    .bottomEqualToView(self.coverImageView)
+    .topSpaceToView(self.teacherNameLabel, 5)
     .leftEqualToView(self.keJieNameLabel)
     .rightSpaceToView(self.bigBackgroundView, 10)
     .heightIs(14);
     
     
-    self.teacherNameLabel.sd_layout
-    .bottomSpaceToView(self.timeLabel, 3)
-    .leftEqualToView(self.keJieNameLabel)
-    .rightSpaceToView(self.bigBackgroundView, 10)
-    .heightIs(14);
+    
     
     
 }
@@ -165,9 +166,9 @@
         _keJieNameLabel = [[UILabel alloc] init];
         _keJieNameLabel.textAlignment = NSTextAlignmentLeft;
         _keJieNameLabel.font = HXBoldFont(14);
-        _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         _keJieNameLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _keJieNameLabel.numberOfLines = 0;
+        _keJieNameLabel.numberOfLines = 1;
     }
     return _keJieNameLabel;
 }

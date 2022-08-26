@@ -82,6 +82,8 @@
         if (success) {
             HXDianPingSuccessViewController *vc = [[HXDianPingSuccessViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
+            //点评成功，刷新数据
+            [self loadData];
         }
     } failure:^(NSError * _Nonnull error) {
        

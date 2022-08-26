@@ -35,6 +35,19 @@
     return self;
 }
 
+
+#pragma mark - Setter
+- (void)setContactModel:(HXContactModel *)contactModel{
+    
+    _contactModel = contactModel;
+    self.titleLabel.text = HXSafeString(contactModel.title);
+    self.detailTextLabel.text = HXSafeString(contactModel.value);
+    
+}
+
+
+
+#pragma mark - UI
 -(void)createUI{
     [self addSubview:self.titleLabel];
     [self addSubview:self.detailLabel];

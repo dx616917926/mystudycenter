@@ -165,6 +165,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取首页栏目内容
 #define HXPOST_GetHomePageInfoList                                 @"/MD/IndexInfo/GetHomePageInfoList"
 
+//获取联系方式和投诉电话
+#define HXPOST_GetContactDetailsList                               @"/MD/IndexInfo/GetContactDetailsList"
+
 //直播列表
 #define HXPOST_GetLiveList                                         @"/MD/Live/getLiveList"
 

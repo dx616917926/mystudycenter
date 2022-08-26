@@ -10,10 +10,13 @@
 #import "SDWebImage.h"
 
 @interface HXLianXiUsViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property(nonatomic,strong) NSArray *titles;
-@property(nonatomic,strong) NSArray *contents;
+@property(nonatomic,strong) NSMutableArray *dataArray;
+
 @property (nonatomic,strong)  UITableView *mainTableView;
 @property(nonatomic,strong) UIImageView *logoViewImageView;
+
+@property (nonatomic, strong) HXContactDetailsModel *selectContactDetailsModel;
+
 @end
 
 @implementation HXLianXiUsViewController
@@ -22,8 +25,27 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //处理数据
+    [self processData];
     //UI
     [self createUI];
+}
+
+#pragma mark -处理数据
+-(void)processData{
+    self.selectContactDetailsModel = [HXPublicParamTool sharedInstance].selectContactDetailsModel;
+    [self.dataArray removeAllObjects];
+    [self.selectContactDetailsModel.contactDetailsList enumerateObjectsUsingBlock:^(HXContactModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXContactModel *model = obj;
+        model.title = [NSString stringWithFormat:@"联系电话%lu",(unsigned long)(idx+1)];
+        [self.dataArray addObject:model];
+    }];
+    
+    [self.selectContactDetailsModel.contactEmailList enumerateObjectsUsingBlock:^(HXContactModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HXContactModel *model = obj;
+        model.title = [NSString stringWithFormat:@"联系邮箱%lu",(unsigned long)(idx+1)];
+        [self.dataArray addObject:model];
+    }];
 }
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
@@ -33,7 +55,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return  self.titles.count;
+    return  self.dataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -48,8 +70,7 @@
         cell = [[HXLianXiCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:lianXiCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.detailLabel.text = self.contents[indexPath.row];
-    cell.titleLabel.text = self.titles[indexPath.row];
+    cell.contactModel = self.dataArray[indexPath.row];
     return cell;
 }
 
@@ -59,8 +80,7 @@
 
 #pragma mark - UI
 -(void)createUI{
-    self.titles = @[@"联系电话",@"联系邮箱"];
-    self.contents = @[@"15005020241",@"8201898113@qq.com"];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.sc_navigationBar.title = @"联系我们";
     [self.view addSubview:self.logoViewImageView];
@@ -86,6 +106,12 @@
 
 
 #pragma mark - lazyLoad
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 -(UITableView *)mainTableView{
     if (!_mainTableView) {
         _mainTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];

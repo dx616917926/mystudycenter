@@ -6,11 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HXContactModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXLianXiCell : UITableViewCell
 
+@property(nonatomic,strong) HXContactModel *contactModel;
 @property(nonatomic,strong) UILabel *titleLabel;
 @property(nonatomic,strong) UILabel *detailLabel;
 

@@ -28,6 +28,8 @@ target 'HXMinedu' do
   pod 'SGQRCode', '~> 3.5.1'
   pod 'YYStarView'
   
+
+  
   pod 'JCore'
   pod 'JPush'
 #  pod 'GTSDK', '2.6.8.0-noidfa'

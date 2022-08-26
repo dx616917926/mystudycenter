@@ -203,7 +203,7 @@
         _keJieNameLabel = [[UILabel alloc] init];
         _keJieNameLabel.textAlignment = NSTextAlignmentLeft;
         _keJieNameLabel.font = HXBoldFont(14);
-        _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        _keJieNameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         _keJieNameLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
         
     }

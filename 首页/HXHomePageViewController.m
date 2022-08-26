@@ -64,8 +64,10 @@
     [self getHomePageBannerList];
     //获取首页栏目
     [self getHomePageSettingsList];
+    //获取联系方式和投诉电话
+    [self getContactDetailsList];
     ///监听<<报考类型专业改变>>通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
+    [HXNotificationCenter addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
     
     ///监听<<首页banner改变>通知
     [HXNotificationCenter addObserver:self selector:@selector(getHomePageBannerList) name:HomePageBannerChangeNotification object:nil];
@@ -96,7 +98,6 @@
 
 -(void)clickTouSuBtn:(UIButton *)sender{
     HXTouSuView *touSuView = [[HXTouSuView alloc] init];
-    touSuView.phone = @"18681471765";
     [touSuView show];
 }
 
@@ -109,6 +110,8 @@
     [self getHomePageBannerList];
     //获取首页栏目
     [self getHomePageSettingsList];
+    //获取联系方式和投诉电话
+    [self getContactDetailsList];
 }
 
 -(void)loginsuccessNotification:(NSNotification *)not{
@@ -247,6 +250,32 @@
         [self.view bringSubviewToFront:self.touSuBtn];
     } failure:^(NSError * _Nonnull error) {
         [self.view bringSubviewToFront:self.touSuBtn];
+    }];
+    
+}
+
+
+#pragma mark - 获取联系方式和投诉电话
+-(void)getContactDetailsList{
+   
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"type":@(selectMajorModel.type),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetContactDetailsList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXContactDetailsModel *model = [HXContactDetailsModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [HXPublicParamTool sharedInstance].selectContactDetailsModel = model;
+            self.touSuBtn.hidden = (model.complaintNumberList.count>0?NO:YES);
+        }
+       
+    } failure:^(NSError * _Nonnull error) {
+        
     }];
     
 }

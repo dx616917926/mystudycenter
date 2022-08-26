@@ -80,7 +80,7 @@
     HXModelItem *item = courseModel.modules.firstObject;
     self.clickButton.enabled = YES;
     self.clickButton.backgroundColor = COLOR_WITH_ALPHA(0x5699FF, 1);
-    self.timeLabel.text = [NSString stringWithFormat:@"课程有效期：%@-%@",item.StartDate,item.EndDate];
+//    self.timeLabel.text = [NSString stringWithFormat:@"课程有效期：%@-%@",item.StartDate,item.EndDate];
 }
 
 
@@ -92,7 +92,7 @@
     [self.bigBackgroundView addSubview:self.courseNameLabel];
     [self.bigBackgroundView addSubview:self.courseTypeButton];
     [self.bigBackgroundView addSubview:self.clickButton];
-    [self.bigBackgroundView addSubview:self.timeLabel];
+//    [self.bigBackgroundView addSubview:self.timeLabel];
     
     
     self.bigBackgroundView.sd_layout
@@ -137,11 +137,11 @@
     .heightIs(25);
     self.clickButton.sd_cornerRadiusFromHeightRatio = @0.5;
     
-    self.timeLabel.sd_layout
-    .bottomSpaceToView(self.bigBackgroundView, 20)
-    .leftEqualToView(self.courseImageView)
-    .rightSpaceToView(self.bigBackgroundView, 15)
-    .heightIs(14);
+//    self.timeLabel.sd_layout
+//    .bottomSpaceToView(self.bigBackgroundView, 20)
+//    .leftEqualToView(self.courseImageView)
+//    .rightSpaceToView(self.bigBackgroundView, 15)
+//    .heightIs(14);
   
 }
 
