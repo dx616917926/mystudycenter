@@ -130,7 +130,7 @@
     .heightRatioToView(self.shiYongTypeLabel, 1);
     
     self.teacherNameLabel.sd_layout
-    .topSpaceToView(self.keChengNameLabel, 5)
+    .topSpaceToView(self.keChengNameLabel, 10)
     .leftEqualToView(self.keChengNameLabel)
     .rightEqualToView(self.keChengNameLabel)
     .heightIs(14);

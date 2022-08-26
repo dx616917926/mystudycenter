@@ -152,7 +152,7 @@
     [self.keJieNameLabel setMaxNumberOfLinesToShow:2];
     
     self.teacherLabel.sd_layout
-    .topSpaceToView(self.keJieNameLabel, 6)
+    .topSpaceToView(self.keJieNameLabel, 8)
     .leftEqualToView(self.keJieNameLabel)
     .rightEqualToView(self.keJieNameLabel)
     .heightIs(14);
