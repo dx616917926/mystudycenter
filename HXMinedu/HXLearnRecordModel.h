@@ -28,7 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSDictionary *cws_param;
 //慕课课件系统的参数
 @property(nonatomic, strong) NSDictionary *mooc_param;
-//MOOC为慕课课程
+//智慧时刻课件系统的参数
+@property(nonatomic, strong) NSDictionary *shikek_param;
+//HXDD对应cws_param   MOOC对应mooc_param   SHIKEK对应shikek_param
 @property(nonatomic, strong) NSString *StemCode;
 //课程包
 @property(nonatomic, strong) NSString *Revision;

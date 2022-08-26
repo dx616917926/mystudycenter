@@ -442,6 +442,7 @@
                     vc.hidesBottomBarWhenPushed = YES;
                     vc.type = type;
                     vc.course_id = item.course_id;
+                    vc.courseName = item.courseName;
                     vc.studentCourseID = item.studentCourseID;
                     [self.navigationController pushViewController:vc animated:YES];
                 
@@ -616,6 +617,13 @@
                             moocVc.moocUrl = [learnRecordModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
                             moocVc.hidesBottomBarWhenPushed = YES;
                             [strongSelf.navigationController pushViewController:moocVc animated:YES];
+                        }else if ([learnRecordModel.StemCode isEqualToString:@"SHIKEK"]) {//智慧时刻
+                            HXCommonWebViewController *vc = [[HXCommonWebViewController alloc] init];
+                            vc.cuntomTitle = learnRecordModel.courseName;
+                            vc.urlString = [learnRecordModel.shikek_param stringValueForKey:@"coursewareHtmlUrl"];
+                            vc.hidesBottomBarWhenPushed = YES;
+                            [strongSelf.navigationController pushViewController:vc animated:YES];
+                            
                         }else{
                             TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
                             if (@available(iOS 13.0, *)) {
@@ -651,6 +659,13 @@
                             moocVc.moocUrl = [learnRecordModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
                             moocVc.hidesBottomBarWhenPushed = YES;
                             [strongSelf.navigationController pushViewController:moocVc animated:YES];
+                        }else if ([learnRecordModel.StemCode isEqualToString:@"SHIKEK"]) {//智慧时刻
+                            HXCommonWebViewController *vc = [[HXCommonWebViewController alloc] init];
+                            vc.cuntomTitle = learnRecordModel.courseName;
+                            vc.urlString = [learnRecordModel.shikek_param stringValueForKey:@"coursewareHtmlUrl"];
+                            vc.hidesBottomBarWhenPushed = YES;
+                            [strongSelf.navigationController pushViewController:vc animated:YES];
+                            
                         }else{
                             TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
                             if (@available(iOS 13.0, *)) {
