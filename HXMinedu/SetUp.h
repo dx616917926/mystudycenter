@@ -35,7 +35,7 @@
 ////获取正式分库的域名
 #define     KHX_API_ReleaseDomain          @"https://midapi.hlw-study.com"
 
-#define     KHX_API_Domain          KHX_API_DevelopDomain
+#define     KHX_API_Domain          KHX_API_ReleaseDomain
 
 #define     kHXReleaseEdition       0     //生产版本
 #define     kHXDevelopOPEdition     1     //开发OP版本
