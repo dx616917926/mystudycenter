@@ -64,8 +64,7 @@
     [self getHomePageBannerList];
     //获取首页栏目
     [self getHomePageSettingsList];
-    //获取联系方式和投诉电话
-    [self getContactDetailsList];
+    
     ///监听<<报考类型专业改变>>通知
     [HXNotificationCenter addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
     

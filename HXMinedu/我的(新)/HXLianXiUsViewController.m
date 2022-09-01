@@ -46,6 +46,8 @@
         model.title = [NSString stringWithFormat:@"联系邮箱%lu",(unsigned long)(idx+1)];
         [self.dataArray addObject:model];
     }];
+    
+    [self.mainTableView reloadData];
 }
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>

@@ -16,6 +16,7 @@
 				9CAC50BD6FCA85190B19D32DA4A51C9F /* PBXTargetDependency */,
 			);
 			name = JPush;
+			productName = JPush;
 		};
 		849570DFC27665175463482CD1A7929F /* AliPlayerSDK_iOS */ = {
 			isa = PBXAggregateTarget;
@@ -25,6 +26,7 @@
 			dependencies = (
 			);
 			name = AliPlayerSDK_iOS;
+			productName = AliPlayerSDK_iOS;
 		};
 		8554F6236D2AA202CF58503D2DF29730 /* WechatOpenSDK */ = {
 			isa = PBXAggregateTarget;
@@ -34,6 +36,7 @@
 			dependencies = (
 			);
 			name = WechatOpenSDK;
+			productName = WechatOpenSDK;
 		};
 		D504B99928659EA67A1C3A9E981EB8FF /* JCore */ = {
 			isa = PBXAggregateTarget;
@@ -43,6 +46,7 @@
 			dependencies = (
 			);
 			name = JCore;
+			productName = JCore;
 		};
 /* End PBXAggregateTarget section */
 
@@ -1020,7 +1024,7 @@
 		1FFED36A657123030ABB700256D73F15 /* Masonry */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Masonry; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		203432557FC914C4581B85E06C16D4AA /* HXPhotoEditGraffitiColorSizeView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HXPhotoEditGraffitiColorSizeView.h; path = HXPhotoPicker/HXPhotoEdit/View/HXPhotoEditGraffitiColorSizeView.h; sourceTree = "<group>"; };
 		2040C1AB247CF6D5DC0EF4418481C788 /* UIView+MJExtension.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+MJExtension.m"; path = "MJRefresh/UIView+MJExtension.m"; sourceTree = "<group>"; };
-		212DCCDFBCAC1877EF8AC47BA8756B12 /* WMZBanner */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = WMZBanner; path = WMZBanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		212DCCDFBCAC1877EF8AC47BA8756B12 /* WMZBanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WMZBanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21A69A85C0B7252567C040F1BB4AE675 /* IQKeyboardManager-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "IQKeyboardManager-dummy.m"; sourceTree = "<group>"; };
 		220B91F82289A72E47B89B81AA2C1C62 /* HXPreviewLivePhotoView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HXPreviewLivePhotoView.h; path = HXPhotoPicker/View/HXPreviewLivePhotoView.h; sourceTree = "<group>"; };
 		22E0C7761B018D8B3B548B1DB5542262 /* HXPhotoEditGridView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HXPhotoEditGridView.h; path = HXPhotoPicker/HXPhotoEdit/View/HXPhotoEditGridView.h; sourceTree = "<group>"; };
@@ -1425,7 +1429,7 @@
 		9C059A90D40AEB12CD4D305271BA83B3 /* AliyunPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliyunPlayer.framework; sourceTree = "<group>"; };
 		9C35734E3CA4F6AFF1065EAC3028203C /* TFHppleElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
 		9CF8B56F6B03AFF927C4CCA583260E88 /* YNPageViewController-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YNPageViewController-umbrella.h"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DCA24D40FF06FD3C3761084516E4F0C /* HXPhotoEditSplashMaskLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HXPhotoEditSplashMaskLayer.m; path = HXPhotoPicker/HXPhotoEdit/View/HXPhotoEditSplashMaskLayer.m; sourceTree = "<group>"; };
 		9E222871F7E6102B5BDDB223396B1EA2 /* SDCollectionViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDCollectionViewCell.h; path = SDCycleScrollView/Lib/SDCycleScrollView/SDCollectionViewCell.h; sourceTree = "<group>"; };
 		9E4CB44FCD0F55D52A0E66510B42A2CE /* SDWebImageError.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageError.m; path = SDWebImage/Core/SDWebImageError.m; sourceTree = "<group>"; };
@@ -1729,7 +1733,7 @@
 		FBEF3F6AC6F3A94E605CD1BEC985DBF1 /* SDImageCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCache.h; path = SDWebImage/Core/SDImageCache.h; sourceTree = "<group>"; };
 		FBF8D9011ACE1E7CDD57D083CC366A24 /* HXPhotoEditGridView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HXPhotoEditGridView.m; path = HXPhotoPicker/HXPhotoEdit/View/HXPhotoEditGridView.m; sourceTree = "<group>"; };
 		FC08B28C6823EDBEA487612EBBE7556E /* SDImageAPNGCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageAPNGCoder.m; path = SDWebImage/Core/SDImageAPNGCoder.m; sourceTree = "<group>"; };
-		FC6C965965C6D4EAA1F477E2E76272A8 /* YNPageViewController */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = YNPageViewController; path = YNPageViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC6C965965C6D4EAA1F477E2E76272A8 /* YNPageViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YNPageViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCC9135A42CBAFB1259FB4D30CE4CACF /* IQKeyboardManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = IQKeyboardManager.debug.xcconfig; sourceTree = "<group>"; };
 		FCDC783B38D278C38633173558314B21 /* SDImageIOCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageIOCoder.m; path = SDWebImage/Core/SDImageIOCoder.m; sourceTree = "<group>"; };
 		FD1E47212749D7291C93FA9F7866F750 /* NSString+MJExtension.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSString+MJExtension.m"; path = "MJExtension/NSString+MJExtension.m"; sourceTree = "<group>"; };
@@ -1966,7 +1970,6 @@
 				E4359A5F666FED468C4F35DEB8021AA8 /* UIView+SDExtension.m */,
 				AB580796E315127F0C60E053DB975106 /* Support Files */,
 			);
-			name = SDCycleScrollView;
 			path = SDCycleScrollView;
 			sourceTree = "<group>";
 		};
@@ -2004,7 +2007,6 @@
 				7E67572EA93E149291A4FB89FA41FFCA /* Resources */,
 				9EF0D07CCB65AF0D55AF0A474F791F22 /* Support Files */,
 			);
-			name = YYStarView;
 			path = YYStarView;
 			sourceTree = "<group>";
 		};
@@ -2035,7 +2037,6 @@
 				CE231677F196F4E5DD239655FA761780 /* Frameworks */,
 				547B2E9153C0830875DF24E327A6AE9F /* Support Files */,
 			);
-			name = WechatOpenSDK;
 			path = WechatOpenSDK;
 			sourceTree = "<group>";
 		};
@@ -2066,7 +2067,6 @@
 				57694553722E21F3DEEC32F9A4557D99 /* Support Files */,
 				D1F1A1A18492DDF3A905D35B81E36D87 /* UIKit */,
 			);
-			name = AFNetworking;
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
@@ -2096,7 +2096,6 @@
 				0C72236CE0E34E894F5394C7E0AF8501 /* standard */,
 				66B099534D243E79CBF0DAA6FDB26C6C /* Support Files */,
 			);
-			name = FMDB;
 			path = FMDB;
 			sourceTree = "<group>";
 		};
@@ -2127,7 +2126,6 @@
 				6ECE4484A611ADC1D4C79B852DF8C536 /* YBRectConst.m */,
 				C433E440ED37C833C1F23EF2CC98145B /* Support Files */,
 			);
-			name = YBPopupMenu;
 			path = YBPopupMenu;
 			sourceTree = "<group>";
 		};
@@ -2298,7 +2296,6 @@
 				FD1E47212749D7291C93FA9F7866F750 /* NSString+MJExtension.m */,
 				4501A2FA583C8CDE7ADCD70121CE7F3B /* Support Files */,
 			);
-			name = MJExtension;
 			path = MJExtension;
 			sourceTree = "<group>";
 		};
@@ -2320,7 +2317,6 @@
 				12027FBA0D9E1DF487D6A5E40E16FD21 /* WMZBannerView.m */,
 				EC9FC7A786A692265AF7826C928C9BBA /* Support Files */,
 			);
-			name = WMZBanner;
 			path = WMZBanner;
 			sourceTree = "<group>";
 		};
@@ -2339,7 +2335,6 @@
 				794CC4A8973FAD531A5236F73583F7F8 /* Frameworks */,
 				2A50C627ADF1879E90E7ED918DE8E5EB /* Support Files */,
 			);
-			name = JPush;
 			path = JPush;
 			sourceTree = "<group>";
 		};
@@ -2379,7 +2374,6 @@
 				A329B85D69164AFEB8BCED19B6727204 /* Core */,
 				433ABF190501A098A9A22A5E153007F0 /* Support Files */,
 			);
-			name = SDWebImage;
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
@@ -2389,7 +2383,6 @@
 				6FE1E9C4D35D81496925AF9B7483C83F /* AliPlayerSDK */,
 				1FBC4E73A0C6DF6F04CFBA45F3397CD7 /* Support Files */,
 			);
-			name = AliPlayerSDK_iOS;
 			path = AliPlayerSDK_iOS;
 			sourceTree = "<group>";
 		};
@@ -2411,7 +2404,6 @@
 				839823B36E0FEBB23C8509FF082BD8AD /* UIView+GKExtension.m */,
 				066E0ECD2CC96AC3F8D7DC09C9DAE4B8 /* Support Files */,
 			);
-			name = GKCover;
 			path = GKCover;
 			sourceTree = "<group>";
 		};
@@ -2448,7 +2440,6 @@
 				C7F15AF4DE41C9EB5B4D30381B0BB44F /* UIView+SDAutoLayout.m */,
 				8C53FA4445153F542B841E0047F72A8D /* Support Files */,
 			);
-			name = SDAutoLayout;
 			path = SDAutoLayout;
 			sourceTree = "<group>";
 		};
@@ -2520,7 +2511,6 @@
 				3910121E4DD4DCDA413879C2163F4225 /* WKWebViewJavascriptBridge.m */,
 				9572FCF7A8A180306F3FAEB2913CD3DE /* Support Files */,
 			);
-			name = WebViewJavascriptBridge;
 			path = WebViewJavascriptBridge;
 			sourceTree = "<group>";
 		};
@@ -2584,7 +2574,6 @@
 				6195885C942E82F74FA98C07ABBCCCAF /* Resources */,
 				C64491671902C8A7E313C2BB73C3BF4B /* Support Files */,
 			);
-			name = MJRefresh;
 			path = MJRefresh;
 			sourceTree = "<group>";
 		};
@@ -2626,7 +2615,6 @@
 				1511BDE6F5E672BA12DFBA6702A4F6CE /* Frameworks */,
 				7C308709106A66121FD9C743B110128D /* Support Files */,
 			);
-			name = JCore;
 			path = JCore;
 			sourceTree = "<group>";
 		};
@@ -2652,7 +2640,6 @@
 				9BFA320559B0DE3D331A57AE400FE534 /* SD */,
 				6680C72B9D20A9811497DAEF13BAB91B /* Support Files */,
 			);
-			name = GKPhotoBrowser;
 			path = GKPhotoBrowser;
 			sourceTree = "<group>";
 		};
@@ -2854,7 +2841,6 @@
 				61C838F9C6564B622407DACF886FE170 /* YNPageViewController.m */,
 				D3575AF295A271D858C5FBA8DD0C2C8C /* Support Files */,
 			);
-			name = YNPageViewController;
 			path = YNPageViewController;
 			sourceTree = "<group>";
 		};
@@ -2868,7 +2854,6 @@
 				906C2EAE75B8E5451B87A2242146B963 /* Resources */,
 				478E939817300FD165BCCB63A52E3EDF /* Support Files */,
 			);
-			name = HXViewHUD;
 			path = HXViewHUD;
 			sourceTree = "<group>";
 		};
@@ -2933,7 +2918,6 @@
 				C8DAC0B7C5F761194D96AEBB28E3E413 /* Default */,
 				47A06E43F1712CF8C3E13FBCE228FC2D /* Support Files */,
 			);
-			name = HXPhotoPicker;
 			path = HXPhotoPicker;
 			sourceTree = "<group>";
 		};
@@ -2944,7 +2928,6 @@
 				28E4F7CC894BA20B4BAEA7744739BD92 /* UIView+MMLayout.m */,
 				7A81609BD72B80D0F643C594BB34AB22 /* Support Files */,
 			);
-			name = MMLayout;
 			path = MMLayout;
 			sourceTree = "<group>";
 		};
@@ -2996,7 +2979,6 @@
 				CF6F9BDDBE9773333E60E24F9B8B2978 /* IQUIViewController+Additions.m */,
 				84D0297161A213DD3C8DA3504FBFF683 /* Support Files */,
 			);
-			name = IQKeyboardManager;
 			path = IQKeyboardManager;
 			sourceTree = "<group>";
 		};
@@ -3250,7 +3232,6 @@
 				1B10C006FDC12E3CE589F7D67157C1E3 /* ViewController+MASAdditions.m */,
 				7371C016B8C804C6EA7590DB6D588794 /* Support Files */,
 			);
-			name = Masonry;
 			path = Masonry;
 			sourceTree = "<group>";
 		};
@@ -3360,9 +3341,9 @@
 				B0B214D775196BA7CA8E17E53048A493 /* SDWebImage */,
 				B725F96A98CB22A783C643BB02401232 /* SGQRCode */,
 				8EB68B7943515E4F13CC6BE690FFD564 /* WebViewJavascriptBridge */,
-				212DCCDFBCAC1877EF8AC47BA8756B12 /* WMZBanner */,
+				212DCCDFBCAC1877EF8AC47BA8756B12 /* WMZBanner.framework */,
 				A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu */,
-				FC6C965965C6D4EAA1F477E2E76272A8 /* YNPageViewController */,
+				FC6C965965C6D4EAA1F477E2E76272A8 /* YNPageViewController.framework */,
 				A070CEB2B9A92A7D4BEB0430B9E84006 /* YYStarView */,
 			);
 			name = Products;
@@ -3383,7 +3364,6 @@
 				1084C484F01F12ADA4FAF6A2287161A9 /* Resources */,
 				986A87496CD30FF895A425190194A909 /* Support Files */,
 			);
-			name = SGQRCode;
 			path = SGQRCode;
 			sourceTree = "<group>";
 		};
@@ -3421,7 +3401,6 @@
 				DC42F1E8DA7D32C075F840384D27C2B4 /* XPathQuery.m */,
 				44774645365B9C8798FB154DC03EC835 /* Support Files */,
 			);
-			name = hpple;
 			path = hpple;
 			sourceTree = "<group>";
 		};
@@ -4057,7 +4036,7 @@
 			);
 			name = YNPageViewController;
 			productName = YNPageViewController;
-			productReference = FC6C965965C6D4EAA1F477E2E76272A8 /* YNPageViewController */;
+			productReference = FC6C965965C6D4EAA1F477E2E76272A8 /* YNPageViewController.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		3847153A6E5EEFB86565BA840768F429 /* SDWebImage */ = {
@@ -4319,7 +4298,7 @@
 			);
 			name = WMZBanner;
 			productName = WMZBanner;
-			productReference = 212DCCDFBCAC1877EF8AC47BA8756B12 /* WMZBanner */;
+			productReference = 212DCCDFBCAC1877EF8AC47BA8756B12 /* WMZBanner.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		F8051AA643C524FA4E210DD0E6E62332 /* HXPhotoPicker */ = {
@@ -5971,7 +5950,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/YNPageViewController/YNPageViewController-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/YNPageViewController/YNPageViewController-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6004,7 +5983,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/WMZBanner/WMZBanner-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/WMZBanner/WMZBanner-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6289,7 +6268,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/WMZBanner/WMZBanner-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/WMZBanner/WMZBanner-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6718,7 +6697,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/YNPageViewController/YNPageViewController-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/YNPageViewController/YNPageViewController-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

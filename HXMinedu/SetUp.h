@@ -9,7 +9,7 @@
 #define SetUp_h
 
 //极光推送appkey
-#define JPUSHAPPKEY  @"fb4e7dfb1845b271fd4a33d7"
+#define JPUSHAPPKEY  @"13b2c607f0752ebbaf70f8d9"
 
 //友盟统计appkey
 #define APPKEY @"5f9f69ea45b2b751a920c0d1"
@@ -35,7 +35,7 @@
 ////获取正式分库的域名
 #define     KHX_API_ReleaseDomain          @"https://midapi.hlw-study.com"
 
-#define     KHX_API_Domain          KHX_API_ReleaseDomain
+#define     KHX_API_Domain          KHX_API_DevelopDomain
 
 #define     kHXReleaseEdition       0     //生产版本
 #define     kHXDevelopOPEdition     1     //开发OP版本

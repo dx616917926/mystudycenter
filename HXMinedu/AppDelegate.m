@@ -378,6 +378,11 @@
     [self alertTitle:title content:body isLaunch:NO];
 }
 
+- (void)jpushNotificationAuthorization:(JPAuthorizationStatus)status withInfo:(NSDictionary *)info {
+    
+}
+
+
 #endif
 
 // Required, iOS 7 Support

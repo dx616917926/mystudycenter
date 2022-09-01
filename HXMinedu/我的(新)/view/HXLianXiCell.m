@@ -11,6 +11,8 @@
 
 
 @property(nonatomic,strong) UIView *bottomLine;
+@property(nonatomic,strong) UILabel *titleLabel;
+@property(nonatomic,strong) UILabel *contentLabel;
 
 @end
 
@@ -41,7 +43,7 @@
     
     _contactModel = contactModel;
     self.titleLabel.text = HXSafeString(contactModel.title);
-    self.detailTextLabel.text = HXSafeString(contactModel.value);
+    self.contentLabel.text = HXSafeString(contactModel.value);
     
 }
 
@@ -50,7 +52,7 @@
 #pragma mark - UI
 -(void)createUI{
     [self addSubview:self.titleLabel];
-    [self addSubview:self.detailLabel];
+    [self addSubview:self.contentLabel];
     [self addSubview:self.bottomLine];
     
     self.bottomLine.sd_layout
@@ -67,7 +69,7 @@
     
 
     
-    self.detailLabel.sd_layout
+    self.contentLabel.sd_layout
     .centerYEqualToView(self)
     .leftSpaceToView(self.titleLabel, 5)
     .rightEqualToView(self.bottomLine)
@@ -85,14 +87,14 @@
     return _titleLabel;;
 }
 
--(UILabel *)detailLabel{
-    if (!_detailLabel) {
-        _detailLabel = [[UILabel alloc] init];
-        _detailLabel.textAlignment = NSTextAlignmentRight;
-        _detailLabel.font = HXFont(16);
-        _detailLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
+-(UILabel *)contentLabel{
+    if (!_contentLabel) {
+        _contentLabel = [[UILabel alloc] init];
+        _contentLabel.textAlignment = NSTextAlignmentRight;
+        _contentLabel.font = HXFont(16);
+        _contentLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
     }
-    return _detailLabel;
+    return _contentLabel;
 }
 
 

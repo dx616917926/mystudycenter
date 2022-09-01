@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "star_dark_icon@2x.png",
+      "filename" : "star_light_icon@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "star_dark_icon@3x.png",
+      "filename" : "star_light_icon@3x .png",
       "idiom" : "universal",
       "scale" : "3x"
     }
