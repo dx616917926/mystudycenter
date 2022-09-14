@@ -29,6 +29,7 @@
 //  v5.3 完善接口异常数据处理，新增指定视频清晰度参数 defaultQuality（LD标清、FD流畅）默认LD
 //  v5.4 适配iOS 15
 //  v5.5 新增章节目录是否显示已学完状态的控制功能。默认NO，字体颜色默认绿色
+//  v5.6 新增隐藏“在线讲义”视图控制功能，默认不隐藏。
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, assign) BOOL showLearnFinishStyle; //是否显示已学完的状态，默认NO
 @property(nonatomic, strong) UIColor *learnFinishStyleColor;//学完状态的字体颜色，默认绿色
+
+@property(nonatomic, assign) BOOL hiddenLectureView;    //是否隐藏“在线讲义”视图，默认NO
 
 @end
 
