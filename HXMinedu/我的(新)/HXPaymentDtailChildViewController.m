@@ -20,7 +20,7 @@
 
 
 
-@interface HXPaymentDtailChildViewController ()<UITableViewDelegate,UITableViewDataSource,HXPaidDetailCellDelegate>
+@interface HXPaymentDtailChildViewController ()<UITableViewDelegate,UITableViewDataSource,HXPaidDetailCellDelegate,HXUnPaidDetailCellDelegate>
 
 @property(strong,nonatomic) UITableView *mainTableView;
 @property(nonatomic,strong) HXNoDataTipView *noDataTipView;
@@ -174,6 +174,23 @@
     [self.navigationController pushViewController:voucherVc animated:YES];
 }
 
+#pragma mark - <HXUnPaidDetailCellDelegate>删除订单
+-(void)deleteOrderNum:(HXPaymentDetailModel *)paymentDetailModel{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_DeleteByOrderNum withDictionary:@{@"orderNum":HXSafeString(paymentDetailModel.orderNum)} success:^(NSDictionary * _Nonnull dictionary) {
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            [self.view showTostWithMessage:@"删除成功"];
+            [self loadNewData];
+        }else{
+            [self.view showTostWithMessage:[dictionary stringValueForKey:@"Message"]];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+
+    }];
+}
+
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (self.flag == 1){
@@ -282,6 +299,7 @@
                 unPaidCell = [[HXUnPaidDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:unPaidDetailCelldentifier];
             }
             unPaidCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            unPaidCell.delegate = self;
             unPaidCell.paymentDetailModel = paymentDetailModel;
             return unPaidCell;
         }else{

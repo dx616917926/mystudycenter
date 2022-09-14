@@ -53,6 +53,7 @@ PODS:
     - SDWebImage
   - YBPopupMenu (1.1.9)
   - YNPageViewController (0.2.6)
+  - YYStarView (1.0.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0.1)
@@ -79,6 +80,7 @@ DEPENDENCIES:
   - WMZBanner (~> 1.2.0)
   - YBPopupMenu (~> 1.1.9)
   - YNPageViewController (~> 0.2.6)
+  - YYStarView
 
 SPEC REPOS:
   trunk:
@@ -106,6 +108,7 @@ SPEC REPOS:
     - WMZBanner
     - YBPopupMenu
     - YNPageViewController
+    - YYStarView
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
@@ -132,7 +135,8 @@ SPEC CHECKSUMS:
   WMZBanner: 42d02896dc7a67a4d7a2ebe1ef5b7a79f8d2c540
   YBPopupMenu: 3a02e89860bb0568ba477aee609bc3f25e5bd339
   YNPageViewController: 33040d429adf0b415d4449ffeec848d8339934ea
+  YYStarView: 88da305c4e86bc2468758e9313f2d25cce4f3ba3
 
-PODFILE CHECKSUM: 60f08fccdf7645be9e6a797dd4b844956b215e55
+PODFILE CHECKSUM: b0fa1439b3dff1b8bdb24ee1f00acded96134bd7
 
 COCOAPODS: 1.11.3

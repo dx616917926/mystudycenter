@@ -8,6 +8,7 @@
 #import "HXSelectCourseListViewController.h"
 #import "HXSelectCourseCell.h"
 #import "HXMoocViewController.h"
+#import "HXCommonWebViewController.h"
 #import <TXMoviePlayer/TXMoviePlayerController.h>
 
 @interface HXSelectCourseListViewController ()<UITableViewDelegate,UITableViewDataSource,HXSelectCourseCellDelegate>
@@ -45,7 +46,8 @@
         @"version_id":HXSafeString(selectMajorModel.versionId),
         @"type":@(selectMajorModel.type),
         @"major_id":HXSafeString(selectMajorModel.major_id),
-        @"course_id":HXSafeString(self.course_id)
+        @"course_id":HXSafeString(self.course_id),
+        @"courseName":HXSafeString(self.courseName)
         
     };
     
@@ -105,6 +107,13 @@
                 vc.hidesBottomBarWhenPushed = YES;
                 [strongSelf.navigationController pushViewController:vc animated:YES];
                 
+            }else if ([item.StemCode isEqualToString:@"SHIKEK"]) {//智慧时刻
+                HXCommonWebViewController *vc = [[HXCommonWebViewController alloc] init];
+                vc.cuntomTitle = item.courseName;
+                vc.urlString = [item.shikek_param stringValueForKey:@"coursewareHtmlUrl"];
+                vc.hidesBottomBarWhenPushed = YES;
+                [strongSelf.navigationController pushViewController:vc animated:YES];
+                
             }else{
                 TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
                 if (@available(iOS 13.0, *)) {
@@ -136,7 +145,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 180;
+    return 160;
     
     
 }

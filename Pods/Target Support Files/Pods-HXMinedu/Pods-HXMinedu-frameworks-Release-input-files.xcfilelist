@@ -21,4 +21,5 @@ ${BUILT_PRODUCTS_DIR}/WMZBanner/WMZBanner.framework
 ${BUILT_PRODUCTS_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework
 ${BUILT_PRODUCTS_DIR}/YBPopupMenu/YBPopupMenu.framework
 ${BUILT_PRODUCTS_DIR}/YNPageViewController/YNPageViewController.framework
+${BUILT_PRODUCTS_DIR}/YYStarView/YYStarView.framework
 ${BUILT_PRODUCTS_DIR}/hpple/hpple.framework

@@ -19,6 +19,7 @@
 #import "HXVersionModel.h"
 #import "HXColumnItemModel.h"
 #import "HXNoDataTipView.h"
+#import "HXTouSuView.h"
 
 @interface HXHomePageViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
 @property(nonatomic,strong) HXNoDataTipView *noDataTipView;
@@ -34,6 +35,8 @@
 @property(nonatomic,strong) UILabel *messageCountLabel;
 @property(nonatomic,strong)   WMZBannerView *bannerView;
 @property(nonatomic,strong)   YNPageViewController *pageVc;
+//投诉电话
+@property (nonatomic, strong) UIButton *touSuBtn;
 //栏目数据源
 @property (nonatomic, strong) NSMutableArray *columnList;
 
@@ -61,14 +64,15 @@
     [self getHomePageBannerList];
     //获取首页栏目
     [self getHomePageSettingsList];
+    
     ///监听<<报考类型专业改变>>通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
+    [HXNotificationCenter addObserver:self selector:@selector(versionAndMajorChangeNotification:) name:VersionAndMajorChangeNotification object:nil];
     
     ///监听<<首页banner改变>通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHomePageBannerList) name:HomePageBannerChangeNotification object:nil];
+    [HXNotificationCenter addObserver:self selector:@selector(getHomePageBannerList) name:HomePageBannerChangeNotification object:nil];
     
     //登录成功的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginsuccessNotification:) name:LOGINSUCCESS object:nil];
+    [HXNotificationCenter addObserver:self selector:@selector(loginsuccessNotification:) name:LOGINSUCCESS object:nil];
 }
 
 
@@ -91,6 +95,12 @@
     [self.navigationController pushViewController:systemNotificationVc animated:YES];
 }
 
+-(void)clickTouSuBtn:(UIButton *)sender{
+    HXTouSuView *touSuView = [[HXTouSuView alloc] init];
+    [touSuView show];
+}
+
+
 #pragma mark - /监听<<报考类型专业改变>>通知
 -(void)versionAndMajorChangeNotification:(NSNotification *)not{
     //获取顶部Logo
@@ -99,6 +109,8 @@
     [self getHomePageBannerList];
     //获取首页栏目
     [self getHomePageSettingsList];
+    //获取联系方式和投诉电话
+    [self getContactDetailsList];
 }
 
 -(void)loginsuccessNotification:(NSNotification *)not{
@@ -232,10 +244,39 @@
                 [self.view addSubview:self.noDataTipView];
                 [self.view addSubview:self.headerView];
             }
+            
         }
+        [self.view bringSubviewToFront:self.touSuBtn];
+    } failure:^(NSError * _Nonnull error) {
+        [self.view bringSubviewToFront:self.touSuBtn];
+    }];
+    
+}
+
+
+#pragma mark - 获取联系方式和投诉电话
+-(void)getContactDetailsList{
+   
+    HXMajorModel *selectMajorModel = [HXPublicParamTool sharedInstance].selectMajorModel;
+    NSDictionary *dic = @{
+        @"version_id":HXSafeString(selectMajorModel.versionId),
+        @"type":@(selectMajorModel.type),
+        @"major_id":HXSafeString(selectMajorModel.major_id)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetContactDetailsList withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXContactDetailsModel *model = [HXContactDetailsModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            [HXPublicParamTool sharedInstance].selectContactDetailsModel = model;
+            self.touSuBtn.hidden = (model.complaintNumberList.count>0?NO:YES);
+        }
+       
     } failure:^(NSError * _Nonnull error) {
         
     }];
+    
 }
 
 
@@ -244,6 +285,14 @@
 -(void)createUI{
     self.automaticallyAdjustsScrollViewInsets = NO;
    
+    [self.view addSubview:self.touSuBtn];
+
+    self.touSuBtn.sd_layout
+    .rightEqualToView(self.view).offset(10)
+    .bottomSpaceToView(self.view, kTabBarHeight+20)
+    .widthIs(82)
+    .heightIs(50);
+    
 }
 
 
@@ -474,6 +523,15 @@
         _messageCountLabel.textColor = COLOR_WITH_ALPHA(0xffffff, 1);
     }
     return _messageCountLabel;
+}
+
+-(UIButton *)touSuBtn{
+    if (!_touSuBtn) {
+        _touSuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_touSuBtn setImage:[UIImage imageNamed:@"tousu_icon"] forState:UIControlStateNormal];
+        [_touSuBtn addTarget:self action:@selector(clickTouSuBtn:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _touSuBtn;
 }
 
 

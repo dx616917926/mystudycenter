@@ -64,7 +64,8 @@
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.font = HXFont(16);
         _nameLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
-        _nameLabel.text = @"长沙市湘晟智谷专修学院";
+        _nameLabel.numberOfLines=1;
+        _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _nameLabel;
 }

@@ -197,7 +197,7 @@
 
 -(HXNoDataTipView *)noDataTipView{
     if (!_noDataTipView) {
-        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:self.mainTableView.bounds];
+        _noDataTipView = [[HXNoDataTipView alloc] initWithFrame:self.mainTableView.frame];
         _noDataTipView.tipTitle = @"暂无数据~";
     }
     return _noDataTipView;

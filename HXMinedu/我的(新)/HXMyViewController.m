@@ -10,6 +10,7 @@
 #import "HXRegistFormViewController.h"
 #import "HXPictureInforConfirmViewController.h"
 #import "HXAboutUsViewController.h"
+#import "HXLianXiUsViewController.h"
 #import "HXSetViewController.h"
 #import "HXHeadMasterViewController.h"
 #import "HXSystemNotificationViewController.h"
@@ -53,6 +54,8 @@
 @property(nonatomic,strong) UIView *bottomContainerView;
 @property(nonatomic,strong) UIButton *aboutUsBtn;
 @property(nonatomic,strong) UIView *line;
+@property(nonatomic,strong) UIButton *lianXiUsBtn;
+@property(nonatomic,strong) UIView *line2;
 @property(nonatomic,strong) UIButton *commomSetBtn;
 //未读消息数量
 @property(nonatomic,assign) NSInteger messageCount;
@@ -386,7 +389,14 @@
             
         }
             break;
-        case 7://通用设置
+        case 7://联系我们
+        {
+            HXLianXiUsViewController *lianXiUsVc = [[HXLianXiUsViewController alloc] init];
+            lianXiUsVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:lianXiUsVc animated:YES];
+        }
+            break;
+        case 8://通用设置
         {
             HXSetViewController *setVc = [[HXSetViewController alloc] init];
             setVc.hidesBottomBarWhenPushed = YES;
@@ -515,15 +525,11 @@
     .topSpaceToView(self.middleContainerView, 15)
     .leftSpaceToView(self.mainScrollView, _kpw(25))
     .rightSpaceToView(self.mainScrollView, _kpw(25))
-    .heightIs(101);
+    .heightIs(152);
     self.bottomContainerView.sd_cornerRadius = @10;
     
     
-    self.line.sd_layout
-    .centerYEqualToView(self.bottomContainerView)
-    .leftSpaceToView(self.bottomContainerView, 21)
-    .rightSpaceToView(self.bottomContainerView, 0)
-    .heightIs(1);
+    
     
     
     self.aboutUsBtn.sd_layout
@@ -544,9 +550,38 @@
     .widthIs(16)
     .heightEqualToWidth();
     
+    self.line.sd_layout
+    .topSpaceToView(self.aboutUsBtn, 0)
+    .leftSpaceToView(self.bottomContainerView, 21)
+    .rightSpaceToView(self.bottomContainerView, 0)
+    .heightIs(1);
+    
+    self.lianXiUsBtn.sd_layout
+    .topSpaceToView(self.line, 0)
+    .leftEqualToView(self.bottomContainerView)
+    .rightEqualToView(self.bottomContainerView)
+    .heightIs(50);
+    
+    self.lianXiUsBtn.titleLabel.sd_layout
+    .centerYEqualToView(self.lianXiUsBtn)
+    .leftSpaceToView(self.lianXiUsBtn, 22)
+    .widthIs(150)
+    .heightIs(22);
+    
+    self.lianXiUsBtn.imageView.sd_layout
+    .centerYEqualToView(self.lianXiUsBtn)
+    .rightSpaceToView(self.lianXiUsBtn, 16)
+    .widthIs(16)
+    .heightEqualToWidth();
+    
+    self.line2.sd_layout
+    .topSpaceToView(self.lianXiUsBtn, 0)
+    .leftSpaceToView(self.bottomContainerView, 21)
+    .rightSpaceToView(self.bottomContainerView, 0)
+    .heightIs(1);
     
     self.commomSetBtn.sd_layout
-    .bottomEqualToView(self.bottomContainerView)
+    .topSpaceToView(self.line2, 0)
     .leftEqualToView(self.bottomContainerView)
     .rightEqualToView(self.bottomContainerView)
     .heightIs(50);
@@ -778,6 +813,8 @@
         _bottomContainerView.backgroundColor = [UIColor whiteColor];
         [_bottomContainerView addSubview:self.aboutUsBtn];
         [_bottomContainerView addSubview:self.line];
+        [_bottomContainerView addSubview:self.lianXiUsBtn];
+        [_bottomContainerView addSubview:self.line2];
         [_bottomContainerView addSubview:self.commomSetBtn];
     }
     return _bottomContainerView;
@@ -798,10 +835,25 @@
     return _aboutUsBtn;
 }
 
+-(UIButton *)lianXiUsBtn{
+    if (!_lianXiUsBtn) {
+        _lianXiUsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _lianXiUsBtn.tag = 5007;
+        _lianXiUsBtn.titleLabel.font = HXFont(14);
+        _lianXiUsBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+        [_lianXiUsBtn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
+        [_lianXiUsBtn setTitle:@"联系我们" forState:UIControlStateNormal];
+        [_lianXiUsBtn setImage:[UIImage imageNamed:@"left_arrow"] forState:UIControlStateNormal];
+        [_lianXiUsBtn addTarget:self action:@selector(handleMiddleClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    return _lianXiUsBtn;
+}
+
 -(UIButton *)commomSetBtn{
     if (!_commomSetBtn) {
         _commomSetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _commomSetBtn.tag = 5007;
+        _commomSetBtn.tag = 5008;
         _commomSetBtn.titleLabel.font = HXFont(14);
         _commomSetBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
         [_commomSetBtn setTitleColor:COLOR_WITH_ALPHA(0x2C2C2E, 1) forState:UIControlStateNormal];
@@ -819,6 +871,14 @@
         _line.backgroundColor = COLOR_WITH_ALPHA(0x979797, 0.5);
     }
     return _line;
+}
+
+-(UIView *)line2{
+    if (!_line2) {
+        _line2 = [[UIView alloc] init];
+        _line2.backgroundColor = COLOR_WITH_ALPHA(0x979797, 0.5);
+    }
+    return _line2;
 }
 
 -(UIImageView *)logoViewImageView{

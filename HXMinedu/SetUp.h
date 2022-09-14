@@ -9,7 +9,7 @@
 #define SetUp_h
 
 //极光推送appkey
-#define JPUSHAPPKEY  @"fb4e7dfb1845b271fd4a33d7"
+#define JPUSHAPPKEY  @"13b2c607f0752ebbaf70f8d9"
 
 //友盟统计appkey
 #define APPKEY @"5f9f69ea45b2b751a920c0d1"
@@ -28,9 +28,14 @@
 
 ///////////////////////// 提交App Store 审核时需要修改的内容 ////////////////////////
 
-#define     kHXISFenKuLogin         0   //是否分库登录:   1:是   0:否
+#define     kHXISFenKuLogin         1   //是否分库登录:   1:是   0:否
 
-#define     KHX_API_Domain          @"https://midapi.hlw-study.com"//获取分库的域名
+////获取测试分库的域名
+#define     KHX_API_DevelopDomain          @"http://lwjcenter.edu-cj.com"
+////获取正式分库的域名
+#define     KHX_API_ReleaseDomain          @"https://midapi.hlw-study.com"
+
+#define     KHX_API_Domain          KHX_API_DevelopDomain
 
 #define     kHXReleaseEdition       0     //生产版本
 #define     kHXDevelopOPEdition     1     //开发OP版本
@@ -38,7 +43,7 @@
 #define     kHXDevelopLWJEdition    3     //李文军主机
 #define     kHXChangeEdition        100   //支持切换服务器(长按登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试)
 
-#define     kHXAPPEdition           kHXDevelopOPEdition
+#define     kHXAPPEdition           kHXReleaseEdition
 
 #if (kHXAPPEdition == kHXChangeEdition)
 #define    kHXCanChangeServer       1   //长按切换登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试
@@ -46,9 +51,9 @@
 
 //域名定义
 #define     kHXReleasServer         @"https://demo.hlw-study.com"
-#define     kHXDevelopOPServer      @"https://lwjtest.edu-cj.com"
+#define     kHXDevelopOPServer      @"https://lwjtest.edu-cj.com"  //http://lwjcenter.edu-cj.com
 #define     kHXDevelopMDServer      @"https://testmd.hlw-study.com"
-#define     kHXDevelopLWJEServer    @"http://192.168.1.131:82" //李文军主机
+#define     kHXDevelopLWJEServer    @"http://192.168.1.131:85" //李文军主机
 
 #if kHXCanChangeServer
 #define kHXChangeServer      ([HXCommonUtil isNull:KHXUserDefaultsForValue(KP_SERVER_KEY)] ? kHXDevelopOPServer : KHXUserDefaultsForValue(KP_SERVER_KEY))

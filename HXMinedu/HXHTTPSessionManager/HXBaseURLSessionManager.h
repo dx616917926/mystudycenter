@@ -114,6 +114,12 @@ NS_ASSUME_NONNULL_BEGIN
 //确认订单信息V2
 #define HXPOST_Get_ConfirmOrder                          @"/MD/StuPayInfo/ConfirmOrderV2"
 
+//删除订单
+#define HXPOST_DeleteByOrderNum                          @"/MD/StuPayInfo/DeleteByOrderNum"
+
+//修改订单状态
+#define HXPOST_UpdateByOrderNum                          @"/MD/StuPayInfo/UpdateByOrderNum"
+
 //上传交易凭证V2
 #define HXPOST_UploadProofFile                          @"/MD/StuPayInfo/uploadProofFileV2"
 
@@ -159,6 +165,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取首页栏目内容
 #define HXPOST_GetHomePageInfoList                                 @"/MD/IndexInfo/GetHomePageInfoList"
 
+//获取联系方式和投诉电话
+#define HXPOST_GetContactDetailsList                               @"/MD/IndexInfo/GetContactDetailsList"
+
 //直播列表
 #define HXPOST_GetLiveList                                         @"/MD/Live/getLiveList"
 
@@ -201,6 +210,26 @@ NS_ASSUME_NONNULL_BEGIN
 //修改学习次数
 #define HXPOST_ChangeWatchVideoNum                                      @"/MD/StuInfo/ChangeWatchVideoNum"
 
+//直播列表
+#define HXPOST_GetNewLiveList                                           @"/MD/Live/getLiveList"
+
+//获取直播日历
+#define HXPOST_GetOnliveCalendar                                        @"/MD/Live/getOnliveCalendar"
+
+//获取直播日历详情
+#define HXPOST_GetOnliveCalendarInfo                                    @"/MD/Live/getOnliveCalendarInfo"
+
+//获取直播课程列表
+#define HXPOST_GetOnliveMealList                                        @"/MD/Live/getOnliveMealList"
+
+//获取直播课程详情
+#define HXPOST_GetOnliveMealInfo                                        @"/MD/Live/getOnliveMealInfo"
+
+//获取保存直播点评
+#define HXPOST_SavaComment                                              @"/MD/Live/SavaComment"
+
+//获取直播点评详情
+#define HXPOST_GetOnliveStudentSatisfactionInfo                         @"/MD/Live/getOnliveStudentSatisfactionInfo"
 
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 

@@ -7,6 +7,7 @@
 
 #import "HXLearnReportDetailViewController.h"
 #import "HXMoocViewController.h"
+#import "HXCommonWebViewController.h"
 //#import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXLearnReportDetailCell.h"
 #import "HXHistoryLearnReportDetailCell.h"
@@ -100,6 +101,7 @@
         @"type":@(selectMajorModel.type),
         @"course_id":HXSafeString(self.learnCourseItemModel.course_id),
         @"courseCode":HXSafeString(self.learnCourseItemModel.courseCode),
+        @"courseName":HXSafeString(self.learnCourseItemModel.courseName),
         @"createDate":(self.isHistory?HXSafeString(self.createDate):@"")
     };
     [self.view showLoading];
@@ -238,6 +240,13 @@
                         moocVc.moocUrl = [learnItemDetailModel.mooc_param stringValueForKey:@"coursewareHtmlUrl"];
                         moocVc.hidesBottomBarWhenPushed = YES;
                         [self.navigationController pushViewController:moocVc animated:YES];
+                    }else if ([learnItemDetailModel.stemCode isEqualToString:@"SHIKEK"]) {//智慧时刻
+                        HXCommonWebViewController *vc = [[HXCommonWebViewController alloc] init];
+                        vc.cuntomTitle = self.learnCourseItemModel.courseName;
+                        vc.urlString = [learnItemDetailModel.shikek_param stringValueForKey:@"coursewareHtmlUrl"];
+                        vc.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:vc animated:YES];
+                        
                     }else{
 //                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
 //                        if (@available(iOS 13.0, *)) {

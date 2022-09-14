@@ -1,0 +1,6 @@
+framework module YYStarView {
+  umbrella header "YYStarView-umbrella.h"
+
+  export *
+  module * { export * }
+}

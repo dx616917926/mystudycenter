@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HXMajorModel.h"
+#import "HXContactDetailsModel.h"
 
 @interface HXPublicParamTool : NSObject
 
@@ -81,6 +82,8 @@
 @property (nonatomic, strong) NSArray *versionList;
 @property (nonatomic, strong) HXMajorModel *selectMajorModel;
 @property (nonatomic, strong) NSString *jiGouLogoUrl;
+
+@property (nonatomic, strong) HXContactDetailsModel *selectContactDetailsModel;
 
 //退出登录
 - (void)logOut;

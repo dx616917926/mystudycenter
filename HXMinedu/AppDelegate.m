@@ -61,8 +61,6 @@
         NSLog(@"点击应用图标通知启动");
     }
     
-   
-    
     return YES;
 }
 
@@ -379,6 +377,11 @@
     completionHandler();  // 系统要求执行这个方法
     [self alertTitle:title content:body isLaunch:NO];
 }
+
+- (void)jpushNotificationAuthorization:(JPAuthorizationStatus)status withInfo:(NSDictionary *)info {
+    
+}
+
 
 #endif
 
