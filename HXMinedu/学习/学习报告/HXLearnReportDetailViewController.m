@@ -8,7 +8,7 @@
 #import "HXLearnReportDetailViewController.h"
 #import "HXMoocViewController.h"
 #import "HXCommonWebViewController.h"
-//#import <TXMoviePlayer/TXMoviePlayerController.h>
+#import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXLearnReportDetailCell.h"
 #import "HXHistoryLearnReportDetailCell.h"
 #import "HXLearnReportDetailHeadView.h"
@@ -248,18 +248,18 @@
                         [self.navigationController pushViewController:vc animated:YES];
                         
                     }else{
-//                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
-//                        if (@available(iOS 13.0, *)) {
-//                            playerVC.barStyle = UIStatusBarStyleDarkContent;
-//                        } else {
-//                            playerVC.barStyle = UIStatusBarStyleDefault;
-//                        }
-//                        playerVC.barStyle = UIStatusBarStyleDefault;
-//                        playerVC.showLearnFinishStyle = YES;
-//                        playerVC.hidesBottomBarWhenPushed = YES;
-//                        if ([HXCommonUtil isNull:learnItemDetailModel.cws_param]) return;
-//                        playerVC.cws_param = learnItemDetailModel.cws_param;
-//                        [self.navigationController pushViewController:playerVC animated:YES];
+                        TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
+                        if (@available(iOS 13.0, *)) {
+                            playerVC.barStyle = UIStatusBarStyleDarkContent;
+                        } else {
+                            playerVC.barStyle = UIStatusBarStyleDefault;
+                        }
+                        playerVC.barStyle = UIStatusBarStyleDefault;
+                        playerVC.showLearnFinishStyle = YES;
+                        playerVC.hidesBottomBarWhenPushed = YES;
+                        if ([HXCommonUtil isNull:learnItemDetailModel.cws_param]) return;
+                        playerVC.cws_param = learnItemDetailModel.cws_param;
+                        [self.navigationController pushViewController:playerVC animated:YES];
                     }
                     [self changeWatchVideoNum:self.learnReportCourseDetailModel.studentCourseID];
                 

@@ -324,6 +324,7 @@
 -(UIButton *)checkBtn{
     if (!_checkBtn) {
         _checkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _checkBtn.userInteractionEnabled = NO;
         _checkBtn.backgroundColor = COLOR_WITH_ALPHA(0xFE664B, 1);
         _checkBtn .titleLabel.font = HXFont(14);
         [_checkBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
