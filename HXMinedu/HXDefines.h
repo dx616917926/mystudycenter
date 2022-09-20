@@ -58,6 +58,12 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 ///字符串保护
 #define HXSafeString(__string_) ([__string_ isKindOfClass:[NSNull class]] ? @"" : (__string_ ? __string_ : @""))
 
+//Int转换成字符串
+#define HXIntToString(__Int_)    [NSString stringWithFormat:@"%ld",__Int_]
+
+//url字符串转码处理
+#define HXSafeURL(urlStr)   [NSURL URLWithString:[HXCommonUtil stringEncoding:urlStr]]
+
 ///自定义颜色
 #define COLOR_WITH_ALPHA(colorValue, alphaValue) [UIColor colorWithRed:((float)((colorValue & 0xFF0000) >> 16))/255.0 green:((float)((colorValue & 0xFF00) >> 8))/255.0 blue:((float)(colorValue & 0xFF))/255.0 alpha:alphaValue]
 
