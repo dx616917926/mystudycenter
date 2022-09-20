@@ -34,10 +34,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSInteger LiveState;
 ///直播老师
 @property(nonatomic, strong) NSString *TeacherName;
+///上课教室
+@property(nonatomic, strong) NSString *ClassRoom;
+///教室地址
+@property(nonatomic, strong) NSString *Address;
 ///0-6（0:周末  1周一.....6周六）
 @property(nonatomic, assign) NSInteger Week;
 ///是否评价 0否 1是
 @property(nonatomic, assign) NSInteger IsEvaluate;
+
+///是否展开
+@property(nonatomic, assign) BOOL IsZhanKai;
 
 @end
 

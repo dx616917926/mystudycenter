@@ -8,7 +8,7 @@
 #import "HXCommonWebViewController.h"
 #import <WebKit/WebKit.h>
 #import "NSString+Base64.h"
-
+#import "AppDelegate.h"
 
 //自定义方法名称，提供JS调用
 static NSString * const kFunctionName      =   @"callFunctionName";
@@ -364,16 +364,9 @@ static NSString * const kFunctionName      =   @"callFunctionName";
     } @catch (NSException *exception) {
         
     }
+    
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 
 @end

@@ -30,7 +30,6 @@
 -(void)createUI{
     [self.maskView addSubview:self];
     [self addSubview:self.whiteView];
-    [self addSubview:self.whiteView];
     [self.whiteView addSubview:self.iconImageView];
     [self.whiteView addSubview:self.tipLabel];
     [self.whiteView addSubview:self.closeBtn];

@@ -13,8 +13,8 @@
 @property(nonatomic,strong) UIImageView *studyReportImageView;
 @property(nonatomic,strong) UIView *containerView;
 @property(nonatomic,strong) UIButton *noticeBtn;
-@property(nonatomic,strong) UIButton *liveBroadcastBtn;
 @property(nonatomic,strong) UIButton *kechengkuBtn;
+@property(nonatomic,strong) UIButton *signInBtn;
 @property(nonatomic,strong) UILabel *courseLearnLabel;
 
 
@@ -57,7 +57,7 @@
    
     [self addSubview:self.containerView];
     [self.containerView addSubview:self.noticeBtn];
-    [self.containerView addSubview:self.liveBroadcastBtn];
+    [self.containerView addSubview:self.signInBtn];
     [self.containerView addSubview:self.kechengkuBtn];
     [self addSubview:self.bannerView];
     [self addSubview:self.studyReportImageView];
@@ -91,36 +91,16 @@
     .rightSpaceToView(self.noticeBtn, 0)
     .heightRatioToView(self.noticeBtn, 1);
     
-    self.liveBroadcastBtn.sd_layout
+    self.kechengkuBtn.sd_layout
     .centerYEqualToView(self.noticeBtn)
     .centerXEqualToView(self.containerView)
     .widthRatioToView(self.noticeBtn, 1)
     .heightRatioToView(self.noticeBtn, 1);
-    self.liveBroadcastBtn.layer.cornerRadius = 6;
-    
-    self.liveBroadcastBtn.imageView.sd_layout
-    .centerYEqualToView(self.liveBroadcastBtn)
-    .leftSpaceToView(self.liveBroadcastBtn, _kpw(20))
-    .widthIs(28)
-    .heightEqualToWidth();
-
-    self.liveBroadcastBtn.titleLabel.sd_layout
-    .centerYEqualToView(self.liveBroadcastBtn)
-    .leftSpaceToView(self.liveBroadcastBtn.imageView, 10)
-    .rightSpaceToView(self.liveBroadcastBtn, 0)
-    .heightRatioToView(self.liveBroadcastBtn, 1);
-    
-    
-    self.kechengkuBtn.sd_layout
-    .centerYEqualToView(self.noticeBtn)
-    .rightSpaceToView(self.containerView, 0)
-    .widthRatioToView(self.noticeBtn, 1)
-    .heightRatioToView(self.noticeBtn, 1);
-    self.kechengkuBtn.layer.cornerRadius = 6;
+    self.signInBtn.layer.cornerRadius = 6;
     
     self.kechengkuBtn.imageView.sd_layout
     .centerYEqualToView(self.kechengkuBtn)
-    .leftSpaceToView(self.kechengkuBtn, _kpw(15))
+    .leftSpaceToView(self.kechengkuBtn, 10)
     .widthIs(28)
     .heightEqualToWidth();
 
@@ -129,6 +109,26 @@
     .leftSpaceToView(self.kechengkuBtn.imageView, 10)
     .rightSpaceToView(self.kechengkuBtn, 0)
     .heightRatioToView(self.kechengkuBtn, 1);
+    
+    
+    self.signInBtn.sd_layout
+    .centerYEqualToView(self.noticeBtn)
+    .rightSpaceToView(self.containerView, 0)
+    .widthRatioToView(self.noticeBtn, 1)
+    .heightRatioToView(self.noticeBtn, 1);
+    self.kechengkuBtn.layer.cornerRadius = 6;
+    
+    self.signInBtn.imageView.sd_layout
+    .centerYEqualToView(self.signInBtn)
+    .leftSpaceToView(self.signInBtn, _kpw(15))
+    .widthIs(28)
+    .heightEqualToWidth();
+
+    self.signInBtn.titleLabel.sd_layout
+    .centerYEqualToView(self.signInBtn)
+    .leftSpaceToView(self.signInBtn.imageView, 10)
+    .rightSpaceToView(self.signInBtn, 0)
+    .heightRatioToView(self.signInBtn, 1);
     
     ///广告栏
     self.bannerView.sd_layout
@@ -235,28 +235,11 @@
     return _noticeBtn;
 }
 
--(UIButton *)liveBroadcastBtn{
-    if (!_liveBroadcastBtn) {
-        _liveBroadcastBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _liveBroadcastBtn.tag = 9002;
-        _liveBroadcastBtn.backgroundColor = COLOR_WITH_ALPHA(0xFFF6E8, 1);
-        _liveBroadcastBtn.layer.shadowColor = COLOR_WITH_ALPHA(0xF08035, 0.1).CGColor;
-        _liveBroadcastBtn.layer.shadowOffset = CGSizeMake(0, 2);
-        _liveBroadcastBtn.layer.shadowRadius = 5;
-        _liveBroadcastBtn.layer.shadowOpacity = 1;
-        _liveBroadcastBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(16));
-        [_liveBroadcastBtn setImage:[UIImage imageNamed:@"liveBroadcast_icon"] forState:UIControlStateNormal];
-        [_liveBroadcastBtn setTitleColor:COLOR_WITH_ALPHA(0xFF972E, 1) forState:UIControlStateNormal];
-        [_liveBroadcastBtn setTitle:@"直播" forState:UIControlStateNormal];
-        [_liveBroadcastBtn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _liveBroadcastBtn;
-}
 
 -(UIButton *)kechengkuBtn{
     if (!_kechengkuBtn) {
         _kechengkuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _kechengkuBtn.tag = 9003;
+        _kechengkuBtn.tag = 9002;
         _kechengkuBtn.backgroundColor = COLOR_WITH_ALPHA(0xE6F0FF, 1);
         _kechengkuBtn.layer.shadowColor = COLOR_WITH_ALPHA(0x3B6BD9, 0.1).CGColor;
         _kechengkuBtn.layer.shadowOffset = CGSizeMake(0, 2);
@@ -270,6 +253,26 @@
     }
     return _kechengkuBtn;
 }
+
+-(UIButton *)signInBtn{
+    if (!_signInBtn) {
+        _signInBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _signInBtn.tag = 9003;
+        _signInBtn.backgroundColor = COLOR_WITH_ALPHA(0xFFF6E8, 1);
+        _signInBtn.layer.shadowColor = COLOR_WITH_ALPHA(0xC55D18, 0.1).CGColor;
+        _signInBtn.layer.shadowOffset = CGSizeMake(0, 2);
+        _signInBtn.layer.shadowRadius = 5;
+        _signInBtn.layer.shadowOpacity = 1;
+        _signInBtn.titleLabel.font = HXFont(_kpAdaptationWidthFont(16));
+        [_signInBtn setImage:[UIImage imageNamed:@"signin_icon"] forState:UIControlStateNormal];
+        [_signInBtn setTitleColor:COLOR_WITH_ALPHA(0xFF972E, 1) forState:UIControlStateNormal];
+        [_signInBtn setTitle:@"签到" forState:UIControlStateNormal];
+        [_signInBtn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _signInBtn;
+}
+
+
 
 
 
