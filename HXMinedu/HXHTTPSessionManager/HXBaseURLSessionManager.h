@@ -231,6 +231,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取直播点评详情
 #define HXPOST_GetOnliveStudentSatisfactionInfo                         @"/MD/Live/getOnliveStudentSatisfactionInfo"
 
+//获取二维码签到信息
+#define HXPOST_GetScheduleQRCode                                        @"/MD/Live/getScheduleQRCode"
+
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 
 /**

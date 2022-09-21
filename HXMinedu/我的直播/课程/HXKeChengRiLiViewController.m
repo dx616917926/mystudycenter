@@ -8,9 +8,10 @@
 #import "HXKeChengRiLiViewController.h"
 #import "HXCommonWebViewController.h"
 #import "HXRiLiKeJieCell.h"
+#import "HXModifyRiLiKeJieCell.h"
 #import "HXDayCell.h"
 
-@interface HXKeChengRiLiViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface HXKeChengRiLiViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,HXModifyRiLiKeJieCellDelegate>
 
 @property(strong,nonatomic) UIView *riLiTableHeaderView;
 @property(strong,nonatomic) UIView *topLine;
@@ -144,6 +145,19 @@
             NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[data objectForKey:@"t_LiveInfo_app"]];
             [self.keJieArray removeAllObjects];
             [self.keJieArray addObjectsFromArray:array];
+            
+            for (int i=0; i<8; i++) {
+                HXKeJieModel *m = [HXKeJieModel new];
+                m.ClassBeginDate = [NSString stringWithFormat:@"1%d:00",i];
+                m.ClassEndDate = [NSString stringWithFormat:@"1%d:00",i+1];
+                m.ClassName = [NSString stringWithFormat:@"自学考试大学语文公开课-%d",i+1];
+                m.TeacherName = @"李老师";
+                m.LiveType = i;
+                m.ClassRoom =[NSString stringWithFormat:@"教室00%d",i];
+                m.Address = [@"湖南省长沙市岳麓区桔子洲街道桃子湖路口湖南大学学生公寓206栋8楼666寝室" substringFromIndex:i*4];
+                [self.keJieArray addObject:m];
+            }
+          
             [self.mainTableView reloadData];
             if (array.count == 15) {
                 self.mainTableView.mj_footer.hidden = NO;
@@ -232,6 +246,16 @@
 }
 
 
+
+#pragma mark - <HXModifyRiLiKeJieCellDelegate>
+-(void)zhanKaiCell:(HXModifyRiLiKeJieCell *)cell{
+    
+    NSIndexPath *indexPath = [self.mainTableView indexPathForCell:cell];
+    cell.keJieModel.IsZhanKai = !cell.keJieModel.IsZhanKai;
+    [self.mainTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -243,7 +267,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 76;
+//    return 76;
+    HXKeJieModel *keJieModel = self.keJieArray[indexPath.row];
+    CGFloat rowHeight = [tableView cellHeightForIndexPath:indexPath
+                                                    model:keJieModel keyPath:@"keJieModel"
+                                                cellClass:([HXModifyRiLiKeJieCell class])
+                                         contentViewWidth:kScreenWidth];
+    return rowHeight;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -256,12 +286,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *riLiKeJieCellIdentifier = @"HXRiLiKeJieCellIdentifier";
-    HXRiLiKeJieCell *cell = [tableView dequeueReusableCellWithIdentifier:riLiKeJieCellIdentifier];
+    static NSString *modifyRiLiKeJieCellIdentifier = @"HXModifyRiLiKeJieCellIdentifier";
+    HXModifyRiLiKeJieCell *cell = [tableView dequeueReusableCellWithIdentifier:modifyRiLiKeJieCellIdentifier];
     if (!cell) {
-        cell = [[HXRiLiKeJieCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:riLiKeJieCellIdentifier];
+        cell = [[HXModifyRiLiKeJieCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:modifyRiLiKeJieCellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delegate = self;
+    cell.isFirst = (indexPath.row==0);
+    cell.isLast = (indexPath.row==self.keJieArray.count-1);
     cell.keJieModel = self.keJieArray[indexPath.row];
     return cell;
 }
@@ -276,6 +309,8 @@
     webViewVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webViewVC animated:YES];
 }
+
+
 
 #pragma mark - <UICollectionViewDataSource,UICollectionViewDelegate>
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -314,12 +349,13 @@
 -(void)createUI{
     
     [self.view addSubview:self.mainTableView];
-    self.mainTableView.sd_layout
-        .topSpaceToView(self.view, 0)
-        .leftEqualToView(self.view)
-        .rightEqualToView(self.view)
-        .bottomSpaceToView(self.view, 0);
-    
+    [self.mainTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view);
+        make.left.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(self.view);
+        make.right.mas_equalTo(self.view);
+    }];
+
     
         // 下拉刷新
         MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getOnliveCalendarInfo)];

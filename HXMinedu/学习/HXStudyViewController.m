@@ -18,6 +18,7 @@
 #import <TXMoviePlayer/TXMoviePlayerController.h>
 #import "HXMoocViewController.h"
 #import "HXCommonWebViewController.h"
+#import "HXScanQRCodeViewController.h"
 #import "HXCustommNavView.h"
 #import "HXCourseLearnCell.h"
 #import "HXStudyCourseCell.h"
@@ -30,7 +31,7 @@
 #import "HXBannerLogoModel.h"
 #import "SDWebImage.h"
 #import "HXCourseToastView.h"
-
+#import "HXSignInShowView.h"
 
 @interface HXStudyViewController ()<UITableViewDelegate,UITableViewDataSource,HXStudyTableHeaderViewDelegate,HXCourseLearnCellDelegate>
 
@@ -135,7 +136,24 @@
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-
+#pragma mark - 获取二维码签到信息
+-(void)getScheduleQRCode:(NSDictionary *)dic{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetScheduleQRCode withDictionary:@{@"ClassGuid":HXSafeString(dic[@"ClassGuid"])} success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXQRCodeSignInModel *model = [HXQRCodeSignInModel mj_objectWithKeyValues:[dictionary dictionaryValueForKey:@"Data"]];
+            HXSignInShowView *signInShowView = [[HXSignInShowView alloc] init];
+            [signInShowView show];
+        }
+       
+    } failure:^(NSError * _Nonnull error) {
+        HXSignInShowView *signInShowView = [[HXSignInShowView alloc] init];
+        [signInShowView show];
+    }];
+    
+}
 
 #pragma mark - 网络请求
 //获取报考类型专业列表
@@ -411,18 +429,21 @@
         HXSystemNotificationViewController *systemNotificationVc = [[HXSystemNotificationViewController alloc] init];
         systemNotificationVc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:systemNotificationVc animated:YES];
-    }else if(flag == 2){//直播
-        [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.title isEqualToString:@"直播"]) {
-                [self.tabBarController setSelectedIndex:idx];
-                *stop = YES;
-                return;;
-            }
-        }];
-    }else if(flag == 3){//课程库
+    }else if(flag == 2){//课程库
         HXCommonWebViewController *vc = [[HXCommonWebViewController alloc] init];
         vc.urlString = self.bannerLogoModel.courseResourceUrl;
         vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if(flag == 3){//签到
+        HXScanQRCodeViewController *vc = [[HXScanQRCodeViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        WeakSelf(weakSelf);
+        vc.scanResultBlock = ^(NSDictionary * _Nonnull dic) {
+            if ([[dic stringValueForKey:@"Type"] integerValue]==1) {
+                //获取二维码签到信息
+                [weakSelf getScheduleQRCode:dic];
+            }
+        };
         [self.navigationController pushViewController:vc animated:YES];
     }else if(flag == 4){//切换类型
         [self  selectStudyType];

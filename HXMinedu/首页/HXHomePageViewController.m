@@ -288,10 +288,10 @@
     [self.view addSubview:self.touSuBtn];
 
     self.touSuBtn.sd_layout
-    .rightEqualToView(self.view).offset(10)
-    .bottomSpaceToView(self.view, kTabBarHeight+20)
-    .widthIs(82)
-    .heightIs(50);
+    .rightEqualToView(self.view).offset(0)
+    .bottomSpaceToView(self.view, 426+kScreenBottomMargin)
+    .widthIs(64)
+    .heightIs(32);
     
 }
 

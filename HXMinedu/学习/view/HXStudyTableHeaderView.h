@@ -9,7 +9,7 @@
 #import "SDCycleScrollView.h"
 
 @protocol HXStudyTableHeaderViewDelegate <NSObject>
-//flag:  0、学习报告    1、公告     2、直播     3、课程库   4、切换专业
+//flag:  0、学习报告    1、公告     2、课程库     3、签到   4、切换专业
 -(void)handleEventWithFlag:(NSInteger)flag;
 
 @end

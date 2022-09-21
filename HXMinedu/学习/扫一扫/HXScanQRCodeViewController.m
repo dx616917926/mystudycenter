@@ -8,6 +8,7 @@
 #import "HXScanQRCodeViewController.h"
 #import "HXCommonWebViewController.h"
 #import "SGQRCode.h"
+#import "NSString+Base64.h"
 
 @interface HXScanQRCodeViewController () {
     SGScanCode *scanCode;
@@ -76,18 +77,15 @@
             if (result == nil) {
                 [self.view showTostWithMessage:@"暂未识别出二维码"];
             } else {
-                HXCommonWebViewController *jumpVC = [[HXCommonWebViewController alloc] init];
-                jumpVC.urlString = result;
-                [weakSelf.navigationController pushViewController:jumpVC animated:YES];
-                ///移除扫一扫控制器
-                NSMutableArray *vcArray = [[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
-                for (UIViewController *vc in vcArray) {
-                    if ([vc isKindOfClass:[HXScanQRCodeViewController class]]) {
-                        [vcArray removeObject:vc];
-                        break;
-                    }
+                //解密
+                NSString*base64DecodedString = [result base64DecodedString];
+                NSData *jsonData = [base64DecodedString dataUsingEncoding:NSUTF8StringEncoding];
+                NSError *error = nil;
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+                [self.navigationController popViewControllerAnimated:NO];
+                if (self.scanResultBlock) {
+                    self.scanResultBlock(dic);
                 }
-                self.navigationController.viewControllers = vcArray;
             }
         }
     }];
@@ -121,18 +119,15 @@
         if (result == nil) {
             [self.view showTostWithMessage:@"暂未识别出二维码"];
         } else {
-            HXCommonWebViewController *jumpVC = [[HXCommonWebViewController alloc] init];
-            jumpVC.urlString = result;
-            [weakSelf.navigationController pushViewController:jumpVC animated:YES];
-            ///移除扫一扫控制器
-            NSMutableArray *vcArray = [[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
-            for (UIViewController *vc in vcArray) {
-                if ([vc isKindOfClass:[HXScanQRCodeViewController class]]) {
-                    [vcArray removeObject:vc];
-                    break;
-                }
+            //解密
+            NSString*base64DecodedString = [result base64DecodedString];
+            NSData *jsonData = [base64DecodedString dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error = nil;
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+            [self.navigationController popViewControllerAnimated:NO];
+            if (self.scanResultBlock) {
+                self.scanResultBlock(dic);
             }
-            self.navigationController.viewControllers = vcArray;
         }
     }];
 }
