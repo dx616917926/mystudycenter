@@ -13,7 +13,7 @@
           "right" : 314
         },
         "center" : {
-          "mode" : "tile",
+          "mode" : "stretch",
           "width" : 1
         },
         "mode" : "3-part-horizontal"
@@ -29,7 +29,7 @@
           "right" : 472
         },
         "center" : {
-          "mode" : "tile",
+          "mode" : "stretch",
           "width" : 1
         },
         "mode" : "3-part-horizontal"

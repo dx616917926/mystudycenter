@@ -7,6 +7,7 @@
 
 #import "HXKeChengRiLiViewController.h"
 #import "HXCommonWebViewController.h"
+#import "HXLeaveApplyViewController.h"
 #import "HXRiLiKeJieCell.h"
 #import "HXModifyRiLiKeJieCell.h"
 #import "HXDayCell.h"
@@ -302,6 +303,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    HXLeaveApplyViewController *vc = [[HXLeaveApplyViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    return;
+    
     HXKeJieModel *keJieModel = self.keJieArray[indexPath.row];
     HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
     webViewVC.urlString = keJieModel.liveUrl;
