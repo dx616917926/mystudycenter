@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *ClassBeginTime;
 ///直播结束日期
 @property(nonatomic, strong) NSString *ClassEndDate;
-///直播类型 1ClassIn    2保利威
+///直播类型 1ClassIn    2保利威    3面授课程    面授课程只展示不做任何操作
 @property(nonatomic, assign) NSInteger LiveType;
 ///上课时长 LiveType等于1时展示    2时隐藏
 @property(nonatomic, strong) NSString *ClassTimeSpan;
@@ -35,9 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///直播老师
 @property(nonatomic, strong) NSString *TeacherName;
 ///上课教室
-@property(nonatomic, strong) NSString *ClassRoom;
+@property(nonatomic, strong) NSString *RoomName;
 ///教室地址
-@property(nonatomic, strong) NSString *Address;
+@property(nonatomic, strong) NSString *RoomAddr;
 ///0-6（0:周末  1周一.....6周六）
 @property(nonatomic, assign) NSInteger Week;
 ///是否评价 0否 1是
