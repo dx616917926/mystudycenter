@@ -92,6 +92,10 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
         [self.btnsContainerView addSubview:self.weiXinBtn];
         [self.btnArray addObject:self.weiXinBtn];
     }
+    if (![HXCommonUtil isNull:self.scanCodePaymentModel.qtpay_code]) {
+        [self.btnsContainerView addSubview:self.qiTaBtn];
+        [self.btnArray addObject:self.qiTaBtn];
+    }
    
     self.btnsContainerView.sd_layout
     .topSpaceToView(self.bigBackgroundView, 5)
@@ -178,6 +182,7 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
                 [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.weixinpay_code)] placeholderImage:nil options:SDWebImageRefreshCached];
             }else{
                 [btn setImage:[UIImage imageNamed:@"qita_select"] forState:UIControlStateNormal];
+                [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.qtpay_code)] placeholderImage:nil options:SDWebImageRefreshCached];
 
             }
         }else{
