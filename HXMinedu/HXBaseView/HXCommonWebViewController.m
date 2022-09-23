@@ -85,13 +85,17 @@ static NSString * const kFunctionName      =   @"callFunctionName";
     
     //webview配置
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    config.allowsInlineMediaPlayback = YES;
     config.preferences.javaScriptCanOpenWindowsAutomatically = YES;
     config.userContentController = [[WKUserContentController alloc] init];
+
+    // 默认是NO，这个值决定了用内嵌H5播放视频还是用本地的全屏控制
+    config.allowsInlineMediaPlayback = YES;
+    // 自动播放, 不需要用户采取任何手势开启播放
     if (@available(iOS 10.0, *)) {
-        config.mediaTypesRequiringUserActionForPlayback = NO;//iOS 10.0之后
+        // WKAudiovisualMediaTypeNone 音视频的播放不需要用户手势触发, 即为自动播放
+        config.mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeNone;
     } else {
-        config.requiresUserActionForMediaPlayback = NO;//iOS 9 ～iOS 10
+        config.requiresUserActionForMediaPlayback = NO;
     }
     self.userContentController = config.userContentController;
     if (!_webView) {
@@ -111,6 +115,16 @@ static NSString * const kFunctionName      =   @"callFunctionName";
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
+#if 0
+    //由于H5的video未设置autoplay、playsinline属性。我们需自己注入，才能实现效果。
+    NSString *jSString = @"document.getElementsByTagName('video')[0].setAttribute('playsinline','');";
+    NSString *jSString2 = @"document.getElementsByTagName('video')[0].autoplay=true;";
+    //用于进行JavaScript注入
+    WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jSString injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    WKUserScript *wkUScript2 = [[WKUserScript alloc] initWithSource:jSString2 injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    [config.userContentController addUserScript:wkUScript];
+    [config.userContentController addUserScript:wkUScript2];
+#endif
     
 }
 

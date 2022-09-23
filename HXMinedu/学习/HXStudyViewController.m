@@ -145,6 +145,10 @@
         if (success) {
             HXQRCodeSignInModel *model = [HXQRCodeSignInModel mj_objectWithKeyValues:[dictionary dictionaryValueForKey:@"Data"]];
             HXSignInShowView *signInShowView = [[HXSignInShowView alloc] init];
+            WeakSelf(weakSelf);
+            signInShowView.signInBlock = ^{
+                [weakSelf signIn:model];
+            };
             [signInShowView show];
         }
        
@@ -153,6 +157,26 @@
         [signInShowView show];
     }];
     
+}
+
+-(void)signIn:(HXQRCodeSignInModel *)model{
+    
+    NSDictionary *dic = @{
+        @"ScheduleRoomID":HXSafeString(model.ScheduleRoomID),
+        @"ScheduleClassID":HXSafeString(model.ScheduleClassID),
+        @"ClassGuid":HXSafeString(model.ClassGuid)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_SignIn withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            [self.view showSuccessWithMessage:[dictionary stringValueForKey:@"Message"]];
+        }
+       
+    } failure:^(NSError * _Nonnull error) {
+       
+    }];
 }
 
 #pragma mark - 网络请求
