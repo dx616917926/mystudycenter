@@ -31,6 +31,7 @@
 //  v5.5 新增章节目录是否显示已学完状态的控制功能。默认NO，字体颜色默认绿色
 //  v5.6 新增隐藏“在线讲义”视图控制功能，默认不隐藏。
 //  v5.7 适配iOS 16转屏。
+//  v5.8 新增忽略上传学习时长接口报错弹框功能。默认NO
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) UIColor *learnFinishStyleColor;//学完状态的字体颜色，默认绿色
 
 @property(nonatomic, assign) BOOL hiddenLectureView;    //是否隐藏“在线讲义”视图，默认NO
+
+@property(nonatomic, assign) BOOL ignoreLearnRecordErrorAlert;//忽略上传学习时长接口报错弹框功能。默认NO
 
 @end
 
