@@ -256,6 +256,7 @@
                         }
                         playerVC.barStyle = UIStatusBarStyleDefault;
                         playerVC.showLearnFinishStyle = YES;
+                        playerVC.ignoreLearnRecordErrorAlert = YES;
                         playerVC.hidesBottomBarWhenPushed = YES;
                         if ([HXCommonUtil isNull:learnItemDetailModel.cws_param]) return;
                         playerVC.cws_param = learnItemDetailModel.cws_param;

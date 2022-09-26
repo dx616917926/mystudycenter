@@ -680,6 +680,7 @@
                             }
                             playerVC.barStyle = UIStatusBarStyleDefault;
                             playerVC.showLearnFinishStyle = YES;
+                            playerVC.ignoreLearnRecordErrorAlert = YES;
                             playerVC.hidesBottomBarWhenPushed = YES;
                             if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
                             playerVC.cws_param = learnRecordModel.cws_param;
@@ -722,6 +723,7 @@
                             }
                             playerVC.barStyle = UIStatusBarStyleDefault;
                             playerVC.showLearnFinishStyle = YES;
+                            playerVC.ignoreLearnRecordErrorAlert = YES;
                             playerVC.hidesBottomBarWhenPushed = YES;
                             if ([HXCommonUtil isNull:learnRecordModel.cws_param]) return;
                             playerVC.cws_param = learnRecordModel.cws_param;

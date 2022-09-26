@@ -124,6 +124,7 @@
                 playerVC.cws_param = item.cws_param;
                 playerVC.barStyle = UIStatusBarStyleDefault;
                 playerVC.showLearnFinishStyle = YES;
+                playerVC.ignoreLearnRecordErrorAlert = YES;
                 playerVC.hidesBottomBarWhenPushed = YES;
                 [strongSelf.navigationController pushViewController:playerVC animated:YES];
             }

@@ -300,6 +300,7 @@
         TXMoviePlayerController *playerVC = [[TXMoviePlayerController alloc] init];
         playerVC.cws_param = modelItem.cws_param;
         playerVC.showLearnFinishStyle = YES;
+        playerVC.ignoreLearnRecordErrorAlert = YES;
         playerVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:playerVC animated:YES];
         
