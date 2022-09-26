@@ -106,7 +106,7 @@
     self.endimeLabel.text = HXSafeString(keJieModel.ClassEndDate);
     self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
     self.teacherLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
-    self.classRoomLabel.text = [NSString stringWithFormat:@"上课教室：%@",HXSafeString(keJieModel.ClassRoom)];
+    self.classRoomLabel.text = [NSString stringWithFormat:@"上课教室：%@",HXSafeString(keJieModel.RoomAddr)];
    
     if (keJieModel.LiveType<=2) {
         self.typeLabel.text = @"直播课";
@@ -135,7 +135,7 @@
             self.addressLabel.sd_layout.topSpaceToView(self.classRoomLabel, 0);
             self.huiFangButton.sd_layout.topSpaceToView(self.addressLabel, 0);
         }else{
-            self.addressLabel.text = [NSString stringWithFormat:@"教室地址：%@",HXSafeString(keJieModel.Address)];
+            self.addressLabel.text = [NSString stringWithFormat:@"教室地址：%@",HXSafeString(keJieModel.RoomAddr)];
             self.teacherLabel.sd_layout.topSpaceToView(self.keJieNameLabel, 6).heightIs(17);
             self.classRoomLabel.sd_layout.topSpaceToView(self.teacherLabel, 6).heightIs(17);
             self.addressLabel.sd_layout.topSpaceToView(self.classRoomLabel, 6).autoHeightRatio(0);

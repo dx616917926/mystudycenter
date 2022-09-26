@@ -289,6 +289,7 @@
 		0477CA31275F06DC00A99914 /* HXCommonSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA30275F06DC00A99914 /* HXCommonSelectView.m */; };
 		0477CA34275F071400A99914 /* HXCommonSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA32275F071300A99914 /* HXCommonSelectCell.m */; };
 		0477CA37275F075900A99914 /* HXCommonSelectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA36275F075900A99914 /* HXCommonSelectModel.m */; };
+		0479599728DA9D63001F8BC6 /* HXLeaveApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479599628DA9D63001F8BC6 /* HXLeaveApplyViewController.m */; };
 		0479824228AE34ED0011E1FC /* HXKeChengModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479824128AE34ED0011E1FC /* HXKeChengModel.m */; };
 		047BF8EF28ADCF60000F3089 /* HXKejieCalendarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 047BF8EE28ADCF60000F3089 /* HXKejieCalendarModel.m */; };
 		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
@@ -997,6 +998,8 @@
 		0477CA35275F075900A99914 /* HXCommonSelectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HXCommonSelectModel.h; sourceTree = "<group>"; };
 		0477CA36275F075900A99914 /* HXCommonSelectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCommonSelectModel.m; sourceTree = "<group>"; };
 		0478C47725AC379800ECECBD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		0479599528DA9D63001F8BC6 /* HXLeaveApplyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXLeaveApplyViewController.h; sourceTree = "<group>"; };
+		0479599628DA9D63001F8BC6 /* HXLeaveApplyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLeaveApplyViewController.m; sourceTree = "<group>"; };
 		0479824028AE34ED0011E1FC /* HXKeChengModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXKeChengModel.h; sourceTree = "<group>"; };
 		0479824128AE34ED0011E1FC /* HXKeChengModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXKeChengModel.m; sourceTree = "<group>"; };
 		047BF8ED28ADCF60000F3089 /* HXKejieCalendarModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXKejieCalendarModel.h; sourceTree = "<group>"; };
@@ -2589,6 +2592,8 @@
 		049EF31C28D9BB35003375AA /* 请假申请 */ = {
 			isa = PBXGroup;
 			children = (
+				0479599528DA9D63001F8BC6 /* HXLeaveApplyViewController.h */,
+				0479599628DA9D63001F8BC6 /* HXLeaveApplyViewController.m */,
 			);
 			path = "请假申请";
 			sourceTree = "<group>";
@@ -3367,6 +3372,7 @@
 				041EEDFD28B76817007160AC /* HXTouSuPhoneCell.m in Sources */,
 				049EF31828D9A00D003375AA /* HXQRCodeSignInModel.m in Sources */,
 				04936D4A259324710000ED74 /* HXCwsModuleViewController.m in Sources */,
+				0479599728DA9D63001F8BC6 /* HXLeaveApplyViewController.m in Sources */,
 				0449A508254C11F6001A28D5 /* HXDBManager+ExamResult.m in Sources */,
 				041FE0E526147B0600696D5C /* HXDateHeaderView.m in Sources */,
 				048516532589E16B0071F7C8 /* HXPageControl.m in Sources */,

@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *alipay_code;
 ///微信二维码URL
 @property(nonatomic, copy) NSString *weixinpay_code;
+///其它
+@property(nonatomic, copy) NSString *qtpay_code;
 
 @end
 

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSInteger ClassNum;
 ///待完成课节数
 @property(nonatomic, assign) NSInteger UndoneClassNum;
-///直播类型 1ClassIn 2保利威 保利威直接跳转页面直播 ClassIn进入下一页面展示课节
+///直播类型 1ClassIn 2保利威   3面授课程       保利威直接跳转页面直播 ClassIn进入下一页面展示课节，面授课程只展示不做任何操作
 @property(nonatomic, assign) NSInteger LiveType;
 ///地址
 @property(nonatomic, strong) NSString *liveUrl;

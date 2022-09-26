@@ -234,6 +234,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取二维码签到信息
 #define HXPOST_GetScheduleQRCode                                        @"/MD/Live/getScheduleQRCode"
 
+//签到
+#define HXPOST_SignIn                                                   @"/MD/Live/SignIn"
+
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 
 /**

@@ -7,6 +7,7 @@
 
 #import "HXKeChengRiLiViewController.h"
 #import "HXCommonWebViewController.h"
+#import "HXLeaveApplyViewController.h"
 #import "HXRiLiKeJieCell.h"
 #import "HXModifyRiLiKeJieCell.h"
 #import "HXDayCell.h"
@@ -146,17 +147,17 @@
             [self.keJieArray removeAllObjects];
             [self.keJieArray addObjectsFromArray:array];
             
-            for (int i=0; i<8; i++) {
-                HXKeJieModel *m = [HXKeJieModel new];
-                m.ClassBeginDate = [NSString stringWithFormat:@"1%d:00",i];
-                m.ClassEndDate = [NSString stringWithFormat:@"1%d:00",i+1];
-                m.ClassName = [NSString stringWithFormat:@"自学考试大学语文公开课-%d",i+1];
-                m.TeacherName = @"李老师";
-                m.LiveType = i;
-                m.ClassRoom =[NSString stringWithFormat:@"教室00%d",i];
-                m.Address = [@"湖南省长沙市岳麓区桔子洲街道桃子湖路口湖南大学学生公寓206栋8楼666寝室" substringFromIndex:i*4];
-                [self.keJieArray addObject:m];
-            }
+//            for (int i=0; i<8; i++) {
+//                HXKeJieModel *m = [HXKeJieModel new];
+//                m.ClassBeginDate = [NSString stringWithFormat:@"1%d:00",i];
+//                m.ClassEndDate = [NSString stringWithFormat:@"1%d:00",i+1];
+//                m.ClassName = [NSString stringWithFormat:@"自学考试大学语文公开课-%d",i+1];
+//                m.TeacherName = @"李老师";
+//                m.LiveType = i;
+//                m.ClassRoom =[NSString stringWithFormat:@"教室00%d",i];
+//                m.Address = [@"湖南省长沙市岳麓区桔子洲街道桃子湖路口湖南大学学生公寓206栋8楼666寝室" substringFromIndex:i*4];
+//                [self.keJieArray addObject:m];
+//            }
           
             [self.mainTableView reloadData];
             if (array.count == 15) {
@@ -194,7 +195,7 @@
         @"dateTime":HXSafeString(self.selectKejieCalendarModel.Date)
     };
     
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetNewLiveList  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveCalendarInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.mainTableView.mj_footer endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         NSDictionary *data = [dictionary objectForKey:@"Data"];
@@ -302,12 +303,23 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     HXKeJieModel *keJieModel = self.keJieArray[indexPath.row];
-    HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-    webViewVC.urlString = keJieModel.liveUrl;
-    webViewVC.cuntomTitle = keJieModel.ClassName;
-    webViewVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:webViewVC animated:YES];
+    //ClassIn的回放跳出去
+    if (keJieModel.LiveType==1&&keJieModel.LiveState==2) {
+        if (@available(iOS 10.0, *)) {
+            [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl) options:@{} completionHandler:nil];
+        } else {
+            [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
+        }
+    }else{
+        HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+        webViewVC.urlString = keJieModel.liveUrl;
+        webViewVC.cuntomTitle = keJieModel.ClassName;
+        webViewVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webViewVC animated:YES];
+    }
+
 }
 
 
