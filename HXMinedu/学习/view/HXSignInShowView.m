@@ -36,7 +36,7 @@
 -(void)setQRCodeSignInModel:(HXQRCodeSignInModel *)qRCodeSignInModel{
     _qRCodeSignInModel = qRCodeSignInModel;
     
-    self.titleLabel.text = [NSString stringWithFormat:@"班级名称：%@",qRCodeSignInModel.MealName];
+    self.titleLabel.text = [NSString stringWithFormat:@"课程名称：%@",qRCodeSignInModel.MealName];
     self.keJieNameLabel.text = [NSString stringWithFormat:@"课节名称：%@",qRCodeSignInModel.ClassName];
     self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@",qRCodeSignInModel.ClassBeginTime];
     self.teacherNameLabel.text = [NSString stringWithFormat:@"上课老师：%@",qRCodeSignInModel.TeacherName];
@@ -164,7 +164,6 @@
         _titleLabel.textColor = COLOR_WITH_ALPHA(0x4988FD, 1);
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.numberOfLines = 1;
-        _titleLabel.text = @"班级名称：教师资格证2022001";
     }
     return _titleLabel;
 }
@@ -175,7 +174,7 @@
         _keJieNameLabel.font = HXFont(13);
         _keJieNameLabel.textColor = COLOR_WITH_ALPHA(0x666666, 1);
         _keJieNameLabel.textAlignment = NSTextAlignmentLeft;
-        _keJieNameLabel.text = @"课节名称：教师资格证考过宝典-1";
+
     }
     return _keJieNameLabel;
 }
@@ -186,7 +185,6 @@
         _timeLabel.font = HXFont(13);
         _timeLabel.textColor = COLOR_WITH_ALPHA(0x666666, 1);
         _timeLabel.textAlignment = NSTextAlignmentLeft;
-        _timeLabel.text = @"上课时间：2022-09-05 10:00~11:30";
     }
     return _timeLabel;
 }
@@ -197,7 +195,7 @@
         _teacherNameLabel.font = HXFont(13);
         _teacherNameLabel.textColor = COLOR_WITH_ALPHA(0x666666, 1);
         _teacherNameLabel.textAlignment = NSTextAlignmentLeft;
-        _teacherNameLabel.text = @"上课老师：李老师";
+        
     }
     return _teacherNameLabel;
 }
@@ -208,7 +206,7 @@
         _roomNameLabel.font = HXFont(13);
         _roomNameLabel.textColor = COLOR_WITH_ALPHA(0x666666, 1);
         _roomNameLabel.textAlignment = NSTextAlignmentLeft;
-        _roomNameLabel.text = @"上课教室：教室001";
+       
     }
     return _roomNameLabel;
 }
@@ -219,7 +217,6 @@
         _signInBtn.backgroundColor = COLOR_WITH_ALPHA(0x618EFF, 1);
         _signInBtn.titleLabel.font = HXFont(15);
         [_signInBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
-        [_signInBtn setTitle:@"确认签到" forState:UIControlStateNormal];
         [_signInBtn addTarget:self action:@selector(signIn) forControlEvents:UIControlEventTouchUpInside];
     }
     return _signInBtn;

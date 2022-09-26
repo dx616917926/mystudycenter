@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) NSString *authorizeUrl;
 
+@property(nonatomic, strong) NSString *StartDate;
+@property(nonatomic, strong) NSString *EndDate;
+
 @end
 
 NS_ASSUME_NONNULL_END

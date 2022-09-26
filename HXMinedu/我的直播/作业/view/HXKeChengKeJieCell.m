@@ -12,6 +12,7 @@
 @property(nonatomic,strong) UIView *shadowBackgroundView;
 @property(nonatomic,strong) UIView *bigBackgroundView;
 @property(nonatomic,strong) UIImageView *coverImageView;
+@property(nonatomic,strong) UIButton *typeBtn;
 @property(nonatomic,strong) UIImageView *stateImageView;
 @property(nonatomic,strong) UILabel *keJieNameLabel;
 @property(nonatomic,strong) UILabel *teacherNameLabel;
@@ -60,6 +61,7 @@
         self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@",HXSafeString(keJieModel.ClassBeginDate),HXSafeString(keJieModel.ClassBeginTime)];
     }
     
+    [self.typeBtn setTitle:(keJieModel.LiveType==3?@"面授":@"直播") forState:UIControlStateNormal];
 }
 
 #pragma mark - UI
@@ -67,6 +69,7 @@
     [self.contentView addSubview:self.shadowBackgroundView];
     [self.contentView addSubview:self.bigBackgroundView];
     [self.bigBackgroundView addSubview:self.coverImageView];
+    [self.coverImageView addSubview:self.typeBtn];
     [self.bigBackgroundView addSubview:self.stateImageView];
     [self.bigBackgroundView addSubview:self.keJieNameLabel];
     [self.bigBackgroundView addSubview:self.teacherNameLabel];
@@ -85,6 +88,13 @@
     .bottomSpaceToView(self.bigBackgroundView, 12)
     .widthIs(92);
     self.coverImageView.sd_cornerRadius = @8;
+    
+    self.typeBtn.sd_layout
+    .bottomEqualToView(self.coverImageView)
+    .rightEqualToView(self.coverImageView);
+    self.typeBtn.sd_cornerRadius = @4;
+    
+    [self.typeBtn setupAutoSizeWithHorizontalPadding:6 buttonHeight:20];
     
     self.stateImageView.sd_layout
     .topSpaceToView(self.bigBackgroundView, 0)
@@ -149,6 +159,16 @@
         _coverImageView.clipsToBounds = YES;
     }
     return _coverImageView;
+}
+
+-(UIButton *)typeBtn{
+    if (!_typeBtn) {
+        _typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _typeBtn.backgroundColor = COLOR_WITH_ALPHA(0x000000, 0.4);
+        _typeBtn.titleLabel.font = HXFont(12);
+        [_typeBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    }
+    return _typeBtn;
 }
 
 -(UIImageView *)stateImageView{

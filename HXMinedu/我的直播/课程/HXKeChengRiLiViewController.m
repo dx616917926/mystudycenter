@@ -8,9 +8,12 @@
 #import "HXKeChengRiLiViewController.h"
 #import "HXCommonWebViewController.h"
 #import "HXLeaveApplyViewController.h"
+#import "HXDianPingSuccessViewController.h"
 #import "HXRiLiKeJieCell.h"
 #import "HXModifyRiLiKeJieCell.h"
 #import "HXDayCell.h"
+#import "HXOnLiveDianPingView.h"
+#import "HXCommentModel.h"
 
 @interface HXKeChengRiLiViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,HXModifyRiLiKeJieCellDelegate>
 
@@ -146,19 +149,7 @@
             NSArray *array = [HXKeJieModel mj_objectArrayWithKeyValuesArray:[data objectForKey:@"t_LiveInfo_app"]];
             [self.keJieArray removeAllObjects];
             [self.keJieArray addObjectsFromArray:array];
-            
-//            for (int i=0; i<8; i++) {
-//                HXKeJieModel *m = [HXKeJieModel new];
-//                m.ClassBeginDate = [NSString stringWithFormat:@"1%d:00",i];
-//                m.ClassEndDate = [NSString stringWithFormat:@"1%d:00",i+1];
-//                m.ClassName = [NSString stringWithFormat:@"自学考试大学语文公开课-%d",i+1];
-//                m.TeacherName = @"李老师";
-//                m.LiveType = i;
-//                m.ClassRoom =[NSString stringWithFormat:@"教室00%d",i];
-//                m.Address = [@"湖南省长沙市岳麓区桔子洲街道桃子湖路口湖南大学学生公寓206栋8楼666寝室" substringFromIndex:i*4];
-//                [self.keJieArray addObject:m];
-//            }
-          
+
             [self.mainTableView reloadData];
             if (array.count == 15) {
                 self.mainTableView.mj_footer.hidden = NO;
@@ -213,6 +204,61 @@
         [self.mainTableView.mj_footer endRefreshing];
         self.pageIndex--;
     }];
+}
+
+
+#pragma mark -  保存直播点评
+-(void)dianPing:(NSInteger)fenGeStarScore contentStarScore:(NSInteger)contentStarScore tiYanStarScore:(NSInteger)tiYanStarScore jianYiContent:(NSString *)jianYiContent keJieModel:(HXKeJieModel *)keJieModel{
+    
+    NSDictionary *dic = @{
+        @"classGuid":HXSafeString(keJieModel.ClassGuid),
+        @"enrollId":HXSafeString(keJieModel.EnrollId),
+        @"SkfgSatisfactionScore":@(fenGeStarScore),
+        @"SknrSatisfactionScore":@(contentStarScore),
+        @"ZbtySatisfactionScore":@(tiYanStarScore),
+        @"Suggestion":HXSafeString(jianYiContent)
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_SavaComment  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXDianPingSuccessViewController *vc = [[HXDianPingSuccessViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            //点评成功，刷新数据
+            [self getOnliveCalendarInfo];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+    }];
+}
+
+#pragma mark - 获取直播点评详情
+-(void)checkDianPing:(HXKeJieModel *)keJieModel{
+    
+    NSDictionary *dic = @{
+        @"classGuid":HXSafeString(keJieModel.ClassGuid),
+        @"enrollId":HXSafeString(keJieModel.EnrollId),
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetOnliveStudentSatisfactionInfo  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            HXCommentModel *model = [HXCommentModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
+            HXOnLiveDianPingView *onLiveDianPingView = [[HXOnLiveDianPingView alloc] init];
+            onLiveDianPingView.type = OnLiveDianPingViewTypeShow;
+            onLiveDianPingView.fenGeStarScore =[model.SkfgSatisfactionScore integerValue];
+            onLiveDianPingView.contentStarScore =[model.SknrSatisfactionScore integerValue];
+            onLiveDianPingView.tiYanStarScore =[model.ZbtySatisfactionScore integerValue];
+            onLiveDianPingView.suggestion = model.Suggestion;
+            [onLiveDianPingView show];
+        }
+    } failure:^(NSError * _Nonnull error) {
+       
+    }];
+    
+   
 }
 
 #pragma mark - Event
@@ -305,21 +351,57 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     HXKeJieModel *keJieModel = self.keJieArray[indexPath.row];
-    //ClassIn的回放跳出去
-    if (keJieModel.LiveType==1&&keJieModel.LiveState==2) {
-        if (@available(iOS 10.0, *)) {
-            [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl) options:@{} completionHandler:nil];
-        } else {
-            [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
+    //直播类型 1ClassIn    2保利威    3面授课程    面授课程只展示不做任何操作
+    if (keJieModel.LiveType==1) {//ClassIn
+        //ClassIn的回放跳出去
+        if (keJieModel.LiveState==2) {
+            if (@available(iOS 10.0, *)) {
+                [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl) options:@{} completionHandler:nil];
+            } else {
+                [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
+            }
+        }else{
+            HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+            webViewVC.urlString = keJieModel.liveUrl;
+            webViewVC.cuntomTitle = keJieModel.ClassName;
+            webViewVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webViewVC animated:YES];
         }
-    }else{
+    }else if (keJieModel.LiveType==2) {//保利威
         HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
         webViewVC.urlString = keJieModel.liveUrl;
         webViewVC.cuntomTitle = keJieModel.ClassName;
         webViewVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:webViewVC animated:YES];
+        
+    }else if (keJieModel.LiveType==3) {//面授课程
+        if (keJieModel.AuditState==0&&keJieModel.LiveState==0&&keJieModel.Status==-1) {//请假
+            HXLeaveApplyViewController *vc = [[HXLeaveApplyViewController alloc] init];
+            vc.ClassGuid = keJieModel.ClassGuid;
+            vc.hidesBottomBarWhenPushed = YES;
+            WeakSelf(weakSelf);
+            vc.qingJiaSuccessCallBack = ^{
+                //重新获取直播日历详情
+                [weakSelf getOnliveCalendarInfo];
+            };
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (keJieModel.LiveState==2) {//点评
+            ///是否评价 0否 1是
+            if (keJieModel.IsEvaluate==1) {
+                [self checkDianPing:keJieModel];
+            }else{
+                HXOnLiveDianPingView *onLiveDianPingView = [[HXOnLiveDianPingView alloc] init];
+                onLiveDianPingView.type = OnLiveDianPingViewTypeeSelect;
+                [onLiveDianPingView show];
+                WeakSelf(weakSelf);
+                onLiveDianPingView.dianPingCallBack = ^(NSInteger fenGeStarScore, NSInteger contentStarScore, NSInteger tiYanStarScore, NSString * _Nonnull jianYiContent) {
+                    NSLog(@"授课风格:%ld   授课内容:%ld   直播体验:%ld  其他建议:%@",fenGeStarScore,contentStarScore,tiYanStarScore,jianYiContent);
+                    [weakSelf dianPing:fenGeStarScore contentStarScore:contentStarScore tiYanStarScore:tiYanStarScore jianYiContent:jianYiContent keJieModel:keJieModel];
+                };
+            }
+        }
+        
     }
-
 }
 
 

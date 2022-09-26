@@ -32,9 +32,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *RoomName;
 ///班级ID
 @property(nonatomic, strong) NSString *ScheduleClassID;
+///请假班级
+@property(nonatomic, strong) NSString *ScheduleClassName;
+///备注
+@property(nonatomic, strong) NSString *Remarks;
 ///是否签到 0否  1是
 @property(nonatomic, assign) NSInteger IsSign;
-
+///请假状态 1事假 2病假 3其它
+@property(nonatomic, assign) NSInteger QjStatus;
+///审核状态 为0则是没有提交申请可编辑发起申请 1审核中 2已通过 3已驳回 请假状态1、2、3只可查看不能发起申请
+@property(nonatomic, assign) NSInteger AuditState;
 
 @end
 

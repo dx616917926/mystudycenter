@@ -274,6 +274,8 @@
     
     HXExamDetailViewController *detailVC = [[HXExamDetailViewController alloc] init];
     detailVC.exam = exam;
+    detailVC.StartDate = self.StartDate;
+    detailVC.EndDate = self.EndDate;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

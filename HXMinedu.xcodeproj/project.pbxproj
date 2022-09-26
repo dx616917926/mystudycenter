@@ -360,6 +360,8 @@
 		049EF31428D95635003375AA /* HXModifyRiLiKeJieCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049EF31328D95635003375AA /* HXModifyRiLiKeJieCell.m */; };
 		049EF31828D9A00D003375AA /* HXQRCodeSignInModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 049EF31728D9A00D003375AA /* HXQRCodeSignInModel.m */; };
 		049EF31B28D9A282003375AA /* HXSignInShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049EF31A28D9A282003375AA /* HXSignInShowView.m */; };
+		04A267A028E155620032A95C /* HXMianShouKeJieCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A2679F28E155620032A95C /* HXMianShouKeJieCell.m */; };
+		04A267A328E155B30032A95C /* HXMianShouListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A267A228E155B30032A95C /* HXMianShouListViewController.m */; };
 		04A7410128A38D9300FC4F98 /* HXMyOnLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A7410028A38D9300FC4F98 /* HXMyOnLiveViewController.m */; };
 		04A7410428A3A6ED00FC4F98 /* HXKeChengKeJieCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A7410328A3A6ED00FC4F98 /* HXKeChengKeJieCell.m */; };
 		04A90E4228A49BCD00A73652 /* HXKeChengContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A90E4128A49BCD00A73652 /* HXKeChengContainerViewController.m */; };
@@ -1126,6 +1128,10 @@
 		049EF31728D9A00D003375AA /* HXQRCodeSignInModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXQRCodeSignInModel.m; sourceTree = "<group>"; };
 		049EF31928D9A282003375AA /* HXSignInShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXSignInShowView.h; sourceTree = "<group>"; };
 		049EF31A28D9A282003375AA /* HXSignInShowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXSignInShowView.m; sourceTree = "<group>"; };
+		04A2679E28E155620032A95C /* HXMianShouKeJieCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXMianShouKeJieCell.h; sourceTree = "<group>"; };
+		04A2679F28E155620032A95C /* HXMianShouKeJieCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXMianShouKeJieCell.m; sourceTree = "<group>"; };
+		04A267A128E155B30032A95C /* HXMianShouListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXMianShouListViewController.h; sourceTree = "<group>"; };
+		04A267A228E155B30032A95C /* HXMianShouListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXMianShouListViewController.m; sourceTree = "<group>"; };
 		04A740FF28A38D9300FC4F98 /* HXMyOnLiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXMyOnLiveViewController.h; sourceTree = "<group>"; };
 		04A7410028A38D9300FC4F98 /* HXMyOnLiveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXMyOnLiveViewController.m; sourceTree = "<group>"; };
 		04A7410228A3A6ED00FC4F98 /* HXKeChengKeJieCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXKeChengKeJieCell.h; sourceTree = "<group>"; };
@@ -2651,6 +2657,8 @@
 				04A90E4728A49D0400A73652 /* HXAllKeChengViewController.m */,
 				04A9A63628A63DDB00608BD2 /* HXKeChengListViewController.h */,
 				04A9A63728A63DDB00608BD2 /* HXKeChengListViewController.m */,
+				04A267A128E155B30032A95C /* HXMianShouListViewController.h */,
+				04A267A228E155B30032A95C /* HXMianShouListViewController.m */,
 			);
 			path = "课程";
 			sourceTree = "<group>";
@@ -2682,6 +2690,8 @@
 				04A90E4A28A4B10B00A73652 /* HXKeChengCell.m */,
 				04A7410228A3A6ED00FC4F98 /* HXKeChengKeJieCell.h */,
 				04A7410328A3A6ED00FC4F98 /* HXKeChengKeJieCell.m */,
+				04A2679E28E155620032A95C /* HXMianShouKeJieCell.h */,
+				04A2679F28E155620032A95C /* HXMianShouKeJieCell.m */,
 				04A9A63328A6280D00608BD2 /* HXRiLiKeJieCell.h */,
 				04A9A63428A6280D00608BD2 /* HXRiLiKeJieCell.m */,
 				049EF31228D95635003375AA /* HXModifyRiLiKeJieCell.h */,
@@ -3353,6 +3363,8 @@
 				0449A553254C11F6001A28D5 /* HXCircularProgressView.m in Sources */,
 				040B03B625552C7400E977E2 /* HXCheckUpdateTool.m in Sources */,
 				04A90E4828A49D0400A73652 /* HXAllKeChengViewController.m in Sources */,
+				04A267A328E155B30032A95C /* HXMianShouListViewController.m in Sources */,
+				04A267A028E155620032A95C /* HXMianShouKeJieCell.m in Sources */,
 				042320AB26968E0600779BE9 /* HXOriginalPaymentInfoCell.m in Sources */,
 				0466380F275DDC57000730B2 /* HXDissertationCell.m in Sources */,
 				0449A536254C11F6001A28D5 /* TestColorViewController.m in Sources */,

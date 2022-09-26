@@ -9,7 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^QingJiaSuccessCallBack)(void);
+
 @interface HXLeaveApplyViewController : HXBaseViewController
+
+@property(nonatomic,strong) NSString *ClassGuid;
+
+@property(nonatomic,copy) QingJiaSuccessCallBack qingJiaSuccessCallBack;
 
 @end
 

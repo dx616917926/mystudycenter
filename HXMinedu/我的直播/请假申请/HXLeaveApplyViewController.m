@@ -8,6 +8,9 @@
 #import "HXLeaveApplyViewController.h"
 #import "IQTextView.h"
 #import "YBPopupMenu.h"
+#import "HXCommonSelectModel.h"
+#import "HXQRCodeSignInModel.h"
+
 
 @interface HXLeaveApplyViewController ()<UITextViewDelegate,YBPopupMenuDelegate>
 
@@ -39,7 +42,13 @@
 
 @property(nonatomic,strong) UIButton *submitBtn;
 
-@property(nonatomic,strong) NSArray *qingJiaArray;
+@property(nonatomic,strong) NSMutableArray *qingJiaArray;
+@property(nonatomic,strong) NSMutableArray *qingJiaTitleArray;
+
+@property(nonatomic,strong) HXQRCodeSignInModel *qingJiaModel;
+
+///请假状态 1事假 2病假 3其它
+@property(nonatomic, assign) NSInteger QjStatus;
 
 @end
 
@@ -51,12 +60,17 @@
     
     //UI
     [self createUI];
+    
+    //获取请假类型
+    [self getQjStatus];
+    //获取学员请假信息
+    [self getScheduleRecordInfo];
 }
 
 #pragma mark - Event
 -(void)selectQingJiaType:(UIControl *)sender{
     [self.view endEditing:YES];
-    [YBPopupMenu showRelyOnView:sender titles:self.qingJiaArray icons:nil menuWidth:120 otherSettings:^(YBPopupMenu *popupMenu) {
+    [YBPopupMenu showRelyOnView:sender titles:self.qingJiaTitleArray icons:nil menuWidth:120 otherSettings:^(YBPopupMenu *popupMenu) {
         popupMenu.offset = 10;
         popupMenu.itemHeight = 40;
         popupMenu.delegate = self;
@@ -66,26 +80,119 @@
 
 -(void)submit:(UIButton *)sender{
     [self.view endEditing:YES];
-   
-    
+    if (self.QjStatus==0) {
+        [self.view showTostWithMessage:@"请选择请假类别"];
+        return;
+    }
+    //学员请假
+    [self askForLeave];
 }
+
+
+#pragma mark - 获取请假类型
+-(void)getQjStatus{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetQjStatus  withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            NSArray *array = [HXCommonSelectModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];;
+            [self.qingJiaArray removeAllObjects];
+            [self.qingJiaArray addObjectsFromArray:array];
+            [self.qingJiaTitleArray removeAllObjects];
+            [self.qingJiaArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                HXCommonSelectModel *model = obj;
+                [self.qingJiaTitleArray addObject:model.text];
+            }];
+            
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+#pragma mark - 获取学员请假信息
+-(void)getScheduleRecordInfo{
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetScheduleRecordInfo  withDictionary:@{@"ClassGuid":HXSafeString(self.ClassGuid)} success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            self.qingJiaModel = [HXQRCodeSignInModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];;
+            [self refreshUI];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+#pragma mark - 学员请假
+-(void)askForLeave{
+    NSDictionary *dic =@{
+        @"ClassGuid":HXSafeString(self.ClassGuid),
+        @"Remarks":HXSafeString(self.textView.text),
+        @"QjStatus":@(self.QjStatus)
+    };
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_AskForLeave  withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
+        
+        BOOL success = [dictionary boolValueForKey:@"Success"];
+        if (success) {
+            [self.view showSuccessWithMessage:[dictionary stringValueForKey:@"Message"]];
+            [self.navigationController popViewControllerAnimated:YES];
+            if (self.qingJiaSuccessCallBack) {
+                self.qingJiaSuccessCallBack();
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
 
 #pragma mark - <YBPopupMenuDelegate>
 
 - (void)ybPopupMenu:(YBPopupMenu *)ybPopupMenu didSelectedAtIndex:(NSInteger)index{
     [self.qingJiaBtn setTitleColor:COLOR_WITH_ALPHA(0x646464, 1) forState:UIControlStateNormal];
-    [self.qingJiaBtn setTitle:self.qingJiaArray[index] forState:UIControlStateNormal];
+    [self.qingJiaBtn setTitle:self.qingJiaTitleArray[index] forState:UIControlStateNormal];
+    
+    HXCommonSelectModel *model = self.qingJiaArray[index];
+    self.QjStatus =[model.value integerValue];
 }
 
 
+#pragma mark - 刷新UI
+-(void)refreshUI{
+    
+    self.banJiContentLabel.text = self.qingJiaModel.ScheduleClassName;
+    self.keJieContentLabel.text = self.qingJiaModel.ClassName;
+    self.startTimeContentLabel.text = self.qingJiaModel.ClassBeginDate;
+    self.endTimeContentLabel.text = self.qingJiaModel.ClassEndDate;
+    
+    self.textView.text = self.qingJiaModel.Remarks;
+    
+    //审核状态 为0则是没有提交申请可编辑发起申请 1审核中 2已通过 3已驳回 请假状态1、2、3只可查看不能发起申请
+    self.qingJiaBtn.userInteractionEnabled = self.textView.editable = (self.qingJiaModel.AuditState==0);
+    self.submitBtn.hidden= (self.qingJiaModel.AuditState!=0);
+    
+    [self.qingJiaBtn setTitleColor:COLOR_WITH_ALPHA(0x646464, 1) forState:UIControlStateNormal];
+    ////请假状态 1事假 2病假 3其它
+    if (self.qingJiaModel.QjStatus==1) {
+        [self.qingJiaBtn setTitle:@"事假" forState:UIControlStateNormal];
+    }else if (self.qingJiaModel.QjStatus==2) {
+        [self.qingJiaBtn setTitle:@"病假" forState:UIControlStateNormal];
+    }else if (self.qingJiaModel.QjStatus==3) {
+        [self.qingJiaBtn setTitle:@"其它" forState:UIControlStateNormal];
+    }
+   
+    self.QjStatus = self.qingJiaModel.QjStatus;
+}
 
 #pragma mark - UI
 -(void)createUI{
     
     self.sc_navigationBar.title = @"请假申请";
     
-    self.qingJiaArray =@[@"病假",@"事假",@"其他"];
-    
+
     [self.view addSubview:self.mainScrollView];
     [self.mainScrollView addSubview:self.topView];
     [self.mainScrollView addSubview:self.middleView];
@@ -239,6 +346,22 @@
 }
 
 #pragma mark - LazyLoad
+-(NSMutableArray *)qingJiaArray{
+    if (!_qingJiaArray) {
+        _qingJiaArray = [NSMutableArray array];
+    }
+    return _qingJiaArray;
+}
+
+-(NSMutableArray *)qingJiaTitleArray{
+    if (!_qingJiaTitleArray) {
+        _qingJiaTitleArray = [NSMutableArray array];
+    }
+    return _qingJiaTitleArray;
+}
+     
+
+    
 -(UIScrollView *)mainScrollView{
     if (!_mainScrollView) {
         _mainScrollView = [[UIScrollView alloc] init];
@@ -291,7 +414,7 @@
         _banJiContentLabel.textAlignment = NSTextAlignmentLeft;
         _banJiContentLabel.font = HXFont(16);
         _banJiContentLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _banJiContentLabel.text = @"自学考试20220401班-1";
+        
     }
     return _banJiContentLabel;
 }
@@ -313,7 +436,7 @@
         _keJieContentLabel.textAlignment = NSTextAlignmentLeft;
         _keJieContentLabel.font = HXFont(16);
         _keJieContentLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _keJieContentLabel.text = @"自学考试大学语文公开课-12";
+        
     }
     return _keJieContentLabel;
 }
@@ -335,7 +458,7 @@
         _startTimeContentLabel.textAlignment = NSTextAlignmentLeft;
         _startTimeContentLabel.font = HXFont(16);
         _startTimeContentLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _startTimeContentLabel.text = @"2022-07-18 16:30";
+        
     }
     return _startTimeContentLabel;
 }
@@ -357,7 +480,7 @@
         _endTimeContentLabel.textAlignment = NSTextAlignmentLeft;
         _endTimeContentLabel.font = HXFont(16);
         _endTimeContentLabel.textColor = COLOR_WITH_ALPHA(0x181414, 1);
-        _endTimeContentLabel.text = @"2022-07-18 17:30";
+        
     }
     return _endTimeContentLabel;
 }

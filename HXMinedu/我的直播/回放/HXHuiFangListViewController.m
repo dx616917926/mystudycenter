@@ -136,9 +136,6 @@
     }
 }
 
--(void)checkDianPingWithModel{
-    
-}
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

@@ -237,6 +237,15 @@ NS_ASSUME_NONNULL_BEGIN
 //签到
 #define HXPOST_SignIn                                                   @"/MD/Live/SignIn"
 
+//获取请假类型
+#define HXPOST_GetQjStatus                                              @"/MD/Live/GetQjStatus"
+
+//获取学员请假信息
+#define HXPOST_GetScheduleRecordInfo                                    @"/MD/Live/GetScheduleRecordInfo"
+
+//学员请假
+#define HXPOST_AskForLeave                                              @"/MD/Live/AskForLeave"
+
 @interface HXBaseURLSessionManager : AFHTTPSessionManager
 
 /**

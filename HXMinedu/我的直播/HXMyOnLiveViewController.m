@@ -253,21 +253,22 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HXKeJieModel *keJieModel = (self.isSearchMode?self.searchArray[indexPath.row]:self.dataArray[indexPath.row]);
-    //ClassIn的回放跳出去
-    if (keJieModel.LiveType==1&&keJieModel.LiveState==2) {
-        if (@available(iOS 10.0, *)) {
-            [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl) options:@{} completionHandler:nil];
-        } else {
-            [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
+    if (keJieModel.LiveType!=3) {
+        //ClassIn的回放跳出去
+        if (keJieModel.LiveType==1&&keJieModel.LiveState==2) {
+            if (@available(iOS 10.0, *)) {
+                [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl) options:@{} completionHandler:nil];
+            } else {
+                [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
+            }
+        }else{
+            HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+            webViewVC.urlString = keJieModel.liveUrl;
+            webViewVC.cuntomTitle = keJieModel.ClassName;
+            webViewVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webViewVC animated:YES];
         }
-    }else{
-        HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-        webViewVC.urlString = keJieModel.liveUrl;
-        webViewVC.cuntomTitle = keJieModel.ClassName;
-        webViewVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webViewVC animated:YES];
     }
-
 }
 
 

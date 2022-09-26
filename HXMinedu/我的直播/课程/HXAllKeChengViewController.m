@@ -7,6 +7,7 @@
 
 #import "HXAllKeChengViewController.h"
 #import "HXKeChengListViewController.h"
+#import "HXMianShouListViewController.h"
 #import "HXCommonWebViewController.h"
 #import "HXKeChengHeaderView.h"
 #import "HXKeChengCell.h"
@@ -153,18 +154,25 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HXKeChengModel *keChengModel = self.dataArray[indexPath.row];
-    ///直播类型 1ClassIn   2保利威     保利威直接跳转页面直播     ClassIn进入下一页面展示课节
-    if (keChengModel.LiveType==1) {
-        HXKeChengListViewController *vc= [[HXKeChengListViewController alloc] init];
-        vc.MealName = keChengModel.MealName;
-        vc.mealGuid = keChengModel.MealGuid;
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
+    ///直播类型 1ClassIn     2保利威   3面授课程       保利威直接跳转页面直播 ClassIn进入下一页面展示课节，面授课程只展示不做任何操作
+    if (keChengModel.LiveType==2) {//保利威直接跳转页面直播
         HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
         webViewVC.urlString = keChengModel.liveUrl;
         webViewVC.cuntomTitle = keChengModel.MealName;
         webViewVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:webViewVC animated:YES];
+    }else if (keChengModel.LiveType==1) {
+        HXKeChengListViewController *vc= [[HXKeChengListViewController alloc] init];
+        vc.MealName = keChengModel.MealName;
+        vc.mealGuid = keChengModel.MealGuid;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }else if (keChengModel.LiveType==3) {
+        HXMianShouListViewController *vc= [[HXMianShouListViewController alloc] init];
+        vc.MealName = keChengModel.MealName;
+        vc.mealGuid = keChengModel.MealGuid;
+        [self.navigationController pushViewController:vc animated:YES];
+        
     }
    
 }

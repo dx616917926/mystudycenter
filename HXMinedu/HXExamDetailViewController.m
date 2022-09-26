@@ -81,8 +81,8 @@
     
     //考试名称等信息
     self.topView.mExamTitleLabel.text = self.exam.examTitle;
-    self.topView.mExamStartTimeLabel.text = [NSString stringWithFormat:@"开始时间：%@",self.exam.beginTime];
-    self.topView.mExamEndTimeLabel.text = [NSString stringWithFormat:@"结束时间：%@",self.exam.endTime];
+    self.topView.mExamStartTimeLabel.text = [NSString stringWithFormat:@"开始时间：%@",self.StartDate];
+    self.topView.mExamEndTimeLabel.text = [NSString stringWithFormat:@"结束时间：%@",self.EndDate];
     self.topView.mExamAllowCountLabel.text = [NSString stringWithFormat:@"最多%@次",self.exam.maxExamNum];
     //考试时间
     if ([self.exam.limitTime isEqualToString:@""]) {

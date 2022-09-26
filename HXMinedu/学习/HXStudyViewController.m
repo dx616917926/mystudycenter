@@ -145,6 +145,7 @@
         if (success) {
             HXQRCodeSignInModel *model = [HXQRCodeSignInModel mj_objectWithKeyValues:[dictionary dictionaryValueForKey:@"Data"]];
             HXSignInShowView *signInShowView = [[HXSignInShowView alloc] init];
+            signInShowView.qRCodeSignInModel = model;
             WeakSelf(weakSelf);
             signInShowView.signInBlock = ^{
                 [weakSelf signIn:model];
@@ -153,8 +154,7 @@
         }
        
     } failure:^(NSError * _Nonnull error) {
-        HXSignInShowView *signInShowView = [[HXSignInShowView alloc] init];
-        [signInShowView show];
+        
     }];
     
 }
@@ -509,6 +509,8 @@
                         HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
                         listVC.authorizeUrl = item.ExamUrl;
                         listVC.title = item.ModuleName;
+                        listVC.StartDate = item.StartDate;
+                        listVC.EndDate = item.EndDate;
                         listVC.hidesBottomBarWhenPushed = YES;
                         [self.navigationController pushViewController:listVC animated:YES];
 

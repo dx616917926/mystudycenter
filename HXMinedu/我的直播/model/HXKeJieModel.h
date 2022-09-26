@@ -18,10 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *ClassName;
 ///直播开始日期
 @property(nonatomic, strong) NSString *ClassBeginDate;
-///直播开始时间
-@property(nonatomic, strong) NSString *ClassBeginTime;
 ///直播结束日期
 @property(nonatomic, strong) NSString *ClassEndDate;
+///直播开始时间
+@property(nonatomic, strong) NSString *ClassBeginTime;
+///直播结束时间
+@property(nonatomic, strong) NSString *ClassEndTime;
 ///直播类型 1ClassIn    2保利威    3面授课程    面授课程只展示不做任何操作
 @property(nonatomic, assign) NSInteger LiveType;
 ///上课时长 LiveType等于1时展示    2时隐藏
@@ -42,6 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSInteger Week;
 ///是否评价 0否 1是
 @property(nonatomic, assign) NSInteger IsEvaluate;
+///审核状态 LiveType等于3时处理 0未提交请假显示请假按钮 1待审核显示审核中 2已通过显示已请假 3已驳回显示已驳回不可再次申请
+@property(nonatomic, assign) NSInteger AuditState;
+///签到状态 -1未签到可提交请假申请 0提交请假申请审核中 1到课 2迟到 3请假 4未到
+@property(nonatomic, assign) NSInteger Status;
 
 ///是否展开
 @property(nonatomic, assign) BOOL IsZhanKai;

@@ -308,6 +308,8 @@
         HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
         listVC.authorizeUrl = modelItem.ExamUrl;
         listVC.title = modelItem.ModuleName;
+        listVC.StartDate = modelItem.StartDate;
+        listVC.EndDate = modelItem.EndDate;
         listVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:listVC animated:YES];
     }else

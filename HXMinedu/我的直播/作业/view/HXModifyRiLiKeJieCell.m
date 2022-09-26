@@ -30,10 +30,12 @@
 @property(nonatomic,strong) UILabel *classRoomLabel;//上课教室：教室001
 @property(nonatomic,strong) UILabel *addressLabel;//教室地址：
 
-@property(nonatomic,strong) UIButton *huiFangButton;
-@property(nonatomic,strong) UIButton *goLearnButton;
-@property(nonatomic,strong) UIButton *zhiBoButton;
+//回放、上课中（直播中）、去上课、请假
+@property(nonatomic,strong) UIButton *operationButton;
 
+
+//审核状态 LiveType等于3时处理 0未提交请假显示请假按钮 1待审核显示审核中 2已通过显示已请假 3已驳回显示已驳回不可再次申请
+@property(nonatomic,strong) UIButton *auditStateButton;
 
 @end
 
@@ -101,9 +103,9 @@
     
     self.zhanKaiButton.selected = keJieModel.IsZhanKai;
     
-    self.huiFangButton.hidden = self.goLearnButton.hidden = self.zhiBoButton.hidden = YES;
-    self.beginTimeLabel.text = HXSafeString(keJieModel.ClassBeginDate);
-    self.endimeLabel.text = HXSafeString(keJieModel.ClassEndDate);
+    self.operationButton.hidden = YES;
+    self.beginTimeLabel.text = HXSafeString(keJieModel.ClassBeginTime);
+    self.endimeLabel.text = HXSafeString(keJieModel.ClassEndTime);
     self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
     self.teacherLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
     self.classRoomLabel.text = [NSString stringWithFormat:@"上课教室：%@",HXSafeString(keJieModel.RoomAddr)];
@@ -116,37 +118,87 @@
         self.typeLine.backgroundColor = self.typeLabel.textColor = COLOR_WITH_ALPHA(0x51C29B, 1);
     }
     
-    
-    ///直播状态 0待开始  1直播中  2已结束
-    if (keJieModel.LiveState==1) {
-        self.zhiBoButton.hidden = NO;
-    }else if (keJieModel.LiveState==2) {
-        self.huiFangButton.hidden = NO;
+    ///审核状态 LiveType等于3时处理 0未提交请假显示请假按钮 1待审核显示审核中 2已通过显示已请假 3已驳回显示已驳回不可再次申请
+    if (keJieModel.LiveType==3) {
+        self.auditStateButton.hidden = NO;
+        if (keJieModel.AuditState==1) {
+            self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0xFB9D55, 1);
+            [self.auditStateButton setTitle:@"审核中" forState:UIControlStateNormal];
+        }else if (keJieModel.AuditState==2) {
+            self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0x42CBB4, 1);
+            [self.auditStateButton setTitle:@"已请假" forState:UIControlStateNormal];
+        }else if (keJieModel.AuditState==3) {
+            self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0xFF6868, 1);
+            [self.auditStateButton setTitle:@"已驳回" forState:UIControlStateNormal];
+        }
     }else{
-        self.goLearnButton.hidden =NO;
+        self.auditStateButton.hidden = YES;
     }
     
     self.addressLabel.text = nil;
     
-    if (keJieModel.IsZhanKai) {
+    if (keJieModel.IsZhanKai) {//展开
         if (keJieModel.LiveType<=2) {
             self.teacherLabel.sd_layout.topSpaceToView(self.keJieNameLabel, 6).heightIs(17);
             self.classRoomLabel.sd_layout.topSpaceToView(self.teacherLabel, 0).heightIs(0);
             self.addressLabel.sd_layout.topSpaceToView(self.classRoomLabel, 0);
-            self.huiFangButton.sd_layout.topSpaceToView(self.addressLabel, 0);
+            self.operationButton.sd_layout.topSpaceToView(self.addressLabel, 0);
         }else{
             self.addressLabel.text = [NSString stringWithFormat:@"教室地址：%@",HXSafeString(keJieModel.RoomAddr)];
             self.teacherLabel.sd_layout.topSpaceToView(self.keJieNameLabel, 6).heightIs(17);
             self.classRoomLabel.sd_layout.topSpaceToView(self.teacherLabel, 6).heightIs(17);
             self.addressLabel.sd_layout.topSpaceToView(self.classRoomLabel, 6).autoHeightRatio(0);
-            self.huiFangButton.sd_layout.topSpaceToView(self.addressLabel, 10);
+            self.operationButton.sd_layout.topSpaceToView(self.addressLabel, 10);
         }
+        if (keJieModel.LiveType==3) {
+           
+            //审核状态  0未提交请假显示请假按钮 1待审核显示审核中 2已通过显示已请假 3已驳回显示已驳回不可再次申请
+            //签到状态 -1未签到可提交请假申请 0提交请假申请审核中 1到课 2迟到 3请假 4未到 LiveType等于3时处理
+            if (keJieModel.AuditState==0&&keJieModel.LiveState==0&&keJieModel.Status==-1) {
+                self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0x42CBB4, 1);
+                [self.operationButton setTitle:@"请假" forState:UIControlStateNormal];
+                self.operationButton.hidden = NO;
+                self.auditStateButton.hidden = YES;
+            }else{
+                self.operationButton.hidden = NO;
+                self.auditStateButton.hidden = NO;
+                ///直播状态 0待开始  1直播中  2已结束
+                if (keJieModel.LiveState==1) {
+                    self.auditStateButton.hidden = YES;
+                    self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0xFF8B19, 1);
+                    [self.operationButton setTitle:@"上课中" forState:UIControlStateNormal];
+                }else if (keJieModel.LiveState==2) {
+                    self.auditStateButton.hidden = YES;
+                    self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0x4580F8, 1);
+                    [self.operationButton setTitle:@"点评" forState:UIControlStateNormal];
+                }
+            }
+        }else{
+            self.operationButton.hidden = NO;
+            self.auditStateButton.hidden = YES;
+            ///直播状态 0待开始  1直播中  2已结束
+            if (keJieModel.LiveState==1) {
+                self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0xFF8B19, 1);
+                [self.operationButton setTitle:@"直播中" forState:UIControlStateNormal];
+            }else if (keJieModel.LiveState==2) {
+                self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0x4580F8, 1);
+                [self.operationButton setTitle:@"回放" forState:UIControlStateNormal];
+            }else{
+                self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0x4580F8, 1);
+                [self.operationButton setTitle:@"去上课" forState:UIControlStateNormal];
+            }
+        }
+    
     }else{
+        self.operationButton.hidden = YES;
+        self.auditStateButton.hidden = NO;
         self.teacherLabel.sd_layout.topSpaceToView(self.keJieNameLabel, 0).heightIs(0);
         self.classRoomLabel.sd_layout.topSpaceToView(self.teacherLabel, 0).heightIs(0);
         self.addressLabel.sd_layout.topSpaceToView(self.classRoomLabel, 0);
-        self.huiFangButton.sd_layout.topSpaceToView(self.addressLabel, 0);
+        self.operationButton.sd_layout.topSpaceToView(self.addressLabel, 0);
     }
+    
+    
 }
 
 #pragma mark - Event
@@ -177,9 +229,11 @@
     [self.containerView addSubview:self.teacherLabel];
     [self.containerView addSubview:self.classRoomLabel];
     [self.containerView addSubview:self.addressLabel];
-    [self.containerView addSubview:self.huiFangButton];
-    [self.containerView addSubview:self.goLearnButton];
-    [self.containerView addSubview:self.zhiBoButton];
+    [self.containerView addSubview:self.operationButton];
+ 
+    [self.containerView addSubview:self.auditStateButton];
+    
+
    
     
 
@@ -291,44 +345,23 @@
     [self.addressLabel setMaxNumberOfLinesToShow:2];
     
     
-    self.huiFangButton.sd_layout
+    self.operationButton.sd_layout
     .topSpaceToView(self.addressLabel, 10)
     .rightSpaceToView(self.containerView, 10)
     .widthIs(60)
     .heightIs(26);
-    
-    self.huiFangButton.imageView.sd_layout
-    .centerYEqualToView(self.huiFangButton)
-    .rightEqualToView(self.huiFangButton)
-    .widthIs(16)
-    .heightEqualToWidth();
-    
-    self.huiFangButton.titleLabel.sd_layout
-    .centerYEqualToView(self.huiFangButton)
-    .rightSpaceToView(self.huiFangButton.imageView, 4)
-    .leftEqualToView(self.huiFangButton)
-    .heightIs(26);
-    
-    self.goLearnButton.sd_layout
-    .centerYEqualToView(self.huiFangButton)
-    .centerXEqualToView(self.huiFangButton)
-    .widthRatioToView(self.huiFangButton, 1)
-    .heightRatioToView(self.huiFangButton, 1);
-    
-    self.goLearnButton.sd_cornerRadiusFromHeightRatio = @0.5;
-    
-    self.zhiBoButton.sd_layout
-    .centerYEqualToView(self.huiFangButton)
-    .centerXEqualToView(self.huiFangButton)
-    .widthRatioToView(self.huiFangButton, 1)
-    .heightRatioToView(self.huiFangButton, 1);
-    
-    self.zhiBoButton.sd_cornerRadiusFromHeightRatio = @0.5;
+    self.operationButton.sd_cornerRadiusFromHeightRatio = @0.5;
     
     
-    [self.containerView setupAutoHeightWithBottomView:self.huiFangButton bottomMargin:10];
+    [self.containerView setupAutoHeightWithBottomView:self.operationButton bottomMargin:10];
     
     [self.bigBackgroundView setupAutoHeightWithBottomView:self.containerView bottomMargin:5];
+    
+    self.auditStateButton.sd_layout
+    .rightEqualToView(self.containerView)
+    .bottomEqualToView(self.containerView);
+    self.auditStateButton.sd_cornerRadius=@8;
+    [self.auditStateButton setupAutoSizeWithHorizontalPadding:7 buttonHeight:22];
     
     ///设置cell高度自适应
     [self setupAutoHeightWithBottomView:self.bigBackgroundView bottomMargin:0];
@@ -503,46 +536,32 @@
 
 
 
--(UIButton *)huiFangButton{
-    if (!_huiFangButton) {
-        _huiFangButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _huiFangButton.titleLabel.font = HXFont(13);
-        _huiFangButton.titleLabel.textAlignment = NSTextAlignmentRight;
-        [_huiFangButton setTitleColor:COLOR_WITH_ALPHA(0x4988FD, 1) forState:UIControlStateNormal];
-        [_huiFangButton setTitle:@"回放" forState:UIControlStateNormal];
-        [_huiFangButton setImage:[UIImage imageNamed:@"huifangsamll_icon"] forState:UIControlStateNormal];
-        _huiFangButton.userInteractionEnabled = NO;
-        _huiFangButton.hidden = YES;
+
+
+-(UIButton *)operationButton{
+    if (!_operationButton) {
+        _operationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _operationButton.titleLabel.font = HXFont(13);
+        _operationButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [_operationButton setTitleColor:COLOR_WITH_ALPHA(0xFFFFFF, 1) forState:UIControlStateNormal];
+        _operationButton.userInteractionEnabled = NO;
+        _operationButton.hidden = YES;
     }
-    return _huiFangButton;
+    return _operationButton;
 }
 
--(UIButton *)goLearnButton{
-    if (!_goLearnButton) {
-        _goLearnButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _goLearnButton.backgroundColor = COLOR_WITH_ALPHA(0x4580F8, 1);
-        _goLearnButton.titleLabel.font = HXFont(13);
-        _goLearnButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [_goLearnButton setTitleColor:COLOR_WITH_ALPHA(0xFFFFFF, 1) forState:UIControlStateNormal];
-        [_goLearnButton setTitle:@"去上课" forState:UIControlStateNormal];
-        _goLearnButton.userInteractionEnabled = NO;
-        _goLearnButton.hidden = YES;
-    }
-    return _goLearnButton;
-}
 
--(UIButton *)zhiBoButton{
-    if (!_zhiBoButton) {
-        _zhiBoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _zhiBoButton.backgroundColor = COLOR_WITH_ALPHA(0xFF8B19, 1);
-        _zhiBoButton.titleLabel.font = HXFont(13);
-        _zhiBoButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [_zhiBoButton setTitleColor:COLOR_WITH_ALPHA(0xFFFFFF, 1) forState:UIControlStateNormal];
-        [_zhiBoButton setTitle:@"直播中" forState:UIControlStateNormal];
-        _zhiBoButton.userInteractionEnabled = NO;
-        _zhiBoButton.hidden = YES;
+
+-(UIButton *)auditStateButton{
+    if (!_auditStateButton) {
+        _auditStateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _auditStateButton.titleLabel.font = HXFont(12);
+        _auditStateButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [_auditStateButton setTitleColor:COLOR_WITH_ALPHA(0xFFFFFF, 1) forState:UIControlStateNormal];
+        _auditStateButton.userInteractionEnabled = NO;
+        _auditStateButton.hidden = YES;
     }
-    return _zhiBoButton;
+    return _auditStateButton;
 }
 
 

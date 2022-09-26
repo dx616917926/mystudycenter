@@ -8,6 +8,7 @@
 #import "HXSearchKeChengViewController.h"
 #import "HXKeChengListViewController.h"
 #import "HXHuiFangListViewController.h"
+#import "HXMianShouListViewController.h"
 #import "HXCommonWebViewController.h"
 #import "HXKeChengCell.h"
 
@@ -191,7 +192,12 @@
             vc.mealGuid = keChengModel.MealGuid;
             [self.navigationController pushViewController:vc animated:YES];
         }
-    }else{
+    }else if (keChengModel.LiveType==3) {
+        HXMianShouListViewController *vc= [[HXMianShouListViewController alloc] init];
+        vc.MealName = keChengModel.MealName;
+        vc.mealGuid = keChengModel.MealGuid;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (keChengModel.LiveType==2) {
         HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
         webViewVC.urlString = keChengModel.liveUrl;
         webViewVC.cuntomTitle = keChengModel.MealName;

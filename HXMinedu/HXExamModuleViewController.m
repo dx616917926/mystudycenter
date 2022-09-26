@@ -248,6 +248,8 @@
     
     HXExamListViewController *listVC = [[HXExamListViewController alloc] init];
     listVC.authorizeUrl = model.ExamUrl;
+    listVC.StartDate = model.StartDate;
+    listVC.EndDate = model.EndDate;
     [self.navigationController pushViewController:listVC animated:YES];
 }
 

@@ -12,6 +12,7 @@
 
 @property(nonatomic,strong) UIView *bigBackgroundView;
 @property(nonatomic,strong) UIImageView *coverImageView;
+@property(nonatomic,strong) UIButton *typeBtn;
 @property(nonatomic,strong) UIView *fenGeLine;
 @property(nonatomic,strong) UILabel *keChengNameLabel;
 @property(nonatomic,strong) UILabel *shiYongTypeLabel;
@@ -57,17 +58,27 @@
     
     [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keChengModel.imgUrl]] placeholderImage:[UIImage imageNamed:@"kechengzhanwei_bg"]];
     
+    [self.typeBtn setTitle:(keChengModel.LiveType==3?@"面授":@"直播") forState:UIControlStateNormal];
+    
     self.keChengNameLabel.text = HXSafeString(keChengModel.MealName);
+    
     ///直播类型 1ClassIn  2保利威 保利威直接跳转页面直播 ClassIn进入下一页面展示课节
     if (keChengModel.LiveType==1) {
+        self.shiYongTypeLabel.sd_layout.heightIs(14);
         self.shiYongTypeLabel.hidden = self.totalNumLabel.hidden = self.unfinishNumLabel.hidden = NO;
         self.shiYongTypeLabel.text = [NSString stringWithFormat:@"适用类型：%@",keChengModel.MealApplyTypeName];
         self.totalNumLabel.text = [NSString stringWithFormat:@"总课节数：%ld节",keChengModel.ClassNum];
         self.unfinishNumLabel.text = [NSString stringWithFormat:@"待完成课节数：%ld节",keChengModel.UndoneClassNum];
-    }else{
+    }else if (keChengModel.LiveType==2) {
+        self.shiYongTypeLabel.sd_layout.heightIs(14);
         self.teacherNameLabel.hidden = self.timeLabel.hidden = NO;
         self.teacherNameLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keChengModel.TeacherName)];
         self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@",HXSafeString(keChengModel.MealBeginDate),HXSafeString(keChengModel.MealBeginTime)];
+    }else{
+        self.shiYongTypeLabel.sd_layout.heightIs(0);
+        self.totalNumLabel.hidden = self.unfinishNumLabel.hidden = NO;
+        self.totalNumLabel.text = [NSString stringWithFormat:@"总课节数：%ld节",keChengModel.ClassNum];
+        self.unfinishNumLabel.text = [NSString stringWithFormat:@"待完成课节数：%ld节",keChengModel.UndoneClassNum];
     }
     
 }
@@ -77,6 +88,7 @@
 -(void)createUI{
     [self.contentView addSubview:self.bigBackgroundView];
     [self.bigBackgroundView addSubview:self.coverImageView];
+    [self.coverImageView addSubview:self.typeBtn];
     [self.bigBackgroundView addSubview:self.fenGeLine];
     [self.bigBackgroundView addSubview:self.keChengNameLabel];
     [self.bigBackgroundView addSubview:self.shiYongTypeLabel];
@@ -97,6 +109,13 @@
     .widthIs(92)
     .heightIs(62);
     self.coverImageView.sd_cornerRadius = @4;
+    
+    self.typeBtn.sd_layout
+    .bottomEqualToView(self.coverImageView)
+    .rightEqualToView(self.coverImageView);
+    self.typeBtn.sd_cornerRadius = @4;
+    
+    [self.typeBtn setupAutoSizeWithHorizontalPadding:6 buttonHeight:20];
     
     self.fenGeLine.sd_layout
     .leftSpaceToView(self.coverImageView, 20)
@@ -121,13 +140,13 @@
     .topSpaceToView(self.shiYongTypeLabel, 5)
     .leftEqualToView(self.keChengNameLabel)
     .rightEqualToView(self.keChengNameLabel)
-    .heightRatioToView(self.shiYongTypeLabel, 1);
+    .heightIs(14);
     
     self.unfinishNumLabel.sd_layout
     .topSpaceToView(self.totalNumLabel, 5)
     .leftEqualToView(self.keChengNameLabel)
     .rightEqualToView(self.keChengNameLabel)
-    .heightRatioToView(self.shiYongTypeLabel, 1);
+    .heightRatioToView(self.totalNumLabel, 1);
     
     self.teacherNameLabel.sd_layout
     .topSpaceToView(self.keChengNameLabel, 10)
@@ -139,7 +158,7 @@
     .topSpaceToView(self.teacherNameLabel, 5)
     .leftEqualToView(self.keChengNameLabel)
     .rightEqualToView(self.keChengNameLabel)
-    .heightRatioToView(self.shiYongTypeLabel, 1);
+    .heightRatioToView(self.totalNumLabel, 1);
     
     self.bottomLine.sd_layout
     .bottomEqualToView(self.bigBackgroundView)
@@ -170,6 +189,16 @@
         _coverImageView.clipsToBounds = YES;
     }
     return _coverImageView;
+}
+
+-(UIButton *)typeBtn{
+    if (!_typeBtn) {
+        _typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _typeBtn.backgroundColor = COLOR_WITH_ALPHA(0x000000, 0.4);
+        _typeBtn.titleLabel.font = HXFont(12);
+        [_typeBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    }
+    return _typeBtn;
 }
 
 -(UIView *)fenGeLine{
