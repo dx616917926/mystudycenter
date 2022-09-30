@@ -35,7 +35,7 @@
 ////获取正式分库的域名
 #define     KHX_API_ReleaseDomain          @"https://midapi.hlw-study.com"
 
-#define     KHX_API_Domain          KHX_API_DevelopDomain
+#define     KHX_API_Domain          KHX_API_ReleaseDomain
 
 #define     kHXReleaseEdition       0     //生产版本
 #define     kHXDevelopOPEdition     1     //开发OP版本
@@ -43,7 +43,7 @@
 #define     kHXDevelopLWJEdition    3     //李文军主机
 #define     kHXChangeEdition        100   //支持切换服务器(长按登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试)
 
-#define     kHXAPPEdition           kHXDevelopLWJEdition
+#define     kHXAPPEdition           kHXReleaseEdition
 
 #if (kHXAPPEdition == kHXChangeEdition)
 #define    kHXCanChangeServer       1   //长按切换登陆界面logo，切换服务器地址，双击自定义输入地址，便于开发调试

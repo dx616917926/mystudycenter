@@ -163,7 +163,7 @@
                     NSString *week = self.weeks[model.Week];
                     self.selectRiQiLabel.text = [NSString stringWithFormat:@"%@ %@",date,week];
                 }
-                self.numLabel.text = [NSString stringWithFormat:@"直播课节(%lu)",(unsigned long)rowCount];
+                self.numLabel.text = [NSString stringWithFormat:@"课节(%lu)",(unsigned long)rowCount];
                 self.mainTableView.tableFooterView = nil;
             }else{
                 self.mainTableView.tableFooterView = self.noDataView;
@@ -223,8 +223,7 @@
         
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
-            HXDianPingSuccessViewController *vc = [[HXDianPingSuccessViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
+            [self.view showSuccessWithMessage:@"点评成功"] ;
             //点评成功，刷新数据
             [self getOnliveCalendarInfo];
         }
@@ -299,7 +298,8 @@
     
     NSIndexPath *indexPath = [self.mainTableView indexPathForCell:cell];
     cell.keJieModel.IsZhanKai = !cell.keJieModel.IsZhanKai;
-    [self.mainTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [self.mainTableView reloadData];
+    
 }
 
 

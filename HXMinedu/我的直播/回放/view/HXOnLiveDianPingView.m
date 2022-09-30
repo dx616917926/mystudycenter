@@ -247,7 +247,7 @@
         _titleLabel.textColor = COLOR_WITH_ALPHA(0x2C2C2E, 1);
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.numberOfLines = 1;
-        _titleLabel.text = @"直播点评";
+        _titleLabel.text = @"点评";
     }
     return _titleLabel;
 }

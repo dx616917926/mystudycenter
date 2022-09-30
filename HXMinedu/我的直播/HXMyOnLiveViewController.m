@@ -276,7 +276,7 @@
 -(void)createUI{
     self.sc_navigationBar.leftBarButtonItem = nil;
     self.sc_navigationBar.backGroundImage = [UIImage imageNamed:@"navbar_bg"];
-    self.sc_navigationBar.title = @"我的直播";
+    self.sc_navigationBar.title = @"教学";
     self.sc_navigationBar.titleColor = [UIColor whiteColor];
     
     [self.view addSubview:self.topContainerView];

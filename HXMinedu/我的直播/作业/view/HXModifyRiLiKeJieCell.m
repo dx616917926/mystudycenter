@@ -97,7 +97,7 @@
 }
 
 
--(void)setKeJieModel:(HXKeJieModel *)keJieModel{
+-(void)  setKeJieModel:(HXKeJieModel *)keJieModel{
     
     _keJieModel = keJieModel;
     
@@ -108,7 +108,7 @@
     self.endimeLabel.text = HXSafeString(keJieModel.ClassEndTime);
     self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
     self.teacherLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
-    self.classRoomLabel.text = [NSString stringWithFormat:@"上课教室：%@",HXSafeString(keJieModel.RoomAddr)];
+    self.classRoomLabel.text = [NSString stringWithFormat:@"上课教室：%@",HXSafeString(keJieModel.RoomName)];
    
     if (keJieModel.LiveType<=2) {
         self.typeLabel.text = @"直播课";
@@ -130,6 +130,9 @@
         }else if (keJieModel.AuditState==3) {
             self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0xFF6868, 1);
             [self.auditStateButton setTitle:@"已驳回" forState:UIControlStateNormal];
+        }else{
+            self.auditStateButton.backgroundColor = UIColor.clearColor;
+            [self.auditStateButton setTitle:@"" forState:UIControlStateNormal];
         }
     }else{
         self.auditStateButton.hidden = YES;
@@ -170,7 +173,9 @@
                 }else if (keJieModel.LiveState==2) {
                     self.auditStateButton.hidden = YES;
                     self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0x4580F8, 1);
-                    [self.operationButton setTitle:@"点评" forState:UIControlStateNormal];
+                    [self.operationButton setTitle:(keJieModel.IsEvaluate==0?@"点评":@"查看点评") forState:UIControlStateNormal];
+                }else{
+                    self.operationButton.hidden = YES;
                 }
             }
         }else{
@@ -190,8 +195,13 @@
         }
     
     }else{
-        self.operationButton.hidden = YES;
-        self.auditStateButton.hidden = NO;
+        if (keJieModel.LiveType==3) {
+            self.operationButton.hidden = YES;
+            self.auditStateButton.hidden = NO;
+        }else{
+            self.operationButton.hidden = YES;
+            self.auditStateButton.hidden = YES;
+        }
         self.teacherLabel.sd_layout.topSpaceToView(self.keJieNameLabel, 0).heightIs(0);
         self.classRoomLabel.sd_layout.topSpaceToView(self.teacherLabel, 0).heightIs(0);
         self.addressLabel.sd_layout.topSpaceToView(self.classRoomLabel, 0);
@@ -348,7 +358,7 @@
     self.operationButton.sd_layout
     .topSpaceToView(self.addressLabel, 10)
     .rightSpaceToView(self.containerView, 10)
-    .widthIs(60)
+    .widthIs(65)
     .heightIs(26);
     self.operationButton.sd_cornerRadiusFromHeightRatio = @0.5;
     

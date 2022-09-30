@@ -13,7 +13,7 @@
 @property(nonatomic,strong) UIView *bigBackgroundView;
 @property(nonatomic,strong) UIImageView *coverImageView;
 @property(nonatomic,strong) UIButton *typeBtn;
-@property(nonatomic,strong) UIImageView *stateImageView;
+@property(nonatomic,strong) UIButton *stateBtn;
 @property(nonatomic,strong) UILabel *keJieNameLabel;
 @property(nonatomic,strong) UILabel *teacherNameLabel;
 @property(nonatomic,strong) UILabel *timeLabel;
@@ -48,14 +48,16 @@
     [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keJieModel.imgUrl]] placeholderImage:[UIImage imageNamed:@"kechengzhanwei_bg"]];
     ///直播状态 0待开始  1直播中
     if (keJieModel.LiveState==1) {
-        self.stateImageView.image = [UIImage imageNamed:@"onlive_icon"];
+        self.stateBtn.backgroundColor = COLOR_WITH_ALPHA(0xFF8B19, 1);
+        [self.stateBtn setTitle:(keJieModel.LiveType==3?@"上课中":@"直播中") forState:UIControlStateNormal];
     }else{
-        self.stateImageView.image = [UIImage imageNamed:@"daikaishi_icon"];
+        self.stateBtn.backgroundColor = COLOR_WITH_ALPHA(0x4580F8, 1);
+        [self.stateBtn setTitle:@"待开始" forState:UIControlStateNormal];
     }
     
     self.keJieNameLabel.text = HXSafeString(keJieModel.ClassName);
     self.teacherNameLabel.text = [NSString stringWithFormat:@"授课教师：%@",HXSafeString(keJieModel.TeacherName)];
-    if (keJieModel.LiveType==1) {
+    if (keJieModel.LiveType==1||keJieModel.LiveType==3) {
         self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@ (%@分钟)",HXSafeString(keJieModel.ClassBeginDate),HXSafeString(keJieModel.ClassBeginTime),HXSafeString(keJieModel.ClassTimeSpan)];
     }else{
         self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@ %@",HXSafeString(keJieModel.ClassBeginDate),HXSafeString(keJieModel.ClassBeginTime)];
@@ -70,7 +72,7 @@
     [self.contentView addSubview:self.bigBackgroundView];
     [self.bigBackgroundView addSubview:self.coverImageView];
     [self.coverImageView addSubview:self.typeBtn];
-    [self.bigBackgroundView addSubview:self.stateImageView];
+    [self.bigBackgroundView addSubview:self.stateBtn];
     [self.bigBackgroundView addSubview:self.keJieNameLabel];
     [self.bigBackgroundView addSubview:self.teacherNameLabel];
     [self.bigBackgroundView addSubview:self.timeLabel];
@@ -96,16 +98,17 @@
     
     [self.typeBtn setupAutoSizeWithHorizontalPadding:6 buttonHeight:20];
     
-    self.stateImageView.sd_layout
-    .topSpaceToView(self.bigBackgroundView, 0)
-    .rightSpaceToView(self.bigBackgroundView, 0)
-    .widthIs(57)
-    .heightIs(34);
+    self.stateBtn.sd_layout
+    .topSpaceToView(self.bigBackgroundView, 5)
+    .rightSpaceToView(self.bigBackgroundView, 5)
+    .widthIs(42)
+    .heightIs(20);
+    self.stateBtn.sd_cornerRadius=@4;
     
     self.keJieNameLabel.sd_layout
     .topEqualToView(self.coverImageView)
     .leftSpaceToView(self.coverImageView, 10)
-    .rightSpaceToView(self.stateImageView, 10)
+    .rightSpaceToView(self.stateBtn, 10)
     .heightIs(22);
     
     self.teacherNameLabel.sd_layout
@@ -171,12 +174,13 @@
     return _typeBtn;
 }
 
--(UIImageView *)stateImageView{
-    if (!_stateImageView) {
-        _stateImageView = [[UIImageView alloc] init];
-        
+-(UIButton *)stateBtn{
+    if (!_stateBtn) {
+        _stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _stateBtn.titleLabel.font = HXFont(10);
+        [_stateBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
     }
-    return _stateImageView;
+    return _stateBtn;
 }
 
 

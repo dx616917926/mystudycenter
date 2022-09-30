@@ -84,7 +84,7 @@
         _backZhiBoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _backZhiBoBtn.backgroundColor =COLOR_WITH_ALPHA(0x5699FF, 1);
         _backZhiBoBtn.titleLabel.font = HXFont(16);
-        [_backZhiBoBtn setTitle:@"返回直播首页" forState:UIControlStateNormal];
+        [_backZhiBoBtn setTitle:@"返回教学首页" forState:UIControlStateNormal];
         [_backZhiBoBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         [_backZhiBoBtn addTarget:self action:@selector(backZhiBo:) forControlEvents:UIControlEventTouchUpInside];
     }

@@ -116,10 +116,10 @@
     myCourseNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_1"];
     myCourseNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_1"];
 
-    //直播
+    //教学
     HXMyOnLiveViewController *live = [HXMyOnLiveViewController new];
     HXNavigationController *liveNav = [[HXNavigationController alloc] initWithRootViewController:live];
-    liveNav.tabBarItem.title = @"直播";
+    liveNav.tabBarItem.title = @"教学";
     liveNav.tabBarItem.image = [UIImage getOriImage:@"tabbar_3"];
     liveNav.tabBarItem.selectedImage = [UIImage getOriImage:@"tabbarSelect_3"];
 
