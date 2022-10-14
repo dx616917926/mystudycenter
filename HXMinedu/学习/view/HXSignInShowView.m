@@ -41,8 +41,19 @@
     self.timeLabel.text = [NSString stringWithFormat:@"上课时间：%@",qRCodeSignInModel.ClassBeginTime];
     self.teacherNameLabel.text = [NSString stringWithFormat:@"上课老师：%@",qRCodeSignInModel.TeacherName];
     self.roomNameLabel.text = [NSString stringWithFormat:@"上课教室：%@",qRCodeSignInModel.RoomName];
-    
-    [self.signInBtn setTitle:(qRCodeSignInModel.IsSign==0? @"确认签到":@"已签到")forState:UIControlStateNormal];
+    if (qRCodeSignInModel.IsSign==0) {
+        [self.signInBtn setTitle:@"确认签到" forState:UIControlStateNormal];
+    }else{
+        if (qRCodeSignInModel.QjStatus==1) {
+            [self.signInBtn setTitle:@"事假" forState:UIControlStateNormal];
+        }else if (qRCodeSignInModel.QjStatus==2) {
+            [self.signInBtn setTitle:@"病假" forState:UIControlStateNormal];
+        }else if (qRCodeSignInModel.QjStatus==3) {
+            [self.signInBtn setTitle:@"其它" forState:UIControlStateNormal];
+        }else{
+            [self.signInBtn setTitle:@"已签到" forState:UIControlStateNormal];
+        }
+    }
 }
 
 

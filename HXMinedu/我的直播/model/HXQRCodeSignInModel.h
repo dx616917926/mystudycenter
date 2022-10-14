@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HXQRCodeSignInModel : NSObject
 ///课程名称
 @property(nonatomic, strong) NSString *MealName;
+///课程名称
+@property(nonatomic, strong) NSString *MealGuid;
 ///课节名称
 @property(nonatomic, strong) NSString *ClassName;
 ///授课教师

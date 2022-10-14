@@ -657,7 +657,7 @@
 		E2897BC3D7FAFD2B16E77EE6D79A8724 /* SDImageAssetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEED0DB4330C1082F5865D0747276768 /* SDImageAssetManager.m */; };
 		E3226C305B708F68460A437B3A73C0DE /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1328B3BE1CA5E078A20206CD012097 /* IQToolbar.m */; };
 		E33B631ADB9C696C44703BC269E28F25 /* UIImage+GIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 72655B4815214856F08FE97DDB24B171 /* UIImage+GIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E3DC857EAC8DBDBC1393AE0A0B0EE08D /* HXViewHUD-HXViewHUD in Resources */ = {isa = PBXBuildFile; fileRef = BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD-HXViewHUD */; };
+		E3DC857EAC8DBDBC1393AE0A0B0EE08D /* HXViewHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */; };
 		E4201F28BCE49874A92FC24F1209C48D /* UIImage+Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = D7761A04AC49898127B1F2928CD167EF /* UIImage+Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E4B539A0FDEEB415FC6EBCB8EDD13ABE /* HXPhotoEditStickerTrashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D24924AA650FFFF9EC64FB5038FAF1 /* HXPhotoEditStickerTrashView.m */; };
 		E4E14C2965BD1C690B40C8D3257177F5 /* MJRefreshHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 777F59F075354494E4A2A05C12699EAA /* MJRefreshHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1441,7 +1441,7 @@
 		A0A88D91AFF5DB48F3860020FD122C72 /* YNPageTableView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YNPageTableView.h; path = YNPageViewController/YNPageViewController/Libs/YNPageViewController/View/YNPageTableView.h; sourceTree = "<group>"; };
 		A0AA4FCDD865F4BCAB38D0D62A9E44EF /* YBPopupMenuDeviceOrientationManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YBPopupMenuDeviceOrientationManager.h; path = Sources/YBPopupMenu/YBPopupMenuDeviceOrientationManager.h; sourceTree = "<group>"; };
 		A13221E29EB4FFB7DDC9FF9230BF1175 /* TAAbstractDotView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TAAbstractDotView.h; path = SDCycleScrollView/Lib/SDCycleScrollView/PageControl/TAAbstractDotView.h; sourceTree = "<group>"; };
-		A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = YBPopupMenu; path = YBPopupMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YBPopupMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1CFCA022EC1DB18470A2229B56C434E /* YBPopupMenu-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YBPopupMenu-umbrella.h"; sourceTree = "<group>"; };
 		A1F0C18829F631FBC9BF32209D6F4954 /* SDMemoryCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDMemoryCache.m; path = SDWebImage/Core/SDMemoryCache.m; sourceTree = "<group>"; };
 		A2E6F8D023E4C5E21563B299A7153FB2 /* HXPhotoPicker.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = HXPhotoPicker.bundle; path = HXPhotoPicker/Resources/HXPhotoPicker.bundle; sourceTree = "<group>"; };
@@ -1520,7 +1520,7 @@
 		BB9DD47F5A5152CB87710E25E26DD64A /* WebViewJavascriptBridge-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WebViewJavascriptBridge-prefix.pch"; sourceTree = "<group>"; };
 		BBB36AC2B99DB3DF8F4C375EA1FBD0DA /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+MASAdditions.m"; path = "Masonry/NSArray+MASAdditions.m"; sourceTree = "<group>"; };
 		BC10A3B88DC5FA8EA6958C9B447590F8 /* SDImageAWebPCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageAWebPCoder.m; path = SDWebImage/Core/SDImageAWebPCoder.m; sourceTree = "<group>"; };
-		BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD-HXViewHUD */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "HXViewHUD-HXViewHUD"; path = HXViewHUD.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HXViewHUD.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCBB8583FD6BD5922496C70F65DF749F /* MJRefreshHeader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MJRefreshHeader.m; path = MJRefresh/Base/MJRefreshHeader.m; sourceTree = "<group>"; };
 		BCC34B16ECD6715D5C12312CB7A35794 /* SDImageCachesManagerOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCachesManagerOperation.m; path = SDWebImage/Private/SDImageCachesManagerOperation.m; sourceTree = "<group>"; };
 		BD147F25B8EF9285A1B3DDB39311B1CD /* YNPageCollectionView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YNPageCollectionView.h; path = YNPageViewController/YNPageViewController/Libs/YNPageViewController/View/YNPageCollectionView.h; sourceTree = "<group>"; };
@@ -3329,7 +3329,7 @@
 				E08913ABA999BE7E8F5D1EED249BBD46 /* hpple */,
 				24DDD4A0849B06C0942057220E1E81B2 /* HXPhotoPicker */,
 				C41180B62B7B37EB492B54EE6E6A82AE /* HXViewHUD */,
-				BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD-HXViewHUD */,
+				BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */,
 				98527D7196957AAB07B79E2E2AFDE23E /* IQKeyboardManager */,
 				1FFED36A657123030ABB700256D73F15 /* Masonry */,
 				2B276B0A79173A1D6E83C9B4FB9A4A57 /* MJExtension */,
@@ -3342,7 +3342,7 @@
 				B725F96A98CB22A783C643BB02401232 /* SGQRCode */,
 				8EB68B7943515E4F13CC6BE690FFD564 /* WebViewJavascriptBridge */,
 				212DCCDFBCAC1877EF8AC47BA8756B12 /* WMZBanner.framework */,
-				A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu */,
+				A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu.framework */,
 				FC6C965965C6D4EAA1F477E2E76272A8 /* YNPageViewController.framework */,
 				A070CEB2B9A92A7D4BEB0430B9E84006 /* YYStarView */,
 			);
@@ -3982,7 +3982,7 @@
 			);
 			name = "HXViewHUD-HXViewHUD";
 			productName = HXViewHUD;
-			productReference = BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD-HXViewHUD */;
+			productReference = BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		2035A387A5D5D85BEF7F693731454A3D /* SGQRCode */ = {
@@ -4018,7 +4018,7 @@
 			);
 			name = YBPopupMenu;
 			productName = YBPopupMenu;
-			productReference = A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu */;
+			productReference = A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		2345BCA777F04BB509D60D1A5B229876 /* YNPageViewController */ = {
@@ -4548,7 +4548,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3DC857EAC8DBDBC1393AE0A0B0EE08D /* HXViewHUD-HXViewHUD in Resources */,
+				E3DC857EAC8DBDBC1393AE0A0B0EE08D /* HXViewHUD.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6108,6 +6108,7 @@
 			baseConfigurationReference = 7425ACE4E0FD59104A30C28FDC4842BC /* HXViewHUD.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HXViewHUD";
+				DEVELOPMENT_TEAM = S6PPR257T5;
 				IBSC_MODULE = HXViewHUD;
 				INFOPLIST_FILE = "Target Support Files/HXViewHUD/ResourceBundle-HXViewHUD-HXViewHUD-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -6565,7 +6566,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/YBPopupMenu/YBPopupMenu-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/YBPopupMenu/YBPopupMenu-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6721,6 +6722,7 @@
 			baseConfigurationReference = FE78A935D167134AFBFAFB9B508295BB /* HXViewHUD.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HXViewHUD";
+				DEVELOPMENT_TEAM = S6PPR257T5;
 				IBSC_MODULE = HXViewHUD;
 				INFOPLIST_FILE = "Target Support Files/HXViewHUD/ResourceBundle-HXViewHUD-HXViewHUD-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -6747,7 +6749,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/YBPopupMenu/YBPopupMenu-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/YBPopupMenu/YBPopupMenu-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

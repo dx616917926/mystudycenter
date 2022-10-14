@@ -24,6 +24,8 @@
 @property(nonatomic,strong) UIButton *zhanKaiButton;
 @property(nonatomic,strong) UIView *typeLine;
 @property(nonatomic,strong) UILabel *typeLabel;
+//迟到 ，未到
+@property(nonatomic,strong) UIButton *stateBtn;
 
 @property(nonatomic,strong) UILabel *keJieNameLabel;
 @property(nonatomic,strong) UILabel *teacherLabel;
@@ -97,7 +99,7 @@
 }
 
 
--(void)  setKeJieModel:(HXKeJieModel *)keJieModel{
+-(void)setKeJieModel:(HXKeJieModel *)keJieModel{
     
     _keJieModel = keJieModel;
     
@@ -162,7 +164,17 @@
                 [self.operationButton setTitle:@"请假" forState:UIControlStateNormal];
                 self.operationButton.hidden = NO;
                 self.auditStateButton.hidden = YES;
+                self.stateBtn.hidden = YES;
             }else{
+                if(keJieModel.Status==2){
+                    self.stateBtn.hidden = NO;
+                    [self.stateBtn setTitle:@"迟到" forState:UIControlStateNormal];
+                }else if(keJieModel.Status==4){
+                    self.stateBtn.hidden = NO;
+                    [self.stateBtn setTitle:@"未到" forState:UIControlStateNormal];
+                }else{
+                    self.stateBtn.hidden = YES;
+                }
                 self.operationButton.hidden = NO;
                 self.auditStateButton.hidden = NO;
                 ///直播状态 0待开始  1直播中  2已结束
@@ -179,6 +191,7 @@
                 }
             }
         }else{
+            self.stateBtn.hidden = YES;
             self.operationButton.hidden = NO;
             self.auditStateButton.hidden = YES;
             ///直播状态 0待开始  1直播中  2已结束
@@ -195,6 +208,7 @@
         }
     
     }else{
+        self.stateBtn.hidden = YES;
         if (keJieModel.LiveType==3) {
             self.operationButton.hidden = YES;
             self.auditStateButton.hidden = NO;
@@ -234,6 +248,7 @@
     [self.bigBackgroundView addSubview:self.containerView];
     [self.containerView addSubview:self.typeLine];
     [self.containerView addSubview:self.typeLabel];
+    [self.containerView addSubview:self.stateBtn];
     [self.containerView addSubview:self.zhanKaiButton];
     [self.containerView addSubview:self.keJieNameLabel];
     [self.containerView addSubview:self.teacherLabel];
@@ -317,6 +332,13 @@
     .heightIs(17)
     .widthIs(80);
     
+    self.stateBtn.sd_layout
+    .centerYEqualToView(self.typeLine)
+    .leftSpaceToView(self.typeLabel, 20)
+    .heightIs(20)
+    .widthIs(40);
+    self.containerView.sd_cornerRadius = @4;
+    
     self.zhanKaiButton.sd_layout
     .centerYEqualToView(self.typeLine)
     .rightEqualToView(self.containerView)
@@ -374,7 +396,7 @@
     [self.auditStateButton setupAutoSizeWithHorizontalPadding:7 buttonHeight:22];
     
     ///设置cell高度自适应
-    [self setupAutoHeightWithBottomView:self.bigBackgroundView bottomMargin:0];
+    [self setupAutoHeightWithBottomView:self.bigBackgroundView bottomMargin:16];
 }
 
 
@@ -479,6 +501,21 @@
         
     }
     return _typeLabel;
+}
+
+-(UIButton *)stateBtn{
+    if (!_stateBtn) {
+        _stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _stateBtn.titleLabel.font = HXFont(12);
+        _stateBtn.backgroundColor = COLOR_WITH_ALPHA(0xA8D2F6, 0.08);
+        _stateBtn.layer.borderWidth = 1;
+        _stateBtn.layer.borderColor = COLOR_WITH_ALPHA(0x848484, 1).CGColor;
+        _stateBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [_stateBtn setTitleColor:COLOR_WITH_ALPHA(0x929292, 1) forState:UIControlStateNormal];
+        _stateBtn.userInteractionEnabled = NO;
+        _stateBtn.hidden = YES;
+    }
+    return _stateBtn;
 }
 
 

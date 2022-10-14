@@ -137,9 +137,16 @@
 }
 
 #pragma mark - 获取二维码签到信息
--(void)getScheduleQRCode:(NSDictionary *)dic{
+-(void)getScheduleQRCode:(NSDictionary *)tempDic{
     
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetScheduleQRCode withDictionary:@{@"ClassGuid":HXSafeString(dic[@"ClassGuid"])} success:^(NSDictionary * _Nonnull dictionary) {
+    NSDictionary *dic =@{
+        @"MealGuid":HXSafeString(tempDic[@"MealGuid"]),
+        @"ClassBeginTime":HXSafeString(tempDic[@"ClassBeginTime"]),
+        @"ClassBeginDate":HXSafeString(tempDic[@"ClassBeginDate"])
+                         
+    };
+    
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetScheduleQRCode withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
@@ -162,9 +169,9 @@
 -(void)signIn:(HXQRCodeSignInModel *)model{
     
     NSDictionary *dic = @{
-        @"ScheduleRoomID":HXSafeString(model.ScheduleRoomID),
-        @"ScheduleClassID":HXSafeString(model.ScheduleClassID),
-        @"ClassGuid":HXSafeString(model.ClassGuid)
+        @"MealGuid":HXSafeString(model.MealGuid),
+        @"ClassBeginDate":HXSafeString(model.ClassBeginDate),
+        @"ClassBeginTime":HXSafeString(model.ClassBeginTime)
     };
     
     [HXBaseURLSessionManager postDataWithNSString:HXPOST_SignIn withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
