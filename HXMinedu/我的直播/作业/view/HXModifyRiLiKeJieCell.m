@@ -329,15 +329,16 @@
     self.typeLabel.sd_layout
     .centerYEqualToView(self.typeLine)
     .leftSpaceToView(self.typeLine, 3)
-    .heightIs(17)
-    .widthIs(80);
+    .heightIs(17);
+    [self.typeLabel setSingleLineAutoResizeWithMaxWidth:100];
+    
     
     self.stateBtn.sd_layout
     .centerYEqualToView(self.typeLine)
-    .leftSpaceToView(self.typeLabel, 20)
+    .leftSpaceToView(self.typeLabel, 15)
     .heightIs(20)
     .widthIs(40);
-    self.containerView.sd_cornerRadius = @4;
+    self.stateBtn.sd_cornerRadius = @4;
     
     self.zhanKaiButton.sd_layout
     .centerYEqualToView(self.typeLine)
