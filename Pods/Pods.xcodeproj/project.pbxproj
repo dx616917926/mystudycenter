@@ -1055,7 +1055,7 @@
 		2A84257B66289BE361E15D020BA90DEE /* MJRefresh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MJRefresh.release.xcconfig; sourceTree = "<group>"; };
 		2AFE1B6F536B92739FB3FDE7E92FE00A /* HXPhotoEditConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HXPhotoEditConfiguration.h; path = HXPhotoPicker/HXPhotoEdit/HXPhotoEditConfiguration.h; sourceTree = "<group>"; };
 		2B0F3447B1AE5977CCC6046B2D3CB43B /* SGQRCode-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SGQRCode-prefix.pch"; sourceTree = "<group>"; };
-		2B276B0A79173A1D6E83C9B4FB9A4A57 /* MJExtension */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MJExtension; path = MJExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B276B0A79173A1D6E83C9B4FB9A4A57 /* MJExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MJExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B34F60A0ED9928D72EBEC390B49B065 /* HXPhotoEditGraffitiColorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HXPhotoEditGraffitiColorView.h; path = HXPhotoPicker/HXPhotoEdit/View/HXPhotoEditGraffitiColorView.h; sourceTree = "<group>"; };
 		2BA511E0597723FE41158F599DDB5CD3 /* FMDatabasePool.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = src/fmdb/FMDatabasePool.h; sourceTree = "<group>"; };
 		2BD98EDD40007DFCDE298C6A60BF1907 /* YYStarView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YYStarView-dummy.m"; sourceTree = "<group>"; };
@@ -1228,7 +1228,7 @@
 		61F302706987A78E3062D52DA438C853 /* HXCustomCameraViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HXCustomCameraViewController.h; path = HXPhotoPicker/Controller/HXCustomCameraViewController.h; sourceTree = "<group>"; };
 		6245476B05A5C6C517531CE8ECEC25A4 /* SDWebImageDefine.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDefine.m; path = SDWebImage/Core/SDWebImageDefine.m; sourceTree = "<group>"; };
 		6295792ACBC2C8711F85663C7DCCF40D /* YYStarView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "YYStarView-Info.plist"; sourceTree = "<group>"; };
-		631D8A94A67031454C9E84441D82968B /* Pods-HXMinedu */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-HXMinedu"; path = Pods_HXMinedu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		631D8A94A67031454C9E84441D82968B /* Pods_HXMinedu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HXMinedu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6335AB219F927151FED0426734F61EB7 /* SDImageCacheConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCacheConfig.h; path = SDWebImage/Core/SDImageCacheConfig.h; sourceTree = "<group>"; };
 		64347337F891FAD521071E18CC3E8A58 /* YBPopupMenuAnimationManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YBPopupMenuAnimationManager.m; path = Sources/YBPopupMenu/YBPopupMenuAnimationManager.m; sourceTree = "<group>"; };
 		64F974783739DE82B2EE2D4F3F69BB0F /* AFNetworking-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AFNetworking-prefix.pch"; sourceTree = "<group>"; };
@@ -1441,7 +1441,7 @@
 		A0A88D91AFF5DB48F3860020FD122C72 /* YNPageTableView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YNPageTableView.h; path = YNPageViewController/YNPageViewController/Libs/YNPageViewController/View/YNPageTableView.h; sourceTree = "<group>"; };
 		A0AA4FCDD865F4BCAB38D0D62A9E44EF /* YBPopupMenuDeviceOrientationManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YBPopupMenuDeviceOrientationManager.h; path = Sources/YBPopupMenu/YBPopupMenuDeviceOrientationManager.h; sourceTree = "<group>"; };
 		A13221E29EB4FFB7DDC9FF9230BF1175 /* TAAbstractDotView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TAAbstractDotView.h; path = SDCycleScrollView/Lib/SDCycleScrollView/PageControl/TAAbstractDotView.h; sourceTree = "<group>"; };
-		A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YBPopupMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = YBPopupMenu; path = YBPopupMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1CFCA022EC1DB18470A2229B56C434E /* YBPopupMenu-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YBPopupMenu-umbrella.h"; sourceTree = "<group>"; };
 		A1F0C18829F631FBC9BF32209D6F4954 /* SDMemoryCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDMemoryCache.m; path = SDWebImage/Core/SDMemoryCache.m; sourceTree = "<group>"; };
 		A2E6F8D023E4C5E21563B299A7153FB2 /* HXPhotoPicker.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = HXPhotoPicker.bundle; path = HXPhotoPicker/Resources/HXPhotoPicker.bundle; sourceTree = "<group>"; };
@@ -3332,17 +3332,17 @@
 				BC386BC34BBBA30DB4FD4493DE4ADBD1 /* HXViewHUD.bundle */,
 				98527D7196957AAB07B79E2E2AFDE23E /* IQKeyboardManager */,
 				1FFED36A657123030ABB700256D73F15 /* Masonry */,
-				2B276B0A79173A1D6E83C9B4FB9A4A57 /* MJExtension */,
+				2B276B0A79173A1D6E83C9B4FB9A4A57 /* MJExtension.framework */,
 				E49D6D248DD1CEE584E6776B9164A1B2 /* MJRefresh */,
 				C5D213829C1F7C788E3C06EB6B5AD7C5 /* MMLayout */,
-				631D8A94A67031454C9E84441D82968B /* Pods-HXMinedu */,
+				631D8A94A67031454C9E84441D82968B /* Pods_HXMinedu.framework */,
 				2D24B4853EF5CE5AD7D4FA5E183BD6E2 /* SDAutoLayout */,
 				8B6CF5C20C32EE9F7F0862FF892524DE /* SDCycleScrollView */,
 				B0B214D775196BA7CA8E17E53048A493 /* SDWebImage */,
 				B725F96A98CB22A783C643BB02401232 /* SGQRCode */,
 				8EB68B7943515E4F13CC6BE690FFD564 /* WebViewJavascriptBridge */,
 				212DCCDFBCAC1877EF8AC47BA8756B12 /* WMZBanner.framework */,
-				A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu.framework */,
+				A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu */,
 				FC6C965965C6D4EAA1F477E2E76272A8 /* YNPageViewController.framework */,
 				A070CEB2B9A92A7D4BEB0430B9E84006 /* YYStarView */,
 			);
@@ -4018,7 +4018,7 @@
 			);
 			name = YBPopupMenu;
 			productName = YBPopupMenu;
-			productReference = A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu.framework */;
+			productReference = A157FF527FD21518F3B2127DBE12CA66 /* YBPopupMenu */;
 			productType = "com.apple.product-type.framework";
 		};
 		2345BCA777F04BB509D60D1A5B229876 /* YNPageViewController */ = {
@@ -4090,7 +4090,7 @@
 			);
 			name = MJExtension;
 			productName = MJExtension;
-			productReference = 2B276B0A79173A1D6E83C9B4FB9A4A57 /* MJExtension */;
+			productReference = 2B276B0A79173A1D6E83C9B4FB9A4A57 /* MJExtension.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		55AF53E6C77A10ED4985E04D74A8878E /* Masonry */ = {
@@ -4261,7 +4261,7 @@
 			);
 			name = "Pods-HXMinedu";
 			productName = Pods_HXMinedu;
-			productReference = 631D8A94A67031454C9E84441D82968B /* Pods-HXMinedu */;
+			productReference = 631D8A94A67031454C9E84441D82968B /* Pods_HXMinedu.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		DAC20B68035A00B483096D00870209C9 /* GKCover */ = {
@@ -5497,7 +5497,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MJExtension/MJExtension-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MJExtension/MJExtension-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5663,7 +5663,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MJExtension/MJExtension-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MJExtension/MJExtension-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6566,7 +6566,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/YBPopupMenu/YBPopupMenu-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/YBPopupMenu/YBPopupMenu-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6749,7 +6749,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/YBPopupMenu/YBPopupMenu-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/YBPopupMenu/YBPopupMenu-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

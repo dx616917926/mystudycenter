@@ -14,9 +14,9 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - AliPlayerSDK_iOS (5.4.7.1):
-    - AliPlayerSDK_iOS/AliPlayerSDK (= 5.4.7.1)
-  - AliPlayerSDK_iOS/AliPlayerSDK (5.4.7.1)
+  - AliPlayerSDK_iOS (5.4.9.1):
+    - AliPlayerSDK_iOS/AliPlayerSDK (= 5.4.9.1)
+  - AliPlayerSDK_iOS/AliPlayerSDK (5.4.9.1)
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
@@ -57,7 +57,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0.1)
-  - AliPlayerSDK_iOS (~> 5.4.7.1)
+  - AliPlayerSDK_iOS (~> 5.4.9.1)
   - FMDB (~> 2.6.2)
   - GKCover (~> 2.6.0)
   - GKPhotoBrowser (~> 2.1.9)
@@ -112,7 +112,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  AliPlayerSDK_iOS: f5214cba6536e635b21c0d625a438b05deecbadf
+  AliPlayerSDK_iOS: f6788ec326a3c04eba39a7d24147958c22fc7a61
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   GKCover: deebd6a5c0caf85e00f7fa5e3b57ccb110e030ec
   GKPhotoBrowser: c45231edd9ec79f031c412c646af46419d997c97
@@ -137,6 +137,6 @@ SPEC CHECKSUMS:
   YNPageViewController: 33040d429adf0b415d4449ffeec848d8339934ea
   YYStarView: 88da305c4e86bc2468758e9313f2d25cce4f3ba3
 
-PODFILE CHECKSUM: b0fa1439b3dff1b8bdb24ee1f00acded96134bd7
+PODFILE CHECKSUM: 4c0d89c1f0da9cf93ed041af9b218fb5634d0b7f
 
 COCOAPODS: 1.11.3
