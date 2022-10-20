@@ -385,7 +385,7 @@
                 [weakSelf getOnliveCalendarInfo];
             };
             [self.navigationController pushViewController:vc animated:YES];
-        }else if (keJieModel.LiveState==2) {//点评
+        }else if (keJieModel.LiveState==2&&(keJieModel.Status==1||keJieModel.Status==2)) {//点评
             ///是否评价 0否 1是
             if (keJieModel.IsEvaluate==1) {
                 [self checkDianPing:keJieModel];

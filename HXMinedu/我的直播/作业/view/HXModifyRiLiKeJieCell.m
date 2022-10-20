@@ -126,12 +126,18 @@
         if (keJieModel.AuditState==1) {
             self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0xFB9D55, 1);
             [self.auditStateButton setTitle:@"审核中" forState:UIControlStateNormal];
-        }else if (keJieModel.AuditState==2) {
+        }else if (keJieModel.AuditState==2||keJieModel.Status==3) {
             self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0x42CBB4, 1);
             [self.auditStateButton setTitle:@"已请假" forState:UIControlStateNormal];
         }else if (keJieModel.AuditState==3) {
             self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0xFF6868, 1);
             [self.auditStateButton setTitle:@"已驳回" forState:UIControlStateNormal];
+        }else if (keJieModel.Status==2) {
+            self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0x999999, 1);
+            [self.auditStateButton setTitle:@"迟到" forState:UIControlStateNormal];
+        }else if (keJieModel.Status==4) {
+            self.auditStateButton.backgroundColor = COLOR_WITH_ALPHA(0x333333, 1);
+            [self.auditStateButton setTitle:@"未到" forState:UIControlStateNormal];
         }else{
             self.auditStateButton.backgroundColor = UIColor.clearColor;
             [self.auditStateButton setTitle:@"" forState:UIControlStateNormal];
@@ -156,9 +162,10 @@
             self.operationButton.sd_layout.topSpaceToView(self.addressLabel, 10);
         }
         if (keJieModel.LiveType==3) {
-           
-            //审核状态  0未提交请假显示请假按钮 1待审核显示审核中 2已通过显示已请假 3已驳回显示已驳回不可再次申请
-            //签到状态 -1未签到可提交请假申请 0提交请假申请审核中 1到课 2迟到 3请假 4未到 LiveType等于3时处理
+            
+            //AuditState审核状态:  0未提交请假显示请假按钮    1待审核显示审核中       2已通过显示已请假    3已驳回显示已驳回不可再次申请
+            //LiveState直播状态:   0待开始                 1直播中               2已结束
+            //Status   签到状态:   -1未签到可提交请假申请     0提交请假申请审核中     1到课              2迟到       3请假     4未到
             if (keJieModel.AuditState==0&&keJieModel.LiveState==0&&keJieModel.Status==-1) {
                 self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0x42CBB4, 1);
                 [self.operationButton setTitle:@"请假" forState:UIControlStateNormal];
@@ -167,14 +174,24 @@
                 self.stateBtn.hidden = YES;
             }else{
                 if(keJieModel.Status==2){
+                    self.stateBtn.sd_layout.rightSpaceToView(self.containerView, 85);
                     self.stateBtn.hidden = NO;
+                    self.stateBtn.backgroundColor = COLOR_WITH_ALPHA(0x999999, 1);
                     [self.stateBtn setTitle:@"迟到" forState:UIControlStateNormal];
                 }else if(keJieModel.Status==4){
+                    self.stateBtn.sd_layout.rightSpaceToView(self.containerView, 10);
                     self.stateBtn.hidden = NO;
+                    self.stateBtn.backgroundColor = COLOR_WITH_ALPHA(0x333333, 1);
                     [self.stateBtn setTitle:@"未到" forState:UIControlStateNormal];
+                }else if(keJieModel.AuditState==2||keJieModel.Status==3){
+                    self.stateBtn.sd_layout.rightSpaceToView(self.containerView, 10);
+                    self.stateBtn.hidden = NO;
+                    self.stateBtn.backgroundColor = COLOR_WITH_ALPHA(0x42CBB4, 1);
+                    [self.stateBtn setTitle:@"已请假" forState:UIControlStateNormal];
                 }else{
                     self.stateBtn.hidden = YES;
                 }
+                
                 self.operationButton.hidden = NO;
                 self.auditStateButton.hidden = NO;
                 ///直播状态 0待开始  1直播中  2已结束
@@ -182,11 +199,19 @@
                     self.auditStateButton.hidden = YES;
                     self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0xFF8B19, 1);
                     [self.operationButton setTitle:@"上课中" forState:UIControlStateNormal];
-                }else if (keJieModel.LiveState==2) {
+                }else if (keJieModel.LiveState==2&&(keJieModel.Status==1||keJieModel.Status==2)) {
+                    self.stateBtn.sd_layout.rightSpaceToView(self.containerView, 85);
+                    self.stateBtn.hidden = NO;
                     self.auditStateButton.hidden = YES;
                     self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0x4580F8, 1);
                     [self.operationButton setTitle:(keJieModel.IsEvaluate==0?@"点评":@"查看点评") forState:UIControlStateNormal];
+                }else if (keJieModel.AuditState==2||keJieModel.Status==3) {
+                    self.stateBtn.sd_layout.rightSpaceToView(self.containerView, 10);
+                    self.stateBtn.hidden = NO;
+                    self.auditStateButton.hidden = YES;
+                    self.operationButton.hidden = YES;
                 }else{
+                    self.stateBtn.hidden = YES;
                     self.operationButton.hidden = YES;
                 }
             }
@@ -248,13 +273,14 @@
     [self.bigBackgroundView addSubview:self.containerView];
     [self.containerView addSubview:self.typeLine];
     [self.containerView addSubview:self.typeLabel];
-    [self.containerView addSubview:self.stateBtn];
+    
     [self.containerView addSubview:self.zhanKaiButton];
     [self.containerView addSubview:self.keJieNameLabel];
     [self.containerView addSubview:self.teacherLabel];
     [self.containerView addSubview:self.classRoomLabel];
     [self.containerView addSubview:self.addressLabel];
     [self.containerView addSubview:self.operationButton];
+    [self.containerView addSubview:self.stateBtn];
  
     [self.containerView addSubview:self.auditStateButton];
     
@@ -333,12 +359,7 @@
     [self.typeLabel setSingleLineAutoResizeWithMaxWidth:100];
     
     
-    self.stateBtn.sd_layout
-    .centerYEqualToView(self.typeLine)
-    .leftSpaceToView(self.typeLabel, 15)
-    .heightIs(20)
-    .widthIs(40);
-    self.stateBtn.sd_cornerRadius = @4;
+    
     
     self.zhanKaiButton.sd_layout
     .centerYEqualToView(self.typeLine)
@@ -385,6 +406,13 @@
     .heightIs(26);
     self.operationButton.sd_cornerRadiusFromHeightRatio = @0.5;
     
+    
+    self.stateBtn.sd_layout
+    .centerYEqualToView(self.operationButton)
+    .rightSpaceToView(self.containerView, 85)
+    .heightIs(26)
+    .widthIs(54);
+    self.stateBtn.sd_cornerRadiusFromHeightRatio = @0.5;
     
     [self.containerView setupAutoHeightWithBottomView:self.operationButton bottomMargin:10];
     
@@ -509,10 +537,8 @@
         _stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _stateBtn.titleLabel.font = HXFont(12);
         _stateBtn.backgroundColor = COLOR_WITH_ALPHA(0xA8D2F6, 0.08);
-        _stateBtn.layer.borderWidth = 1;
-        _stateBtn.layer.borderColor = COLOR_WITH_ALPHA(0x848484, 1).CGColor;
         _stateBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [_stateBtn setTitleColor:COLOR_WITH_ALPHA(0x929292, 1) forState:UIControlStateNormal];
+        [_stateBtn setTitleColor:COLOR_WITH_ALPHA(0xFFFFFF, 1) forState:UIControlStateNormal];
         _stateBtn.userInteractionEnabled = NO;
         _stateBtn.hidden = YES;
     }
