@@ -191,7 +191,6 @@
                 }else{
                     self.stateBtn.hidden = YES;
                 }
-                
                 self.operationButton.hidden = NO;
                 self.auditStateButton.hidden = NO;
                 ///直播状态 0待开始  1直播中  2已结束
@@ -201,7 +200,7 @@
                     [self.operationButton setTitle:@"上课中" forState:UIControlStateNormal];
                 }else if (keJieModel.LiveState==2&&(keJieModel.Status==1||keJieModel.Status==2)) {
                     self.stateBtn.sd_layout.rightSpaceToView(self.containerView, 85);
-                    self.stateBtn.hidden = NO;
+                    self.stateBtn.hidden = (keJieModel.Status==1?YES :NO);
                     self.auditStateButton.hidden = YES;
                     self.operationButton.backgroundColor = COLOR_WITH_ALPHA(0x4580F8, 1);
                     [self.operationButton setTitle:(keJieModel.IsEvaluate==0?@"点评":@"查看点评") forState:UIControlStateNormal];

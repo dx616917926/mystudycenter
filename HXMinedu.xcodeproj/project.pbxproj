@@ -3707,6 +3707,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 4.0.0;
+				PODS_ROOT = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读developer";
@@ -3747,6 +3748,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 4.0.0;
+				PODS_ROOT = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "迈读--Distribution";
