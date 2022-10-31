@@ -495,7 +495,7 @@
     .topSpaceToView(self.mainScrollView, 160)
     .leftEqualToView(self.mainScrollView)
     .rightEqualToView(self.mainScrollView)
-    .heightIs(200);
+    .heightIs(220);
     
     self.middleContainerView.sd_layout
     .topSpaceToView(self.bannerView, 15)
@@ -733,7 +733,7 @@
             cell.majorModel = majorModel;
             return cell;
         })
-        .wFrameSet(CGRectMake(0, 0, kScreenWidth, 200))
+        .wFrameSet(CGRectMake(0, 0, kScreenWidth, 220))
         //关闭pageControl
         .wHideBannerControlSet(YES)
         //开启缩放
@@ -741,7 +741,7 @@
         ///缩放系数
         .wScaleFactorSet(0.1)
         //自定义item的大小
-        .wItemSizeSet(CGSizeMake(kScreenWidth-46,180))
+        .wItemSizeSet(CGSizeMake(kScreenWidth-46,200))
         //固定移动的距离
         .wContentOffsetXSet(0.5)
         //自动滚动

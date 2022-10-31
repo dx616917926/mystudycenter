@@ -48,7 +48,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return self.isZhiYeDangAn?4:6;
+    return self.isZhiYeDangAn?5:8;
     
     
 }
@@ -71,6 +71,10 @@
                 break;
             case 3:
                 cell.titleLabel.text = @"证书等级";
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
+                break;
+            case 4:
+                cell.titleLabel.text = @"我的班级";
                 cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
                 break;
                 
@@ -101,6 +105,14 @@
                 break;
             case 5:
                 cell.titleLabel.text = @"学习形式";
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
+                break;
+            case 6:
+                cell.titleLabel.text = @"学历班型";
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
+                break;
+            case 7:
+                cell.titleLabel.text = @"我的班级";
                 cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
                 break;
                 
