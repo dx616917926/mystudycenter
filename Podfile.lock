@@ -20,7 +20,7 @@ PODS:
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
-  - GKCover (2.6.1)
+  - GKCover (2.6.0)
   - GKPhotoBrowser (2.1.9):
     - GKPhotoBrowser/SD (= 2.1.9)
   - GKPhotoBrowser/Core (2.1.9)
@@ -32,9 +32,9 @@ PODS:
     - HXPhotoPicker/Default (= 3.1.9)
   - HXPhotoPicker/Default (3.1.9)
   - HXViewHUD (0.3.0)
-  - IQKeyboardManager (6.5.10)
-  - JCore (3.2.9)
-  - JPush (4.8.1):
+  - IQKeyboardManager (6.5.6)
+  - JCore (3.1.2)
+  - JPush (4.4.0):
     - JCore (>= 2.0.0)
   - Masonry (1.1.0)
   - MJExtension (3.4.1)
@@ -114,14 +114,14 @@ SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   AliPlayerSDK_iOS: f6788ec326a3c04eba39a7d24147958c22fc7a61
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  GKCover: 62c29b9db8ff38b854d2f128f1043f2a4edd9f96
+  GKCover: deebd6a5c0caf85e00f7fa5e3b57ccb110e030ec
   GKPhotoBrowser: c45231edd9ec79f031c412c646af46419d997c97
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   HXPhotoPicker: e1816ff27f17c3926f6e83aebbb9f4b329324f0b
   HXViewHUD: 997eb62baf78fdc5bb4a8457ad3e9504f1fde617
-  IQKeyboardManager: 45a1fa55c1a5b02c61ac0fd7fd5b62bb4ad20d97
-  JCore: 077afdffd7772ecc3f9faef9727af040d31f1d7b
-  JPush: 2caabdb6d62d009bc07a9bd115d03c7c42512b5e
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  JCore: bde439310a00c7a0770955b20c9160a042db0db5
+  JPush: b7d00f2cc78766e76c8abb30a5741fe94d21e5bc
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 21c5f6f8c4d5d8844b7ae8fbae08fed0b501f961
   MJRefresh: 238e6a37e2dba12160ee3b79f6d2a2b26abcab42

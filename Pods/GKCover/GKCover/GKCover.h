@@ -296,13 +296,14 @@ typedef void(^hideBlock)(void);
                 showBlock:(showBlock)showBlock
                 hideBlock:(hideBlock)hideBlock;
 
-/// 隐藏遮罩
+/**
+ 隐藏视图
+ */
 + (void)hideCover;
 
-/// 无动画隐藏
-+ (void)hideCoverWithoutAnimation;
-
-/// 重新布局
+/**
+ 重新布局
+ */
 + (void)layoutSubViews;
 
 #pragma mark - 2.5.2

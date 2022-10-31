@@ -111,7 +111,6 @@
     {
         _titleBarButton = [[IQTitleBarButtonItem alloc] initWithTitle:nil];
         _titleBarButton.accessibilityLabel = @"Title";
-        _titleBarButton.accessibilityIdentifier = _titleBarButton.accessibilityLabel;
     }
     
     return _titleBarButton;
