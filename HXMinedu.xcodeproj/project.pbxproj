@@ -3701,6 +3701,20 @@
 				);
 				GCC_PREFIX_HEADER = HXMinedu/PrefixHeader.pch;
 				INFOPLIST_FILE = HXMinedu/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "M学习中心";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "拍照";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "使用位置";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "保存图片到相册";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "访问相册";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3742,6 +3756,20 @@
 				);
 				GCC_PREFIX_HEADER = HXMinedu/PrefixHeader.pch;
 				INFOPLIST_FILE = HXMinedu/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "M学习中心";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "拍照";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "使用位置";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "保存图片到相册";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "访问相册";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

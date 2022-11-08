@@ -38,8 +38,17 @@
  检查是否有新版本
  */
 - (void)checkUpdate {
-    [self checkUpdateWithInController:nil];
+    
+    //根据APP_BundleId来判断从哪里更新
+    if ([APP_BundleId isEqualToString:@"com.edu-edu.minedu"]) {
+        //edu-edu.xiaoguan
+        [self checkUpdateWithInController:nil];
+    }else{
+        //com.min-edu1.mystudycenter
+        [self checkAPPStoreUpdateWithInController:nil];
+    }
 }
+
 
 - (void)checkUpdateWithInController:(UIViewController *)viewController {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -136,6 +145,65 @@
     }];
     [dataTask resume];
 }
+
+#pragma mark - 检查APP Store是否有新版本，适用于手动检测
+- (void)checkAPPStoreUpdateWithInController:(UIViewController *)viewController{
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:configuration];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 15;
+    
+    [manager POST:APPStore_URL parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSUInteger resultCount = [responseObject[@"resultCount"] integerValue];
+        
+        if (resultCount){
+            
+            NSDictionary *appDetails = [responseObject[@"results"] firstObject];
+            NSString *appItunesUrl = [appDetails[@"trackViewUrl"] stringByReplacingOccurrencesOfString:@"&uo=4" withString:@""];
+            //最新版本
+            NSString *latestVersion = appDetails[@"version"];
+            //比较本地版本与最新版本
+            if ([latestVersion compare:APP_VERSION options:NSNumericSearch] == NSOrderedDescending){
+                self.ishow = NO;
+                self.donotCheckVersionAgain = NO;
+                //退出登录
+                [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
+                NSString *showContent = [NSString stringWithFormat:@"新版本V%@已经上线，快来更新吧!",APP_VERSION];
+                self.hasNewVersion = YES;
+                UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:showContent preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"前往更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    if (@available(iOS 10.0, *)) {
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appItunesUrl] options:@{} completionHandler:nil];
+                    } else {
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appItunesUrl]];
+                    }
+                }];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"暂不更新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                [alertVC addAction:okAction];
+                [alertVC addAction:cancelAction];
+                if ([UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController) {
+                    [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:alertVC animated:YES completion:nil];
+                }else{
+                    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertVC animated:YES completion:nil];
+                }
+                
+            }else{
+                self.ishow = NO;
+                self.hasNewVersion = NO;
+                [viewController.view showSuccessWithMessage:@"已经是最新版本"];
+            }
+        }else{
+            self.ishow = NO;
+            self.hasNewVersion = NO;
+            [viewController.view showSuccessWithMessage:@"已经是最新版本"];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
+
 
 /**
  打开新版本网页

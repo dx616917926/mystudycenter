@@ -75,7 +75,7 @@
                 break;
             case 4:
                 cell.titleLabel.text = @"我的班级";
-                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.ClassName;
                 break;
                 
             default:
@@ -109,11 +109,11 @@
                 break;
             case 6:
                 cell.titleLabel.text = @"学历班型";
-                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.EdtClassTypeName;
                 break;
             case 7:
                 cell.titleLabel.text = @"我的班级";
-                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.ClassName;
                 break;
                 
             default:

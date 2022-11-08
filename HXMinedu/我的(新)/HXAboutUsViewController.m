@@ -42,8 +42,14 @@
 
 #pragma mark - Event
 -(void)checkUpdate:(UIButton *)sender{
-   //检查更新
-    [[HXCheckUpdateTool sharedInstance] checkUpdateWithInController:self];
+    //根据APP_BundleId来判断从哪里更新
+    if ([APP_BundleId isEqualToString:@"com.edu-edu.minedu"]) {
+        //com.edu-edu.minedu
+        [[HXCheckUpdateTool sharedInstance] checkUpdateWithInController:self];
+    }else{
+        //com.min-edu1.mystudycenter
+        [[HXCheckUpdateTool sharedInstance] checkAPPStoreUpdateWithInController:self];
+    }
 }
 
 -(void)lookPrivacy:(UIButton *)sender{

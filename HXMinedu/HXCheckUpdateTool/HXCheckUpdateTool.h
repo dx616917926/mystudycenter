@@ -26,6 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)checkUpdateWithInController:(nullable UIViewController *)viewController;
 
 /**
+ 检查APP Store是否有新版本，适用于手动检测
+ */
+- (void)checkAPPStoreUpdateWithInController:(UIViewController *)viewController;
+
+/**
  打开新版本网页
  */
 - (void)gotoUpdate;

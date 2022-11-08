@@ -38,6 +38,9 @@ isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bo
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define IsIOS14 ({BOOL isIOS14 = NO; if(@available(iOS 14.0, *)){isIOS14 = YES;}(isIOS14);})
 
+
+///App 的Bundle Id
+#define    APP_BundleId      ([[NSBundle mainBundle] bundleIdentifier])
 ///App名称
 #define    APP_NAME          ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"])
 ///App版本

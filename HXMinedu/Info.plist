@@ -6,22 +6,6 @@
 	<string>minedu.crt</string>
 	<key>AlivcLicenseKey</key>
 	<string>QoSwY4jodgVcRZHkSadbf47be1a18436ca6d7d59f0be2c6d2</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>M学习中心</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
-	<key>CFBundlePackageType</key>
-	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -55,8 +39,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -65,53 +47,20 @@
 		<string>weixinULAPI</string>
 		<string>wechat</string>
 		<string>alipay</string>
+		<string>alipays</string>
 	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>拍照</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>使用位置</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>保存图片到相册</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>访问相册</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UIRequiresFullScreen</key>
-	<true/>
-	<key>UIStatusBarHidden</key>
-	<false/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleDefault</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 </dict>
 </plist>

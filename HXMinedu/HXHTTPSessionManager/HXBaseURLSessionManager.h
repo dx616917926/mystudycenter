@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define HXPOST_Get_ExamDateCourseScoreInfo_List               @"/MD/StuScoreInfo/getExamDateCourseScoreInfoList"
 
 //获取学生专业
-#define HXPOST_Get_MajorL_List                                 @"/MD/StuInfo/geMajorList"
+#define HXPOST_Get_MajorL_List                                 @"/MD/StuInfo/getMajorList"
 
 //获取新生报名表单下载链接V2
 #define HXPOST_Get_DownPdf                                 @"/MD/StuInfo/getDownPdfV2"

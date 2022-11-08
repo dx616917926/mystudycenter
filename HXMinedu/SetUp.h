@@ -84,6 +84,9 @@ static BOOL  PRODUCTIONMODE  =  NO;
 //更新地址
 #define APP_URL @"https://app.edu-edu.com.cn/minedu/ios/minedu.json"
 
+//APP Store更新地址
+#define APPStore_URL @"https://itunes.apple.com/cn/lookup?id=1628475102"
+
 //用户隐私政策网址
 #define APP_PrivacyPolicy_URL @"https://testop.edu-cj.com/privacy.html"
 
