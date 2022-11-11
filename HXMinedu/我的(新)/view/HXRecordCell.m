@@ -48,7 +48,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return self.isZhiYeDangAn?5:8;
+    return self.isZhiYeDangAn?6:8;
     
     
 }
@@ -58,24 +58,28 @@
     if (self.isZhiYeDangAn) {
         switch (indexPath.row) {
             case 0:
-                cell.titleLabel.text = @"考生号";
+                cell.titleLabel.text = @"准考证号";
                 cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.examineeNo]?@"--":self.majorModel.examineeNo;
                 break;
             case 1:
-                cell.titleLabel.text = @"职业证书";
-                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.majorName]?@"--":self.majorModel.majorName;
+                cell.titleLabel.text = @"报考批次";
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.enterDate]?@"--":self.majorModel.enterDate;
                 break;
             case 2:
-                cell.titleLabel.text = @"学历";
+                cell.titleLabel.text = @"证书项目";
                 cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.educationName]?@"--":self.majorModel.educationName;
                 break;
             case 3:
                 cell.titleLabel.text = @"证书等级";
-                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.majorName]?@"--":self.majorModel.majorName;
                 break;
             case 4:
+                cell.titleLabel.text = @"报考班型";
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.studyTypeName;
+                break;
+            case 5:
                 cell.titleLabel.text = @"我的班级";
-                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.ClassName;
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.ClassName]?@"--":self.majorModel.ClassName;
                 break;
                 
             default:
@@ -84,11 +88,11 @@
     }else{
         switch (indexPath.row) {
             case 0:
-                cell.titleLabel.text = @"考生号";
+                cell.titleLabel.text = ([self.majorModel.title containsString:@"成考"]? @"考生号":@"考籍号");
                 cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.examineeNo]?@"--":self.majorModel.examineeNo;
                 break;
             case 1:
-                cell.titleLabel.text = @"报考年级";
+                cell.titleLabel.text = @"报考批次";
                 cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.enterDate]?@"--":self.majorModel.enterDate;
                 break;
             case 2:
@@ -109,11 +113,11 @@
                 break;
             case 6:
                 cell.titleLabel.text = @"学历班型";
-                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.EdtClassTypeName;
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.EdtClassTypeName]?@"--":self.majorModel.EdtClassTypeName;
                 break;
             case 7:
                 cell.titleLabel.text = @"我的班级";
-                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.studyTypeName]?@"--":self.majorModel.ClassName;
+                cell.contentLabel.text = [HXCommonUtil isNull:self.majorModel.ClassName]?@"--":self.majorModel.ClassName;
                 break;
                 
             default:
