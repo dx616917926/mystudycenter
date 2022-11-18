@@ -40,9 +40,12 @@
     // Do any additional setup after loading the view.
     [self createUI];
     
-    if (self.flag == 1) {
+    if (self.flag == 0) {
         //获取应缴明细
-        [self getPayableDetails];
+        [self getPayableDetails:0];
+    }else if (self.flag == 1) {
+        //获取应缴明细
+        [self getPayableDetails:1];
     }else{
         //获取全部订单
         [self getPaidDetailsList];
@@ -64,9 +67,12 @@
 
 #pragma mark - 下拉刷新
 -(void)loadNewData{
-    if (self.flag == 1) {
+    if (self.flag == 0) {
         //获取应缴明细
-        [self getPayableDetails];
+        [self getPayableDetails:0];
+    }else if (self.flag == 1) {
+        //获取应缴明细
+        [self getPayableDetails:1];
     }else{
         //获取全部订单
         [self getPaidDetailsList];
@@ -74,15 +80,17 @@
 }
 
 #pragma mark -  获取应缴明细
--(void)getPayableDetails{
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PayableDetails withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+-(void)getPayableDetails:(NSInteger)isStandardFee{
+    //0应缴明细 1其他服务
+    NSDictionary *dic = @{@"isStandardFee":@(isStandardFee)};
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PayableDetails withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.mainTableView.mj_header endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {
             //刷新数据
             self.yinJiaoDetailsList = [HXPaymentModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"Data"]];
             if (self.yinJiaoDetailsList.count == 0) {
-                [self.view addSubview:self.noDataTipView];
+                [self.mainTableView addSubview:self.noDataTipView];
             }else{
                 [self.noDataTipView removeFromSuperview];
             }
@@ -193,7 +201,7 @@
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    if (self.flag == 1){
+    if (self.flag == 0||self.flag == 1){
         return self.yinJiaoDetailsList.count;
     }else{
         return self.paidDetailsList.count;
@@ -202,7 +210,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.flag == 1){
+    if (self.flag == 0||self.flag == 1){
         HXPaymentModel *paymentModel = self.yinJiaoDetailsList[section];
         return paymentModel.payableTypeList.count;
     }else{
@@ -218,7 +226,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (self.flag == 1) {
+    if (self.flag == 0||self.flag == 1) {
         
         static NSString * yinJiaoHeaderViewIdentifier = @"HXYinJiaoHeaderViewIdentifier";
         HXYinJiaoHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:yinJiaoHeaderViewIdentifier];
@@ -237,7 +245,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return self.flag == 1?102:0.01;
+    return (self.flag == 0||self.flag == 1)?102:0.01;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -246,7 +254,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-     if(self.flag == 1){
+     if(self.flag == 0||self.flag == 1){
         HXPaymentModel *paymentModel = self.yinJiaoDetailsList[indexPath.section];
         HXPaymentDetailsInfoModel *paymentDetailsInfoModel = paymentModel.payableTypeList[indexPath.row];
         return 90+paymentDetailsInfoModel.payableDetailsInfoList.count*40;
@@ -263,7 +271,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (self.flag == 1) {
+    if (self.flag == 0||self.flag == 1) {
         static NSString *yingJiaoCellIdentifier = @"HXYingJiaoCellIdentifier";
         static NSString *historicalDetailsCellIdentifier = @"HXHistoricalDetailsCellIdentifier";
         HXPaymentModel *paymentModel = self.yinJiaoDetailsList[indexPath.section];

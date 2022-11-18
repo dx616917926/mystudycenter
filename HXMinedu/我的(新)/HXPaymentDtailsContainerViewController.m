@@ -34,13 +34,14 @@
 //自助缴费
 -(void)pushZiZhuJiaoFei:(UIButton *)sender{
     HXZiZhuJiaoFeiViewController *vc = [[HXZiZhuJiaoFeiViewController alloc] init];
+    vc.isStandardFee = self.pageViewController.selectedIndex;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark -<XLPageViewControllerDelegate,XLPageViewControllerDataSrouce>
 - (UIViewController *)pageViewController:(XLPageViewController *)pageViewController viewControllerForIndex:(NSInteger)index {
     HXPaymentDtailChildViewController *childVc = [[HXPaymentDtailChildViewController alloc] init];
-    childVc.flag = index+1;
+    childVc.flag = index;
     return childVc;
 }
 
@@ -72,7 +73,7 @@
 
 ///初始化子视图控制器
 - (void)initPageViewController {
-    self.titles = @[@"应缴明细",@"全部订单"];
+    self.titles = @[@"标准明细",@"其他服务",@"全部订单"];
     self.pageViewController = [[XLPageViewController alloc] initWithConfig:self.config];
     self.pageViewController.bounces = NO;
     self.pageViewController.view.frame = CGRectMake(0, kNavigationBarHeight, kScreenWidth, kScreenHeight-kNavigationBarHeight);

@@ -128,6 +128,8 @@
     }
     if (pDFType!=99&&self.delegate && [self.delegate respondsToSelector:@selector(paidDetailCell:checkVoucher:pDFType:)]) {
         [self.delegate paidDetailCell:self checkVoucher:url pDFType:pDFType];
+    }else{
+        [self showTostWithMessage:@"无效资源"];
     }
 }
 

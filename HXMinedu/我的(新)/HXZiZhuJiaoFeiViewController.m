@@ -43,7 +43,12 @@
     //UI
     [self createUI];
     //获取应缴明细
-    [self getPayableDetails];
+    [self getPayableDetails:self.isStandardFee];
+}
+
+#pragma mark - Setter
+-(void)setIsStandardFee:(NSInteger)isStandardFee{
+    _isStandardFee = isStandardFee;
 }
 
 #pragma mark - Event
@@ -87,13 +92,14 @@
 #pragma mark - 下拉刷新
 -(void)loadNewData{
     //获取应缴明细
-    [self getPayableDetails];
+    [self getPayableDetails:self.isStandardFee];
 }
 
 #pragma mark -  获取应缴明细
--(void)getPayableDetails{
-    
-    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PayableDetails withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+-(void)getPayableDetails:(NSInteger)isStandardFee{
+    //0应缴明细 1其他服务
+    NSDictionary *dic = @{@"isStandardFee":((isStandardFee==0||isStandardFee==2)?@0:@1)};
+    [HXBaseURLSessionManager postDataWithNSString:HXPOST_Get_PayableDetails withDictionary:dic success:^(NSDictionary * _Nonnull dictionary) {
         [self.mainTableView.mj_header endRefreshing];
         BOOL success = [dictionary boolValueForKey:@"Success"];
         if (success) {

@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *createDate;
 ///订单类型  -1已支付待确认  1-已完成  0-未完成  2-已结转
 @property(nonatomic, assign) NSInteger orderStatus;
-///收款凭证url
+///收据凭证url
 @property(nonatomic, copy) NSString *receiptUrl;
 ///交易凭证url
 @property(nonatomic, copy) NSString *proofUrl;

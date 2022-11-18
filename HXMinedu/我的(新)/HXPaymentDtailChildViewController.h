@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HXPaymentDtailChildViewController : HXBaseViewController
-//flag:1.应缴明细   2.全部订单  
+//flag: 0.应缴明细(标准明细) 1.其他服务   2.全部订单  
 @property(nonatomic,assign) NSInteger flag;
 
 @end
