@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *createDate;
 ///支付时间
 @property(nonatomic, copy) NSString *feeDate;
-//订单类型  -1已支付待确认  1-已完成  0-未完成
+//订单类型 1待完成 2已完成 -1待审核 -2驳回 0未完成
 @property(nonatomic, assign) NSInteger orderStatus;
 
 ///模型类型数组（标准、补录、报考）（应缴明细用）

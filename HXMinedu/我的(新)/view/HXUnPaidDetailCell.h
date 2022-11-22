@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///删除订单
 -(void)deleteOrderNum:(HXPaymentDetailModel *)paymentDetailModel;
 
+///查看交易凭证
+-(void)checkJiaoYiVoucher:(HXPaymentDetailModel *)paymentDetailModel;
+
 @end
 
 @interface HXUnPaidDetailCell : UITableViewCell

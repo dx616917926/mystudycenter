@@ -33,6 +33,10 @@
 #pragma mark - Event
 //自助缴费
 -(void)pushZiZhuJiaoFei:(UIButton *)sender{
+    if (self.pageViewController.selectedIndex==2) {
+        [self.view showTostWithMessage:@"请处于“标准明细/其他服务”页面操作"];
+        return;
+    }
     HXZiZhuJiaoFeiViewController *vc = [[HXZiZhuJiaoFeiViewController alloc] init];
     vc.isStandardFee = self.pageViewController.selectedIndex;
     [self.navigationController pushViewController:vc animated:YES];

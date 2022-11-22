@@ -87,6 +87,7 @@
     }else{
         self.typeImageView.image = [UIImage imageNamed:@"qitaleixing"];
     }
+    self.typeImageView.hidden = YES;
     self.typeLabel.text = HXSafeString(paymentDetailsInfoModel.ftypeName);
     self.yingjiaoToatalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailsInfoModel.feeSubtotal];
     self.shijiaoToatalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",paymentDetailsInfoModel.payMoneySubtotal];
@@ -343,6 +344,7 @@
     if (!_typeImageView) {
         _typeImageView = [[UIImageView alloc] init];
         _typeImageView.image = [UIImage imageNamed:@"biaozhun"];
+        _typeImageView.hidden = YES;
     }
     return _typeImageView;
 }

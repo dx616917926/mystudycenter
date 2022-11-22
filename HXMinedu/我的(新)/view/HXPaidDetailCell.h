@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @class HXPaidDetailCell;
 @protocol HXPaidDetailCellDelegate <NSObject>
-///查看凭证 PDFType: 1、收款凭证     2、收款凭证    3、发票凭证
+///查看凭证 PDFType: 1、收款凭证     2、交易凭证    3、发票凭证
 -(void)paidDetailCell:(HXPaidDetailCell *)cell checkVoucher:(NSString *)receiptUrl pDFType:(NSInteger)PDFType;
 
 @end

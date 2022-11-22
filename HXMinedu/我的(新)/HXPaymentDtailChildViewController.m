@@ -199,6 +199,13 @@
     }];
 }
 
+-(void)checkJiaoYiVoucher:(HXPaymentDetailModel *)paymentDetailModel{
+    HXVoucherViewController *voucherVc = [[HXVoucherViewController alloc] init];
+    voucherVc.downLoadUrl = paymentDetailModel.proofUrl;
+    voucherVc.PDFType = 2;
+    [self.navigationController pushViewController:voucherVc animated:YES];
+}
+
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (self.flag == 0||self.flag == 1){
@@ -260,11 +267,11 @@
         return 90+paymentDetailsInfoModel.payableDetailsInfoList.count*40;
     }else{
         HXPaymentDetailModel *paymentDetailModel = self.paidDetailsList[indexPath.section];
-        //-1已支付待确认 1-已完成 0-未完成
-        if (paymentDetailModel.orderStatus == 0) {
+        ///订单类型  1待完成     2已完成    -1待审核    -2驳回      0未完成
+        if (paymentDetailModel.orderStatus == 1||paymentDetailModel.orderStatus == 0) {
             return 250;
         }else{
-            return 274;
+            return 310;
         }
     }
 }
@@ -299,8 +306,8 @@
     
     }else{
         HXPaymentDetailModel *paymentDetailModel = self.paidDetailsList[indexPath.section];
-        //订单类型  -1已支付待确认  1-已完成  0-未完成 2-已结转
-        if (paymentDetailModel.orderStatus == 0) {
+        //订单类型  1待完成     2已完成    -1待审核    -2驳回      0未完成
+        if (paymentDetailModel.orderStatus == 0||paymentDetailModel.orderStatus == 1) {
             static NSString *unPaidDetailCelldentifier = @"HXUnPaidDetailCellIdentifier";
             HXUnPaidDetailCell *unPaidCell = [tableView dequeueReusableCellWithIdentifier:unPaidDetailCelldentifier];
             if (!unPaidCell) {
@@ -330,9 +337,9 @@
         HXPaymentDetailModel *paymentDetailModel = self.paidDetailsList[indexPath.section];
         HXOrderDetailsViewController *orderDetailsVC = [[HXOrderDetailsViewController alloc] init];
         orderDetailsVC.orderNum = paymentDetailModel.orderNum;
-        //订单类型  -1已支付待确认  1-已完成  0-未完成
+        //订单类型  1待完成     2已完成    -1待审核    -2驳回      0未完成
         //flag:1.待支付订单详情   2.已支付订单详情
-        if (paymentDetailModel.orderStatus == 0) {
+        if (paymentDetailModel.orderStatus == 0||paymentDetailModel.orderStatus == 1) {
             orderDetailsVC.flag = 1;
         }else{
             orderDetailsVC.flag = 2;

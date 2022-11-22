@@ -42,13 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *feeDate;
 ///订单时间
 @property(nonatomic, copy) NSString *createDate;
-///订单类型  -1已支付待确认  1-已完成  0-未完成  2-已结转
+///订单类型  1待完成     2已完成    -1待审核    -2驳回      0未完成
 @property(nonatomic, assign) NSInteger orderStatus;
-///收据凭证url
-@property(nonatomic, copy) NSString *receiptUrl;
-///交易凭证url
+///缴费/交易凭证url            学生上传缴费截图
 @property(nonatomic, copy) NSString *proofUrl;
-///发票凭证url
+///收款凭证url                   财务老师出具的收据
+@property(nonatomic, copy) NSString *receiptUrl;
+///发票凭证url                  财务老师出具的发票
 @property(nonatomic, copy) NSString *invoiceurl;
 ///订单属性 1报名  2结转  3自助缴费  4导入 其它续缴  为自助缴费时才可删除订单
 @property(nonatomic, assign) NSInteger isMb;

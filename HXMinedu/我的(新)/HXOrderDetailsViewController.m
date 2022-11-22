@@ -104,7 +104,7 @@
     
     self.orderNumLabel.text = [NSString stringWithFormat:@"订单编号：%@",HXSafeString(self.paidDetailsInfoModel.orderNum)];
     self.orderTimeLabel.text = [NSString stringWithFormat:@"订单时间：%@",HXSafeString(self.paidDetailsInfoModel.createDate)];
-    self.paymentMethodLabel.text = self.paidDetailsInfoModel.orderStatus == 0 ? @"支付类型：":@"支付方式：";
+    self.paymentMethodLabel.text = (self.paidDetailsInfoModel.orderStatus == 0||self.paidDetailsInfoModel.orderStatus == 1) ? @"支付类型：":@"支付方式：";
     self.paymentMethodContentLabel.text = HXSafeString(self.paidDetailsInfoModel.alias);
     self.paymentTimeContentLabel.text = HXSafeString(self.paidDetailsInfoModel.feeDate);
     self.yingjiaoTotalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",self.paidDetailsInfoModel.feeTotal];

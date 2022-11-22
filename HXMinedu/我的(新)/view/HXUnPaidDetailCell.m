@@ -26,8 +26,9 @@
 
 
 @property(nonatomic,strong) UIImageView *smallBottomImageView;
-@property(nonatomic,strong) UIButton *checkBtn;
-@property(nonatomic,strong) UIButton *deleteBtn;
+@property(nonatomic,strong) UIButton *payBtn;//确认并支付
+@property(nonatomic,strong) UIButton *checkJiaoYiBtn;//查看交易凭证
+@property(nonatomic,strong) UIButton *deleteBtn;//删除订单
 
 @end
 
@@ -54,8 +55,18 @@
     return self;
 }
 
+
+#pragma mark - Setter
 -(void)setPaymentDetailModel:(HXPaymentDetailModel *)paymentDetailModel{
     _paymentDetailModel = paymentDetailModel;
+    ///订单类型  1待完成     2已完成    -1待审核    -2驳回      0未完成
+    if (paymentDetailModel.orderStatus==1&&![HXCommonUtil isNull:paymentDetailModel.proofUrl]) {
+        self.checkJiaoYiBtn.sd_layout.rightSpaceToView(self.payBtn, 10).widthIs(100);
+    }else{
+        self.checkJiaoYiBtn.sd_layout.rightSpaceToView(self.payBtn, 0).widthIs(0);
+    }
+    
+    self.paymentStateLabel.text = (paymentDetailModel.orderStatus==1?@"待完成":@"未完成");
     ///订单属性 1报名  2结转  3自助缴费  4导入 其它续缴  为自助缴费时才可删除订单
     self.deleteBtn.hidden = (paymentDetailModel.isMb==3?NO:YES);
     self.titleLabel.text = HXSafeString(paymentDetailModel.title);
@@ -64,12 +75,19 @@
     self.orderNumberContentLabel.text = HXSafeString(paymentDetailModel.orderNum);
     self.orderTimeContentLabel.text = HXSafeString(paymentDetailModel.createDate);
     
+    
 }
 
 #pragma mark - Event
 -(void)delete:(UIButton *)sender{
     if(self.delegate &&[self.delegate respondsToSelector:@selector(deleteOrderNum:)]){
         [self.delegate deleteOrderNum:self.paymentDetailModel];
+    }
+}
+
+-(void)checkPingZheng:(UIButton *)sender{
+    if(self.delegate &&[self.delegate respondsToSelector:@selector(deleteOrderNum:)]){
+        [self.delegate checkJiaoYiVoucher:self.paymentDetailModel];
     }
 }
 
@@ -88,7 +106,8 @@
     [self.bigTopGroundImageView addSubview:self.orderTimeContentLabel];
     
     [self.contentView addSubview:self.smallBottomImageView];
-    [self.smallBottomImageView addSubview:self.checkBtn];
+    [self.smallBottomImageView addSubview:self.payBtn];
+    [self.smallBottomImageView addSubview:self.checkJiaoYiBtn];
     [self.smallBottomImageView addSubview:self.deleteBtn];
     
     self.bigTopGroundImageView.sd_layout
@@ -168,15 +187,22 @@
     
     
    
-    self.checkBtn.sd_layout
+    self.payBtn.sd_layout
     .centerYEqualToView(self.smallBottomImageView)
     .rightSpaceToView(self.smallBottomImageView, 22);
-    [self.checkBtn setupAutoSizeWithHorizontalPadding:20 buttonHeight:36];
-    self.checkBtn.sd_cornerRadiusFromHeightRatio = @0.5;
+    [self.payBtn setupAutoSizeWithHorizontalPadding:20 buttonHeight:36];
+    self.payBtn.sd_cornerRadiusFromHeightRatio = @0.5;
+    
+    self.checkJiaoYiBtn.sd_layout
+    .centerYEqualToView(self.smallBottomImageView)
+    .rightSpaceToView(self.payBtn, 10)
+    .widthIs(100)
+    .heightIs(36);
+    self.checkJiaoYiBtn.sd_cornerRadiusFromHeightRatio = @0.5;
     
     self.deleteBtn.sd_layout
-    .centerYEqualToView(self.checkBtn)
-    .rightSpaceToView(self.checkBtn, 22);
+    .centerYEqualToView(self.payBtn)
+    .rightSpaceToView(self.checkJiaoYiBtn, 10);
     [self.deleteBtn setupAutoSizeWithHorizontalPadding:20 buttonHeight:36];
     self.deleteBtn.sd_cornerRadiusFromHeightRatio = @0.5;
     
@@ -226,7 +252,6 @@
         _paymentStateLabel.font = HXBoldFont(16);
         _paymentStateLabel.textAlignment = NSTextAlignmentRight;
         _paymentStateLabel.clipsToBounds = YES;
-        _paymentStateLabel.text = @"待付款";
     }
     return _paymentStateLabel;
 }
@@ -321,16 +346,30 @@
 }
 
 
--(UIButton *)checkBtn{
-    if (!_checkBtn) {
-        _checkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _checkBtn.userInteractionEnabled = NO;
-        _checkBtn.backgroundColor = COLOR_WITH_ALPHA(0xFE664B, 1);
-        _checkBtn .titleLabel.font = HXFont(14);
-        [_checkBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_checkBtn setTitle:@"确认并支付" forState:UIControlStateNormal];
+-(UIButton *)payBtn{
+    if (!_payBtn) {
+        _payBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _payBtn.userInteractionEnabled = NO;
+        _payBtn.backgroundColor = COLOR_WITH_ALPHA(0xFE664B, 1);
+        _payBtn .titleLabel.font = HXFont(14);
+        [_payBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_payBtn setTitle:@"确认并支付" forState:UIControlStateNormal];
     }
-    return _checkBtn;
+    return _payBtn;
+}
+
+-(UIButton *)checkJiaoYiBtn{
+    if (!_checkJiaoYiBtn) {
+        _checkJiaoYiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _checkJiaoYiBtn.backgroundColor = [UIColor whiteColor];
+        _checkJiaoYiBtn .titleLabel.font = HXFont(14);
+        [_checkJiaoYiBtn setTitleColor:COLOR_WITH_ALPHA(0x4BA4FE, 1) forState:UIControlStateNormal];
+        _checkJiaoYiBtn.layer.borderWidth = 1;
+        _checkJiaoYiBtn.layer.borderColor = COLOR_WITH_ALPHA(0x4BA4FE, 1).CGColor;
+        [_checkJiaoYiBtn addTarget:self action:@selector(checkPingZheng:) forControlEvents:UIControlEventTouchUpInside];
+        [_checkJiaoYiBtn setTitle:@"查看交易凭证" forState:UIControlStateNormal];
+    }
+    return _checkJiaoYiBtn;
 }
 
 -(UIButton *)deleteBtn{
