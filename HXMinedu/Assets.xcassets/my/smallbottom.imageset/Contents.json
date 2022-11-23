@@ -7,11 +7,33 @@
     {
       "filename" : "smallbottom@2x.png",
       "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 48,
+          "top" : 47
+        },
+        "center" : {
+          "height" : 1,
+          "mode" : "stretch"
+        },
+        "mode" : "3-part-vertical"
+      },
       "scale" : "2x"
     },
     {
       "filename" : "smallbottom@3x.png",
       "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 72,
+          "top" : 71
+        },
+        "center" : {
+          "height" : 1,
+          "mode" : "stretch"
+        },
+        "mode" : "3-part-vertical"
+      },
       "scale" : "3x"
     }
   ],

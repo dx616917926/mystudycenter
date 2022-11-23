@@ -287,6 +287,7 @@
     if (!_typeImageView) {
         _typeImageView = [[UIImageView alloc] init];
         _typeImageView.image = [UIImage imageNamed:@"biaozhun_gray"];
+        _typeImageView.hidden = YES;
     }
     return _typeImageView;
 }
