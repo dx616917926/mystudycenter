@@ -48,7 +48,7 @@ PODS:
   - SDWebImage/Core (5.10.4)
   - SGQRCode (3.5.1)
   - WebViewJavascriptBridge (5.1.2)
-  - WechatOpenSDK (1.8.7.1)
+  - WechatOpenSDK (1.8.6.2)
   - WMZBanner (1.2.0):
     - SDWebImage
   - YBPopupMenu (1.1.9)
@@ -76,7 +76,7 @@ DEPENDENCIES:
   - SDWebImage (~> 5.10.0)
   - SGQRCode (~> 3.5.1)
   - WebViewJavascriptBridge (~> 5.1.2)
-  - WechatOpenSDK (~> 1.8.7.1)
+  - WechatOpenSDK (~> 1.8.6.2)
   - WMZBanner (~> 1.2.0)
   - YBPopupMenu (~> 1.1.9)
   - YNPageViewController (~> 0.2.6)
@@ -131,12 +131,12 @@ SPEC CHECKSUMS:
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   SGQRCode: 65d6170ddcf3feecc6e2f3601aac78ad93e56589
   WebViewJavascriptBridge: f99dac16105500a570a12b0b03e6bc46501eeb00
-  WechatOpenSDK: 6a4d1436c15b3b5fe2a0bd383f3046010186da44
+  WechatOpenSDK: 8b3ba4239193d1112205c139c94e21934e8f369a
   WMZBanner: 42d02896dc7a67a4d7a2ebe1ef5b7a79f8d2c540
   YBPopupMenu: 3a02e89860bb0568ba477aee609bc3f25e5bd339
   YNPageViewController: 33040d429adf0b415d4449ffeec848d8339934ea
   YYStarView: 88da305c4e86bc2468758e9313f2d25cce4f3ba3
 
-PODFILE CHECKSUM: 4c0d89c1f0da9cf93ed041af9b218fb5634d0b7f
+PODFILE CHECKSUM: 3ac22cf17a582d8a08340ed28d84c1901cbedd05
 
 COCOAPODS: 1.11.3

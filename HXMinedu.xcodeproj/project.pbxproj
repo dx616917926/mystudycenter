@@ -3688,7 +3688,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development: Shuo Li (55J4Q86345)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3720,7 +3720,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.2.0;
 				PODS_ROOT = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3743,7 +3743,7 @@
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Huaxia Dadi Long-distance Education Network Service Co., Ltd.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 2VGBX82LNP;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3775,7 +3775,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.2.0;
 				PODS_ROOT = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
 				PRODUCT_NAME = "$(TARGET_NAME)";

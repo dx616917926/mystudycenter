@@ -150,14 +150,14 @@
     }];
 #endif
     //向微信注册
-    [WXApi registerApp:kHXWechatOpenKey universalLink:UNIVERSAL_LINK];
+    BOOL sc = [WXApi registerApp:kHXWechatOpenKey universalLink:UNIVERSAL_LINK];
     
-    if (!PRODUCTIONMODE) {
-        //调用自检函数,仅用于新接入SDK时调试使用，请勿在正式环境的调用
-        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
-            NSLog(@"自检函数:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
-        }];
-    }
+//    if (!PRODUCTIONMODE) {
+//        //调用自检函数,仅用于新接入SDK时调试使用，请勿在正式环境的调用
+//        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+//            NSLog(@"自检函数:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
+//        }];
+//    }
 #endif
     
     ///键盘（IQKeyboardManager）全局管理，针对键盘遮挡问题

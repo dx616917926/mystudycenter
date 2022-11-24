@@ -24,7 +24,7 @@ target 'HXMinedu' do
   pod 'WMZBanner', '~> 1.2.0'
   pod 'IQKeyboardManager', '~> 6.5.6'
   pod 'YBPopupMenu', '~> 1.1.9'
-  pod 'WechatOpenSDK', '~> 1.8.7.1'
+  pod 'WechatOpenSDK', '~> 1.8.6.2'
   pod 'SGQRCode', '~> 3.5.1'
   pod 'YYStarView'
   
