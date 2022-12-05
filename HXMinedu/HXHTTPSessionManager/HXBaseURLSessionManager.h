@@ -102,6 +102,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取是否渠道学生
 #define HXPOST_GetIsQdStu                                @"/MD/StuInfo/GetIsQdStu"
 
+//是否显示缴费信息
+#define HXPOST_GetPayIsShow                                @"/MD/StuPayInfo/GetPayIsShow"
+
 //获取应缴明细V2
 #define HXPOST_Get_PayableDetails                          @"/MD/StuPayInfo/getPayableDetailsV2"
 

@@ -3686,10 +3686,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development: Shuo Li (55J4Q86345)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: xiong deng (3JFSSM3K39)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 21;
-				DEVELOPMENT_TEAM = 2VGBX82LNP;
+				DEVELOPMENT_TEAM = J74VCVFNMJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3722,9 +3722,9 @@
 				);
 				MARKETING_VERSION = 4.2.0;
 				PODS_ROOT = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.min-edu1.mystudycenter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "迈读developer";
+				PROVISIONING_PROFILE_SPECIFIER = "学习中心DevelopmentProfile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -3741,10 +3741,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = HXMinedu/HXMinedu.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Huaxia Dadi Long-distance Education Network Service Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hunan Lingyue Network Technology Co., LTD (J74VCVFNMJ)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 21;
-				DEVELOPMENT_TEAM = 2VGBX82LNP;
+				DEVELOPMENT_TEAM = J74VCVFNMJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3777,9 +3777,9 @@
 				);
 				MARKETING_VERSION = 4.2.0;
 				PODS_ROOT = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.edu-edu.minedu";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.min-edu1.mystudycenter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "迈读--Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "学习中心DistributionProfile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;

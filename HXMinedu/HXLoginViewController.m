@@ -486,11 +486,11 @@
 #ifdef DEBUG
 
     if (kHXAPPEdition == kHXReleaseEdition) {
-        self.userNameTextField.text = @"430481200008085667";//正式帐号:430481200008085667   测试帐号:654226198808126083
+        self.userNameTextField.text = @"430481200008085667";//正式帐号:430481200008085667   测试帐号:654226198808126083  AppStore帐号:520626199903064417
         self.passwordTextField.text = @"430481200008085667";
     }else{
-        self.userNameTextField.text = @"430481200008085667";
-        self.passwordTextField.text = @"430481200008085667";
+        self.userNameTextField.text = @"654226198808126083";
+        self.passwordTextField.text = @"654226198808126083";
     }
 #endif
 }

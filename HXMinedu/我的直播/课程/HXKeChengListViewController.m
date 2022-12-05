@@ -101,13 +101,20 @@
             [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
         }
     }else{
-        HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-        webViewVC.urlString = keJieModel.liveUrl;
-        webViewVC.cuntomTitle = keJieModel.ClassName;
-        webViewVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webViewVC animated:YES];
+        if (IS_IPAD) {//IPad跳出去
+            if (@available(iOS 10.0, *)) {
+                [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl) options:@{} completionHandler:nil];
+            } else {
+                [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
+            }
+        }else{
+            HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+            webViewVC.urlString = keJieModel.liveUrl;
+            webViewVC.cuntomTitle = keJieModel.ClassName;
+            webViewVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webViewVC animated:YES];
+        }
     }
-
 }
 
 #pragma mark - UI

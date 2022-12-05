@@ -9,17 +9,21 @@
 #define SetUp_h
 
 //极光推送appkey
-#define JPUSHAPPKEY  @"13b2c607f0752ebbaf70f8d9"
+#define     JPUSHAPPKEY  @"13b2c607f0752ebbaf70f8d9"
 
 //友盟统计appkey
-#define APPKEY @"5f9f69ea45b2b751a920c0d1"
+#define     APPKEY @"5f9f69ea45b2b751a920c0d1"
 
-//微信授权
-#define kHXWechatOpenKey            @"wx4f5db3101ba7caf2"    
-#define UNIVERSAL_LINK              @"https://xsjy.hlw-study.com/minedu/"
+//微信授权wxe1976bb6ca378679  wx4f5db3101ba7caf2
+#define     kHXWechatOpenKey            @"wxe1976bb6ca378679"
+
+// 微信开发者Universal Link
+#define     UNIVERSAL_LINK              @"https://demo.hlw-study.com"
+//微信小程序Id
+#define     WechatMiniPrograID          @"wx00ad1741fcf1bcbe"
 
 //默认主题
-#define Default_Theme HXThemeBlue  //蓝色
+#define     Default_Theme HXThemeBlue  //蓝色
 
 
 #define     KP_SERVER_KEY         @"_KHX_URL_MAIN__"

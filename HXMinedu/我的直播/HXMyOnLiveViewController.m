@@ -262,11 +262,19 @@
                 [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
             }
         }else{
-            HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
-            webViewVC.urlString = keJieModel.liveUrl;
-            webViewVC.cuntomTitle = keJieModel.ClassName;
-            webViewVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:webViewVC animated:YES];
+            if (IS_IPAD) {
+                if (@available(iOS 10.0, *)) {
+                    [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl) options:@{} completionHandler:nil];
+                } else {
+                    [[UIApplication sharedApplication] openURL:HXSafeURL(keJieModel.liveUrl)];
+                }
+            }else{
+                HXCommonWebViewController *webViewVC = [[HXCommonWebViewController alloc] init];
+                webViewVC.urlString = keJieModel.liveUrl;
+                webViewVC.cuntomTitle = keJieModel.ClassName;
+                webViewVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:webViewVC animated:YES];
+            }
         }
     }
 }
@@ -491,6 +499,7 @@
         [_zuoYeBtn setTitleColor:COLOR_WITH_ALPHA(0x3DA441, 1) forState:UIControlStateNormal];
         [_zuoYeBtn setTitle:@"作业" forState:UIControlStateNormal];
         [_zuoYeBtn addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
+        _zuoYeBtn.hidden = YES;
     }
     return _zuoYeBtn;
 }

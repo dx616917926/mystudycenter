@@ -20,6 +20,7 @@
 #import "HXColumnItemModel.h"
 #import "HXNoDataTipView.h"
 #import "HXTouSuView.h"
+#import "WXApi.h"
 
 @interface HXHomePageViewController ()<YNPageViewControllerDataSource, YNPageViewControllerDelegate>
 @property(nonatomic,strong) HXNoDataTipView *noDataTipView;
@@ -98,6 +99,17 @@
 -(void)clickTouSuBtn:(UIButton *)sender{
     HXTouSuView *touSuView = [[HXTouSuView alloc] init];
     [touSuView show];
+}
+
+#pragma mark - 调起微信小程序
+-(void)launchMiniProgram{
+    WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
+    launchMiniProgramReq.userName = WechatMiniPrograID;  //拉起的小程序的username
+//    launchMiniProgramReq.path = @"";    //拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+    launchMiniProgramReq.miniProgramType = WXMiniProgramTypeRelease; //拉起小程序的类型
+    [WXApi sendReq:launchMiniProgramReq completion:^(BOOL success) {
+        NSLog(@"调起微信小程序:%d",success);
+    }];
 }
 
 

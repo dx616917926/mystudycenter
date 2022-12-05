@@ -141,7 +141,7 @@
         return str;
     }];
     
-#if 0
+#if 1
     //微信配置
 #ifdef DEBUG
     //在register之前打开log, 后续可以根据log排查问题

@@ -32,10 +32,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>weixinshare</string>
+			<string>weixinId</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx4f5db3101ba7caf2</string>
+				<string>wxe1976bb6ca378679</string>
 			</array>
 		</dict>
 	</array>

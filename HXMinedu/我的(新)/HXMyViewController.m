@@ -82,6 +82,8 @@
     [self geMajorList];
     //获取学生退费信息，控制退费确认按钮的显示与隐藏
     [self getStudentRefundList];
+    //
+    [self getPayIsShow];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -100,6 +102,8 @@
         [self geMajorList];
         //获取学生退费信息，控制退费确认按钮的显示与隐藏
         [self getStudentRefundList];
+        //
+        [self getPayIsShow];
     }
     [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString([HXPublicParamTool sharedInstance].jiGouLogoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
     
@@ -183,6 +187,30 @@
     } failure:^(NSError * _Nonnull error) {
         
     }];
+}
+
+
+#pragma mark -  是否显示缴费信息
+-(void)getPayIsShow{
+    //根据APP_BundleId来判断从哪里更新
+    if (![APP_BundleId isEqualToString:@"com.edu-edu.minedu"]) {
+        [HXBaseURLSessionManager postDataWithNSString:HXPOST_GetPayIsShow withDictionary:nil success:^(NSDictionary * _Nonnull dictionary) {
+            
+            BOOL success = [dictionary boolValueForKey:@"Success"];
+            if (success) {
+                NSInteger isPayShow = [[dictionary stringValueForKey:@"Data"] integerValue];
+                [self.bujuArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSMutableDictionary *dic = obj;
+                    if ([dic[@"title"] isEqualToString:@"缴费明细"]) {
+                        dic[@"isShow"] = (isPayShow==1?@1:@0);
+                        [self updateMiddleContainerViewLayout];
+                    }
+                }];
+            }
+        } failure:^(NSError * _Nonnull error) {
+            
+        }];
+    }
 }
 
 #pragma mark - 获取学生退费信息
@@ -764,8 +792,15 @@
 -(NSMutableArray *)bujuArray{
     if (!_bujuArray) {
         _bujuArray = [NSMutableArray array];
+        //根据APP_BundleId来判断从哪里更新
+        NSInteger isShowPay = 1;
+        if ([APP_BundleId isEqualToString:@"com.edu-edu.minedu"]) {
+            isShowPay = 1;
+        }else{
+            isShowPay = 0;
+        }
         [_bujuArray addObjectsFromArray:@[
-            [@{@"title":@"缴费明细",@"iconName":@"payment_icon",@"handleEventTag":@(5000),@"isShow":@(1)} mutableCopy],
+            [@{@"title":@"缴费明细",@"iconName":@"payment_icon",@"handleEventTag":@(5000),@"isShow":@(isShowPay)} mutableCopy],
             [@{@"title":@"报名表单",@"iconName":@"registform_icon",@"handleEventTag":@(5001),@"isShow":@(1)} mutableCopy],
             [@{@"title":@"图片信息确认",@"iconName":@"infconfirm_icon",@"handleEventTag":@(5002),@"isShow":@(1)} mutableCopy],
             [ @{@"title":@"班主任",@"iconName":@"headmaster_icon",@"handleEventTag":@(5003),@"isShow":@(1)} mutableCopy],
