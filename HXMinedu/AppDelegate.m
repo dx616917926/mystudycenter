@@ -67,26 +67,26 @@
 - (JPUSHRegisterEntity *)pushRegisterEntity {
     JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
     if (@available(iOS 12.0, *)) {
-      entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
+        entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
     } else {
-      entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
+        entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
     }
-//    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-//        //可以添加自定义categories
-//        if (@available(iOS 10.0, *)) {
-//          NSSet<UNNotificationCategory *> *categories;
-//          entity.categories = categories;
-//        }else {
-//          NSSet<UIUserNotificationCategory *> *categories;
-//          entity.categories = categories;
-//        }
-//      }
+    //    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+    //        //可以添加自定义categories
+    //        if (@available(iOS 10.0, *)) {
+    //          NSSet<UNNotificationCategory *> *categories;
+    //          entity.categories = categories;
+    //        }else {
+    //          NSSet<UIUserNotificationCategory *> *categories;
+    //          entity.categories = categories;
+    //        }
+    //      }
     return entity;
 }
 
 #pragma mark -第三方配置
 - (void)thirdPartyConfiguration:(NSDictionary *)launchOptions  {
-
+    
     /*******************************************极光推送配置****************************************/
     //只有在前端运行的时候才能收到自定义消息的推送。从JPush服务器获取用户推送的自定义消息内容和标题以及附加字段等。
     [HXNotificationCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
@@ -152,12 +152,12 @@
     //向微信注册
     BOOL sc = [WXApi registerApp:kHXWechatOpenKey universalLink:UNIVERSAL_LINK];
     
-//    if (!PRODUCTIONMODE) {
-//        //调用自检函数,仅用于新接入SDK时调试使用，请勿在正式环境的调用
-//        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
-//            NSLog(@"自检函数:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
-//        }];
-//    }
+    //    if (!PRODUCTIONMODE) {
+    //        //调用自检函数,仅用于新接入SDK时调试使用，请勿在正式环境的调用
+    //        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+    //            NSLog(@"自检函数:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
+    //        }];
+    //    }
 #endif
     
     ///键盘（IQKeyboardManager）全局管理，针对键盘遮挡问题
@@ -190,7 +190,7 @@
     //重置脚标(为0)
     [application setApplicationIconBadgeNumber:0];
     [JPUSHService resetBadge];
-   
+    
 }
 
 
@@ -463,6 +463,13 @@
         
     }
     
+    //小程序
+    if ([resp isKindOfClass:[WXLaunchMiniProgramResp class]]){
+        
+        NSString *string = resp.errStr;
+        
+    }
+    
     //微信登录的类
     if([resp isKindOfClass:[SendAuthResp class]]){
         if (resp.errCode == 0) {  //成功。
@@ -508,7 +515,7 @@
 }
 
 -(void)alertTitle:(NSString *)title content:(NSString *)content isLaunch:(BOOL)isLaunch{
-   
+    
     
     if (!isLaunch) {// 后台或者前台时给出提示弹窗
         UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:content preferredStyle:UIAlertControllerStyleAlert];
@@ -519,11 +526,11 @@
             
         }];
         [alertVC addAction:okAction];
-//        [alertVC addAction:cancelAction];
+        //        [alertVC addAction:cancelAction];
         [self.window.rootViewController presentViewController:alertVC animated:YES completion:nil];
-        }else{// 如果是打开APP，则直接跳转
-            
-        }
+    }else{// 如果是打开APP，则直接跳转
+        
+    }
 }
 
 

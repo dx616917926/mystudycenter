@@ -6,7 +6,6 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:xsjy.hlw-study.com</string>
 		<string>applinks:demo.hlw-study.com</string>
 	</array>
 </dict>

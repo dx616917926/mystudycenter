@@ -43,7 +43,7 @@
     if ([APP_BundleId isEqualToString:@"com.edu-edu.minedu"]) {
         //edu-edu.xiaoguan
         [self checkUpdateWithInController:nil];
-    }else{
+    }else{//App Store
         //com.min-edu1.mystudycenter
         [self checkAPPStoreUpdateWithInController:nil];
     }
@@ -168,7 +168,7 @@
                 self.donotCheckVersionAgain = NO;
                 //退出登录
                 [HXNotificationCenter postNotificationName:SHOWLOGIN object:nil];
-                NSString *showContent = [NSString stringWithFormat:@"新版本V%@已经上线，快来更新吧!",APP_VERSION];
+                NSString *showContent = [NSString stringWithFormat:@"新版本V%@已经上线，快来更新吧!",latestVersion];
                 self.hasNewVersion = YES;
                 UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:showContent preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"前往更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

@@ -14,13 +14,13 @@
 //友盟统计appkey
 #define     APPKEY @"5f9f69ea45b2b751a920c0d1"
 
-//微信授权wxe1976bb6ca378679  wx4f5db3101ba7caf2
+//微信授权
 #define     kHXWechatOpenKey            @"wxe1976bb6ca378679"
 
 // 微信开发者Universal Link
 #define     UNIVERSAL_LINK              @"https://demo.hlw-study.com"
 //微信小程序Id
-#define     WechatMiniPrograID          @"wx00ad1741fcf1bcbe"
+#define     WechatMiniPrograID          @"gh_6c12d488491e"
 
 //默认主题
 #define     Default_Theme HXThemeBlue  //蓝色
@@ -86,10 +86,13 @@ static BOOL  PRODUCTIONMODE  =  NO;
 
 
 //更新地址
-#define APP_URL @"https://app.edu-edu.com.cn/minedu/ios/minedu.json"
+#define APP_URL       @"https://app.edu-edu.com.cn/minedu/ios/minedu.json"
 
 //APP Store更新地址
-#define APPStore_URL @"https://itunes.apple.com/cn/lookup?id=1628475102"
+#define APPStore_URL   @"https://itunes.apple.com/cn/lookup?id=1628475102"
+
+//APP Store下载地址
+#define APPStore_DownURL   @"https://apps.apple.com/cn/app/m%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%BF%83/id1628475102"
 
 //用户隐私政策网址
 #define APP_PrivacyPolicy_URL @"https://testop.edu-cj.com/privacy.html"

@@ -91,6 +91,8 @@
 
 #pragma mark - Event
 -(void)clickMessageBtn:(UIButton *)sender{
+    [self launchMiniProgram];
+    return;
     HXSystemNotificationViewController *systemNotificationVc = [[HXSystemNotificationViewController alloc] init];
     systemNotificationVc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:systemNotificationVc animated:YES];
@@ -99,13 +101,14 @@
 -(void)clickTouSuBtn:(UIButton *)sender{
     HXTouSuView *touSuView = [[HXTouSuView alloc] init];
     [touSuView show];
+    
 }
 
 #pragma mark - 调起微信小程序
 -(void)launchMiniProgram{
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     launchMiniProgramReq.userName = WechatMiniPrograID;  //拉起的小程序的username
-//    launchMiniProgramReq.path = @"";    //拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+    launchMiniProgramReq.path = @"pages/main/liveRoom";    //拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
     launchMiniProgramReq.miniProgramType = WXMiniProgramTypeRelease; //拉起小程序的类型
     [WXApi sendReq:launchMiniProgramReq completion:^(BOOL success) {
         NSLog(@"调起微信小程序:%d",success);

@@ -198,6 +198,7 @@
             
             BOOL success = [dictionary boolValueForKey:@"Success"];
             if (success) {
+                //0不显示 1显示
                 NSInteger isPayShow = [[dictionary stringValueForKey:@"Data"] integerValue];
                 [self.bujuArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSMutableDictionary *dic = obj;
@@ -803,7 +804,7 @@
             [@{@"title":@"缴费明细",@"iconName":@"payment_icon",@"handleEventTag":@(5000),@"isShow":@(isShowPay)} mutableCopy],
             [@{@"title":@"报名表单",@"iconName":@"registform_icon",@"handleEventTag":@(5001),@"isShow":@(1)} mutableCopy],
             [@{@"title":@"图片信息确认",@"iconName":@"infconfirm_icon",@"handleEventTag":@(5002),@"isShow":@(1)} mutableCopy],
-            [ @{@"title":@"班主任",@"iconName":@"headmaster_icon",@"handleEventTag":@(5003),@"isShow":@(1)} mutableCopy],
+            [@{@"title":@"班主任",@"iconName":@"headmaster_icon",@"handleEventTag":@(5003),@"isShow":@(1)} mutableCopy],
             [@{@"title":@"异动确认",@"iconName":@"yidongconfirm_icon",@"handleEventTag":@(5004),@"isShow":@(1)} mutableCopy],
             [@{@"title":@"退费确认",@"iconName":@"refundconfirm_icon",@"handleEventTag":@(5005),@"isShow":@(1)} mutableCopy]
         ]];
