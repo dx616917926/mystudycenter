@@ -175,14 +175,14 @@ const NSString * lightBackGroundColorKey = @"LightBackGroundColorKey";
             [btn setTitleColor:COLOR_WITH_ALPHA(0x2D2C2D, 1) forState:UIControlStateNormal];
             if ([[self.selectBtn titleForState:UIControlStateNormal] isEqualToString:@"支付宝"]) {
                 [btn setImage:[UIImage imageNamed:@"zfb_select"] forState:UIControlStateNormal];
-                [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.alipay_code)] placeholderImage:nil options:SDWebImageRefreshCached];
+                [self.qRCodeImageView sd_setImageWithURL:HXSafeURL(self.scanCodePaymentModel.alipay_code) placeholderImage:nil options:SDWebImageRefreshCached];
 
             }else if ([[self.selectBtn titleForState:UIControlStateNormal] isEqualToString:@"微信"]) {
                 [btn setImage:[UIImage imageNamed:@"weixin_select"] forState:UIControlStateNormal];
-                [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.weixinpay_code)] placeholderImage:nil options:SDWebImageRefreshCached];
+                [self.qRCodeImageView sd_setImageWithURL:HXSafeURL(self.scanCodePaymentModel.weixinpay_code) placeholderImage:nil options:SDWebImageRefreshCached];
             }else{
                 [btn setImage:[UIImage imageNamed:@"qita_select"] forState:UIControlStateNormal];
-                [self.qRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.scanCodePaymentModel.qtpay_code)] placeholderImage:nil options:SDWebImageRefreshCached];
+                [self.qRCodeImageView sd_setImageWithURL:HXSafeURL(self.scanCodePaymentModel.qtpay_code) placeholderImage:nil options:SDWebImageRefreshCached];
 
             }
         }else{

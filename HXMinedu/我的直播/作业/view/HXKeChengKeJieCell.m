@@ -45,7 +45,7 @@
 -(void)setKeJieModel:(HXKeJieModel *)keJieModel{
     _keJieModel = keJieModel;
     
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keJieModel.imgUrl]] placeholderImage:[UIImage imageNamed:@"kechengzhanwei_bg"]];
+    [self.coverImageView sd_setImageWithURL:HXSafeURL(keJieModel.imgUrl) placeholderImage:[UIImage imageNamed:@"kechengzhanwei_bg"]];
     ///直播状态 0待开始  1直播中
     if (keJieModel.LiveState==1) {
         self.stateBtn.backgroundColor = COLOR_WITH_ALPHA(0xFF8B19, 1);

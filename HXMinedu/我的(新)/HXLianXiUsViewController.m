@@ -101,7 +101,7 @@
     .rightEqualToView(self.view)
     .bottomSpaceToView(self.logoViewImageView, 30);
     
-    [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString([HXPublicParamTool sharedInstance].jiGouLogoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
+    [self.logoViewImageView sd_setImageWithURL:HXSafeURL([HXPublicParamTool sharedInstance].jiGouLogoUrl) placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
     
 }
 

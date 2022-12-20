@@ -53,7 +53,7 @@
         UIImageView *imageView = obj;
         if (idx+1<= studentRefundDetailsModel.appendixList.count) {
             imageView.hidden = NO;
-            [imageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(studentRefundDetailsModel.appendixList[idx])] placeholderImage:nil];
+            [imageView sd_setImageWithURL:HXSafeURL(studentRefundDetailsModel.appendixList[idx]) placeholderImage:nil];
         }else{
             imageView.hidden = YES;
         }

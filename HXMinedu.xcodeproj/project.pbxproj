@@ -291,6 +291,7 @@
 		0477CA37275F075900A99914 /* HXCommonSelectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0477CA36275F075900A99914 /* HXCommonSelectModel.m */; };
 		0479599728DA9D63001F8BC6 /* HXLeaveApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479599628DA9D63001F8BC6 /* HXLeaveApplyViewController.m */; };
 		0479824228AE34ED0011E1FC /* HXKeChengModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479824128AE34ED0011E1FC /* HXKeChengModel.m */; };
+		047AA2492950570E00FDFE32 /* LYLUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 047AA2472950570E00FDFE32 /* LYLUnicode.m */; };
 		047BF8EF28ADCF60000F3089 /* HXKejieCalendarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 047BF8EE28ADCF60000F3089 /* HXKejieCalendarModel.m */; };
 		047E12B8255923BC0000F8C8 /* HXHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E12B7255923BC0000F8C8 /* HXHomeViewCell.m */; };
 		048000D427F296770071C596 /* HXLearnReportCourseDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048000D327F296770071C596 /* HXLearnReportCourseDetailModel.m */; };
@@ -1004,6 +1005,8 @@
 		0479599628DA9D63001F8BC6 /* HXLeaveApplyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXLeaveApplyViewController.m; sourceTree = "<group>"; };
 		0479824028AE34ED0011E1FC /* HXKeChengModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXKeChengModel.h; sourceTree = "<group>"; };
 		0479824128AE34ED0011E1FC /* HXKeChengModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXKeChengModel.m; sourceTree = "<group>"; };
+		047AA2472950570E00FDFE32 /* LYLUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYLUnicode.m; sourceTree = "<group>"; };
+		047AA2482950570E00FDFE32 /* LYLUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYLUnicode.h; sourceTree = "<group>"; };
 		047BF8ED28ADCF60000F3089 /* HXKejieCalendarModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXKejieCalendarModel.h; sourceTree = "<group>"; };
 		047BF8EE28ADCF60000F3089 /* HXKejieCalendarModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXKejieCalendarModel.m; sourceTree = "<group>"; };
 		047E12B6255923BC0000F8C8 /* HXHomeViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXHomeViewCell.h; sourceTree = "<group>"; };
@@ -1663,6 +1666,7 @@
 		0449A368254C11B3001A28D5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				047AA2462950570E00FDFE32 /* LYLUnicode */,
 				04B207B9280413DB0044F29A /* HXFileDownloadManager */,
 				048843AF27F5B64C0010C5D0 /* UMeng_v7.3.6 */,
 				048843AB27F5A7F90010C5D0 /* HXPlaceholderTextView */,
@@ -2215,6 +2219,15 @@
 				04708E5C271E6B79004B2A04 /* HXLiveBroadCastCell.m */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		047AA2462950570E00FDFE32 /* LYLUnicode */ = {
+			isa = PBXGroup;
+			children = (
+				047AA2472950570E00FDFE32 /* LYLUnicode.m */,
+				047AA2482950570E00FDFE32 /* LYLUnicode.h */,
+			);
+			path = LYLUnicode;
 			sourceTree = "<group>";
 		};
 		047E12B52559238F0000F8C8 /* cell */ = {
@@ -3420,6 +3433,7 @@
 				0449A4C6254C11F6001A28D5 /* DOUAudioSpatialAnalyzer.m in Sources */,
 				04708E59271E60E1004B2A04 /* HXLiveBroadcastViewController.m in Sources */,
 				041EDEF12654DD3E00B11455 /* HXHomeBannnerCell.m in Sources */,
+				047AA2492950570E00FDFE32 /* LYLUnicode.m in Sources */,
 				0449A537254C11F6001A28D5 /* RSSelectionLayer.m in Sources */,
 				0421A971269D25CA009F27BB /* HXZzyAndZcpModel.m in Sources */,
 				0449A54A254C11F6001A28D5 /* QRCodeReaderViewController.m in Sources */,

@@ -389,7 +389,7 @@
     
     if (![HXCommonUtil isNull:self.pictureInfoModel.imgurl]) {
         if ([self.pictureInfoModel.imgurl containsString:@".jpg"]||[self.pictureInfoModel.imgurl containsString:@".png"]||[self.pictureInfoModel.imgurl containsString:@".gif"]) {//图片
-            [self.topImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.pictureInfoModel.imgurl)] placeholderImage:[UIImage imageNamed:@"uploaddash"] options:SDWebImageRefreshCached];
+            [self.topImageView sd_setImageWithURL:HXSafeURL(self.pictureInfoModel.imgurl) placeholderImage:[UIImage imageNamed:@"uploaddash"] options:SDWebImageRefreshCached];
         }else{//非图片
             self.topImageView.image = [UIImage imageNamed:@"bigziliao_icon"];
         }

@@ -105,7 +105,7 @@
         //
         [self getPayIsShow];
     }
-    [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString([HXPublicParamTool sharedInstance].jiGouLogoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
+    [self.logoViewImageView sd_setImageWithURL:HXSafeURL([HXPublicParamTool sharedInstance].jiGouLogoUrl) placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
     
 }
 
@@ -156,7 +156,7 @@
         if (success) {
             HXBannerLogoModel *model = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
             [HXPublicParamTool sharedInstance].jiGouLogoUrl = HXSafeString(model.logoUrl);
-            [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(model.logoUrl)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
+            [self.logoViewImageView sd_setImageWithURL:HXSafeURL(model.logoUrl) placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
         }
     } failure:^(NSError * _Nonnull error) {
         

@@ -74,7 +74,7 @@ const NSString * BtnWithItemKey = @"BtnWithItemKey";
 
 -(void)setCourseModel:(HXCourseModel *)courseModel{
     _courseModel = courseModel;
-    [self.courseImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:courseModel.imageURL]] placeholderImage:nil];
+    [self.courseImageView sd_setImageWithURL:HXSafeURL(courseModel.imageURL) placeholderImage:nil];
     self.courseNameLabel.text = HXSafeString(courseModel.courseName);
     
     //5001-必修 5002-选修 以外其它

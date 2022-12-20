@@ -338,7 +338,7 @@
         HXOrderDetailsViewController *orderDetailsVC = [[HXOrderDetailsViewController alloc] init];
         orderDetailsVC.orderNum = paymentDetailModel.orderNum;
         //订单类型  1待完成     2已完成    -1待审核    -2驳回      0未完成
-        //flag:1.待支付订单详情   2.已支付订单详情
+        //flag:1.待支付订单详情   2.已支付订单详情Image("painter_delete.png")
         if (paymentDetailModel.orderStatus == 0||paymentDetailModel.orderStatus == 1) {
             orderDetailsVC.flag = 1;
         }else{

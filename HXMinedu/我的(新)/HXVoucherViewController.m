@@ -154,7 +154,7 @@
     
     
     if ([self.downLoadUrl containsString:@".jpeg"]||[self.downLoadUrl containsString:@".jpg"]||[self.downLoadUrl containsString:@".png"]) {
-        [self.showImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(self.downLoadUrl)] placeholderImage:nil];
+        [self.showImageView sd_setImageWithURL:HXSafeURL(self.downLoadUrl) placeholderImage:nil];
     }else{
         [self.showImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"bigziliao_icon"]];
     }

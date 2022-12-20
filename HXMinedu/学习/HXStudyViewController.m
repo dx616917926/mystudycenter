@@ -330,7 +330,7 @@
                 [imageURLStringsGroup addObject:encodeStr];
             }];
             self.studyTableHeaderView.bannerView.imageURLStringsGroup = imageURLStringsGroup;
-            [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:self.bannerLogoModel.logoUrl]] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
+            [self.logoImageView sd_setImageWithURL:HXSafeURL(self.bannerLogoModel.logoUrl) placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
         }
         
     } failure:^(NSError * _Nonnull error) {

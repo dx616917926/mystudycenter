@@ -71,7 +71,7 @@
         
         //设置模块的图片
         if (item.ImgUrl) {
-            [button sd_setImageWithURL:[NSURL URLWithString:item.ImgUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:imageName]];
+            [button sd_setImageWithURL:HXSafeURL(item.ImgUrl) forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:imageName]];
         }else
         {
             [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];

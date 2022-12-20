@@ -46,7 +46,7 @@
 -(void)setLiveBroadcastModel:(HXLiveBroadcastModel *)liveBroadcastModel{
     _liveBroadcastModel = liveBroadcastModel;
     
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:liveBroadcastModel.imgUrl]] placeholderImage:nil];
+    [self.coverImageView sd_setImageWithURL:HXSafeURL(liveBroadcastModel.imgUrl) placeholderImage:nil];
     
     if (liveBroadcastModel.isLive==1) {
         [self.playStateBtn setTitle:@"已开播" forState:UIControlStateNormal];

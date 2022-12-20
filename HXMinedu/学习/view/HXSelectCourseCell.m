@@ -73,7 +73,7 @@
 
 -(void)setCourseModel:(HXCourseModel *)courseModel{
     _courseModel = courseModel;
-    [self.courseImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:courseModel.imageURL]] placeholderImage:nil];
+    [self.courseImageView sd_setImageWithURL:HXSafeURL(courseModel.imageURL) placeholderImage:nil];
     self.courseNameLabel.text = HXSafeString(courseModel.courseName);
     [self.courseTypeButton setTitle:HXSafeString(courseModel.revision) forState:UIControlStateNormal];
     

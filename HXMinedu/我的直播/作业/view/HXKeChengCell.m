@@ -56,7 +56,7 @@
     self.shiYongTypeLabel.hidden = self.totalNumLabel.hidden = self.unfinishNumLabel.hidden = YES;
     self.teacherNameLabel.hidden = self.timeLabel.hidden = YES;
     
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:keChengModel.imgUrl]] placeholderImage:[UIImage imageNamed:@"kechengzhanwei_bg"]];
+    [self.coverImageView sd_setImageWithURL:HXSafeURL(keChengModel.imgUrl) placeholderImage:[UIImage imageNamed:@"kechengzhanwei_bg"]];
     
     [self.typeBtn setTitle:(keChengModel.LiveType==3?@"面授":@"直播") forState:UIControlStateNormal];
     

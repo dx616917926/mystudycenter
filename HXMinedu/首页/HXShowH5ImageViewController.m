@@ -47,7 +47,7 @@
     
     [self.mainScrollView setupAutoContentSizeWithBottomView:self.showImageView bottomMargin:kScreenBottomMargin];
     
-    [self.showImageView sd_setImageWithURL:[NSURL URLWithString:self.columnItemModel.url] placeholderImage:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [self.showImageView sd_setImageWithURL:HXSafeURL(self.columnItemModel.url) placeholderImage:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.showImageView.sd_layout.heightIs(image.size.height*kScreenWidth*1.0/image.size.width);
         });

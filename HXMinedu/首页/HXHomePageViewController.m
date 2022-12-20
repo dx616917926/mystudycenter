@@ -169,7 +169,7 @@
         if (success) {
             HXBannerLogoModel *bannerLogoModel = [HXBannerLogoModel mj_objectWithKeyValues:[dictionary objectForKey:@"Data"]];
             //刷新顶部部logo
-            [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:[HXCommonUtil stringEncoding:bannerLogoModel.logoIndexUrl]] placeholderImage:nil];
+            [self.logoImageView sd_setImageWithURL:HXSafeURL(bannerLogoModel.logoIndexUrl) placeholderImage:nil];
         }
         
     } failure:^(NSError * _Nonnull error) {

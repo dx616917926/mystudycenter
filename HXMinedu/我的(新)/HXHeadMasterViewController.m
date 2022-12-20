@@ -50,7 +50,7 @@
             }
             [self.mainTableView reloadData];
             NSString *url = [HXPublicParamTool sharedInstance].jiGouLogoUrl;
-            [self.logoViewImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(url)] placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
+            [self.logoViewImageView sd_setImageWithURL:HXSafeURL(url) placeholderImage:[UIImage imageNamed:@"xuexi_logo"] options:SDWebImageRefreshCached];
         }
     } failure:^(NSError * _Nonnull error) {
         

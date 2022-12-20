@@ -58,7 +58,7 @@
     self.nameLabel.text = HXSafeString(headMasterModel.realName);
     self.phoneLabel.text = [HXCommonUtil isNull:headMasterModel.cellPhone]?@"暂无":[self handlePhoneNum:HXSafeString(headMasterModel.cellPhone)];
     self.emailLabel.text = [HXCommonUtil isNull:headMasterModel.email]?@"暂无":HXSafeString(headMasterModel.email);
-    [self.jiGouQRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(headMasterModel.imageUrl)] placeholderImage:nil options:SDWebImageRefreshCached];
+    [self.jiGouQRCodeImageView sd_setImageWithURL:HXSafeURL(headMasterModel.imageUrl) placeholderImage:nil options:SDWebImageRefreshCached];
     
     [self.markContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj removeFromSuperview];

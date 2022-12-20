@@ -153,7 +153,7 @@
         self.unionPayContainerView.hidden = YES;
         self.uploadBtn.hidden = YES;
         self.qRCodeContainerView.hidden = NO;
-        [self.refundQRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(studentRefundDetailsModel.skewm)] placeholderImage:nil];
+        [self.refundQRCodeImageView sd_setImageWithURL:HXSafeURL(studentRefundDetailsModel.skewm) placeholderImage:nil];
         self.refundQRCodeImageView.backgroundColor = COLOR_WITH_ALPHA(0xD8D8D8, 1);
     }else{
         self.refundMethodBtn.userInteractionEnabled = YES;
@@ -165,7 +165,7 @@
         self.bankTextField.text = studentRefundDetailsModel.khh;
         self.accountNumTextField.text = studentRefundDetailsModel.khsk;
         self.nameTextField.userInteractionEnabled = self.bankTextField.userInteractionEnabled = self.accountNumTextField.userInteractionEnabled = YES;
-        [self.refundQRCodeImageView sd_setImageWithURL:[NSURL URLWithString:HXSafeString(studentRefundDetailsModel.skewm)] placeholderImage:nil];
+        [self.refundQRCodeImageView sd_setImageWithURL:HXSafeURL(studentRefundDetailsModel.skewm) placeholderImage:nil];
         self.refundQRCodeImageView.backgroundColor = [UIColor clearColor];
         if (self.infoConfirmCallBack) {
             self.infoConfirmCallBack(studentRefundDetailsModel.payMode, self.nameTextField.text, self.bankTextField.text, self.accountNumTextField.text);
